@@ -57,7 +57,7 @@ void GameScene::Setup()
 	m_pGrid->SetUp();
 	GET_SINGLE(CDevice)->GetDevice()->SetRenderState(D3DRS_LIGHTING, false);
 
-	m_XImg.push_back((new CXFileUtil)->XFileLoad("./Iz/Iz.X"));
+	m_XImg.push_back((new CXFileUtil)->XFileLoad("./Asset/Anivia/Anivia.X"));
 }
 
 void GameScene::Update()
