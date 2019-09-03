@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\WinMain">
+      <UniqueIdentifier>{290ec58a-a093-4acd-ba44-cacf37ad566b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Device">
+      <UniqueIdentifier>{6a6daa3f-21dc-4478-bc97-a65835e0ec19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Camera">
+      <UniqueIdentifier>{79c05a84-3b80-4d64-9193-a9f3678fc8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Camera\TargetCam">
+      <UniqueIdentifier>{9c54db00-f662-407e-8cf4-3aae91054b74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object">
+      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object\Interface">
+      <UniqueIdentifier>{95cc7ecf-fa07-451c-90eb-2a433d00b4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object\Gride">
+      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object\Gride\Pyramid">
+      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\헤더 파일\HEADER">
+      <UniqueIdentifier>{705a37c2-3eba-41c4-a110-b57672ce48ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object\Cube">
+      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{6ea44b67-e9e1-45ba-9b23-4095d51827b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\Interface">
+      <UniqueIdentifier>{469f64ac-72c8-42f8-a436-2ba04f778a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\TestScene">
+      <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\WinMain\AppMain">
+      <UniqueIdentifier>{a5f2c50f-15ec-40ee-a254-33b30a996945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\WinMain\MainGame">
+      <UniqueIdentifier>{842b3ab8-9c74-49f9-a96c-7076263769d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger">
+      <UniqueIdentifier>{6cadc753-cf6f-4b3d-a486-c7e46d630275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\00. SceneMgr">
+      <UniqueIdentifier>{a6667691-8f33-4f10-9f8a-3ef389f32f3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource">
+      <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Mesh">
+      <UniqueIdentifier>{8e0015a4-ee14-422f-8596-5dcdafecf9b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\XFileUtil">
+      <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HEADER\Enum.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER\Defines.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER\Include.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER\Macro.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER\Struct.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER\Value.h">
+      <Filter>소스 파일\헤더 파일\HEADER</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>소스 파일\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseInclude.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetCam.h">
+      <Filter>소스 파일\Camera\TargetCam</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj.h">
+      <Filter>소스 파일\Object\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>소스 파일\Object\Gride</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
+      <Filter>소스 파일\Object\Gride\Pyramid</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>소스 파일\Object\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="StateObj.h">
+      <Filter>소스 파일\Scene\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>소스 파일\Scene\TestScene</Filter>
+    </ClInclude>
+    <ClInclude Include="AppMain.h">
+      <Filter>소스 파일\WinMain\AppMain</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGame.h">
+      <Filter>소스 파일\WinMain\MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>ReSoureceSource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="XFileUtil.h">
+      <Filter>ReSoureceSource\XFileUtil</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Device.cpp">
+      <Filter>소스 파일\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseInclude.cpp">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetCam.cpp">
+      <Filter>소스 파일\Camera\TargetCam</Filter>
+    </ClCompile>
+    <ClCompile Include="Obj.cpp">
+      <Filter>소스 파일\Object\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>소스 파일\Object\Gride</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
+      <Filter>소스 파일\Object\Gride\Pyramid</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>소스 파일\Object\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="StateObj.cpp">
+      <Filter>소스 파일\Scene\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>소스 파일\Scene\TestScene</Filter>
+    </ClCompile>
+    <ClCompile Include="AppMain.cpp">
+      <Filter>소스 파일\WinMain\AppMain</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>소스 파일\WinMain\MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>소스 파일\WinMain\AppMain</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>ReSoureceSource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="XFileUtil.cpp">
+      <Filter>ReSoureceSource\XFileUtil</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
