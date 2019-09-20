@@ -12,7 +12,7 @@ public:
 	void Render();
 	void Release();
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+	HRESULT SetState(CStateObj* pState);
 private:
 	CStateObj * m_State;
 

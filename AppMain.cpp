@@ -3,6 +3,7 @@
 #include"Device.h"
 //EXTERN으로 정의된 윈도우 핸들러
 HWND g_hWnd;
+HINSTANCE g_hInst;
 
 AppMain::AppMain()
 {
@@ -19,7 +20,7 @@ LRESULT WINAPI AppMain::MsgProc(HWND hWnd, UINT msg, WPARAM wParm, LPARAM lParam
 	switch (msg)
 	{
 	case WM_DESTROY:
-		GET_SINGLE(CDevice)->CleanUp();//종료 시점에 디바이스 해제
+		System_Release();
 		PostQuitMessage(0);
 		return 0;
 	case WM_PAINT:
@@ -43,19 +44,19 @@ void AppMain::WinMainInit(HINSTANCE hInst, HINSTANCE,LPSTR,INT)
 	m_hWnd = CreateWindow(L"League of Legend", L"League of Legend 1.0", 
 		WS_OVERLAPPEDWINDOW,100, 100, rc.right-rc.left, rc.bottom-rc.top,
 		GetDesktopWindow(), NULL, m_wc.hInstance, NULL);
+	g_hInst = hInst;
 	g_hWnd = m_hWnd;
 }
 //메인 루프 건들지말 것!!
 int AppMain::WinMainLoop()
 {
-	if (SUCCEEDED(GET_SINGLE(CDevice)->InitD3D(m_hWnd)))
-	{
 		ShowWindow(m_hWnd, SW_SHOWDEFAULT);
 		UpdateWindow(m_hWnd);
 
 		MSG msg;
 		msg.message = NULL;
 		m_MainGame.Init();
+		
 		while (msg.message != WM_QUIT) {
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
@@ -68,7 +69,7 @@ int AppMain::WinMainLoop()
 				m_MainGame.Render();
 			}
 		}
-	}
+	
 	UnregisterClass(L"FrameWork", m_wc.hInstance);
 	return 0;
 }

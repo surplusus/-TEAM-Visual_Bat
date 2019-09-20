@@ -13,6 +13,5 @@ private:
 public:
 	int XFileRender();
 	CXFileUtil* XFileLoad(const char * xFileName);
-
 };
 

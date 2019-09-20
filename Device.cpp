@@ -1,72 +1,160 @@
 #include"BaseInclude.h"
 #include "Device.h"
 
-
-
-CDevice::CDevice()
-	: g_pD3D(NULL), g_pd3dDevice(NULL)
-{
-
-}
-
-
-CDevice::~CDevice()
+CDevice::CDevice(void)
+	: m_p3D(NULL)
+	, m_pDevice(NULL)
+	, m_pSprite(NULL)
+	, m_pFont(NULL)
 {
 }
 
-void CDevice::CleanUp()
+CDevice::~CDevice(void)
 {
-	if (g_pd3dDevice != NULL) 	g_pd3dDevice->Release();	
-	if (g_pD3D != NULL) 		g_pD3D->Release();	
+	Release();
 }
 
-HRESULT CDevice::InitD3D(HWND hWnd)
+HRESULT CDevice::InitDevice(HWND hWnd, WINMODE Mode, const UINT& iWinCX
+	, const UINT& iWinCY)
 {
-	if (NULL == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION))) {
-		ERR_MSG(g_hWnd, L"디바이스 생성 실패");		return E_FAIL;
-	}
-	D3DCAPS9 stCaps;
-	int nVertexProcessing;
-	g_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &stCaps);
-	if (stCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
-		nVertexProcessing = D3DCREATE_HARDWARE_VERTEXPROCESSING;
+	m_p3D = Direct3DCreate9(D3D_SDK_VERSION);
+
+	D3DCAPS9			d3dCaps;
+	ZeroMemory(&d3dCaps, sizeof(D3DCAPS9));
+
+	// 장치의 정보를 가지고 온다.
+	m_p3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &d3dCaps);
+
+	DWORD		Behavior = 0x00000000;
+
+	if (d3dCaps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT)
+		Behavior |= D3DCREATE_HARDWARE_VERTEXPROCESSING;
 	else
-		nVertexProcessing = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
+		Behavior |= D3DCREATE_SOFTWARE_VERTEXPROCESSING;
 
-	D3DPRESENT_PARAMETERS stD3DPP;
-	ZeroMemory(&stD3DPP, sizeof(D3DPRESENT_PARAMETERS));
-	stD3DPP.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	stD3DPP.Windowed = TRUE;
-	stD3DPP.BackBufferFormat = D3DFMT_UNKNOWN;
-	stD3DPP.EnableAutoDepthStencil = TRUE;
-	stD3DPP.AutoDepthStencilFormat = D3DFMT_D16;
-	if (FAILED(g_pD3D->CreateDevice(
-		D3DADAPTER_DEFAULT,		D3DDEVTYPE_HAL,
-		g_hWnd,		nVertexProcessing, &stD3DPP, &g_pd3dDevice))) 
-{
-		ERR_MSG(g_hWnd, L"디바이스 생성 실패");		return E_FAIL;
+	D3DPRESENT_PARAMETERS		d3dpp;
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+
+	d3dpp.BackBufferCount = 1;
+	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
+	d3dpp.BackBufferWidth = iWinCX;
+	d3dpp.BackBufferHeight = iWinCY;
+
+	d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
+	d3dpp.MultiSampleQuality = 0;
+
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
+	d3dpp.EnableAutoDepthStencil = TRUE;
+
+	d3dpp.hDeviceWindow = hWnd;
+
+	d3dpp.Windowed = Mode;
+
+	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+
+	if (FAILED(m_p3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd
+		, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_pDevice)))
+	{
+		ERR_MSG(g_hWnd,L"Device Create Failed");
+		return E_FAIL;
+	}
+
+	if (FAILED(D3DXCreateSprite(m_pDevice, &m_pSprite)))
+	{
+		ERR_MSG(g_hWnd,L"Sprite Create Failed");
+		return E_FAIL;
+	}
+
+	D3DXFONT_DESC			FontInfo;
+	ZeroMemory(&FontInfo, sizeof(D3DXFONT_DESC));
+
+	FontInfo.Width = 11;
+	FontInfo.Height = 21;
+	FontInfo.Weight = FW_HEAVY;
+	FontInfo.CharSet = HANGUL_CHARSET;
+	lstrcpy(FontInfo.FaceName, L"궁서");
+
+	if (FAILED(D3DXCreateFontIndirect(m_pDevice, &FontInfo, &m_pFont)))
+	{
+		ERR_MSG(g_hWnd,L"Font Create Failed");
+		return E_FAIL;
 	}
 	return S_OK;
 }
 
-HRESULT CDevice::Render_End()
+void CDevice::SetRenderState(_D3DRENDERSTATETYPE Type, DWORD dwFlag)
 {
-	if (FAILED(g_pd3dDevice->EndScene()))
-	{
-		ERR_MSG(g_hWnd, L"랜더링 종료 실패");
-		return E_FAIL;
-	}
-	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+	m_pDevice->SetRenderState(Type, dwFlag);
 }
 
-HRESULT CDevice::Render_Begin()
+void CDevice::SetSamplerState(_D3DSAMPLERSTATETYPE SampOp, _D3DTEXTUREFILTERTYPE FilterType)
 {
-	if (NULL == g_pd3dDevice)
-	{
-		ERR_MSG(g_hWnd, L"디바이스가 존재하지 않습니다.");
-		return E_FAIL;
-	}
-	g_pd3dDevice->Clear(NULL, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(200, 121, 40), 1.0f, 0);
-	if (FAILED(g_pd3dDevice->BeginScene())) return E_FAIL;
+	m_pDevice->SetSamplerState(0, SampOp, FilterType);
 
+}
+
+void CDevice::SetTransform(_D3DTRANSFORMSTATETYPE Type, const D3DXMATRIX* pmatrix)
+{
+	m_pDevice->SetTransform(Type, pmatrix);
+}
+
+void CDevice::SetTexture(DWORD dwStage, LPDIRECT3DTEXTURE9 pTexture)
+{
+	m_pDevice->SetTexture(dwStage, pTexture);
+
+}
+
+void CDevice::SetCubeTexture(DWORD dwStage, LPDIRECT3DCUBETEXTURE9  pTexture)
+{
+	m_pDevice->SetTexture(dwStage, pTexture);
+}
+
+void CDevice::Begin_Render(void)
+{
+	m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL,
+		D3DCOLOR_ARGB(255, 0, 0, 255), 1.f, 0);
+
+	m_pDevice->BeginScene();
+}
+
+void CDevice::End_Render(HWND hWnd)
+{
+	m_pDevice->EndScene();
+
+	m_pDevice->Present(NULL, NULL, hWnd, NULL);
+}
+
+void CDevice::FontRender(const TCHAR* szFont, int iX, int iY, DWORD dwColor)
+{
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	RECT		rcFont = { iX, iY };
+	m_pFont->DrawTextW(m_pSprite, szFont, lstrlen(szFont)
+		, &rcFont, DT_NOCLIP, dwColor);
+
+	m_pSprite->End();
+}
+
+void CDevice::GetTransform(_D3DTRANSFORMSTATETYPE Type, D3DXMATRIX* pMatrix)
+{
+	m_pDevice->GetTransform(Type, pMatrix);
+}
+
+
+
+void CDevice::Release(void)
+{
+	if(m_pFont!=NULL)
+	m_pFont->Release();
+
+	if(m_pSprite!=NULL)
+	m_pSprite->Release();
+
+	if(m_pDevice !=NULL)
+	m_pDevice->Release();
+	if(m_p3D !=NULL)
+	m_p3D->Release();
 }

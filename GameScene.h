@@ -4,20 +4,21 @@ class CCube;
 class CGrid;
 class CCamera;
 class CXFileUtil;
+class CObjMgr;
 class GameScene: public CScene
 {
 public:
 	GameScene();
 	~GameScene();
 public:
-	
-	virtual void Initalize() ;
+	CObjMgr* m_pObjMgr;
+	virtual HRESULT Initalize() ;
 	virtual void Progress()  ;
 	virtual void Render()    ;
 	virtual void Release()   ;
 
 private:
-	void Setup();
+	HRESULT Setup();
 	void Update();
 
 public:
@@ -25,7 +26,6 @@ public:
 private:
 	CCube* m_pCube;
 	CGrid* m_pGrid;
-	CCamera* m_pCamera;
 	vector<CXFileUtil*> m_XImg;
 
 };

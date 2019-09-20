@@ -5,12 +5,17 @@ public:
 	CMainGame();
 	~CMainGame();
 public:
-	void Init();
+	HRESULT Init();
 	void Render();
 	void Release();
 	void Progress();
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+private:
 
-
+	int m_iCnt;
+	DWORD m_fTime;
+	TCHAR m_szFps[128];
+	D3DXMATRIX matFont;
+	HRESULT InitResuource();
 };
 

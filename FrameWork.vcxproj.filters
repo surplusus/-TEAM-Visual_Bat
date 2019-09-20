@@ -12,15 +12,6 @@
     <Filter Include="소스 파일\WinMain">
       <UniqueIdentifier>{290ec58a-a093-4acd-ba44-cacf37ad566b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Device">
-      <UniqueIdentifier>{6a6daa3f-21dc-4478-bc97-a65835e0ec19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Camera">
-      <UniqueIdentifier>{79c05a84-3b80-4d64-9193-a9f3678fc8ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Camera\TargetCam">
-      <UniqueIdentifier>{9c54db00-f662-407e-8cf4-3aae91054b74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Object">
       <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
     </Filter>
@@ -49,9 +40,6 @@
     <Filter Include="소스 파일\Scene\Interface">
       <UniqueIdentifier>{469f64ac-72c8-42f8-a436-2ba04f778a62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\TestScene">
-      <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\WinMain\AppMain">
       <UniqueIdentifier>{a5f2c50f-15ec-40ee-a254-33b30a996945}</UniqueIdentifier>
     </Filter>
@@ -67,11 +55,161 @@
     <Filter Include="ReSoureceSource">
       <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource\Mesh">
-      <UniqueIdentifier>{8e0015a4-ee14-422f-8596-5dcdafecf9b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ReSoureceSource\XFileUtil">
       <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{c65a738a-4e2f-4a34-9c12-2e30ce739940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Camera">
+      <UniqueIdentifier>{79c05a84-3b80-4d64-9193-a9f3678fc8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager">
+      <UniqueIdentifier>{e0cdea1b-e8a2-47c3-a51f-317efbd558cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\00.TimeMgr">
+      <UniqueIdentifier>{c39b5204-7f30-4595-8195-5a8a8cc80e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\01.MathMgr">
+      <UniqueIdentifier>{a6131927-5eb3-4d23-be51-04988c138460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Device">
+      <UniqueIdentifier>{6a6daa3f-21dc-4478-bc97-a65835e0ec19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\Scene">
+      <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\Scene\GameScene">
+      <UniqueIdentifier>{7d9c8be9-68f7-44e8-b136-81dd325c8269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Camera\CameraInteface">
+      <UniqueIdentifier>{a66e54c1-1f9e-4384-8149-558b5e388920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture">
+      <UniqueIdentifier>{dd1c6170-3fce-47f1-a60b-b6a3ccf83877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\Inteface">
+      <UniqueIdentifier>{9839dcca-85a7-4833-8c61-01d3d6d2a04f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\NormalTexture">
+      <UniqueIdentifier>{3d1984c8-2914-4747-9ec4-d57df32c71ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\CubeTexture">
+      <UniqueIdentifier>{9b4deb89-5dfa-4d02-80dc-12ee7fa1e546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger">
+      <UniqueIdentifier>{6516983f-681f-4a9f-a7a3-f187db1a9cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\00. TextureMgr">
+      <UniqueIdentifier>{cf7f58f6-a69f-459e-85a5-202e47dda072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\01.BufferMgr">
+      <UniqueIdentifier>{48523dad-a693-4c6e-9766-6100f021fd39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceFunc">
+      <UniqueIdentifier>{aef36926-badb-4b87-8174-8b911bcb1bfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SsystemFunc">
+      <UniqueIdentifier>{cc6a0871-3f1a-4bfb-bbb2-856426f59817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\01.Input">
+      <UniqueIdentifier>{8d729690-ee44-4861-b22d-248d80335903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Camera\DynamicCamera">
+      <UniqueIdentifier>{0af33e84-4bf4-4419-9db4-142f2274c197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Camera\StaticCamera">
+      <UniqueIdentifier>{18af02a4-b9a3-440f-a000-98f7ccee353a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\02.CamMgr">
+      <UniqueIdentifier>{3857cd61-5cfd-4a50-8dde-55d9a9ae187f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\02.Bounding">
+      <UniqueIdentifier>{27d03d48-d09f-424c-ad45-e7f63156f007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\02.Bounding\Bounding">
+      <UniqueIdentifier>{5a9124e5-c0cf-43ec-8d2a-09aabae2e11a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\02.Bounding\Box">
+      <UniqueIdentifier>{5970c983-ebe5-42cc-a81a-155375c3b4a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\03.BoundingMgr">
+      <UniqueIdentifier>{27ef2c5c-abbd-4b36-88bc-1d1ee5a26c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer">
+      <UniqueIdentifier>{99957c24-bfd5-41bb-b150-d0238a7950e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Inteface_VIBuffer">
+      <UniqueIdentifier>{7b3db079-fe9f-4766-ba1c-20196cbe7e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Cube_Texture">
+      <UniqueIdentifier>{b9e1d94b-f837-4571-b154-c8348028daf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh">
+      <UniqueIdentifier>{8e0015a4-ee14-422f-8596-5dcdafecf9b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\Mesh_interface">
+      <UniqueIdentifier>{bbe23b6c-c955-4c19-9574-4d6834a119bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\StatticMesh">
+      <UniqueIdentifier>{d8fbc87f-ef73-47fe-a3c6-43d905f63483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\Dynamic">
+      <UniqueIdentifier>{b980ebe1-2bd5-413b-bdbc-16294f4127c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\AnimationCtrl">
+      <UniqueIdentifier>{39419540-7e5f-4a6e-8f38-cddf467344d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\02.MeshMgr">
+      <UniqueIdentifier>{249cc547-fcac-4891-b267-986054436f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\HierachyLoader">
+      <UniqueIdentifier>{725c181f-3d24-409c-9f45-c0d7ce5c37ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\SkinnedMesh">
+      <UniqueIdentifier>{d93ab8de-db8e-4f85-a5a0-1080bcad0903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object">
+      <UniqueIdentifier>{d7c727e8-07b5-4cc6-98f0-20d13bb4dd92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Objinterface">
+      <UniqueIdentifier>{a45ed24e-13f5-4925-9697-0af5741aaf2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\DynnamicObj">
+      <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Player">
+      <UniqueIdentifier>{40d98e96-212e-421b-a470-3607ca6872a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
+      <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Terrian">
+      <UniqueIdentifier>{b0085ec4-2de4-4292-8b62-d0b8b9d19ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\01. ObjMgr">
+      <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\MathMgr">
+      <UniqueIdentifier>{0a34fdea-378c-4417-b608-dbc496eaa7d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\PipleLine">
+      <UniqueIdentifier>{326cc5ed-5f12-4546-b5d9-08a00ae037a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\Mouse">
+      <UniqueIdentifier>{c1b781bd-063d-477c-bde1-c0b8aae48997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Designpattern">
+      <UniqueIdentifier>{ce18f52c-6c8c-427c-9408-e6702e0c0527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Designpattern\FactoryMethod">
+      <UniqueIdentifier>{a1cfbf9e-facc-4f78-83ab-59f033ece1b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\SommonTerrian">
+      <UniqueIdentifier>{330a0520-8454-4650-8b48-f5b11b836471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Champion">
+      <UniqueIdentifier>{406b70a7-ce19-452b-a07a-63171a00f21a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,19 +232,10 @@
       <Filter>소스 파일\헤더 파일\HEADER</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
-      <Filter>소스 파일\Device</Filter>
+      <Filter>System\Device</Filter>
     </ClInclude>
     <ClInclude Include="BaseInclude.h">
       <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>소스 파일\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetCam.h">
-      <Filter>소스 파일\Camera\TargetCam</Filter>
-    </ClInclude>
-    <ClInclude Include="Obj.h">
-      <Filter>소스 파일\Object\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>소스 파일\Object\Gride</Filter>
@@ -114,17 +243,11 @@
     <ClInclude Include="Pyramid.h">
       <Filter>소스 파일\Object\Gride\Pyramid</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>소스 파일\Object\Cube</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\Scene</Filter>
     </ClInclude>
     <ClInclude Include="StateObj.h">
       <Filter>소스 파일\Scene\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>소스 파일\Scene\TestScene</Filter>
     </ClInclude>
     <ClInclude Include="AppMain.h">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -135,28 +258,130 @@
     <ClInclude Include="SceneMgr.h">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>ReSoureceSource\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="XFileUtil.h">
       <Filter>ReSoureceSource\XFileUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeMgr.h">
+      <Filter>System\SystemManager\00.TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>소스 파일\Scene\Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>ReSoureceSource\Texture\Inteface</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalTexture.h">
+      <Filter>ReSoureceSource\Texture\NormalTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeTexture.h">
+      <Filter>ReSoureceSource\Texture\CubeTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureMgr.h">
+      <Filter>ReSoureceSource\ResourceManger\00. TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="VIBuffer.h">
+      <Filter>ReSoureceSource\02.Buffer\Inteface_VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferMgr.h">
+      <Filter>ReSoureceSource\ResourceManger\01.BufferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube_Texture.h">
+      <Filter>ReSoureceSource\02.Buffer\Cube_Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceFunc.h">
+      <Filter>ReSoureceSource\ResourceFunc</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemFunc.h">
+      <Filter>System\SsystemFunc</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>System\SystemManager\01.Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicCamera.h">
+      <Filter>System\Camera\DynamicCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>System\Camera\CameraInteface</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCamera.h">
+      <Filter>System\Camera\StaticCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMgr.h">
+      <Filter>System\SystemManager\02.CamMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Bound.h">
+      <Filter>System\02.Bounding\Bounding</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>System\02.Bounding\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingMgr.h">
+      <Filter>System\SystemManager\03.BoundingMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>ReSoureceSource\03. Mesh\Mesh_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>ReSoureceSource\03. Mesh\StatticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicMesh.h">
+      <Filter>ReSoureceSource\03. Mesh\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationCtrl.h">
+      <Filter>ReSoureceSource\03. Mesh\AnimationCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshMgr.h">
+      <Filter>ReSoureceSource\ResourceManger\02.MeshMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="HierachyLoader.h">
+      <Filter>ReSoureceSource\03. Mesh\HierachyLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="SkinnedMesh.h">
+      <Filter>ReSoureceSource\03. Mesh\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj.h">
+      <Filter>소스 파일\02. Object\Objinterface</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic.h">
+      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>소스 파일\02. Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect_Texture.h">
+      <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrian.h">
+      <Filter>ReSoureceSource\02.Buffer\Terrian</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMgr.h">
+      <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MathMgr.h">
+      <Filter>소스 파일\Maneger\MathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeLine.h">
+      <Filter>소스 파일\Maneger\PipleLine</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>소스 파일\Designpattern\FactoryMethod</Filter>
+    </ClInclude>
+    <ClInclude Include="SommonTerrian.h">
+      <Filter>소스 파일\02. Object\SommonTerrian</Filter>
+    </ClInclude>
+    <ClInclude Include="Champion.h">
+      <Filter>소스 파일\02. Object\Champion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
-      <Filter>소스 파일\Device</Filter>
+      <Filter>System\Device</Filter>
     </ClCompile>
     <ClCompile Include="BaseInclude.cpp">
       <Filter>소스 파일\헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>소스 파일\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetCam.cpp">
-      <Filter>소스 파일\Camera\TargetCam</Filter>
-    </ClCompile>
-    <ClCompile Include="Obj.cpp">
-      <Filter>소스 파일\Object\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>소스 파일\Object\Gride</Filter>
@@ -164,17 +389,11 @@
     <ClCompile Include="Pyramid.cpp">
       <Filter>소스 파일\Object\Gride\Pyramid</Filter>
     </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>소스 파일\Object\Cube</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\Scene</Filter>
     </ClCompile>
     <ClCompile Include="StateObj.cpp">
       <Filter>소스 파일\Scene\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>소스 파일\Scene\TestScene</Filter>
     </ClCompile>
     <ClCompile Include="AppMain.cpp">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -188,11 +407,119 @@
     <ClCompile Include="SceneMgr.cpp">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>ReSoureceSource\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="XFileUtil.cpp">
       <Filter>ReSoureceSource\XFileUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeMgr.cpp">
+      <Filter>System\SystemManager\00.TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>소스 파일\Scene\Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>ReSoureceSource\Texture\Inteface</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalTexture.cpp">
+      <Filter>ReSoureceSource\Texture\NormalTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeTexture.cpp">
+      <Filter>ReSoureceSource\Texture\CubeTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureMgr.cpp">
+      <Filter>ReSoureceSource\ResourceManger\00. TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="VIBuffer.cpp">
+      <Filter>ReSoureceSource\02.Buffer\Inteface_VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferMgr.cpp">
+      <Filter>ReSoureceSource\ResourceManger\01.BufferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube_Texture.cpp">
+      <Filter>ReSoureceSource\02.Buffer\Cube_Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceFunc.cpp">
+      <Filter>ReSoureceSource\ResourceFunc</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>System\Camera\CameraInteface</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemFunc.cpp">
+      <Filter>System\SsystemFunc</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>System\SystemManager\01.Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicCamera.cpp">
+      <Filter>System\Camera\DynamicCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticCamera.cpp">
+      <Filter>System\Camera\StaticCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMgr.cpp">
+      <Filter>System\SystemManager\02.CamMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Bound.cpp">
+      <Filter>System\02.Bounding\Bounding</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>System\02.Bounding\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingMgr.cpp">
+      <Filter>System\SystemManager\03.BoundingMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>ReSoureceSource\03. Mesh\Mesh_interface</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>ReSoureceSource\03. Mesh\StatticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicMesh.cpp">
+      <Filter>ReSoureceSource\03. Mesh\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationCtrl.cpp">
+      <Filter>ReSoureceSource\03. Mesh\AnimationCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshMgr.cpp">
+      <Filter>ReSoureceSource\ResourceManger\02.MeshMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="HierachyLoader.cpp">
+      <Filter>ReSoureceSource\03. Mesh\HierachyLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="SkinnedMesh.cpp">
+      <Filter>ReSoureceSource\03. Mesh\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Obj.cpp">
+      <Filter>소스 파일\02. Object\Objinterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Dynamic.cpp">
+      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\02. Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect_Texture.cpp">
+      <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrian.cpp">
+      <Filter>ReSoureceSource\02.Buffer\Terrian</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMgr.cpp">
+      <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MathMgr.cpp">
+      <Filter>소스 파일\Maneger\MathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeLine.cpp">
+      <Filter>소스 파일\Maneger\PipleLine</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="SommonTerrian.cpp">
+      <Filter>소스 파일\02. Object\SommonTerrian</Filter>
+    </ClCompile>
+    <ClCompile Include="Champion.cpp">
+      <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
