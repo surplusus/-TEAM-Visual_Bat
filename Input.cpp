@@ -1,8 +1,9 @@
 #include"BaseInclude.h"
 #include "Input.h"
+#include "MousePicker.h"
 
 CInput::CInput(void)
-	:m_pKeyBoard(NULL), m_pMouse(NULL), m_pInput(NULL)
+	:m_pInput(NULL), m_pKeyBoard(NULL), m_pMouse(NULL), m_MousePicker(NULL)
 {
 }
 
@@ -42,6 +43,11 @@ HRESULT CInput::InitInputDevice(HINSTANCE hInst, HWND hWnd)
 
 	m_pMouse->Acquire();
 
+	// Mouse Picker
+	m_MousePicker = new CMousePicker();
+	if (FAILED(m_MousePicker->GetHittingPoint(m_PickingPoint)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -63,4 +69,25 @@ void CInput::Release(void)
 
 	if (m_pInput)
 		m_pInput->Release();
+}
+
+bool CInput::CheckPickingOnSphere(SPHERE sphere)
+{
+	if (!m_MousePicker)
+		m_MousePicker = new CMousePicker();
+	return m_MousePicker->CheckIntersectWithSphere(sphere);
+}
+
+bool CInput::CheckPiningOnTriangle(const D3DXVECTOR3 * p0, const D3DXVECTOR3 * p1, const D3DXVECTOR3 * p2)
+{
+	if (!m_MousePicker)
+		m_MousePicker = new CMousePicker();
+	return m_MousePicker->CheckIntersectWithTriangle(p0, p1, p2);
+}
+
+bool CInput::CheckPiningOnTriangleAndGetPosition(IN const D3DXVECTOR3 * p0, IN const D3DXVECTOR3 * p1, IN const D3DXVECTOR3 * p2, D3DXVECTOR3 * hitpoint)
+{
+	if (!m_MousePicker)
+		m_MousePicker = new CMousePicker();
+	return m_MousePicker->CheckIntersectWithTriangleAndGetPosition(p0, p1, p2, hitpoint);
 }

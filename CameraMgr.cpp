@@ -2,7 +2,7 @@
 #include "CameraMgr.h"
 #include"DynamicCamera.h"
 #include"StaticCamera.h"
-#include "GameCamera.h"
+//#include "GameCamera.h"
 HRESULT CCameraMgr::SetCamera(CAMMODE Mode, const D3DXVECTOR3 & vEye, const D3DXVECTOR3 & vAt, const D3DXVECTOR3 & vUp, const float & fFov, const float & fAspect, const float & fNear, const float & fFar)
 {
 	if (m_pCamera)
@@ -17,8 +17,6 @@ HRESULT CCameraMgr::SetCamera(CAMMODE Mode, const D3DXVECTOR3 & vEye, const D3DX
 		m_pCamera = new CDynamicCamera;		break;
 	case CAMMODE_STATIC:
 		m_pCamera = new CStaticCamera;		break;
-	case CAMMODE_GAME:
-		m_pCamera = new CGameCamera;		break;
 	}
 	if (FAILED(m_pCamera->InitCamera(vEye, vAt, vUp, fFov, fAspect, fNear, fFar)))
 		return E_FAIL;

@@ -1,8 +1,8 @@
 #pragma once
 #include"Scene.h"
 
-class CCamera;
-class CXFileUtil;
+//class CCamera;
+//class CXFileUtil;
 class CObjMgr;
 class GameScene: public CScene
 {

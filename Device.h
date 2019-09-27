@@ -39,3 +39,4 @@ public:
 	~CDevice(void);
 };
 
+#define GET_DEVICE ((*(CDevice::GetInstance()))->GetDevice())

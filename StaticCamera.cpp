@@ -65,8 +65,6 @@ void CStaticCamera::Progress(void)
 	POINT		ptMouse = { WINSIZEX >> 1, WINSIZEY >> 1 };
 	ClientToScreen(g_hWnd, &ptMouse);
 
-	//SetCursorPos(ptMouse.x, ptMouse.y);	
-
 	Rotation_Mouse();
 
 	SetCamPosition(&m_vEye, &m_vAt);

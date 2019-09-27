@@ -82,9 +82,6 @@
     <Filter Include="ReSoureceSource\ResourceFunc">
       <UniqueIdentifier>{aef36926-badb-4b87-8174-8b911bcb1bfe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\SsystemFunc">
-      <UniqueIdentifier>{cc6a0871-3f1a-4bfb-bbb2-856426f59817}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\SystemManager\01.Input">
       <UniqueIdentifier>{8d729690-ee44-4861-b22d-248d80335903}</UniqueIdentifier>
     </Filter>
@@ -205,6 +202,15 @@
     <Filter Include="소스 파일\DesignPattern\FactoryMethod">
       <UniqueIdentifier>{a1cfbf9e-facc-4f78-83ab-59f033ece1b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\SystemFunc">
+      <UniqueIdentifier>{cc6a0871-3f1a-4bfb-bbb2-856426f59817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\02.Bounding\Sphere">
+      <UniqueIdentifier>{2079c462-1265-460c-b920-937be9f8f908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Camera\GameCamera">
+      <UniqueIdentifier>{206d3244-33f8-4726-a64e-979018208afe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -280,7 +286,7 @@
       <Filter>ReSoureceSource\ResourceFunc</Filter>
     </ClInclude>
     <ClInclude Include="SystemFunc.h">
-      <Filter>System\SsystemFunc</Filter>
+      <Filter>System\SystemFunc</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>System\SystemManager\01.Input</Filter>
@@ -369,6 +375,15 @@
     <ClInclude Include="StateObj.h">
       <Filter>소스 파일\Scene\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="MousePicker.h">
+      <Filter>System\SystemManager\01.Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingSphere.h">
+      <Filter>System\02.Bounding\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>System\Camera\GameCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -432,7 +447,7 @@
       <Filter>System\Camera\CameraInteface</Filter>
     </ClCompile>
     <ClCompile Include="SystemFunc.cpp">
-      <Filter>System\SsystemFunc</Filter>
+      <Filter>System\SystemFunc</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>System\SystemManager\01.Input</Filter>
@@ -514,6 +529,15 @@
     </ClCompile>
     <ClCompile Include="StateObj.cpp">
       <Filter>소스 파일\Scene\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>System\SystemManager\01.Input</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingSphere.cpp">
+      <Filter>System\02.Bounding\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>System\Camera\GameCamera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

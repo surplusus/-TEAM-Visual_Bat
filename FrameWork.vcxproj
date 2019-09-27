@@ -24,6 +24,7 @@
     <ClInclude Include="Bound.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BoundingMgr.h" />
+    <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="BufferMgr.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
@@ -35,6 +36,9 @@
     <ClInclude Include="DynamicCamera.h" />
     <ClInclude Include="DynamicMesh.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="GameCamera.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HEADER\Defines.h" />
@@ -51,6 +55,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshMgr.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="MousePicker.h" />
     <ClInclude Include="NormalTexture.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
@@ -62,7 +67,9 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="SkinnedMesh.h" />
-    <ClInclude Include="SommonTerrain.h" />
+    <ClInclude Include="SommonTerrain.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="StaticCamera.h" />
     <ClInclude Include="StateObj.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -84,6 +91,7 @@
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingMgr.cpp" />
+    <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="BufferMgr.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
@@ -94,6 +102,9 @@
     <ClCompile Include="Dynamic.cpp" />
     <ClCompile Include="DynamicCamera.cpp" />
     <ClCompile Include="DynamicMesh.cpp" />
+    <ClCompile Include="GameCamera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HierachyLoader.cpp" />
@@ -105,6 +116,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshMgr.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="PipeLine.cpp" />
@@ -115,7 +127,9 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
-    <ClCompile Include="SommonTerrain.cpp" />
+    <ClCompile Include="SommonTerrain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="StaticCamera.cpp" />
     <ClCompile Include="StateObj.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

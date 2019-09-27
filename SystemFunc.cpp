@@ -106,6 +106,16 @@ extern  DIMOUSESTATE MyGetMouseState(void)
 
 }
 
+extern bool CheckPickingOnSphere(SPHERE sphere)
+{
+	return (*(CInput::GetInstance()))->CheckPickingOnSphere(sphere);
+}
+
+extern bool CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVECTOR3 * p1, IN const D3DXVECTOR3 * p2, OUT D3DXVECTOR3 * hitpoint)
+{
+	return (*(CInput::GetInstance()))->CheckPiningOnTriangleAndGetPosition(p0, p1, p2, hitpoint);
+}
+
 //=============== SystemDll Release 14.05.12 By Burger ===============//
 extern  void System_Release(void)
 {

@@ -1,11 +1,13 @@
 #include "BaseInclude.h"
 #include "BoundingBox.h"
 
-
-CBoundingBox::CBoundingBox()
+CBoundingBox::CBoundingBox(D3DXVECTOR3 min, D3DXVECTOR3 max)
 {
+	m_vMin.x = min.x; m_vMin.y = min.y; m_vMin.z = min.z;
+	m_vMax.x = max.x; m_vMax.y = max.y; m_vMax.z = max.z;
+	m_fRadius = max.x - min.x;
+	m_vCenter.x = max.x - min.x; m_vCenter.y = max.y - min.y; m_vCenter.z = max.z - min.z;
 }
-
 
 CBoundingBox::~CBoundingBox()
 {

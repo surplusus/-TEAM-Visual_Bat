@@ -1,3 +1,4 @@
+
 #pragma once
 typedef struct ST_PC_VERTEX
 {
@@ -95,3 +96,26 @@ typedef struct tagInfo
 	D3DXVECTOR3		vDir;
 	D3DXMATRIX		matWorld;
 }INFO;
+
+
+typedef struct tagRay
+{
+	D3DXVECTOR3 origin;
+	D3DXVECTOR3 direction;
+	tagRay(float x = 0.f, float y = 0.f, float z = 0.f)
+		: origin(0, 0, 0), direction(x, y, z) {}
+	tagRay(const D3DXVECTOR3& dir) : origin(0, 0, 0), direction(dir) {}
+	tagRay(const tagRay& ray) : origin(ray.origin), direction(ray.direction) {}
+}RAY;
+
+typedef struct tagSphere
+{
+	float		fRadius;
+	D3DXVECTOR3 vCenter;
+	bool		isPicked = false;
+
+	tagSphere() : fRadius(0.0f), vCenter(0, 0, 0) {}
+	tagSphere(const float r, const D3DXVECTOR3 v) : fRadius(r), vCenter(v.x,v.y,v.z) {}
+	tagSphere(const tagSphere& sph) 
+		: fRadius(sph.fRadius), vCenter(sph.vCenter.x, sph.vCenter.y, sph.vCenter.z) {}
+}SPHERE;

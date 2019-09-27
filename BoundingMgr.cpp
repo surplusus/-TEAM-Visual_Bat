@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "BoundingMgr.h"
-#include"BoundingBox.h"
+#include "BoundingBox.h"
+#include "BoundingSphere.h"
 
 CBoundingMgr::CBoundingMgr()
 {
@@ -19,9 +20,10 @@ HRESULT CBoundingMgr::AddBounding(LPDIRECT3DDEVICE9 pDevice, BOUNDTYPE Type)
 	switch (Type)
 	{
 	case BOUNDTYPE_SPHERE:
+		pBound = new CBoundingSphere();
 		break;
 	case BOUNDTYPE_CUBE:
-		pBound = new CBoundingBox;
+		pBound = new CBoundingBox();
 		break;
 	}
 	if (FAILED(pBound->InitMesh(pDevice)))
