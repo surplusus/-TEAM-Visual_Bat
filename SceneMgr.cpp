@@ -50,20 +50,34 @@ void CSceneMgr::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	((CScene*)m_State)->WndProc(hwnd, message, wParam, lParam);
 }
 
-HRESULT CSceneMgr::SetState(CStateObj * pState)
+HRESULT CSceneMgr::SetState(CScene * pState)
 {
-		if (pState == NULL)
-			return E_FAIL;
+	if (pState == NULL)
+		return E_FAIL;
 
-		if (m_State)
-		{
-			delete m_State;
-			m_State = NULL;
-		}
+	if (m_State)
+	{
+		delete m_State;
+		m_State = NULL;
+	}
 
-		m_State = pState;
+	m_State = pState;
 
-		return S_OK;
-	
-
+	return S_OK;
 }
+
+//HRESULT CSceneMgr::SetState(CStateObj * pState)
+//{
+//		if (pState == NULL)
+//			return E_FAIL;
+//
+//		if (m_State)
+//		{
+//			delete m_State;
+//			m_State = NULL;
+//		}
+//
+//		m_State = pState;
+//
+//		return S_OK;
+//}

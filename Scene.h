@@ -1,10 +1,10 @@
 #pragma once
-#include"StateObj.h"
-class CScene :public CStateObj
+//#include"StateObj.h"
+class CScene //  :public CStateObj
 {
 public:
 	CScene();
-	~CScene();
+	virtual ~CScene();
 
 public:	
 	virtual HRESULT Initalize() =0;

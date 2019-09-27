@@ -26,7 +26,7 @@ extern  void SetRenderState(_D3DRENDERSTATETYPE Type, DWORD dwFlag)
 {
 	(*(CDevice::GetInstance()))->SetRenderState(Type, dwFlag);
 }
-
+//샘플링 처리 설정// 쉐이더에 사용// 필터링처리 등
 extern  void SetSamplerState(_D3DSAMPLERSTATETYPE SampOp, _D3DTEXTUREFILTERTYPE FilterType)
 {
 	(*(CDevice::GetInstance()))->SetSamplerState(SampOp, FilterType);

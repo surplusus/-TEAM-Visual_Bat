@@ -124,7 +124,7 @@ const VTXTEX* CObjMgr::GetVtxInfo(const TCHAR* pObjKey, const int& iCnt /*= 0*/)
 
 void CObjMgr::Progress(void)
 {
-	for (DWORD i = 0; i < 1; ++i)
+	for (DWORD i = 0; i < m_dwRevCnt; ++i)
 	{
 		if (m_pObjects[i] == NULL)
 			continue;

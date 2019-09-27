@@ -21,22 +21,12 @@ HRESULT CMainGame::InitResuource()
 	if (FAILED(Insert_Buffer(GetDevice(), L"CubeTexture", BUFFERTYPE_CUBE)))
 
 	{
-		ERR_MSG(g_hWnd, L"Buffer Create Failed");
-		return E_FAIL;
+		ERR_MSG(g_hWnd, L"Buffer Create Failed");		return E_FAIL;
 	}
-	//if (FAILED(Insert_Buffer(GetDevice(), L"RectTexture", BUFFERTYPE_RCTEX)))
-	//
-	//{
-	//	ERR_MSG(g_hWnd, L"Buffer Create Failed");
-	//	return E_FAIL;
-	//}
-
-	if (FAILED(Insert_Buffer(GetDevice(), L"Terrain", BUFFERTYPE_TERRAIN
-		, VTXCNTX, VTXCNTZ, 1.f)))
-
+	if (FAILED(Insert_Buffer(GetDevice(), L"RectTexture", BUFFERTYPE_RCTEX)))
+	
 	{
-		ERR_MSG(g_hWnd, L"Buffer Create Failed");
-		return E_FAIL;
+		ERR_MSG(g_hWnd, L"Buffer Create Failed");		return E_FAIL;
 	}
 	return S_OK;
 }
@@ -63,7 +53,6 @@ HRESULT CMainGame::Init()
 	GET_SINGLE(CSceneMgr)->Initalize();
 
 	InitTimeMgr();
-
 	D3DXMatrixIdentity(&matFont);
 
 	return S_OK;

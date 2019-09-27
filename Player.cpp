@@ -86,38 +86,40 @@ void CPlayer::SetContantTable()
 
 HRESULT CPlayer::Initialize()
 {
-	m_SortID = SORTID_NORMAL;
+	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(1.f, 0.f, 1.f);
+	m_Info.vPos = D3DXVECTOR3(1.f, 1.5f, 1.f);
 
 	m_fCamDistance = 10.f;
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
-	CopyVertexInfo(L"RectTxture", m_pOriVtx);
+	CopyVertexInfo(L"RectTexture", m_pOriVtx);
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	CloneMesh(GetDevice(), L"Map", &m_pAnimationCtrl);
-
+	CloneMesh(GetDevice(), L"Atrax", &m_pAnimationCtrl);
+	
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
+
+
+	
+	
 	return S_OK;
 }
 
 void CPlayer::Progress()
 {
-	//const VTXTEX* pTerrianVtx = (*(CObjMgr::GetInstance()))->GetVtxInfo(L"Terrain");
-	//m_Info.vPos.y = CMathMgr::GetHeight(pTerrianVtx, &m_Info.vPos);
-	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans;
+	
+	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans,matScale;
 	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
 	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
 	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-
-	m_Info.matWorld = matRotX*matRotY*matRotZ*matTrans;
+	D3DXMatrixScaling(&matScale, 0.1f, 0.1f, 0.1f);
+	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
 	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 	KeyCheck();
-	//MouseCheck();
 	SetCameraPos();
 	if (m_bMove)
 	{
@@ -126,15 +128,16 @@ void CPlayer::Progress()
 }
 
 void CPlayer::Render()
-{
+{;
+
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
+	
 
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
-//	m_pAnimationCtrl->SetAnimationSet(9);
-//
-//	m_pAnimationCtrl->FrameMove(L"amumu", GetTime());
+	m_pAnimationCtrl->SetAnimationSet(9);
+	m_pAnimationCtrl->FrameMove(L"Atrax", GetTime());
 
-	Mesh_Render(GetDevice(), L"Map");
+	Mesh_Render(GetDevice(), L"Atrax");	
 }
 
 void CPlayer::Release()

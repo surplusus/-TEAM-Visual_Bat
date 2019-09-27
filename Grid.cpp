@@ -77,9 +77,9 @@ void CGrid::Render()
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
-	GET_SINGLE(CDevice)->GetDevice()->SetTransform(D3DTS_WORLD, &matI);
-	GET_SINGLE(CDevice)->GetDevice()->SetFVF(CUSTOMVERTEX::FVF);
-	GET_SINGLE(CDevice)->GetDevice()->DrawPrimitiveUP(D3DPT_LINELIST,
+	SetTransform(D3DTS_WORLD, &matI);
+	GetDevice()->SetFVF(CUSTOMVERTEX::FVF);
+	GetDevice()->DrawPrimitiveUP(D3DPT_LINELIST,
 		m_vecVertex.size() / 2,
 		&m_vecVertex[0], sizeof(CUSTOMVERTEX));
 

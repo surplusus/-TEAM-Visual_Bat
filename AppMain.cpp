@@ -1,6 +1,6 @@
 #include"BaseInclude.h"
 #include "AppMain.h"
-#include"Device.h"
+#include "Device.h"
 //EXTERN으로 정의된 윈도우 핸들러
 HWND g_hWnd;
 HINSTANCE g_hInst;

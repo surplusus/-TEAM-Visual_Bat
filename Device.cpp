@@ -56,7 +56,7 @@ HRESULT CDevice::InitDevice(HWND hWnd, WINMODE Mode, const UINT& iWinCX
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
 	if (FAILED(m_p3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd
-		, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_pDevice)))
+		, Behavior, &d3dpp, &m_pDevice)))
 	{
 		ERR_MSG(g_hWnd,L"Device Create Failed");
 		return E_FAIL;

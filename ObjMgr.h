@@ -11,7 +11,6 @@ typedef struct Data
 
 class CObjMgr
 {
-	DECLARE_SINGLETON(CObjMgr);
 private:
 	list<list<PDATA>*>**	m_pObjects;
 	DWORD					m_dwRevCnt;
@@ -29,6 +28,23 @@ public:
 	HRESULT AddObject(const TCHAR* pObjKey, CObj* pObject);
 	DWORD Hashing(const TCHAR* pObjKey);
 	void Release(void);
+
+public:
+	static CObjMgr** GetInstance(void)
+	{
+		static CObjMgr* pInstance = NULL;
+		if (pInstance == NULL)
+			pInstance = new CObjMgr(HASH_COUNT);
+		return &pInstance;
+	}
+
+	static void DestroyInstance(void)
+	{
+		CObjMgr**	ppInstance = GetInstance();
+		delete *ppInstance;
+		*ppInstance = NULL;
+	}
+
 private:
 	CObjMgr(void);
 	explicit CObjMgr(const int& iRevCnt);

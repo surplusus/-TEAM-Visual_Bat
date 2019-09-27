@@ -62,12 +62,14 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="SkinnedMesh.h" />
-    <ClInclude Include="SommonTerrian.h" />
+    <ClInclude Include="SommonTerrain.h" />
     <ClInclude Include="StaticCamera.h" />
-    <ClInclude Include="StateObj.h" />
+    <ClInclude Include="StateObj.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="SystemFunc.h" />
-    <ClInclude Include="Terrian.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TimeMgr.h" />
@@ -113,12 +115,14 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
-    <ClCompile Include="SommonTerrian.cpp" />
+    <ClCompile Include="SommonTerrain.cpp" />
     <ClCompile Include="StaticCamera.cpp" />
-    <ClCompile Include="StateObj.cpp" />
+    <ClCompile Include="StateObj.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="SystemFunc.cpp" />
-    <ClCompile Include="Terrian.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
@@ -179,7 +183,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)HEADER;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)HEADER;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

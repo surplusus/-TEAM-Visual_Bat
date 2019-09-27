@@ -12,33 +12,12 @@
     <Filter Include="소스 파일\WinMain">
       <UniqueIdentifier>{290ec58a-a093-4acd-ba44-cacf37ad566b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Object">
-      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Object\Interface">
-      <UniqueIdentifier>{95cc7ecf-fa07-451c-90eb-2a433d00b4d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Object\Gride">
-      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Object\Gride\Pyramid">
-      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
     <Filter Include="소스 파일\헤더 파일\HEADER">
       <UniqueIdentifier>{705a37c2-3eba-41c4-a110-b57672ce48ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Object\Cube">
-      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene">
-      <UniqueIdentifier>{6ea44b67-e9e1-45ba-9b23-4095d51827b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\Interface">
-      <UniqueIdentifier>{469f64ac-72c8-42f8-a436-2ba04f778a62}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\WinMain\AppMain">
       <UniqueIdentifier>{a5f2c50f-15ec-40ee-a254-33b30a996945}</UniqueIdentifier>
@@ -75,12 +54,6 @@
     </Filter>
     <Filter Include="System\Device">
       <UniqueIdentifier>{6a6daa3f-21dc-4478-bc97-a65835e0ec19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\Scene">
-      <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\Scene\GameScene">
-      <UniqueIdentifier>{7d9c8be9-68f7-44e8-b136-81dd325c8269}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\Camera\CameraInteface">
       <UniqueIdentifier>{a66e54c1-1f9e-4384-8149-558b5e388920}</UniqueIdentifier>
@@ -184,9 +157,6 @@
     <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
       <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer\Terrian">
-      <UniqueIdentifier>{b0085ec4-2de4-4292-8b62-d0b8b9d19ba8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Maneger\01. ObjMgr">
       <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
     </Filter>
@@ -199,17 +169,41 @@
     <Filter Include="소스 파일\Maneger\Mouse">
       <UniqueIdentifier>{c1b781bd-063d-477c-bde1-c0b8aae48997}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Designpattern">
-      <UniqueIdentifier>{ce18f52c-6c8c-427c-9408-e6702e0c0527}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Designpattern\FactoryMethod">
-      <UniqueIdentifier>{a1cfbf9e-facc-4f78-83ab-59f033ece1b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\SommonTerrian">
-      <UniqueIdentifier>{330a0520-8454-4650-8b48-f5b11b836471}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\02. Object\Champion">
       <UniqueIdentifier>{406b70a7-ce19-452b-a07a-63171a00f21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\SommonTerrain">
+      <UniqueIdentifier>{330a0520-8454-4650-8b48-f5b11b836471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Terrain">
+      <UniqueIdentifier>{b0085ec4-2de4-4292-8b62-d0b8b9d19ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\GameScene">
+      <UniqueIdentifier>{7d9c8be9-68f7-44e8-b136-81dd325c8269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\Interface">
+      <UniqueIdentifier>{e5b5b252-a4d5-48ce-bd8c-acbd4ffbc58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Object%28DX연습%29">
+      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Gride">
+      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid">
+      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Cube">
+      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DesignPattern">
+      <UniqueIdentifier>{ce18f52c-6c8c-427c-9408-e6702e0c0527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DesignPattern\FactoryMethod">
+      <UniqueIdentifier>{a1cfbf9e-facc-4f78-83ab-59f033ece1b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,16 +232,10 @@
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
-      <Filter>소스 파일\Object\Gride</Filter>
+      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride</Filter>
     </ClInclude>
     <ClInclude Include="Pyramid.h">
-      <Filter>소스 파일\Object\Gride\Pyramid</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>소스 파일\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="StateObj.h">
-      <Filter>소스 파일\Scene\Interface</Filter>
+      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid</Filter>
     </ClInclude>
     <ClInclude Include="AppMain.h">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -265,7 +253,7 @@
       <Filter>System\SystemManager\00.TimeMgr</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
-      <Filter>소스 파일\Scene\Scene\GameScene</Filter>
+      <Filter>소스 파일\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>ReSoureceSource\Texture\Inteface</Filter>
@@ -351,9 +339,6 @@
     <ClInclude Include="Rect_Texture.h">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
     </ClInclude>
-    <ClInclude Include="Terrian.h">
-      <Filter>ReSoureceSource\02.Buffer\Terrian</Filter>
-    </ClInclude>
     <ClInclude Include="ObjMgr.h">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClInclude>
@@ -367,13 +352,22 @@
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="Factory.h">
-      <Filter>소스 파일\Designpattern\FactoryMethod</Filter>
-    </ClInclude>
-    <ClInclude Include="SommonTerrian.h">
-      <Filter>소스 파일\02. Object\SommonTerrian</Filter>
+      <Filter>소스 파일\DesignPattern\FactoryMethod</Filter>
     </ClInclude>
     <ClInclude Include="Champion.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
+    </ClInclude>
+    <ClInclude Include="SommonTerrain.h">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>ReSoureceSource\02.Buffer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Scene\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="StateObj.h">
+      <Filter>소스 파일\Scene\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -384,16 +378,10 @@
       <Filter>소스 파일\헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
-      <Filter>소스 파일\Object\Gride</Filter>
+      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride</Filter>
     </ClCompile>
     <ClCompile Include="Pyramid.cpp">
-      <Filter>소스 파일\Object\Gride\Pyramid</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>소스 파일\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="StateObj.cpp">
-      <Filter>소스 파일\Scene\Interface</Filter>
+      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid</Filter>
     </ClCompile>
     <ClCompile Include="AppMain.cpp">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -414,7 +402,7 @@
       <Filter>System\SystemManager\00.TimeMgr</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
-      <Filter>소스 파일\Scene\Scene\GameScene</Filter>
+      <Filter>소스 파일\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>ReSoureceSource\Texture\Inteface</Filter>
@@ -500,9 +488,6 @@
     <ClCompile Include="Rect_Texture.cpp">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
     </ClCompile>
-    <ClCompile Include="Terrian.cpp">
-      <Filter>ReSoureceSource\02.Buffer\Terrian</Filter>
-    </ClCompile>
     <ClCompile Include="ObjMgr.cpp">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClCompile>
@@ -515,11 +500,20 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="SommonTerrian.cpp">
-      <Filter>소스 파일\02. Object\SommonTerrian</Filter>
-    </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="SommonTerrain.cpp">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>ReSoureceSource\02.Buffer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Scene\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="StateObj.cpp">
+      <Filter>소스 파일\Scene\Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
