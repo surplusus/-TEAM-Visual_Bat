@@ -8,7 +8,7 @@ public:
 	CSceneMgr();
 	~CSceneMgr();
 public:
-	void Initalize();
+	void Initialize();
 	void Progress();
 	void Render();
 	void Release();

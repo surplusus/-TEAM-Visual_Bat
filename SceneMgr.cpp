@@ -12,11 +12,11 @@ CSceneMgr::~CSceneMgr()
 {
 }
 
-void CSceneMgr::Initalize()
+void CSceneMgr::Initialize()
 {
 	m_State = new GameScene;
 	if (m_State != NULL)
-		m_State->Initalize();
+		m_State->Initialize();
 }
 
 void CSceneMgr::Progress()
@@ -27,15 +27,12 @@ void CSceneMgr::Progress()
 
 void CSceneMgr::Render()
 {
-
 	if (m_State != NULL)
 		m_State->Render();
-
 }
 
 void CSceneMgr::Release()
 {
-
 	if (m_State != NULL) {
 		m_State->Release();
 

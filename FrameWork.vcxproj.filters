@@ -363,9 +363,6 @@
     <ClInclude Include="Champion.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClInclude>
-    <ClInclude Include="SommonTerrain.h">
-      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
-    </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>ReSoureceSource\02.Buffer\Terrain</Filter>
     </ClInclude>
@@ -383,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="GameCamera.h">
       <Filter>System\Camera\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="SummonTerrain.h">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -518,9 +518,6 @@
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
-    <ClCompile Include="SommonTerrain.cpp">
-      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
-    </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>ReSoureceSource\02.Buffer\Terrain</Filter>
     </ClCompile>
@@ -538,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>System\Camera\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="SummonTerrain.cpp">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

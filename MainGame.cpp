@@ -50,7 +50,7 @@ HRESULT CMainGame::Init()
 		return E_FAIL;
 	}
 	if (FAILED(InitResuource()))			return E_FAIL;
-	GET_SINGLE(CSceneMgr)->Initalize();
+	GET_SINGLE(CSceneMgr)->Initialize();
 
 	InitTimeMgr();
 	D3DXMatrixIdentity(&matFont);

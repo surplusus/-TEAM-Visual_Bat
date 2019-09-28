@@ -11,7 +11,7 @@ public:
 	~GameScene();
 public:
 	CObjMgr* m_pObjMgr;
-	virtual HRESULT Initalize() ;
+	virtual HRESULT Initialize() ;
 	virtual void Progress()  ;
 	virtual void Render()    ;
 	virtual void Release()   ;
