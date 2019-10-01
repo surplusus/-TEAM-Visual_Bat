@@ -12,16 +12,31 @@ private:
 	LARGE_INTEGER			m_CpuTick;
 	LARGE_INTEGER			m_InvaliTime;
 	LARGE_INTEGER			m_FixTime;
-	LARGE_INTEGER			m_LastTime; 
+	LARGE_INTEGER			m_LastTime;
+	// 구현 새로 만듦
+	LARGE_INTEGER			m_NowTime;
 private:
-	float m_fTime;
+	float   m_fTime;
+	// 구현 새로 만듦
+	int		m_nFPS;
+	float	m_fDeltaTime;
+	float   m_fPileDeltaTime;
 public:
 	void SetTime();
 	void InitTimeMgr();
+	// 구현 새로 만듦
+	void UpdateTimeMgr();
 public:
-	float GetTime() const
-	{
+	float GetTime() const {
 		return m_fTime;
 	}
+	// 구현 새로 만듦
+	int GetFPSTime() const {
+		return m_nFPS;
+	}
+	float GetSystemDeltaTime() const {
+		return m_fDeltaTime;
+	}
+
 };
 

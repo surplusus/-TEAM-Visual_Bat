@@ -2,6 +2,7 @@
 #include "MainGame.h"
 #include"SceneMgr.h"
 
+float g_fDeltaTime = 0.f;
 
 CMainGame::CMainGame()
 {
@@ -60,17 +61,9 @@ HRESULT CMainGame::Init()
 
 void CMainGame::Render()
 {
-	++m_iCnt;
-
-	m_fTime += GetTime();
-
-	if (m_fTime > 1.f)
-	{
-		wsprintf(m_szFps, L"FPS : %d", m_iCnt);
-		m_iCnt = 0;
-		m_fTime = 0.f;
-	}
 	Begin_Render();
+	MyDrawFPSByTimeMgr();
+
 	GET_SINGLE(CSceneMgr)->Render();
 
 	SetTransform(D3DTS_WORLD, &matFont);
@@ -90,8 +83,9 @@ void CMainGame::Release()
 
 void CMainGame::Progress()
 {
-	SetInputState();
 	SetTimeMgr();
+	UpdateTimeMgr();
+	SetInputState();
 
 	GET_SINGLE(CSceneMgr)->Progress();
 }

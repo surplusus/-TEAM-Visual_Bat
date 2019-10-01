@@ -5,11 +5,11 @@
 extern  HRESULT InitDevice(HWND hWnd, WINMODE Mode
 	, const UINT& iWinCX
 	, const UINT& iWinCY);
-
 extern  void Begin_Render(void);
 extern  void End_Render(HWND hWnd);
-
 extern  void Font_Render(const TCHAR* szFont, int iX
+	, int iY, DWORD dwColor);
+extern  void Font_Render(const char* szFont, int iX
 	, int iY, DWORD dwColor);
 
 //=============== Device Library : Setter 14.05.12 By Burger ===============//
@@ -28,8 +28,11 @@ extern  void GetTransform(_D3DTRANSFORMSTATETYPE Type, D3DXMATRIX* pMatrix);
 extern  void InitTimeMgr(void);
 extern  void SetTimeMgr(void);
 
-//=============== Time Library :: Getter 14.05.12 By Burger ===============//
+extern  void UpdateTimeMgr(void);
+
+//=============== Time Library :: Getter 14.05.12 By Burger & 구현 ===============//
 extern  float GetTime(void);
+extern  void MyDrawFPSByTimeMgr(void);
 
 //=============== Input Library 14.05.12 By Burger ===============//
 extern  HRESULT InitInputDevice(HINSTANCE hInst, HWND hWnd);
@@ -39,9 +42,10 @@ extern  bool CheckUpKey(BYTE byKey);
 extern  DIMOUSESTATE MyGetMouseState(void);
 
 
-//=============== Extended By 지환 & 구현 ===============//
+//=============== MousePicking Extended By 지환 & 구현 ===============//
 extern bool CheckPickingOnSphere(SPHERE sphere);
 extern bool CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVECTOR3 * p1, IN const D3DXVECTOR3 * p2, OUT D3DXVECTOR3 * hitpoint);
 
+//=============== System Relase ======================//
 extern  void System_Release(void);
 #endif

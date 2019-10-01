@@ -13,6 +13,7 @@ protected:
 protected:
 	VTXTEX*		m_pOriVtx;//원본 버텍스
 	VTXTEX*		m_pConVtx;//변화된 버텍스
+	int			m_FaceNum;// <- 지환이 새로추가한 맴버(Champion을 위해 만듦)
 protected:
 	D3DXVECTOR3 m_vMin;//최소 최대값
 	D3DXVECTOR3 m_vMax;//최소 최대값
@@ -36,6 +37,10 @@ public:
 	const VTXTEX* GetVtxInfo() const
 	{
 		return m_pOriVtx;
+	}
+	const int GetVtxNumber()
+	{
+		return m_FaceNum * 3;
 	}
 public:
 	virtual void SetContantTable() {}

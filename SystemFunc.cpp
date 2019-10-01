@@ -53,6 +53,11 @@ extern  void Font_Render(const TCHAR* szFont, int iX
 	(*(CDevice::GetInstance()))->FontRender(szFont, iX, iY, dwColor);
 }
 
+extern  void Font_Render(const char* szFont, int iX
+	, int iY, DWORD dwColor)
+{
+	(*(CDevice::GetInstance()))->FontRender(szFont, iX, iY, dwColor);
+}
 
 //=============== Device Library : Getter 14.05.12 By Burger ===============//
 extern  LPDIRECT3DDEVICE9 GetDevice(void)
@@ -76,10 +81,24 @@ extern  void SetTimeMgr(void)
 	(*(CTimeMgr::GetInstance()))->SetTime();
 }
 
+void UpdateTimeMgr(void)
+{
+	(*(CTimeMgr::GetInstance()))->UpdateTimeMgr();
+	g_fDeltaTime = (*(CTimeMgr::GetInstance()))->GetSystemDeltaTime();
+}
+
 //=============== Time Library :: Getter 14.05.12 By Burger ===============//
 extern  float GetTime(void)
 {
 	return (*(CTimeMgr::GetInstance()))->GetTime();
+}
+
+void MyDrawFPSByTimeMgr(void)
+{
+	RECT rt;
+	SetRect(&rt, 0, 5, 0, 0);
+	string time = "FPS : " + std::to_string(GET_SINGLE(CTimeMgr)->GetFPSTime());
+	Font_Render(time.c_str(), 2, 5, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 extern  HRESULT InitInputDevice(HINSTANCE hInst, HWND hWnd)

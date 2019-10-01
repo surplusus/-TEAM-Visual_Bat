@@ -1,7 +1,6 @@
 #include "BaseInclude.h"
 #include "TimeMgr.h"
 
-
 CTimeMgr::CTimeMgr()
 {
 }
@@ -31,8 +30,29 @@ void CTimeMgr::InitTimeMgr()
 	QueryPerformanceFrequency(&m_CpuTick);
 
 	// 현재 cpu가 카운팅한 숫자
-	// GetTickCount
 	QueryPerformanceCounter(&m_LastTime);
 	QueryPerformanceCounter(&m_InvaliTime);
 	QueryPerformanceCounter(&m_FixTime);
+	// 구현 새로 만듦	
+	QueryPerformanceCounter(&m_NowTime);
+	m_nFPS = 0;
+	m_fDeltaTime = 0.f;
+	m_fPileDeltaTime = 0.f;
+}
+
+void CTimeMgr::UpdateTimeMgr()
+{
+	LARGE_INTEGER tTime;
+	QueryPerformanceCounter(&tTime);
+	m_fDeltaTime = (tTime.QuadPart - m_NowTime.QuadPart) / (float)m_CpuTick.QuadPart;
+	m_NowTime = tTime;
+	static int nCountFPS = 0;
+	nCountFPS++;
+	m_fPileDeltaTime += m_fDeltaTime;
+	if (m_fPileDeltaTime >= 1.f) {
+		m_fPileDeltaTime = 0.f;
+		m_nFPS = nCountFPS;
+		nCountFPS = 0;
+	}
+	g_fDeltaTime = m_fDeltaTime;
 }

@@ -17,6 +17,7 @@
 #include "Include.h"
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
+extern float g_fDeltaTime;
 using namespace std;
 
 #ifdef __cplusplus

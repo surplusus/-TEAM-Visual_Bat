@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "Atrox.h"
 #include"PipeLine.h"
+#include "ObjMgr.h"
 CAtrox::CAtrox()
 {
 }
@@ -8,39 +9,6 @@ CAtrox::CAtrox()
 
 CAtrox::~CAtrox()
 {
-}
-
-void CAtrox::KeyCheck()
-{
-	if (CheckPushKey(DIK_UP))
-	{
-		m_Info.vPos += m_Info.vDir * 0.007f;
-	}
-
-	if (CheckPushKey(DIK_DOWN))
-	{
-		m_Info.vPos -= m_Info.vDir * 0.007f;
-	}
-
-	// Y√‡»∏¿¸
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_fAngle[ANGLE_Y] += 0.001f;
-	}
-
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		m_fAngle[ANGLE_Y] -= 0.001f;
-	}
-}
-
-void CAtrox::MouseCheck()
-{
-}
-
-void CAtrox::SetCameraPos()
-{
-
 }
 
 void CAtrox::SetContantTable()
@@ -89,7 +57,12 @@ void CAtrox::Progress()
 {
 	WorldSetting();
 	KeyCheck();
-	SetCameraPos();	
+	if (GetAsyncKeyState(VK_LBUTTON)) {
+		if (MouseCheck())
+		{
+			m_Info.vPos = m_vecMouseHitPoint;
+		}
+	}
 }
 
 void CAtrox::Render()

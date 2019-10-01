@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationCtrl.h" />
+    <ClInclude Include="Atrox.h" />
     <ClInclude Include="BaseInclude.h" />
     <ClInclude Include="Bound.h" />
     <ClInclude Include="BoundingBox.h" />
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationCtrl.cpp" />
+    <ClCompile Include="Atrox.cpp" />
     <ClCompile Include="BaseInclude.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>

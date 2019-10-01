@@ -103,7 +103,7 @@ const VTXTEX* CObjMgr::GetVtxInfo(const TCHAR* pObjKey, const int& iCnt /*= 0*/)
 {
 	DWORD	dwIndex = Hashing(pObjKey);
 
-	for (list<list<PDATA>*>::iterator iter = m_pObjects[dwIndex]->begin();
+	for (auto iter = m_pObjects[dwIndex]->begin();
 		iter != m_pObjects[dwIndex]->end(); ++iter)
 	{
 		if (!(lstrcmp((*iter)->front()->pKey, pObjKey)))
@@ -118,6 +118,26 @@ const VTXTEX* CObjMgr::GetVtxInfo(const TCHAR* pObjKey, const int& iCnt /*= 0*/)
 	}
 
 	return NULL;
+}
+
+const int CObjMgr::GetVtxNumber(const TCHAR * pObjKey, const int & iCnt)
+{
+	DWORD	dwIndex = Hashing(pObjKey);
+
+	for (list<list<PDATA>*>::iterator iter = m_pObjects[dwIndex]->begin();
+		iter != m_pObjects[dwIndex]->end(); ++iter)
+	{
+		if (!(lstrcmp((*iter)->front()->pKey, pObjKey)))
+		{
+			list<PDATA>::iterator	iter1 = (*iter)->begin();
+
+			for (int i = 0; i < iCnt; ++i)
+				++iter1;
+
+			return (*iter1)->pObject->GetVtxNumber();
+		}
+	}
+	return 0;
 }
 
 
@@ -237,4 +257,29 @@ void CObjMgr::Release(void)
 
 	delete[] m_pObjects;
 	m_pObjects = NULL;
+}
+
+const CObj * CObjMgr::GetObj(const TCHAR * pObjKey, const int & iCnt)
+{
+	DWORD	dwIndex = Hashing(pObjKey);
+
+	for (list<list<PDATA>*>::iterator iter = m_pObjects[dwIndex]->begin();
+		iter != m_pObjects[dwIndex]->end(); ++iter)
+	{
+		if (!(lstrcmp((*iter)->front()->pKey, pObjKey)))
+		{
+			list<PDATA>::iterator	iter1 = (*iter)->begin();
+
+			for (int i = 0; i < iCnt; ++i)
+				++iter1;
+
+			return (*iter1)->pObject;
+		}
+	}
+	return nullptr;
+}
+
+CObjMgr * CObjMgr::CloneMgr()
+{
+	return this;
 }

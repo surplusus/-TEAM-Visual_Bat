@@ -138,6 +138,14 @@ void CDevice::FontRender(const TCHAR* szFont, int iX, int iY, DWORD dwColor)
 	m_pSprite->End();
 }
 
+void CDevice::FontRender(const char* szFont, int iX, int iY, DWORD dwColor)
+{
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	RECT		rcFont = { iX, iY };
+	m_pFont->DrawTextA(m_pSprite, szFont, strlen(szFont), &rcFont, DT_NOCLIP, dwColor);
+	m_pSprite->End();
+}
+
 void CDevice::GetTransform(_D3DTRANSFORMSTATETYPE Type, D3DXMATRIX* pMatrix)
 {
 	m_pDevice->GetTransform(Type, pMatrix);

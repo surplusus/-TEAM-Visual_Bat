@@ -384,6 +384,9 @@
     <ClInclude Include="SummonTerrain.h">
       <Filter>소스 파일\02. Object\SommonTerrain</Filter>
     </ClInclude>
+    <ClInclude Include="Atrox.h">
+      <Filter>소스 파일\02. Object\Champion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -538,6 +541,9 @@
     </ClCompile>
     <ClCompile Include="SummonTerrain.cpp">
       <Filter>소스 파일\02. Object\SommonTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Atrox.cpp">
+      <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

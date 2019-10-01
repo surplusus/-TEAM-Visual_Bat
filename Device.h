@@ -9,7 +9,7 @@ private:
 
 	// 장치를 대표하는 객체
 	LPDIRECT3DDEVICE9		m_pDevice;
-
+	// 기본적인 Sprite & Font (용례 : FPS 시간을 나타낼때 / 오류창을 띄울때)
 	LPD3DXSPRITE			m_pSprite;
 	LPD3DXFONT				m_pFont;
 
@@ -33,6 +33,7 @@ public:
 	void End_Render(HWND hWnd);
 public:
 	void FontRender(const TCHAR* szFont, int iX, int iY, DWORD dwColor);
+	void FontRender(const char* szFont, int iX, int iY, DWORD dwColor);
 	void Release(void);
 public:
 	CDevice(void);

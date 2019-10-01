@@ -8,10 +8,6 @@ public:
 private:
 	LPD3DXMESH m_pMesh;
 public:
-	void			KeyCheck();
-	void			MouseCheck();
-	void			SetCameraPos();
-public:
 	virtual void	SetContantTable();
 
 private:
