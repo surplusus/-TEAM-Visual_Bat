@@ -81,10 +81,11 @@ extern  void SetTimeMgr(void)
 	(*(CTimeMgr::GetInstance()))->SetTime();
 }
 
-void UpdateTimeMgr(void)
+bool UpdateTimeMgr(void)
 {
-	(*(CTimeMgr::GetInstance()))->UpdateTimeMgr();
+	bool result = (*(CTimeMgr::GetInstance()))->UpdateTimeMgr();
 	g_fDeltaTime = (*(CTimeMgr::GetInstance()))->GetSystemDeltaTime();
+	return result;
 }
 
 //=============== Time Library :: Getter 14.05.12 By Burger ===============//

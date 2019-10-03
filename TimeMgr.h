@@ -21,11 +21,12 @@ private:
 	int		m_nFPS;
 	float	m_fDeltaTime;
 	float   m_fPileDeltaTime;
+	const float SEC_PER_FRAME = 1.0 / 61.0;
 public:
 	void SetTime();
 	void InitTimeMgr();
 	// 구현 새로 만듦
-	void UpdateTimeMgr();
+	bool UpdateTimeMgr();
 public:
 	float GetTime() const {
 		return m_fTime;

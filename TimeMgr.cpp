@@ -40,11 +40,15 @@ void CTimeMgr::InitTimeMgr()
 	m_fPileDeltaTime = 0.f;
 }
 
-void CTimeMgr::UpdateTimeMgr()
+bool CTimeMgr::UpdateTimeMgr()
 {
 	LARGE_INTEGER tTime;
 	QueryPerformanceCounter(&tTime);
 	m_fDeltaTime = (tTime.QuadPart - m_NowTime.QuadPart) / (float)m_CpuTick.QuadPart;
+
+	if (m_fDeltaTime < SEC_PER_FRAME) // frame °ü¸®
+		return false;
+
 	m_NowTime = tTime;
 	static int nCountFPS = 0;
 	nCountFPS++;
@@ -55,4 +59,5 @@ void CTimeMgr::UpdateTimeMgr()
 		nCountFPS = 0;
 	}
 	g_fDeltaTime = m_fDeltaTime;
+	return true;
 }

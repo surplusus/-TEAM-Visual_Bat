@@ -59,6 +59,17 @@ HRESULT CMainGame::Init()
 	return S_OK;
 }
 
+
+void CMainGame::Progress()
+{
+	SetTimeMgr();
+	SetInputState();
+	if (!UpdateTimeMgr())
+		return;
+	cout << "deltatime : " << g_fDeltaTime << " sec_per_frame" << 1.0/61.0 << endl;
+	GET_SINGLE(CSceneMgr)->Progress();
+}
+
 void CMainGame::Render()
 {
 	Begin_Render();
@@ -79,15 +90,6 @@ void CMainGame::Release()
 
 	System_Release();
 	GET_SINGLE(CSceneMgr)->Release();
-}
-
-void CMainGame::Progress()
-{
-	SetTimeMgr();
-	UpdateTimeMgr();
-	SetInputState();
-
-	GET_SINGLE(CSceneMgr)->Progress();
 }
 
 void CMainGame::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

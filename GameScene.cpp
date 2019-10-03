@@ -33,10 +33,10 @@ HRESULT GameScene::Initialize()
 	if (Setup())
 		return E_FAIL;
 	
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"SummonMap.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
-	}
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"SummonMap.x", L"Map", MESHTYPE_STATIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+	//}
 	/*if (FAILED(AddMesh(GetDevice(), L"./Resource/Mesh/Dynamic/Sylva", L"sylva.X", L"sylva", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Sylva Load Failed");		return E_FAIL;

@@ -2,7 +2,6 @@
 const int WINSIZEX = 1024;
 const int WINSIZEY = 800;
 
-
 const int HASH_COUNT = 10;
 const int GAP = 1;
 

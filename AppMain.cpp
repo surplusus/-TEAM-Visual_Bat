@@ -5,6 +5,15 @@
 HWND g_hWnd;
 HINSTANCE g_hInst;
 
+// 콘솔창 띄우기 (이 프로그램은 _MBCS 로 Main이 실행된다.)
+#ifdef _DEBUG
+//#ifdef UNICODE
+//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console") 
+//#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console") 
+//#endif
+#endif // _DEBUG include 부분
+
 AppMain::AppMain()
 {
 }
@@ -56,7 +65,7 @@ int AppMain::WinMainLoop()
 		MSG msg;
 		msg.message = NULL;
 		m_MainGame.Init();
-		
+
 		while (msg.message != WM_QUIT) {
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
