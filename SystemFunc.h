@@ -33,6 +33,8 @@ extern  bool UpdateTimeMgr(void);
 //=============== Time Library :: Getter 14.05.12 By Burger & ±¸Çö ===============//
 extern  float GetTime(void);
 extern  void MyDrawFPSByTimeMgr(void);
+extern  bool CheckPushKeyOneTime(BYTE byKey);
+extern  bool CheckUpKeyOneTime(BYTE byKey);
 
 //=============== Input Library 14.05.12 By Burger ===============//
 extern  HRESULT InitInputDevice(HINSTANCE hInst, HWND hWnd);

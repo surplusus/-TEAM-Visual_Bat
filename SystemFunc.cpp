@@ -102,6 +102,37 @@ void MyDrawFPSByTimeMgr(void)
 	Font_Render(time.c_str(), 2, 5, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
+bool CheckPushKeyOneTime(BYTE byKey)
+{
+	SHORT key = GetAsyncKeyState(byKey);
+	static bool isPushed = false;
+	if ((key & 0x8000) == 0x8000 && isPushed == false) {
+		isPushed = true;
+		return true;
+	}
+	if (isPushed) {
+		if ((key & 0x8001) == 0x0000)
+			isPushed = false;
+	}
+	return false;
+}
+
+bool CheckUpKeyOneTime(BYTE byKey)
+{
+	SHORT key = GetAsyncKeyState(byKey);
+	static bool isPushed = false;
+	if ((key & 0x8000) == 0x8000 && isPushed == false) {
+		isPushed = true;
+	}
+	if (isPushed) {
+		if ((key & 0x8001) == 0x0000) {
+			isPushed = false;
+			return true;
+		}
+	}
+	return false;
+}
+
 extern  HRESULT InitInputDevice(HINSTANCE hInst, HWND hWnd)
 {
 	return (*(CInput::GetInstance()))->InitInputDevice(hInst, hWnd);
