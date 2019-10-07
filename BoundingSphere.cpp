@@ -29,8 +29,8 @@ HRESULT CBoundingSphere::InitMesh(LPDIRECT3DDEVICE9 pDevice)
 
 	UINT iVtxSize = D3DXGetFVFVertexSize(dwVtxFVF);
 
-	D3DXComputeBoundingBox((D3DXVECTOR3*)pVtx, dwVtxCnt, iVtxSize
-		, &m_vMin, &m_vMax);
+	D3DXComputeBoundingSphere((D3DXVECTOR3*)pVtx, dwVtxCnt, iVtxSize
+		, &m_vCenter, &m_fRadius);
 
 	m_pMesh->UnlockVertexBuffer();
 
