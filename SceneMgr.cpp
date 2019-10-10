@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "SceneMgr.h"
-#include"GameScene.h"
+#include "GameScene.h"
+#include "GuhyunScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -14,7 +15,7 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new GameScene;
+	m_State = new GuhyunScene();
 	if (m_State != NULL)
 		m_State->Initialize();
 }
@@ -49,11 +50,12 @@ void CSceneMgr::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 HRESULT CSceneMgr::SetState(CScene * pState)
 {
-	if (pState == NULL)
+	if (pState == NULL) 
 		return E_FAIL;
 
 	if (m_State)
 	{
+		m_State->Release();
 		delete m_State;
 		m_State = NULL;
 	}

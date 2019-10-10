@@ -184,18 +184,6 @@
     <Filter Include="소스 파일\Scene\Interface">
       <UniqueIdentifier>{e5b5b252-a4d5-48ce-bd8c-acbd4ffbc58d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\Object%28DX연습%29">
-      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Gride">
-      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid">
-      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\Object%28DX연습%29\Cube">
-      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\DesignPattern">
       <UniqueIdentifier>{ce18f52c-6c8c-427c-9408-e6702e0c0527}</UniqueIdentifier>
     </Filter>
@@ -210,6 +198,18 @@
     </Filter>
     <Filter Include="System\Camera\GameCamera">
       <UniqueIdentifier>{206d3244-33f8-4726-a64e-979018208afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;">
+      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid">
+      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid">
+      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cube">
+      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,10 +238,10 @@
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
-      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride</Filter>
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid</Filter>
     </ClInclude>
     <ClInclude Include="Pyramid.h">
-      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid</Filter>
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid</Filter>
     </ClInclude>
     <ClInclude Include="AppMain.h">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -387,6 +387,18 @@
     <ClInclude Include="Atrox.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClInclude>
+    <ClInclude Include="CFloor.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClInclude>
+    <ClInclude Include="GuhyunScene.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClInclude>
+    <ClInclude Include="Amumu.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -396,10 +408,10 @@
       <Filter>소스 파일\헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
-      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride</Filter>
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid</Filter>
     </ClCompile>
     <ClCompile Include="Pyramid.cpp">
-      <Filter>소스 파일\02. Object\Object%28DX연습%29\Gride\Pyramid</Filter>
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid</Filter>
     </ClCompile>
     <ClCompile Include="AppMain.cpp">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -544,6 +556,18 @@
     </ClCompile>
     <ClCompile Include="Atrox.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
+    </ClCompile>
+    <ClCompile Include="CFloor.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="GuhyunScene.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="Amumu.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

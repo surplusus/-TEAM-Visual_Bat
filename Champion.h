@@ -6,27 +6,17 @@ class CChampion :
 {
 public:
 	CChampion();
-	~CChampion();
-
+	~CChampion() {}
 protected:
-	D3DXVECTOR3		m_vMousePos;
-	float			m_fCamDistance;
-	TCHAR*			m_strChampionName;
-protected:
+	TCHAR*					m_strChampionName;
 	CObjMgr*				m_ObjMgr;
 	D3DXVECTOR3				m_vecMouseHitPoint;
 protected:
-	virtual void			KeyCheck();
-	virtual bool			MouseCheck();
-	virtual void			SetCameraPos();
+	bool				MouseCheck();		// 마우스 피킹포인트를 찾았으면 true;
 public:
-	virtual void			SetContantTable();
-public:
-	virtual					HRESULT Initialize()	PURE;
-	virtual void			Progress()				PURE;
-	virtual void			Render()				PURE;
-	virtual void			Release()				PURE;
-public:
-	void					RegisterObjMgr(CObjMgr* pObjMgr) { m_ObjMgr = pObjMgr; }
+	virtual	HRESULT		Initialize()	PURE;
+	virtual void		Progress()		PURE;
+	virtual void		Render()		PURE;
+	virtual void		Release()		PURE;
 };
 

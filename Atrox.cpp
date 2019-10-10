@@ -39,8 +39,6 @@ HRESULT CAtrox::Initialize()
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
 	m_Info.vPos = D3DXVECTOR3(-10.f, 1.5f, -10.f);
 
-	m_fCamDistance = 10.f;
-
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
 
@@ -56,7 +54,6 @@ HRESULT CAtrox::Initialize()
 void CAtrox::Progress()
 {
 	WorldSetting();
-	KeyCheck();
 	if (GetAsyncKeyState(VK_LBUTTON)) {
 		if (MouseCheck())
 		{

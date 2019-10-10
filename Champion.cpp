@@ -5,20 +5,9 @@
 #include "ObjMgr.h"
 
 CChampion::CChampion()
-	:m_fCamDistance(1.f)
 {
-	m_fAngle[0] = 0.0f;		m_fAngle[1] = 0.0f;		m_fAngle[2] = 0.0f;
-
-}
-
-
-CChampion::~CChampion()
-{
-}
-
-void CChampion::KeyCheck()
-{
-	
+	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
+	m_ObjMgr = GET_SINGLE(CObjMgr);
 }
 
 bool CChampion::MouseCheck()
@@ -37,19 +26,9 @@ bool CChampion::MouseCheck()
 
 		if (CheckPickingOnTriangle(&V0, &V1, &V2, &m_vecMouseHitPoint))
 		{
+			cout << m_vecMouseHitPoint.x << " " << m_vecMouseHitPoint.y << " " << m_vecMouseHitPoint.z << endl;
 			return true;
 		}
 	}
 	return false;
 }
-
-void CChampion::SetCameraPos()
-{
-
-}
-
-void CChampion::SetContantTable()
-{
-
-}
-

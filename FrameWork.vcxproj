@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
     <ClInclude Include="Atrox.h" />
     <ClInclude Include="BaseInclude.h" />
@@ -29,7 +30,9 @@
     <ClInclude Include="BufferMgr.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
+    <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
     <ClInclude Include="Device.h" />
@@ -42,6 +45,7 @@
     </ClInclude>
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="GuhyunScene.h" />
     <ClInclude Include="HEADER\Defines.h" />
     <ClInclude Include="HEADER\Enum.h" />
     <ClInclude Include="HEADER\Include.h" />
@@ -85,6 +89,7 @@
     <ClInclude Include="XFileUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Amumu.cpp" />
     <ClCompile Include="AnimationCtrl.cpp" />
     <ClCompile Include="Atrox.cpp" />
     <ClCompile Include="BaseInclude.cpp">
@@ -97,7 +102,9 @@
     <ClCompile Include="BufferMgr.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
+    <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />
     <ClCompile Include="Device.cpp" />
@@ -109,6 +116,7 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="GuhyunScene.cpp" />
     <ClCompile Include="HierachyLoader.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
