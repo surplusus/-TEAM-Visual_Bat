@@ -22,7 +22,7 @@ HRESULT	CAmumu::Initialize()
 
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	CloneMesh(GetDevice(), L"Atrax", &m_pAnimationCtrl);
+	CloneMesh(GetDevice(), L"Amumu", &m_pAnimationCtrl);
 
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));

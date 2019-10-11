@@ -36,6 +36,7 @@ HRESULT CSummonTerrain::Initialize(void)
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	m_pMesh = GetMesh(L"Map");
+	InitVertex();
 	return S_OK;
 }
 
@@ -55,4 +56,24 @@ void CSummonTerrain::Render(void)
 void CSummonTerrain::Release(void)
 {
 
+}
+
+void CSummonTerrain::InitVertex()
+{
+	LPDIRECT3DVERTEXBUFFER9 pVB;
+	LPDIRECT3DINDEXBUFFER9  pIB;
+	LPD3DXMESH m_pMesh = GetMesh(L"Map");
+	if (SUCCEEDED(m_pMesh->GetVertexBuffer(&pVB)))
+	{
+		if (SUCCEEDED(m_pMesh->GetIndexBuffer(&pIB)))
+		{
+
+			VTXTEX* pVertex = NULL;
+			DWORD* pIndex = NULL;
+			pVB->Lock(0, sizeof(VTXTEX)*m_pMesh->GetNumVertices(), (void**)&pVertex, 0);
+			m_pOriVtx = (VTXTEX*)pVertex;
+			
+		}
+	}
+	pVB->Unlock();      pVB->Release();
 }

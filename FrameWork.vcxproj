@@ -84,6 +84,7 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />

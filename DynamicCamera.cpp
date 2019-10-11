@@ -11,6 +11,7 @@ void CDynamicCamera::Progress(void)
 	Rotation_Mouse();
 	Move_KeyBoard();
 	SetCamPosition(&m_vEye, &m_vAt);
+	SetCamSpeed(1000.f);
 	CCamera::Progress();
 
 }
@@ -28,20 +29,20 @@ void CDynamicCamera::Rotation_Mouse(void)
 
 	if (MouseState.lX)
 	{
+		float angle = MouseState.lX > 0 ? m_fCamSpeed / 100.0f : -m_fCamSpeed / 100.0f;
 		D3DXVECTOR3 vLook = m_vAt - m_vEye;
-
-		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(MouseState.lX / 5.0f));
+		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(angle));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
 		m_vAt = m_vEye + vLook;
 	}
 
 	if (MouseState.lY)
 	{
+		float angle = MouseState.lY > 0 ? m_fCamSpeed / 100.0f : -m_fCamSpeed / 100.0f;
 		D3DXVECTOR3	vRight;
 		D3DXVECTOR3 vLook = m_vAt - m_vEye;
 		D3DXVec3Cross(&vRight, &m_vUp, &vLook);
-		D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(MouseState.lY / 5.0f));
+		D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(angle));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
 		m_vAt = m_vEye + vLook;
 	}

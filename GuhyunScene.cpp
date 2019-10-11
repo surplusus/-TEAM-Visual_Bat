@@ -10,6 +10,7 @@
 #include "GameScene.h"
 
 #include "Amumu.h"
+#include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
 {
@@ -22,8 +23,8 @@ GuhyunScene::~GuhyunScene()
 
 HRESULT GuhyunScene::Initialize()
 {
-	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
-		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
+	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
+		, D3DXVECTOR3(0.f, 10.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
 
@@ -31,31 +32,42 @@ HRESULT GuhyunScene::Initialize()
 		return E_FAIL;
 
 	//=========== Add Texture ===========//
-	if (FAILED(InsertTexture(GetDevice()
-		, TEXTYPE_CUBE
-		, L"./Resource/SkyBox/Berger%d.dds"
-		, L"SkyBox", L"Cube", 3)))
+	//if (FAILED(InsertTexture(GetDevice()
+	//	, TEXTYPE_CUBE
+	//	, L"./Resource/SkyBox/Berger%d.dds"
+	//	, L"SkyBox", L"Cube", 3)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Texture Create Failed");
+	//	return E_FAIL;
+	//}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
 	{
-		ERR_MSG(g_hWnd, L"Texture Create Failed");
-		return E_FAIL;
+		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
 	}
 
 	//=========== Add Mesh(Bounding) ===========//
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_SPHERE)))
-		return E_FAIL;
+	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	{
+		ERR_MSG(g_hWnd, L"BoundingSphere Load Failed");		return E_FAIL;
+	}
 
 	//=========== Add Mesh(static or dynamic) ===========//
-		return E_FAIL;
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/amumu"
-		, L"Amumu.x", L"Amumu", MESHTYPE_DYNAMIC)))
-		return E_FAIL;
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Aatrox"
+		, L"Aatrox.x", L"Aatrox", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Aatrox Load Failed");
+	}
 
 	//=========== Add Shader ===========//
 
 	//=========== Add Object ===========//	
-	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
-		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"SkyBox", CFactory<CObj, CSkyBox>::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Aatrox", CFactory<CObj, CAmumu>::CreateObject())))
+	{
+		ERR_MSG(g_hWnd, L"Aatrox Load Failed");
+	}
+	//if (FAILED(m_pObjMgr->AddObject(L"SkyBox", CFactory<CObj, CSkyBox>::CreateObject())))
+	//	return E_FAIL;
+	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 
 	//=========== Add Particle ===========//	
@@ -65,7 +77,8 @@ HRESULT GuhyunScene::Initialize()
 void GuhyunScene::Progress()
 {
 	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		GET_SINGLE(CSceneMgr)->SetState(new GameScene); 
+		GET_SINGLE(CSceneMgr)->SetState(new GameScene);
+		
 		return;
 	}
 

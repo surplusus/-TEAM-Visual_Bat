@@ -211,6 +211,9 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cube">
       <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\SystemManager\Thread">
+      <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -399,6 +402,9 @@
     <ClInclude Include="Amumu.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>System\SystemManager\Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -568,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="Amumu.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>System\SystemManager\Thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

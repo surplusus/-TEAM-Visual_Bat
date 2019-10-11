@@ -16,6 +16,20 @@
 #include "SystemFunc.h"
 #include "ResourceFunc.h"
 #include "Include.h"
+
+#include<assert.h>
+#include <chrono>
+#include <condition_variable>
+#include <cstdio>
+#include <functional>
+#include <future>
+#include <mutex>
+#include <queue>
+#include <thread>
+#include <vector>
+#include<deque>
+#include<atomic>
+
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fDeltaTime;
