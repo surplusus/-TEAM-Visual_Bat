@@ -5,7 +5,7 @@
 #include"PipeLine.h"
 
 CSummonTerrain::CSummonTerrain()
-	: m_fCamDistance(1.f), m_pMesh(NULL)
+	: m_pMesh(NULL)
 {
 	m_fAngle[ANGLE_X] = 0.0f;
 	m_fAngle[ANGLE_Y] = 0.0f;
@@ -23,8 +23,6 @@ HRESULT CSummonTerrain::Initialize(void)
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
 	m_Info.vPos = D3DXVECTOR3(1.f, -16.0f, 1.f);
-
-	m_fCamDistance = 10.f;
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];

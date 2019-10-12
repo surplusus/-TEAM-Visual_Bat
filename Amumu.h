@@ -7,9 +7,10 @@ public:
 	CAmumu();
 	virtual ~CAmumu();
 private:
-	float						m_fSize;
-	bool						m_IsRunning = false;
-	bool						m_bIsPicked = false;
+	LPD3DXMESH			m_pMesh;
+	float				m_fSize;
+	bool				m_IsRunning = false;
+	bool				m_bIsPicked = false;
 private:
 	virtual	HRESULT		Initialize()	override;
 	virtual void		Progress()		override;

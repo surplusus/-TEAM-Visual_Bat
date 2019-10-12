@@ -52,8 +52,8 @@ HRESULT GuhyunScene::Initialize()
 	}
 
 	//=========== Add Mesh(static or dynamic) ===========//
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Aatrox"
-		, L"Aatrox.x", L"Aatrox", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/amumu/"
+		, L"Amumu.x", L"Amumu", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Aatrox Load Failed");
 	}
@@ -61,9 +61,9 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Shader ===========//
 
 	//=========== Add Object ===========//	
-	if (FAILED(m_pObjMgr->AddObject(L"Aatrox", CFactory<CObj, CAmumu>::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
 	{
-		ERR_MSG(g_hWnd, L"Aatrox Load Failed");
+		ERR_MSG(g_hWnd, L"Amumu Load Failed");
 	}
 	//if (FAILED(m_pObjMgr->AddObject(L"SkyBox", CFactory<CObj, CSkyBox>::CreateObject())))
 	//	return E_FAIL;

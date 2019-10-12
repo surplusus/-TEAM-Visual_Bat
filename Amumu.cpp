@@ -31,6 +31,7 @@ HRESULT	CAmumu::Initialize()
 
 void CAmumu::Progress()
 {
+
 	MouseControl();
 	WASDControl();
 
@@ -40,6 +41,11 @@ void CAmumu::Progress()
 void CAmumu::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
+	if (!m_pAnimationCtrl)
+	{
+		cout << "null amumu animationCtrl" << endl;
+		return;
+	}
 	m_pAnimationCtrl->SetAnimationSet(1);
 	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
 	Mesh_Render(GetDevice(), L"Amumu");
