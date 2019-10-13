@@ -31,9 +31,11 @@ HRESULT CNormalTexture::InsertTexture(LPDIRECT3DDEVICE9 pDevice, const TCHAR * p
 			//텍스쳐의 정보
 			if (FAILED(D3DXGetImageInfoFromFile(szPath, &(pTexInfo->TexInfo))))
 				return E_FAIL;
-				if (FAILED(D3DXCreateTextureFromFile(pDevice, szPath, &(pTexInfo->pTexture))))
-					return E_FAIL;
-				vecTexture.push_back(pTexInfo);
+			
+			if (FAILED(D3DXCreateTextureFromFile(pDevice, szPath, &(pTexInfo->pTexture))))
+				return E_FAIL;
+			
+			vecTexture.push_back(pTexInfo);
 		}
 		m_MapTexture.insert(map<const TCHAR*, vector<TEXINFO*>>::value_type(pStateKey, vecTexture));
 	}

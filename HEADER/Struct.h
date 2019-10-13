@@ -1,5 +1,17 @@
 
 #pragma once
+
+struct ST_PNT_VERTEX
+{
+	D3DXVECTOR3 p;
+	D3DXVECTOR3 n;
+	D3DXVECTOR2 t;
+	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1 };
+	ST_PNT_VERTEX() {}
+	explicit ST_PNT_VERTEX(float px, float py, float pz, float nx, float ny, float nz, float tu, float tv)
+		: p(px, py, pz), n(nz, ny, nz), t(tu, tv) {}
+};
+
 typedef struct ST_PC_VERTEX
 {
 	D3DXVECTOR3 p;
@@ -91,10 +103,10 @@ const DWORD	VTXFVF_VTXCOL = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
 typedef struct tagInfo
 {
-	D3DXVECTOR3		vPos;
-	D3DXVECTOR3		vLook;
-	D3DXVECTOR3		vDir;
-	D3DXMATRIX		matWorld;
+	D3DXVECTOR3		vPos;		// 위치
+	D3DXVECTOR3		vLook;		// 카메라 방향
+	D3DXVECTOR3		vDir;		// 캐릭터 전방
+	D3DXMATRIX		matWorld;	// 캐릭터 월드 매트릭스
 }INFO;
 
 

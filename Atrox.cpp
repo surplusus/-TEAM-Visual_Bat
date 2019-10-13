@@ -26,7 +26,7 @@ void CAtrox::WorldSetting()
 	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
 	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixScaling(&matScale, 0.1f, 0.1f, 0.1f);
 	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
 	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 }
@@ -37,9 +37,7 @@ HRESULT CAtrox::Initialize()
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(-10.f, 16.0f, -10.f);
-	
-	m_fCamDistance = 10.f;
+	m_Info.vPos = D3DXVECTOR3(-10.f, 1.5f, -10.f);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
@@ -50,45 +48,30 @@ HRESULT CAtrox::Initialize()
 
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
-	g_MouseHitPoint = m_Info.vPos;
-	WorldSetting();
 	return S_OK;
 }
 
 void CAtrox::Progress()
 {
 	WorldSetting();
-	KeyCheck();
 	if (GetAsyncKeyState(VK_LBUTTON)) {
-		
 		if (MouseCheck())
 		{
-			SetAngleFromPostion();
-
+			m_Info.vPos = m_vecMouseHitPoint;
 		}
 	}
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
-	}
-	Move_Chase(&g_MouseHitPoint, 1.0f);
 }
 
 void CAtrox::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
-	
-	m_pAnimationCtrl->SetAnimationSet("Armature_001Action");
+	m_pAnimationCtrl->SetAnimationSet(9);
 	m_pAnimationCtrl->FrameMove(L"Atrax", GetTime());
 	Mesh_Render(GetDevice(), L"Atrax");
-	//test
-	RenderDirection();
 }
 
 void CAtrox::Release()
 {
 	
 }
-
-
-

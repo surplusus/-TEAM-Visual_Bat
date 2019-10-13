@@ -21,6 +21,7 @@ public:
 
 public:
 	void SetCamPosition(const D3DXVECTOR3* pEye, const D3DXVECTOR3* pAt);
+	void SetCamSpeed(float speed);
 public:
 	virtual HRESULT InitCamera(const D3DXVECTOR3& vEye
 		, const D3DXVECTOR3& vAt

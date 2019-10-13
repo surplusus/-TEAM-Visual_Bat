@@ -4,7 +4,6 @@
 
 CCamera::CCamera()
 	:m_fCamSpeed(10.0f)
-	
 {
 }
 
@@ -40,4 +39,9 @@ void CCamera::Progress()
 {
 	DIMOUSESTATE MouseState = MyGetMouseState();
 
+}
+
+void CCamera::SetCamSpeed(float speed)
+{
+	m_fCamSpeed = speed;
 }

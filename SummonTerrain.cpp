@@ -5,7 +5,7 @@
 #include"PipeLine.h"
 
 CSummonTerrain::CSummonTerrain()
-	: m_fCamDistance(1.f), m_pMesh(NULL)
+	: m_pMesh(NULL)
 {
 	m_fAngle[ANGLE_X] = 0.0f;
 	m_fAngle[ANGLE_Y] = 0.0f;
@@ -15,7 +15,6 @@ CSummonTerrain::CSummonTerrain()
 
 CSummonTerrain::~CSummonTerrain()
 {
-	Release();
 }
 
 HRESULT CSummonTerrain::Initialize(void)
@@ -23,9 +22,7 @@ HRESULT CSummonTerrain::Initialize(void)
 	m_SortID = SORTID_NORMAL;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(1.f, 0.0f, 1.f);
-
-	m_fCamDistance = 10.f;
+	m_Info.vPos = D3DXVECTOR3(1.f, -16.0f, 1.f);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
@@ -36,6 +33,7 @@ HRESULT CSummonTerrain::Initialize(void)
 	
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
+	m_pMesh = GetMesh(L"Map");
 	InitVertex();
 	return S_OK;
 }
@@ -50,6 +48,7 @@ void CSummonTerrain::Render(void)
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	GET_SINGLE(CDevice)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	Mesh_Render(GetDevice(), L"Map");
+	
 }
 
 void CSummonTerrain::Release(void)
@@ -67,15 +66,12 @@ void CSummonTerrain::InitVertex()
 		if (SUCCEEDED(m_pMesh->GetIndexBuffer(&pIB)))
 		{
 
-			m_FaceNum = m_pMesh->GetNumFaces();
-			m_VtxNum = m_pMesh->GetNumVertices();
 			VTXTEX* pVertex = NULL;
 			DWORD* pIndex = NULL;
 			pVB->Lock(0, sizeof(VTXTEX)*m_pMesh->GetNumVertices(), (void**)&pVertex, 0);
 			m_pOriVtx = (VTXTEX*)pVertex;
-
+			
 		}
 	}
-	pVB->Unlock();		pVB->Release();	
+	pVB->Unlock();      pVB->Release();
 }
-

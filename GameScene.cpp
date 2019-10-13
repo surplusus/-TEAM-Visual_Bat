@@ -5,8 +5,9 @@
 #include "CameraMgr.h"
 #include"Factory.h"
 #include"ObjMgr.h"
+#include "SceneMgr.h"
+   
 #include"Terrain.h"
-#include"CameraMgr.h"
 #include"SummonTerrain.h"
 #include"Atrox.h"
 GameScene::GameScene()
@@ -30,33 +31,42 @@ HRESULT GameScene::Initialize()
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
 
-	if (Setup())
+	if (Setup())		// light off
 		return E_FAIL;
 	
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"SummonMap.x", L"Map", MESHTYPE_STATIC)))
 	{
 		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/", L"Ez.X", L"Atrax", MESHTYPE_DYNAMIC)))
+	/*if (FAILED(AddMesh(GetDevice(), L"./Resource/Mesh/Dynamic/Sylva", L"sylva.X", L"sylva", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+		ERR_MSG(g_hWnd, L"Sylva Load Failed");		return E_FAIL;
 	}
+
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Mesh/Static/TombStone", L"TombStone.X", L"TombStone", MESHTYPE_STATIC)))
+	{
+		ERR_MSG(g_hWnd, L"TomeStone Load Failed");		return E_FAIL;
+	}*/
+
 
 	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//	return E_FAIL;
 	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_SPHERE)))
 	//	return E_FAIL;
+
+
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		return E_FAIL;
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Atrax", CFactory<CObj, CAtrox >::CreateObject())))
-		return E_FAIL;
+	//if (FAILED(m_pObjMgr->AddObject(L"Player_Atrax", CFactory<CObj, CAtrox >::CreateObject())))
+	//	return E_FAIL;
 
 	//ObjMgr정보를 등록한다.
-	const CObj*pObj = m_pObjMgr->GetObj(L"Atrax");
-	((CChampion*)pObj)->RegisterObjMgr(m_pObjMgr);
+	//const CObj*pObj = m_pObjMgr->GetObj(L"Player_Atrax");
+	//((CChampion*)pObj)->RegisterObjMgr(m_pObjMgr);
 
 }
 
