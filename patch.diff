@@ -1,0 +1,16 @@
+From 153d04ca45ad7a1e7058482476c81f3d625f95fa Mon Sep 17 00:00:00 2001
+From: Guhyun Yoon <moing686@hanmail.net>
+Date: Sun, 13 Oct 2019 13:36:30 +0900
+Subject: [PATCH] test
+
+---
+ 커밋용 테스트 폴더/커밋테스트.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 커밋용 테스트 폴더/커밋테스트.txt
+
+diff --git a/커밋용 테스트 폴더/커밋테스트.txt b/커밋용 테스트 폴더/커밋테스트.txt
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.17.1.windows.2
+
