@@ -199,20 +199,11 @@
     <Filter Include="System\Camera\GameCamera">
       <UniqueIdentifier>{206d3244-33f8-4726-a64e-979018208afe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;">
-      <UniqueIdentifier>{e9227a72-de27-4fcc-80e1-286da7b4dc48}</UniqueIdentifier>
+    <Filter Include="소스 파일\Maneger\ThreadPool">
+      <UniqueIdentifier>{aa0c458a-3bae-4089-8681-661767cd7f9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid">
-      <UniqueIdentifier>{a25e9afd-7f5c-4cd9-ad0d-b0ffb5ae241a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid">
-      <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cube">
-      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\SystemManager\Thread">
-      <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
+    <Filter Include="소스 파일\Maneger\Mouse\Ray">
+      <UniqueIdentifier>{05a0a897-e19d-420d-be37-c3e08d274a32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -239,12 +230,6 @@
     </ClInclude>
     <ClInclude Include="BaseInclude.h">
       <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid</Filter>
     </ClInclude>
     <ClInclude Include="AppMain.h">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -357,9 +342,6 @@
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
-    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>소스 파일\DesignPattern\FactoryMethod</Filter>
     </ClInclude>
@@ -390,20 +372,11 @@
     <ClInclude Include="Atrox.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClInclude>
-    <ClInclude Include="CFloor.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    <ClInclude Include="MyThreadPool.h">
+      <Filter>소스 파일\Maneger\ThreadPool</Filter>
     </ClInclude>
-    <ClInclude Include="GuhyunScene.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClInclude>
-    <ClInclude Include="Amumu.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadPool.h">
-      <Filter>System\SystemManager\Thread</Filter>
+    <ClInclude Include="Ray.h">
+      <Filter>소스 파일\Maneger\Mouse\Ray</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -412,12 +385,6 @@
     </ClCompile>
     <ClCompile Include="BaseInclude.cpp">
       <Filter>소스 파일\헤더 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid</Filter>
     </ClCompile>
     <ClCompile Include="AppMain.cpp">
       <Filter>소스 파일\WinMain\AppMain</Filter>
@@ -533,9 +500,6 @@
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
-    </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
@@ -563,20 +527,11 @@
     <ClCompile Include="Atrox.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
-    <ClCompile Include="CFloor.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    <ClCompile Include="MyThreadPool.cpp">
+      <Filter>소스 파일\Maneger\ThreadPool</Filter>
     </ClCompile>
-    <ClCompile Include="GuhyunScene.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
-    <ClCompile Include="Amumu.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadPool.cpp">
-      <Filter>System\SystemManager\Thread</Filter>
+    <ClCompile Include="Ray.cpp">
+      <Filter>소스 파일\Maneger\Mouse\Ray</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

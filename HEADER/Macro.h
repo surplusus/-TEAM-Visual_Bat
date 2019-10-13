@@ -20,6 +20,5 @@
 			}\
 		}
 #define SAFE_DELETE(p) {if(p) delete p;}
-#define SAFE_RELEASE(p) {if (p) p->Release(); p = NULL;}
 #define GET_SINGLE(type) (*type::GetInstance())
-#define ERR_MSG(hWnd, sz) MessageBox(hWnd, sz, L"system err", MB_OK)//에러에 대한 메시지박스 출력 매크로
+#define ERR_MSG(hWnd, sz) MessageBox(hWnd, sz, L"system err", MB_OK);//에러에 대한 메시지박스 출력 매크로
