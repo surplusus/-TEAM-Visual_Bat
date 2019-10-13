@@ -2,7 +2,6 @@
 #include"ObjMgr.h"
 #include "Player.h"
 #include"MathMgr.h"
-#include"Mouse.h"
 #include"PipeLine.h"
 CPlayer::CPlayer()
 	:m_fCamDistance(1.f)
@@ -138,6 +137,7 @@ void CPlayer::Render()
 	m_pAnimationCtrl->FrameMove(L"Atrax", GetTime());
 
 	Mesh_Render(GetDevice(), L"Atrax");	
+	SetTexture(0, NULL);
 }
 
 void CPlayer::Release()

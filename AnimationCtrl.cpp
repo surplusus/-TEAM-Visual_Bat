@@ -16,6 +16,7 @@ CAnimationCtrl::CAnimationCtrl(const CAnimationCtrl & Ani)
 	, m_numAnimationSets(0)
 	, m_fCurrentTime(0.f)
 	, m_pAniCtrl(NULL)
+	,m_strCurrentAniNameSet("")
 {
 		Ani.m_pAniCtrl->CloneAnimationController(Ani.m_pAniCtrl->GetMaxNumAnimationOutputs()
 			, Ani.m_pAniCtrl->GetMaxNumAnimationSets()
@@ -35,7 +36,6 @@ const float kMoveTransitionTime = 0.25f;
 
 void CAnimationCtrl::SetAnimationSet(int iIdx)
 {
-
 	//트랙 2개를 준비
 	//현재 트랙이 0 이면 1, 1이면 0으로
 	m_dwNewTrack = (m_dwCurrentTrack == 0 ? 1 : 0);

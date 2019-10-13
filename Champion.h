@@ -8,6 +8,7 @@ public:
 	CChampion();
 	~CChampion() {}
 protected:
+	float					m_fCamDistance;
 	TCHAR*					m_strChampionName;
 	CObjMgr*				m_ObjMgr;
 	D3DXVECTOR3				m_vecMouseHitPoint;
