@@ -10,7 +10,7 @@ CChampion::CChampion()
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 }
 
-bool CChampion::MouseCheck()
+bool CChampion::CheckMousePickingOnFloor()
 {
 	if (m_ObjMgr == NULL) return false;
 	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_SommonMap");
