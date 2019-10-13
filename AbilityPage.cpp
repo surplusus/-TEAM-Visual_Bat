@@ -40,45 +40,44 @@ void CAbilityPage::Release()
 
 void CAbilityPage::ImageLoad_To_Detailed()
 {
-	CImage_Loader*	Main = new CImage_Loader
-	(L"Resource/cheon/Runepage/정밀/Main.png");
+	CImage_Loader*	Main = new CImage_Loader;
+	("Resource/cheon/Runepage/정밀/Main.png");
 	Main->Initialize();
 	m_mapDetailedRune["Main"] = Main;
 
-	CImage_Loader*	Press_the_Attack_rune = new CImage_Loader
-	(L"Resource/cheon/Runepage/정밀/Press_the_Attack_rune.png");
+	CImage_Loader*	Press_the_Attack_rune = new CImage_Loader;
+	("Resource/cheon/Runepage/정밀/Press_the_Attack_rune.png");
 	Press_the_Attack_rune->Initialize();
 	m_mapDetailedRune["Press_the_Attack_rune"] = Press_the_Attack_rune;
 }
-
 void CAbilityPage::ImageLoad_To_Control()
 {
-	CImage_Loader*	Main = new CImage_Loader
-	(L"Resource/cheon/Runepage/지배/Main.png");
+	CImage_Loader*	Main = new CImage_Loader;
+	("Resource/cheon/Runepage/지배/Main.png");
 	Main->Initialize();
 	m_mapContolRune["Main"] = Main;
 }
 
 void CAbilityPage::ImageLoad_To_BrainStorm()
 {
-	CImage_Loader*	Main = new CImage_Loader
-	(L"Resource/cheon/Runepage/영감/Main.png");
+	CImage_Loader*	Main = new CImage_Loader;
+	("Resource/cheon/Runepage/영감/Main.png");
 	Main->Initialize();
 	m_mapBrainStormRune["Main"] = Main;
 }
 
 void CAbilityPage::ImageLoad_To_Masic()
 {
-	CImage_Loader*	Main = new CImage_Loader
-	(L"Resource/cheon/Runepage/마법/Main.png");
+	CImage_Loader*	Main = new CImage_Loader;
+	("Resource/cheon/Runepage/마법/Main.png");
 	Main->Initialize();
 	m_mapMasicRune["Main"] = Main;
 }
 
 void CAbilityPage::ImageLoad_To_Resolution()
 {
-	CImage_Loader*	Main = new CImage_Loader
-	(L"Resource/cheon/Runepage/결의/Main.png");
+	CImage_Loader*	Main = new CImage_Loader;
+	("Resource/cheon/Runepage/결의/Main.png");
 	Main->Initialize();
 	m_mapResolutionRune["Main"] = Main;
 }
