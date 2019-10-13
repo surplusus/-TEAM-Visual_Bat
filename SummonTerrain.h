@@ -8,8 +8,9 @@ public:
 	~CSummonTerrain();
 private:
 	LPD3DXMESH m_pMesh;
-	INDEX* m_pIndex;
 	LPDIRECT3DTEXTURE9 m_pAlphtexture;
+public:
+	float m_fCamDistance;
 private:
 	void InitVertex();
 public:

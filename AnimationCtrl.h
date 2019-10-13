@@ -27,7 +27,7 @@ public:
 	// 특정애니메이션을 셋팅하기 위한 함수
 	//여기에서 인데스는 전체 애니메이션중 어떤 부분을 돌려줄 것인지 판단하는 인자
 	void SetAnimationSet(int);
-	void SetAnimationSet(string);
+	void SetAnimationSet(string aniName);
 	void FrameMove(const TCHAR* pMeshKey, float fTime);
 
 public:
