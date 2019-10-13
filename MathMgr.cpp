@@ -84,3 +84,4 @@ void CMathMgr::Rotation_Z(D3DXVECTOR3* pOut, const D3DXVECTOR3* pVector, const f
 	pOut->y = vTmp.x * sinf(fAngle) + vTmp.y * cosf(fAngle);
 	pOut->z = vTmp.z;
 }
+

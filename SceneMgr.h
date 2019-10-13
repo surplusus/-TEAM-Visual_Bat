@@ -13,13 +13,11 @@ public:
 	void Render();
 	void Release();
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	//HRESULT SetState(CStateObj* pState);
 	HRESULT SetState(CScene* pState);
 private:
-	void TriggerOnChangeScene();
-	void TriggerOffChangeScene();
-private:
+	//CStateObj * m_State;
 	CScene * m_State;
 
-	bool     m_bSignChangeScene = false;
 };
 

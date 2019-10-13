@@ -2,7 +2,6 @@
 #include"ObjMgr.h"
 #include "Player.h"
 #include"MathMgr.h"
-#include"Mouse.h"
 #include"PipeLine.h"
 CPlayer::CPlayer()
 	:m_fCamDistance(1.f)
@@ -44,25 +43,7 @@ void CPlayer::KeyCheck()
 
 void CPlayer::MouseCheck()
 {
-	DIMOUSESTATE		MouseState = MyGetMouseState();
-
-	if (MouseState.rgbButtons[0] & 0x80)
-	{
-		if (GET_SINGLE(CMouse)->CollisionMouseToTerrain())
-		{
-			m_vMousePos = *(GET_SINGLE(CMouse)->GetMousePos());
-
-			m_bMove = true;
-		}
-	}
-
-	if (MouseState.lX)
-	{
-		if (MouseState.rgbButtons[2])
-			return;
-
-		m_fAngle[ANGLE_Y] += D3DXToRadian(MouseState.lX / 5.0f);
-	}
+	
 }
 
 void CPlayer::SetCameraPos()
@@ -138,6 +119,7 @@ void CPlayer::Render()
 	m_pAnimationCtrl->FrameMove(L"Atrax", GetTime());
 
 	Mesh_Render(GetDevice(), L"Atrax");	
+	SetTexture(0, NULL);
 }
 
 void CPlayer::Release()

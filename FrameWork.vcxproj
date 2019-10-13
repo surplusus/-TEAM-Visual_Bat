@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
     <ClInclude Include="Atrox.h" />
     <ClInclude Include="BaseInclude.h" />
@@ -30,9 +29,7 @@
     <ClInclude Include="BufferMgr.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
-    <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
-    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
     <ClInclude Include="Device.h" />
@@ -44,8 +41,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="GuhyunScene.h" />
     <ClInclude Include="HEADER\Defines.h" />
     <ClInclude Include="HEADER\Enum.h" />
     <ClInclude Include="HEADER\Include.h" />
@@ -59,14 +54,14 @@
     <ClInclude Include="MathMgr.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshMgr.h" />
-    <ClInclude Include="Mouse.h" />
     <ClInclude Include="MousePicker.h" />
+    <ClInclude Include="MyThreadPool.h" />
     <ClInclude Include="NormalTexture.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="PipeLine.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="Rect_Texture.h" />
     <ClInclude Include="ResourceFunc.h" />
     <ClInclude Include="Scene.h" />
@@ -84,13 +79,11 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
-    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Amumu.cpp" />
     <ClCompile Include="AnimationCtrl.cpp" />
     <ClCompile Include="Atrox.cpp" />
     <ClCompile Include="BaseInclude.cpp">
@@ -103,9 +96,7 @@
     <ClCompile Include="BufferMgr.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
-    <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />
     <ClCompile Include="Device.cpp" />
@@ -116,8 +107,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="GuhyunScene.cpp" />
     <ClCompile Include="HierachyLoader.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -126,13 +115,13 @@
     <ClCompile Include="MathMgr.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshMgr.cpp" />
-    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MousePicker.cpp" />
+    <ClCompile Include="MyThreadPool.cpp" />
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="PipeLine.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -150,7 +139,6 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
-    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />
@@ -160,32 +148,32 @@
     <ProjectGuid>{6361E8D1-DB23-4357-B567-D00501F45692}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FrameWork</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -214,6 +202,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;./HEADER;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -247,6 +237,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;winmm.lib;dxguid.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

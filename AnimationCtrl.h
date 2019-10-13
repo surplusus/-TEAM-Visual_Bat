@@ -15,10 +15,9 @@ private:
 	DWORD m_dwCurrentTrack;//현재 트랙
 	DWORD m_dwNewTrack;//새로운 것
 	DWORD m_dwCurrentAniSet;//현재 애니메이션 set
-
-	//x파일 내에서 제공해주는 애니메이션 Set갯수
+	string m_strCurrentAniNameSet;
+	//x파일 내에서 제공해주느 애니메이션 Set갯수
 	int m_numAnimationSets;
-	string m_sAnimationSets;
 	int m_fCurrentTime;
 
 public:
@@ -27,7 +26,7 @@ public:
 	// 특정애니메이션을 셋팅하기 위한 함수
 	//여기에서 인데스는 전체 애니메이션중 어떤 부분을 돌려줄 것인지 판단하는 인자
 	void SetAnimationSet(int);
-	void SetAnimationSet(string);
+	void SetAnimationSet( string pName);
 	void FrameMove(const TCHAR* pMeshKey, float fTime);
 
 public:
