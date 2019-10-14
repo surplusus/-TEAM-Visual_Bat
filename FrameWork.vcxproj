@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
-    <ClInclude Include="Atrox.h" />
+    <ClInclude Include="Atrox.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="BaseInclude.h" />
     <ClInclude Include="Bound.h" />
     <ClInclude Include="BoundingBox.h" />
@@ -32,6 +34,8 @@
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
@@ -59,13 +63,14 @@
     <ClInclude Include="MathMgr.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshMgr.h" />
-    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Mouse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="NormalTexture.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="PipeLine.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Rect_Texture.h" />
     <ClInclude Include="ResourceFunc.h" />
@@ -92,7 +97,9 @@
   <ItemGroup>
     <ClCompile Include="Amumu.cpp" />
     <ClCompile Include="AnimationCtrl.cpp" />
-    <ClCompile Include="Atrox.cpp" />
+    <ClCompile Include="Atrox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="BaseInclude.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
@@ -105,6 +112,8 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />
@@ -126,12 +135,13 @@
     <ClCompile Include="MathMgr.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshMgr.cpp" />
-    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="PipeLine.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />

@@ -11,7 +11,7 @@ private:
 	float				m_fSize;
 	bool				m_IsRunning = false;
 	bool				m_bIsPicked = false;
-private:
+public:
 	virtual	HRESULT		Initialize()	override;
 	virtual void		Progress()		override;
 	virtual void		Render()		override;

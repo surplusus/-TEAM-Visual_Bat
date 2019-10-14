@@ -10,6 +10,7 @@
 #include "GameScene.h"
 
 #include "Amumu.h"
+#include "Ezreal.h"
 #include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
@@ -42,7 +43,7 @@ HRESULT GuhyunScene::Initialize()
 	//}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
 	{
-		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+		ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
 	}
 
 	//=========== Add Mesh(Bounding) ===========//
@@ -52,38 +53,42 @@ HRESULT GuhyunScene::Initialize()
 	}
 
 	//=========== Add Mesh(static or dynamic) ===========//
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/amumu/"
-		, L"Amumu.x", L"Amumu", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
+		, L"Ez.x", L"Ezreal", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Aatrox Load Failed");
+		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
 
 	//=========== Add Shader ===========//
 
 	//=========== Add Object ===========//	
-	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject())))
 	{
-		ERR_MSG(g_hWnd, L"Amumu Load Failed");
+		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
 	//if (FAILED(m_pObjMgr->AddObject(L"SkyBox", CFactory<CObj, CSkyBox>::CreateObject())))
 	//	return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 
 	//=========== Add Particle ===========//	
 
+
+	return S_OK;
 }
 
 void GuhyunScene::Progress()
 {
 	if (CheckPushKeyOneTime(VK_ESCAPE)) {
 		GET_SINGLE(CSceneMgr)->SetState(new GameScene);
-		
+		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
+
+	//cout << "Get Time : " << GetTime() << " g_fdeltaTime : " << g_fDeltaTime << endl;
 }
 
 void GuhyunScene::Render()
