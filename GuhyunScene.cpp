@@ -46,12 +46,6 @@ HRESULT GuhyunScene::Initialize()
 		ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
 	}
 
-	//=========== Add Mesh(Bounding) ===========//
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	{
-		ERR_MSG(g_hWnd, L"BoundingSphere Load Failed");		return E_FAIL;
-	}
-
 	//=========== Add Mesh(static or dynamic) ===========//
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
 		, L"Ez.x", L"Ezreal", MESHTYPE_DYNAMIC)))
@@ -59,17 +53,22 @@ HRESULT GuhyunScene::Initialize()
 		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
 
+	//=========== Add Mesh(Bounding) ===========//
+	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	{
+		ERR_MSG(g_hWnd, L"BoundingSphere Load Failed");		return E_FAIL;
+	}
+
 	//=========== Add Shader ===========//
 
 	//=========== Add Object ===========//	
+	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject())))
 	{
 		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
-	//if (FAILED(m_pObjMgr->AddObject(L"SkyBox", CFactory<CObj, CSkyBox>::CreateObject())))
-	//	return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
+
 
 	//=========== Add Particle ===========//	
 

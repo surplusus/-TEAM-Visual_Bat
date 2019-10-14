@@ -30,8 +30,7 @@ CChampion::CChampion()
 
 CChampion::~CChampion()
 {
-	if (m_pMesh)
-		m_pMesh->Release();
+
 }
 
 void CChampion::SetDirectionToMouseHitPoint()

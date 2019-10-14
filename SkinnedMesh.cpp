@@ -8,9 +8,7 @@ CSkinnedMesh::CSkinnedMesh(void)
 
 CSkinnedMesh::~CSkinnedMesh(void)
 {
-
 	Release();
-
 }
 
 HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice

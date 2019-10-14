@@ -23,8 +23,8 @@ HRESULT CEzreal::Initialize()
 
 void CEzreal::Progress()
 {
-	MouseControl();
 	UpdateWorldMatrix();
+	//MouseControl();
 }
 
 void CEzreal::Render()

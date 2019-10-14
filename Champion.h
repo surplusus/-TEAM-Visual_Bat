@@ -9,7 +9,7 @@ public:
 	~CChampion();
 protected:
 	CObjMgr*				m_ObjMgr;
-	LPD3DXMESH				m_pMesh;
+	//LPD3DXMESH				m_pMesh;
 protected:
 	// Init
 
