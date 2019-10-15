@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbilityPage.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
     <ClInclude Include="Atrox.h">
@@ -30,12 +33,17 @@
     <ClInclude Include="BoundingMgr.h" />
     <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="BufferMgr.h" />
+    <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
+    <ClInclude Include="Champ.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="Cheon.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Image_Loader.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
@@ -77,6 +85,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="SkinnedMesh.h" />
+    <ClInclude Include="Spell_.h" />
     <ClInclude Include="SummonTerrain.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -91,10 +100,14 @@
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbilityPage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Amumu.cpp" />
     <ClCompile Include="AnimationCtrl.cpp" />
     <ClCompile Include="Atrox.cpp">
@@ -108,12 +121,16 @@
     <ClCompile Include="BoundingMgr.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
     <ClCompile Include="BufferMgr.cpp" />
+    <ClCompile Include="C2DMouse.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
+    <ClCompile Include="Champ.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Image_Loader.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />
@@ -148,6 +165,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
+    <ClCompile Include="Spell_.cpp" />
     <ClCompile Include="SummonTerrain.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -162,6 +180,7 @@
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />
     <ClCompile Include="Obj.cpp" />
