@@ -15,7 +15,7 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new GameScene();
+	m_State = new GuhyunScene();
 	if (m_State != NULL)
 		m_State->Initialize();
 }

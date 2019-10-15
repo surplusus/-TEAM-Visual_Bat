@@ -73,7 +73,7 @@ void CAmumu::MouseControl()
 	if (!m_bIsPicked)
 		return;
 
-	D3DXVECTOR3 vNewDir = m_vecMouseHitPoint - m_Info.vPos; // 마우스 방향백터
+	D3DXVECTOR3 vNewDir = g_MouseHitPoint - m_Info.vPos; // 마우스 방향백터
 
 	D3DXVECTOR3 vNewDirNormal;
 	D3DXVec3Normalize(&vNewDirNormal, &vNewDir);  vNewDir.y = m_Info.vPos.y;
@@ -99,7 +99,7 @@ void CAmumu::MouseControl()
 	if (fabs(vNewDir.x) <= 0.5f &&
 		fabs(vNewDir.z) <= 0.5f) {
 		if (slowness > 100.f) {
-			m_Info.vPos = m_vecMouseHitPoint;
+			m_Info.vPos = g_MouseHitPoint;
 			slowness = 9.f;
 			m_bIsPicked = false;
 			return;

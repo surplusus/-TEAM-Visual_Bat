@@ -11,7 +11,7 @@ void CDynamicCamera::Progress(void)
 	Rotation_Mouse();
 	Move_KeyBoard();
 	SetCamPosition(&m_vEye, &m_vAt);
-	SetCamSpeed(1000.f);
+	SetCamSpeed(200.f);
 	CCamera::Progress();
 
 }

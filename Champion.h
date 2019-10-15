@@ -6,20 +6,23 @@ class CChampion :
 {
 public:
 	CChampion();
-	~CChampion() {}
+	~CChampion();
 protected:
-	float					m_fCamDistance;
-	TCHAR*					m_strChampionName;
 	CObjMgr*				m_ObjMgr;
-	D3DXVECTOR3				m_vecMouseHitPoint;
-	LPD3DXMESH				m_pMesh;
+	//LPD3DXMESH				m_pMesh;
 protected:
 	// Init
 
 	// Update
-	bool				CheckMousePickingOnFloor();		// 마우스 피킹포인트를 찾았으면 true;
-
-	
+	void		SetDirectionToMouseHitPoint();
+	bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bMouseHitPoint 로 결과를 받는다
+	// Thread
+private:
+	static bool			MapCheckThreadLoop(int number, const VTXTEX* vtx);
+	static bool					bPick;
+protected:
+	static D3DXVECTOR3			g_MouseHitPoint;
+	static std::atomic<bool>	g_bMouseHitPoint;
 public:
 	virtual	HRESULT		Initialize()	PURE;
 	virtual void		Progress()		PURE;
