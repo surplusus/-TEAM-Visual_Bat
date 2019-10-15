@@ -1,6 +1,6 @@
 #include "BaseInclude.h"
 #include "AnimationCtrl.h"
-#include"MeshMgr.h"
+#include "MeshMgr.h"
 
 CAnimationCtrl::CAnimationCtrl()
 	: m_dwCurrentAniSet(0)
@@ -16,7 +16,7 @@ CAnimationCtrl::CAnimationCtrl(const CAnimationCtrl & Ani)
 	, m_numAnimationSets(0)
 	, m_fCurrentTime(0.f)
 	, m_pAniCtrl(NULL)
-	,m_strCurrentAniNameSet("")
+	, m_sAnimationSets("")
 {
 		Ani.m_pAniCtrl->CloneAnimationController(Ani.m_pAniCtrl->GetMaxNumAnimationOutputs()
 			, Ani.m_pAniCtrl->GetMaxNumAnimationSets()

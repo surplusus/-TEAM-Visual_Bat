@@ -11,7 +11,7 @@ protected:
 	bool				m_bMove;
 	CAnimationCtrl*		m_pAnimationCtrl;
 public:
-	bool				Move_Chase(const D3DXVECTOR3* pDestPoint, const float&fSpeed);
+	bool				Update_vPos_ByDestPoint(const D3DXVECTOR3* pDestPoint, const float&fSpeed);
 public:
 
 	virtual HRESULT		Initialize() PURE;
