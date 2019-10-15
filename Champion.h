@@ -8,11 +8,18 @@ public:
 	CChampion();
 	~CChampion() {}
 protected:
+	float					m_fCamDistance;
 	TCHAR*					m_strChampionName;
 	CObjMgr*				m_ObjMgr;
 	D3DXVECTOR3				m_vecMouseHitPoint;
+	LPD3DXMESH				m_pMesh;
 protected:
-	bool				MouseCheck();		// 마우스 피킹포인트를 찾았으면 true;
+	// Init
+
+	// Update
+	bool				CheckMousePickingOnFloor();		// 마우스 피킹포인트를 찾았으면 true;
+
+	
 public:
 	virtual	HRESULT		Initialize()	PURE;
 	virtual void		Progress()		PURE;

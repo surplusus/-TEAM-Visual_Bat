@@ -2,7 +2,6 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 #include "GuhyunScene.h"
-#include "SelectScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -16,10 +15,9 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new CSelectScene;
+	m_State = new GameScene();
 	if (m_State != NULL)
 		m_State->Initialize();
-	//initialize
 }
 
 void CSceneMgr::Progress()
