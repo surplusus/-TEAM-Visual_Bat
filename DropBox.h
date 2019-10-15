@@ -1,5 +1,4 @@
 #pragma once
-class CSpell_;
 class CImage_Loader;
 class CUI;
 class CDropBox
@@ -13,11 +12,14 @@ public:
 	void Render();
 	void Release();
 private:
-	map<string, CSpell_*>				m_mapSpellList;
+	map<string, CUI*>					m_mapSpellList;
 	CImage_Loader*						m_pImageLoader;
 	D3DXVECTOR3							m_vPosition;
 	D3DXVECTOR3							m_scale;
 	CUI*								m_pSelect1;
 	CUI*								m_pSelect2;
+
+private:
+	ID3DXFont*							m_pfont;
 };
 

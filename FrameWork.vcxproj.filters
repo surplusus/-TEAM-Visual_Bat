@@ -226,17 +226,17 @@
     <Filter Include="cheon\Robby\Champ">
       <UniqueIdentifier>{256bf864-d238-427f-8467-d793ec6af407}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cheon\Robby\Spell">
-      <UniqueIdentifier>{2ee00116-ffc9-47f6-a7c9-8bf44fca17a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="cheon\Robby\SelectScene">
       <UniqueIdentifier>{85c20dad-b4bc-4fd5-94bd-a1b5882015ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="cheon\ImageLoader">
       <UniqueIdentifier>{8094fb85-bb42-4119-b87c-448cf92d481c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cheon\Robby\SelectScene\dorpBox">
+    <Filter Include="cheon\Robby\dorpBox">
       <UniqueIdentifier>{7594b5e4-7e2d-40f1-8ace-23fd395dde4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cheon\Robby\dorpBox\Spell">
+      <UniqueIdentifier>{2ee00116-ffc9-47f6-a7c9-8bf44fca17a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -436,16 +436,13 @@
       <Filter>cheon\Robby</Filter>
     </ClInclude>
     <ClInclude Include="Spell_.h">
-      <Filter>cheon\Robby\Spell</Filter>
+      <Filter>cheon\Robby\dorpBox\Spell</Filter>
     </ClInclude>
     <ClInclude Include="SelectScene.h">
       <Filter>cheon\Robby\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="Champ.h">
       <Filter>cheon\Robby\Champ</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheon.h">
-      <Filter>cheon\Robby</Filter>
     </ClInclude>
     <ClInclude Include="C2DMouse.h">
       <Filter>cheon\2DMouse</Filter>
@@ -457,7 +454,10 @@
       <Filter>cheon\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="DropBox.h">
-      <Filter>cheon\Robby\SelectScene\dorpBox</Filter>
+      <Filter>cheon\Robby\dorpBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheon.h">
+      <Filter>cheon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -639,7 +639,7 @@
       <Filter>cheon\Robby</Filter>
     </ClCompile>
     <ClCompile Include="Spell_.cpp">
-      <Filter>cheon\Robby\Spell</Filter>
+      <Filter>cheon\Robby\dorpBox\Spell</Filter>
     </ClCompile>
     <ClCompile Include="SelectScene.cpp">
       <Filter>cheon\Robby\SelectScene</Filter>
@@ -657,7 +657,7 @@
       <Filter>cheon\ImageLoader</Filter>
     </ClCompile>
     <ClCompile Include="DropBox.cpp">
-      <Filter>cheon\Robby\SelectScene\dorpBox</Filter>
+      <Filter>cheon\Robby\dorpBox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

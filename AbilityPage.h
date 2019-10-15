@@ -16,7 +16,6 @@ public:
 	void Progress();
 	void Render();
 	void Release();
-
 private:
 	map<string, CImage_Loader*>				m_mapDetailedRune;
 	map<string, CImage_Loader*>				m_mapContolRune;

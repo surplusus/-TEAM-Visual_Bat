@@ -47,7 +47,11 @@ void CDropBox::Initialize()
 
 void CDropBox::Progress()
 {
-
+	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); ++it)
+	{
+		
+	}
+	
 }
 
 void CDropBox::Render()
