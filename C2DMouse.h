@@ -12,5 +12,7 @@ private:
 public:
 	POINT GetMousePoint();
 public:
-	bool IsInImage(CUI* vecUI);	
+	//string IsInImage(vector<CUI*> vecUI);
+	bool IsInImage(CUI* vecUI);
+	CUI* IsInImage_(CUI* vecUI);
 };

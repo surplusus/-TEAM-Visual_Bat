@@ -5,6 +5,7 @@ class CUI;
 class CAbilityPage;
 class C2DMouse;
 class CImage_Loader;
+class CDropBox;
 
 class CSelectScene :
 	public CScene
@@ -53,5 +54,7 @@ private:
 	void SpellInitialize();
 	void ChampRender();
 	void SpellRender();
+
+	CDropBox*						m_pDorpBox;
 };
 

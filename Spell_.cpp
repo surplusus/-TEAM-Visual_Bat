@@ -41,15 +41,21 @@ void CSpell_::Render(D3DXVECTOR3 pos)
 	m_ImageLoader->Render(pos);
 }
 
+void CSpell_::Release()
+{
+	m_ImageLoader->Release();
+}
+
 bool CSpell_::Checked()
 {
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if (GET_SINGLE(C2DMouse)->IsInImage(this))
-		{
-			bClicked = true;
-			return bClicked;
-		}
-	}
-	return bClicked;
+	//if (GetAsyncKeyState(VK_LBUTTON))
+	//{
+	//	if (GET_SINGLE(C2DMouse)->IsInImage(this))
+	//	{
+	//		bClicked = true;
+	//		return bClicked;
+	//	}
+	//}
+	//return bClicked;
+	return false;
 }

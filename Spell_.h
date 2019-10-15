@@ -14,6 +14,7 @@ public:
 	int Progress() override;
 	void Render() override;
 	void Render(D3DXVECTOR3 pos) override;
+	void Release() override;
 	
 
 private:

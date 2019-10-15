@@ -235,6 +235,9 @@
     <Filter Include="cheon\ImageLoader">
       <UniqueIdentifier>{8094fb85-bb42-4119-b87c-448cf92d481c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cheon\Robby\SelectScene\dorpBox">
+      <UniqueIdentifier>{7594b5e4-7e2d-40f1-8ace-23fd395dde4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -453,6 +456,9 @@
     <ClInclude Include="Image_Loader.h">
       <Filter>cheon\ImageLoader</Filter>
     </ClInclude>
+    <ClInclude Include="DropBox.h">
+      <Filter>cheon\Robby\SelectScene\dorpBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -649,6 +655,9 @@
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp">
       <Filter>cheon\ImageLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="DropBox.cpp">
+      <Filter>cheon\Robby\SelectScene\dorpBox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

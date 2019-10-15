@@ -23,5 +23,7 @@ public:
 	string	GetFileName() { return m_FileName; }
 	D3DXIMAGE_INFO	GetImageInfo() { return m_ImageInfo; }
 	void Render(D3DXVECTOR3 pos);
+
+	void Release();
 };
 

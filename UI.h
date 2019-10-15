@@ -18,6 +18,7 @@ public:
 	virtual int Progress() =0;
 	virtual void Render() = 0;
 	virtual void Render(D3DXVECTOR3 pos) = 0;
+	virtual void Release() = 0;
 
 protected:
 	D3DXVECTOR3				m_vPosition;

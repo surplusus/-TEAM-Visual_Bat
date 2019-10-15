@@ -14,6 +14,7 @@ public:
 	int Progress() override;
 	void Render() override;
 	void Render(D3DXVECTOR3 pos) override;
+	void Release() override;
 private:
 	UI_CHAMPTYPE m_eType;
 private:
@@ -24,5 +25,9 @@ private:
 	
 private:
 	bool CheckMouse();
+
+public:
+	bool GetClicked() { return bClicked; }
+	void SetClicked(bool click) { bClicked = click; }
 };
 

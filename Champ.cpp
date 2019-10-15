@@ -20,24 +20,24 @@ void CChamp::Initialize()
 	m_ImageLoader->Initialize();
 
 	m_Rect.left = m_vPosition.x;
-	m_Rect.top = m_vPosition.y;	m_Rect.right = m_vPosition.x + m_ImageLoader->GetImageInfo().Width;
-	m_Rect.bottom = m_vPosition.y + m_ImageLoader->GetImageInfo().Height;
+	m_Rect.top = m_vPosition.y;	m_Rect.right = m_vPosition.x + m_ImageLoader->GetImageInfo().Width * m_vScale.x;
+	m_Rect.bottom = m_vPosition.y + m_ImageLoader->GetImageInfo().Height * m_vScale.y;
 }
 
 int CChamp::Progress()
 {
-	if (m_eType == UI_CHAMPTYPE_STATIC) {
+	if (m_eType == UI_CHAMPTYPE_STATIC) 
+	{
 		if (CheckMouse())
 		{
 			return bClicked;
 		}
 	}
-	else
+	if (bClicked == true)
 	{
-		bClicked = true;
+		return true;
 	}
 	return false;
-
 
 }
 
@@ -58,6 +58,11 @@ void CChamp::Render()
 }
 void CChamp::Render(D3DXVECTOR3 pos)
 {
+
+}
+void CChamp::Release()
+{
+	m_ImageLoader->Release();
 }
 bool CChamp::CheckMouse()
 {
@@ -65,9 +70,10 @@ bool CChamp::CheckMouse()
 	{
 		if (GET_SINGLE(C2DMouse)->IsInImage(this))
 		{
-			bClicked = true;
+			bClicked = !bClicked;
+			cout << "선택된 챔피언 : " << m_name << endl;
 			return bClicked;
 		}
 	}
-	return bClicked;
+	return false;
 }
