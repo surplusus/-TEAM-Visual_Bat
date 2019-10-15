@@ -232,6 +232,9 @@
     <Filter Include="cheon\Robby\SelectScene">
       <UniqueIdentifier>{85c20dad-b4bc-4fd5-94bd-a1b5882015ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cheon\ImageLoader">
+      <UniqueIdentifier>{8094fb85-bb42-4119-b87c-448cf92d481c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -448,7 +451,7 @@
       <Filter>cheon\Robby\Ability</Filter>
     </ClInclude>
     <ClInclude Include="Image_Loader.h">
-      <Filter>cheon\Robby</Filter>
+      <Filter>cheon\ImageLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -645,7 +648,7 @@
       <Filter>cheon\Robby\Ability</Filter>
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp">
-      <Filter>cheon\Robby</Filter>
+      <Filter>cheon\ImageLoader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
