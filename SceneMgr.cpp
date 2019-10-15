@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "SceneMgr.h"
 #include "GameScene.h"
-#include "GuhyunScene.h"
+//#include "GuhyunScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -15,7 +15,7 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new GuhyunScene();
+	m_State = new GameScene();
 	if (m_State != NULL)
 		m_State->Initialize();
 }
