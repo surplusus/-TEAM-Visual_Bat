@@ -22,6 +22,6 @@ private:
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-
+	
 };
 
