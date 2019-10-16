@@ -97,6 +97,7 @@
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="SystemFunc.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="ThreadPool.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="SystemFunc.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="ThreadPool.cpp" />

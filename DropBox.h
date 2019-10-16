@@ -20,6 +20,8 @@ private:
 	CUI*								m_pSelect2;
 
 private:
-	ID3DXFont*							m_pfont;
+	UI_SPELLTYPE						m_eType;
+
+	bool Checked();
 };
 

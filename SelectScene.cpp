@@ -6,7 +6,7 @@
 #include "Champ.h"
 #include "Spell_.h"
 #include "DropBox.h"
-
+#include "Text.h"
 
 CSelectScene::CSelectScene()
 	:m_p2Dmouse(NULL)
@@ -42,7 +42,6 @@ HRESULT CSelectScene::Initialize()
 			(*iter2)->Initialize();
 		}
 	}
-	
 	return E_NOTIMPL;
 }
 void CSelectScene::Progress()
@@ -54,6 +53,7 @@ void CSelectScene::Progress()
 			((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
 		}
 	}
+	if (m_pDorpBox) m_pDorpBox->Progress();
 }
 
 void CSelectScene::Render()
@@ -85,6 +85,8 @@ void CSelectScene::ChampInitialize()
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
+
+	
 }
 
 void CSelectScene::SpellInitialize()

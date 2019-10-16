@@ -238,6 +238,9 @@
     <Filter Include="cheon\Robby\dorpBox\Spell">
       <UniqueIdentifier>{2ee00116-ffc9-47f6-a7c9-8bf44fca17a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cheon\Text">
+      <UniqueIdentifier>{97efbbf9-9e5f-49d5-89df-dae5e849eb52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -459,6 +462,9 @@
     <ClInclude Include="Cheon.h">
       <Filter>cheon</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>cheon\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -658,6 +664,9 @@
     </ClCompile>
     <ClCompile Include="DropBox.cpp">
       <Filter>cheon\Robby\dorpBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>cheon\Text</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

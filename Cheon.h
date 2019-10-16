@@ -16,7 +16,8 @@ enum UI_SPELLTYPE
 	Smite,
 	Teleport,
 	Ignite,
-	Barrier
+	Barrier,
+	SPELLTYPE_End,
 };
 
 /*
