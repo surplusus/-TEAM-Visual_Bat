@@ -41,8 +41,8 @@ void CAmumu::WorldSetting()
 bool CAmumu::MouseCheck()
 {
 	if (m_ObjMgr == NULL) return false;
-	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
-	int number = m_ObjMgr->GetVtxNumber(L"Map");
+	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
+	int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
 
 	if (vtx == NULL) return false;
 	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())

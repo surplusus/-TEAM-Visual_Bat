@@ -211,6 +211,9 @@
     <Filter Include="System\SystemManager\Thread">
       <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\SystemManager\SoundMgr">
+      <UniqueIdentifier>{5d0bca01-7ce6-4daf-a45a-9c4daa192467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -405,6 +408,9 @@
     <ClInclude Include="Ezreal.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>System\SystemManager\SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -580,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="Ezreal.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>System\SystemManager\SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

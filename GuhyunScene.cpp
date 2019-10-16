@@ -9,6 +9,7 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 
+#include "SoundManager.h"
 #include "Amumu.h"
 #include "Ezreal.h"
 #include "SummonTerrain.h"
@@ -31,6 +32,7 @@ HRESULT GuhyunScene::Initialize()
 
 	if (Setup())		// light off
 		return E_FAIL;
+	GET_SINGLE(SoundManager)->SetUp();
 
 	//=========== Add Texture ===========//
 	//if (FAILED(InsertTexture(GetDevice()
@@ -45,10 +47,10 @@ HRESULT GuhyunScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
 	}
-
+	
 	//=========== Add Mesh(static or dynamic) ===========//
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
-		, L"Ez.x", L"Ezreal", MESHTYPE_DYNAMIC)))
+		, L"Ez.x", L"Amumu", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
@@ -64,7 +66,7 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Object ===========//	
 	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
 	{
 		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
 	}
@@ -79,14 +81,14 @@ HRESULT GuhyunScene::Initialize()
 void GuhyunScene::Progress()
 {
 	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		GET_SINGLE(CSceneMgr)->SetState(new GameScene);
+		//GET_SINGLE(CSceneMgr)->SetState(new GameScene);
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
-
+	SoundUpdate();
 	//cout << "Get Time : " << GetTime() << " g_fdeltaTime : " << g_fDeltaTime << endl;
 }
 
@@ -102,6 +104,7 @@ void GuhyunScene::Release()
 
 HRESULT GuhyunScene::Setup()
 {
+
 	SetRenderState(D3DRS_LIGHTING, false);
 	return S_OK;
 }
@@ -110,6 +113,27 @@ void GuhyunScene::Update()
 {
 	m_pObjMgr->Progress();
 	GET_SINGLE(CCameraMgr)->Progress();
+}
+
+void GuhyunScene::SoundUpdate()
+{
+	if (m_fSceneTime == 0.f)
+		m_fSceneTime = GetTime();
+	float time[3] = { 0.0001f, 0.0010f, 0.0020f };
+	if (GetTime() - m_fSceneTime >= time[0]) {
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
+		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
+	}
+
+	if (GetTime() - m_fSceneTime >= time[1]) {
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention("30secleft");
+		cout << "미니언 생성까지 30초 남았습니다." << endl;
+	}
+
+	if (GetTime() - m_fSceneTime >= time[2]) {
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
+		cout << "미니언이 생성되었습니다." << endl;
+	}
 }
 
 void GuhyunScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
