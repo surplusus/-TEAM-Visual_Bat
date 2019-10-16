@@ -15,7 +15,8 @@ CEzreal::~CEzreal()
 HRESULT CEzreal::Initialize()
 {
 	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
-	if (!m_pAnimationCtrl)		return S_FALSE;
+	if (!m_pAnimationCtrl)		
+		return S_FALSE;
 	g_MouseHitPoint = m_Info.vPos;
 	UpdateWorldMatrix();
 	return S_OK;
@@ -24,14 +25,14 @@ HRESULT CEzreal::Initialize()
 void CEzreal::Progress()
 {
 	UpdateWorldMatrix();
-	//MouseControl();
+	MouseControl();
 }
 
 void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	m_pAnimationCtrl->SetAnimationSet("Armature_001Action");
-	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime());
+	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime / 1000.f);
 	Mesh_Render(GetDevice(), L"Ezreal");
 }
 

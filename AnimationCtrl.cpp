@@ -93,7 +93,7 @@ void CAnimationCtrl::SetAnimationSet(string aniName)
 
 	//위 조건을 만족하지 않ㄴ으면 이제 새로운 애니메이션 셋팅
 	//현재 애니메이션 셋의 인덱스 저장하고 있는 변수에 넣어줌
-	m_sAnimationSets == aniName;
+	m_sAnimationSets = aniName;
 	//각 트랙을 처음부터 돌아갈수 있도록 초기화
 	m_pAniCtrl->UnkeyAllTrackEvents(m_dwNewTrack);
 	m_pAniCtrl->UnkeyAllTrackEvents(m_dwCurrentTrack);
