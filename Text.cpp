@@ -97,7 +97,7 @@ void CText::Render(UI_SPELLTYPE type)
 		m_pFont->DrawTextA(NULL, m_Teleport.c_str(), m_Teleport.length(), &rc, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 		break;
 	case Ignite:
-		m_pName->DrawTextA(NULL, string("Á¡¸ê").c_str(), string("Á¡¸ê").length(), &rt, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+		m_pName->DrawTextA(NULL, string("Á¡È­").c_str(), string("Á¡È­").length(), &rt, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 		m_pFont->DrawTextA(NULL, m_Ignite.c_str(), m_Ignite.length(), &rc, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 		break;
 	case Barrier:

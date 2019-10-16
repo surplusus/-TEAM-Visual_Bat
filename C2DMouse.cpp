@@ -42,7 +42,7 @@ UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CUI * UI)
 
 	GetCursorPos(&m_GetCur);
 	ScreenToClient(g_hWnd, &m_GetCur);
-	if (PtInRect(&UI->GetRect(), m_GetCur))
+	if (PtInRect(&((CSpell_*)UI)->GetRect(), m_GetCur))
 	{
 		cout << UI->GetRect().left << " " << UI->GetRect().top << " " << UI->GetRect().right << " " << UI->GetRect().bottom << endl;
 		return ((CSpell_*)UI)->GetType();

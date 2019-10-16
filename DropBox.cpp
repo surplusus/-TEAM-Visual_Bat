@@ -54,7 +54,8 @@ void CDropBox::Progress()
 	{
 		for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
 		{
-			m_eType = GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second);
+			if (GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second))
+				m_eType = GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second);
 		}
 	}
 }
