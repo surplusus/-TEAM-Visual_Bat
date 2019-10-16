@@ -35,6 +35,12 @@ void cGameHUD::Initialize()
 	m_mapImage["item"] = item;
 	m_mapImage["item"]->Initialize();
 
+	cImageLoader * garen = new cImageLoader(
+		L"Resource/jiyun/Garen_Circle.dds",
+		D3DXVECTOR3(410, 1190, 0));
+	m_mapImage["garen"] = garen;
+	m_mapImage["garen"]->Initialize();
+
 	cImageLoader * champion = new cImageLoader(
 		L"Resource/jiyun/champion.png",
 		D3DXVECTOR3(400, 1170, 0));
@@ -46,6 +52,12 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(1072, 1298, 0));
 	m_mapImage["coin"] = coin;
 	m_mapImage["coin"]->Initialize();
+
+	cImageLoader * time = new cImageLoader(
+		L"Resource/jiyun/time.png",
+		D3DXVECTOR3(1150, 0, 0));
+	m_mapImage["time"] = time;
+	m_mapImage["time"]->Initialize();
 }
 
 void cGameHUD::Progress()
@@ -54,11 +66,14 @@ void cGameHUD::Progress()
 
 void cGameHUD::Render()
 {
-	for (auto it = m_mapImage.begin(); 
-		it != m_mapImage.end(); it++)
-	{
-		it->second->Render();
-	}
+	m_mapImage["minimap"]->Render();
+
+	m_mapImage["spell"]->Render();
+	m_mapImage["item"]->Render();
+	m_mapImage["garen"]->Render();
+	m_mapImage["champion"]->Render();
+	m_mapImage["coin"]->Render();
+	m_mapImage["time"]->Render();
 }
 
 void cGameHUD::Release()

@@ -3,6 +3,8 @@
 #include "GameScene.h"
 //#include "GuhyunScene.h"
 
+#include "HUDScene.h"
+
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
 {
@@ -15,7 +17,7 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new GameScene();
+	m_State = new cHUDScene();
 	if (m_State != NULL)
 		m_State->Initialize();
 }

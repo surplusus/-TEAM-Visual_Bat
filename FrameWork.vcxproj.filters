@@ -414,6 +414,9 @@
     <ClInclude Include="GameHUD.h">
       <Filter>jiyun</Filter>
     </ClInclude>
+    <ClInclude Include="HUDScene.h">
+      <Filter>jiyun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -594,6 +597,9 @@
       <Filter>jiyun</Filter>
     </ClCompile>
     <ClCompile Include="GameHUD.cpp">
+      <Filter>jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDScene.cpp">
       <Filter>jiyun</Filter>
     </ClCompile>
   </ItemGroup>
