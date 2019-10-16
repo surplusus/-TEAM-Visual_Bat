@@ -131,3 +131,12 @@ typedef struct tagSphere
 	tagSphere(const tagSphere& sph) 
 		: fRadius(sph.fRadius), vCenter(sph.vCenter.x, sph.vCenter.y, sph.vCenter.z) {}
 }SPHERE;
+
+
+typedef struct tagParticleVtx
+{
+	D3DXVECTOR3				vPosition;
+	DWORD					dwColor;
+}PARTICLEVTX;
+
+const DWORD VTXFVF_PARTICLE = D3DFVF_XYZ | D3DFVF_DIFFUSE;

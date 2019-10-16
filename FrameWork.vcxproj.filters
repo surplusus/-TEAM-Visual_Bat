@@ -211,6 +211,24 @@
     <Filter Include="System\SystemManager\Thread">
       <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\02. ParticleMgr">
+      <UniqueIdentifier>{cf8ee35e-06cb-4f42-8689-b7d86de43595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\02. ParticleMgr\Particle">
+      <UniqueIdentifier>{99b7266a-3c9d-4c90-8c3b-8c176e98531b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\02. ParticleMgr\Mgr">
+      <UniqueIdentifier>{8287d08c-3478-4525-a3f4-4b2b290b1ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\02. ParticleMgr\LineLazer">
+      <UniqueIdentifier>{7a70e709-f81d-40f4-ac97-891b077e773e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\02. ParticleMgr\Skill">
+      <UniqueIdentifier>{10f0284f-02b4-493e-95e5-aee433ce2381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Ez">
+      <UniqueIdentifier>{85f504f7-02b3-4057-bab8-85f4db5482ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -402,8 +420,20 @@
     <ClInclude Include="Ray.h">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleMgr.h">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Mgr</Filter>
+    </ClInclude>
+    <ClInclude Include="LineLazer.h">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\LineLazer</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Skill</Filter>
+    </ClInclude>
     <ClInclude Include="Ezreal.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+      <Filter>소스 파일\02. Object\Ez</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -578,8 +608,20 @@
     <ClCompile Include="Ray.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleMgr.cpp">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Mgr</Filter>
+    </ClCompile>
+    <ClCompile Include="LineLazer.cpp">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\LineLazer</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\Maneger\02. ParticleMgr\Skill</Filter>
+    </ClCompile>
     <ClCompile Include="Ezreal.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+      <Filter>소스 파일\02. Object\Ez</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

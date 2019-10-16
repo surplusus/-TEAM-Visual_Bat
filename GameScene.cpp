@@ -8,8 +8,8 @@
 #include"Terrain.h"
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
-#include"Atrox.h"
-#include"Amumu.h"
+#include"Ezreal.h"
+#include "ParticleMgr.h"
 GameScene::GameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -22,10 +22,6 @@ GameScene::~GameScene()
 
 HRESULT GameScene::Initialize()
 {
-	/*if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
-		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
-		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
-		return E_FAIL;*/
 	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
 		, D3DXVECTOR3(0.f, 10.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
@@ -34,11 +30,21 @@ HRESULT GameScene::Initialize()
 	if (Setup())
 		return E_FAIL;
 	
+	//Texture 
+	if (FAILED(InsertTexture(GetDevice()
+		, TEXTYPE_NORMAL
+		, L"./Resource/Ez/Particles/Ezreal_Base_Q_erode.dds"
+		, L"Particle", L"Snow", 1)))
+	{
+		ERR_MSG(NULL,L"Texture Create Failed");
+		return E_FAIL;
+	}
+
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
 	{
 		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Amumu", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Ezreal", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
@@ -50,14 +56,11 @@ HRESULT GameScene::Initialize()
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		return E_FAIL;
 
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu >::CreateObject())))
-		return E_FAIL;
+	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))		return E_FAIL;
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))			return E_FAIL;
 
-	//ObjMgr정보를 등록한다.
-	//const CObj*pObj = m_pObjMgr->GetObj(L"Amumu");
-	//((CChampion*)pObj)->RegisterObjMgr(m_pObjMgr);
+
+
 
 }
 
@@ -65,16 +68,21 @@ void GameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
+	//GET_SINGLE(CParticleMgr)->Progress(L"Snow");
+
 	
 }
 
 void GameScene::Render()
 {
 	m_pObjMgr->Render();
+	//GET_SINGLE(CParticleMgr)->Render(GetDevice(), L"Snow");
+
 }
 
 void GameScene::Release()
 {
+	GET_SINGLE(CParticleMgr)->DestroyInstance();
 
 }
 

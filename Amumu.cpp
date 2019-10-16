@@ -107,7 +107,7 @@ HRESULT CAmumu::Initialize()
 
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	CloneMesh(GetDevice(), L"Amumu", &m_pAnimationCtrl);
+	CloneMesh(GetDevice(), L"Ez", &m_pAnimationCtrl);
 
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
@@ -141,8 +141,8 @@ void CAmumu::Render()
 	static bool b = true;
 	
 	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
-	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
-	Mesh_Render(GetDevice(), L"Amumu");
+	m_pAnimationCtrl->FrameMove(L"Ez", GetTime());
+	Mesh_Render(GetDevice(), L"Ez");
 }
 
 void CAmumu::Release()

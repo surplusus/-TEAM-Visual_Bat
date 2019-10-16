@@ -1,7 +1,15 @@
 #include "BaseInclude.h"
 #include "Ezreal.h"
-
-
+#include "ThreadPool.h"
+#include "BaseInclude.h"
+#include "Atrox.h"
+#include"PipeLine.h"
+#include "ObjMgr.h"
+#include "Ray.h"
+#include"LineLazer.h"
+D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
+std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
+bool CEzreal::bPick = false;
 CEzreal::CEzreal()
 {
 }
@@ -9,98 +17,162 @@ CEzreal::CEzreal()
 
 CEzreal::~CEzreal()
 {
-	Release();
+
 }
+
+void CEzreal::SetContantTable()
+{
+
+	D3DXMATRIX		matView, matProj;
+	GetTransform(D3DTS_VIEW, &matView);
+	GetTransform(D3DTS_PROJECTION, &matProj);
+}
+
+void CEzreal::WorldSetting()
+{
+	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans, matScale;
+	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
+	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
+	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
+	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
+	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
+	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
+	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
+}
+
+bool CEzreal::MouseCheck()
+{
+	if (m_ObjMgr == NULL) return false;
+	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
+	int number = m_ObjMgr->GetVtxNumber(L"Map");
+
+	if (vtx == NULL) return false;
+	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())
+	{
+		GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);
+		return true;
+	}
+	return false;
+}
+
+void CEzreal::SetAngleFromPostion()
+{
+	D3DXVECTOR3 vUp = { 0,1.0f,0.0f };
+	D3DXVECTOR3 vDirection = m_Info.vPos - g_MouseHitPoint;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+}
+
+bool CEzreal::Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
+{
+	D3DXVECTOR3 vDirection = *pDestPoint - m_Info.vPos;
+	float fDistance = D3DXVec3Length(&vDirection);
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	m_Info.vPos += vDirection * fSpeed*GetTime();
+	if (fDistance < 0.1f)
+		return false;
+	return false;
+}
+
+bool CEzreal::MapChecktThreadLoop(int number, const VTXTEX * vtx)
+{
+	CRay m_Ray;		POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+	m_Ray = CRay::RayAtWorldSpace(pt.x, pt.y);
+
+
+	for (int i = 0; i < number; i += 3) {
+		D3DXVECTOR3 V0 = vtx[i].vPosition;
+		D3DXVECTOR3 V1 = vtx[i + 1].vPosition;
+		D3DXVECTOR3 V2 = vtx[i + 2].vPosition;
+
+		if (m_Ray.IsPicked(g_MouseHitPoint, V0, V1, V2))
+		{
+			g_bMouseHitPoint = true;
+			return true;
+		}
+	}
+	return false;
+}
+
+
 
 HRESULT CEzreal::Initialize()
 {
+	m_SortID = SORTID_LAST;
+	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
+	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
+	m_Info.vPos = D3DXVECTOR3(-10.f, 16.0f, -10.f);
+
+	m_pOriVtx = new VTXTEX[4];
+	m_pConVtx = new VTXTEX[4];
+
+
+	D3DXMatrixIdentity(&m_Info.matWorld);
 	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
-	if (!m_pAnimationCtrl)		
-		return S_FALSE;
+
+	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
+	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	g_MouseHitPoint = m_Info.vPos;
-	UpdateWorldMatrix();
+	WorldSetting();
 	return S_OK;
 }
 
 void CEzreal::Progress()
 {
-	UpdateWorldMatrix();
-	MouseControl();
+	WorldSetting();
+	//KeyCheck();
+	if (GetAsyncKeyState(VK_LBUTTON)) {
+
+		if (MouseCheck())
+		{
+			SetAngleFromPostion();
+
+		}
+	}
+	if (g_bMouseHitPoint) {
+		g_bMouseHitPoint = false;
+	}
+	if (CheckPushKeyOneTime(VK_Q))
+	{
+		AddSkill_Q();
+	}
+	Move_Chase(&g_MouseHitPoint, 10.0f);
+	for (int i = 0; i < m_vecQSkill.size(); i++)
+	{
+		m_vecQSkill[i]->Progress();
+	}
+}
+void CEzreal::AddSkill_Q()
+{
+	CLineLazer* Lazer = new CLineLazer(m_Info);
+	if (FAILED(Lazer->InitParticleBuffer(GET_SINGLE(CDevice)->GetDevice())))		return;
+	Lazer->AddParticle();
+	m_vecQSkill.push_back(Lazer);
+
 }
 
 void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	m_pAnimationCtrl->SetAnimationSet("Armature_001Action");
-	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime / 1000.f);
+	//몇개의 애니메이션이 돌지에 대해 설정한다.
+	static bool b = true;
+
+	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
+	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime());
 	Mesh_Render(GetDevice(), L"Ezreal");
+
+	for (int i = 0; i < m_vecQSkill.size(); i++)
+	{
+		m_vecQSkill[i]->Render(GET_SINGLE(CDevice)->GetDevice());
+	}
 }
 
 void CEzreal::Release()
 {
+
 }
 
-void CEzreal::UpdateWorldMatrix()
-{
-	D3DXQUATERNION qtRot(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z], 1.f);
-	D3DXMATRIX matScale, matRot, matTrans;
-	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-	D3DXMatrixRotationQuaternion(&matRot, &qtRot);
-	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
-	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-	m_Info.matWorld = matScale * matRot * matTrans;
-}
 
-void CEzreal::MouseControl()
-{
-	if (MyGetMouseState().rgbButtons[0])
-		EnqueueMousePickingFunc();
-	D3DXVECTOR3 mouseHitPos;
-	if (g_bMouseHitPoint) {
-		m_bIsPicked = true;
-		mouseHitPos = g_MouseHitPoint;
-	}
-	
-	if (m_bIsPicked)
-	{
-		float speed;
-		if (TurnSlowly(&mouseHitPos))
-			speed = 0.1f;
-		else
-			speed = 1.f;
-		
-		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 0.1f 보다 작으면 false 리턴
-		m_bIsPicked = Update_vPos_ByDestPoint(&mouseHitPos, speed);
-	}
-}
 
-void CEzreal::WASDControl()
-{
-}
-
-bool CEzreal::TurnSlowly(const D3DXVECTOR3* destPos)
-{
-	static float speed = 5.f;
-	D3DXVECTOR3 normal(*destPos); normal.y = 0.f;
-	D3DXVec3Normalize(&normal, &normal);
-	float dot = D3DXVec3Dot(&m_Info.vDir, &normal);
-	float radian = acosf(dot);
-	if (radian < 0.00001f)
-	{
-		m_Info.vDir = normal;
-		return false;
-	}
-	else
-	{
-		D3DXVECTOR3 left;
-		D3DXVec3Cross(&left, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
-		if (D3DXVec3Dot(&normal, &left) > 0)
-		{
-			m_fAngle[ANGLE_Y] -= radian * speed / 100.f;
-		}
-		else
-			m_fAngle[ANGLE_Y] += radian * speed / 100.f;
-	}
-
-	return true;
-}
