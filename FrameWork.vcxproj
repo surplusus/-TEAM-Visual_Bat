@@ -35,6 +35,8 @@
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="GameHUD.h" />
+    <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -113,6 +115,8 @@
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="GameHUD.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />

@@ -211,6 +211,9 @@
     <Filter Include="System\SystemManager\Thread">
       <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="jiyun">
+      <UniqueIdentifier>{071c4282-aced-4b19-9baf-e5a129d2e7ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -405,6 +408,12 @@
     <ClInclude Include="Ezreal.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHUD.h">
+      <Filter>jiyun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -580,6 +589,12 @@
     </ClCompile>
     <ClCompile Include="Ezreal.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoader.cpp">
+      <Filter>jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHUD.cpp">
+      <Filter>jiyun</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
