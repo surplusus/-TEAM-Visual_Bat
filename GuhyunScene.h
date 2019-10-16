@@ -1,5 +1,12 @@
 #pragma once
 #include "Scene.h"
+
+struct MyAlarm
+{
+	float cumulativeTime = 0.f;
+	bool isRinging = false;
+	bool isDead = false;
+};
 class GuhyunScene :
 	public CScene
 {
@@ -18,6 +25,7 @@ private:
 	HRESULT Setup();
 	void Update();
 	void SoundUpdate();
+	bool Alarm(float getticktime, float endsec, int idx);
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	template<typename T, typename U>

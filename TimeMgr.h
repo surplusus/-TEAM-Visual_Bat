@@ -21,7 +21,7 @@ private:
 	int		m_nFPS;
 	float	m_fDeltaTime;
 	float   m_fPileDeltaTime;
-	const float SEC_PER_FRAME = 1.0 / 61.0;
+	const float SEC_PER_FRAME = 1.0f / 1.0f;
 public:
 	void SetTime();
 	void InitTimeMgr();

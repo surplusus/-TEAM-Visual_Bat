@@ -42,6 +42,11 @@ void SoundManager::SetUp()
 	map_pSounds["welcome"] = sound;
 }
 
+void SoundManager::Update()
+{
+	m_pSystem->update();
+}
+
 void SoundManager::PlayEffectSound(string name)
 {
 	float startTime = GetTime();
@@ -56,7 +61,7 @@ void SoundManager::PlayEffectSound(string name)
 		if (playing)
 			m_pEffectChannel->stop();
 		//FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, map_pSounds[name], 0, &m_pEffectChannel);
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pEffectChannel);
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pEffectChannel);  ErrCheck(m_result);
 		//FMOD_System_Update(m_pSystem);
 		m_pSystem->update();
 		int nChannelPlayingNow = 0;
@@ -75,7 +80,7 @@ void SoundManager::PlayBGMSound(string name)
 
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pBGMChannel);
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pBGMChannel); ErrCheck(m_result);
 		m_pSystem->update();
 		int nChannelPlayingNow = 0;
 		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
@@ -96,8 +101,8 @@ void SoundManager::PlayAnnouncerMention(string name)
 		m_pBGMChannel->isPlaying(&playing);
 		if (playing)
 			m_pEffectChannel->stop();
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pAnnouncerChannel);
-		if (m_result) ErrCheck(m_result);
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pAnnouncerChannel); ErrCheck(m_result);
+		
 		m_pSystem->update();
 		int nChannelPlayingNow = 0;
 		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);

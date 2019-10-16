@@ -8,7 +8,7 @@ private:
 	~SoundManager();
 public:
 	void SetUp();
-	//void Update();
+	void Update();
 	void PlayEffectSound(string name);
 	void PlayBGMSound(string name);
 	void PlayAnnouncerMention(string name);
