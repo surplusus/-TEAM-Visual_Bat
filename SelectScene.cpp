@@ -60,6 +60,8 @@ void CSelectScene::Render()
 {
 	//if (m_testsuzi) m_testsuzi->Render();
 
+	MyDrawFPSByTimeMgr();
+
 	ChampRender();
 	SpellRender();
 }

@@ -2,6 +2,7 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 #include "SelectScene.h"
+#include "LoadingScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -15,7 +16,7 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new CSelectScene;
+	m_State = new CLoadingScene;
 	if (m_State != NULL)
 		m_State->Initialize();
 }
@@ -30,6 +31,7 @@ void CSceneMgr::Render()
 {
 	if (m_State != NULL && m_bSignChangeScene == false)
 		m_State->Render();
+	MyDrawFPSByTimeMgr();
 }
 
 void CSceneMgr::Release()

@@ -2,7 +2,7 @@
 #include "Text.h"
 
 
-CText::CText() : m_pFont(NULL), m_pName(NULL), m_pAlarm(NULL)
+CText::CText() : m_pFont(NULL), m_pName(NULL), m_pAlarm(NULL), m_pTimeFont(NULL), MAXTIME(80.0f), m_pNotice(NULL)
 {
 }
 
@@ -23,7 +23,16 @@ void CText::Initialize()
 	m_Ignite   = "적 챔피언을 불태워 5초동안 70~410의 고정\n 피해(챔피언 레벨에 따라 변동)를 입히고 모습\n을 드러내며 치료 효과를 감소시킵니다.\n\n기본 재사용 대기시간:180초";
 	m_Barrier  = "2초동안 방어막으로 감싸 피해를\n 115~455(챔피언 레벨에 따라 변동)만큼 흡수\n합니다.\n기본 재사용 대기시간:180초";
 
-	m_sTime = to_string(80 - (g_fDeltaTime));
+	
+	m_vecNotice.push_back(string("UI작업하면서 차암 힘들었습니다.\n피똥싸는줄 알았어요"));
+	m_vecNotice.push_back(string("엔진이 얼마나 쉬울지 모르겠지만,\n 이것도 했는데 엔진을 못하면 게임회사에 취업 안될거란걸 알았어요."));
+	m_vecNotice.push_back(string("4주간 다들 고생 많으셨습니다."));
+	m_vecNotice.push_back(string("UI가 이렇게 어려울 줄이야"));
+	m_vecNotice.push_back(string("다같이 취업됬으면 좋겠네요"));
+	m_vecNotice.push_back(string("앞으로 더 열심히 살겁니다."));
+
+	m_sNotice = m_vecNotice[rand() % m_vecNotice.size()];
+
 	Create_Font();
 }
 
@@ -64,6 +73,28 @@ void CText::Create_Font()
 	fd.PitchAndFamily = FF_DONTCARE;
 	lstrcpy(fd.FaceName, L"굴림체");
 	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pAlarm);
+
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 30;
+	fd.Width = 20;
+	fd.Weight = FW_HEAVY;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	lstrcpy(fd.FaceName, L"굴림체");
+	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pTimeFont);
+
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 30;
+	fd.Width = 20;
+	fd.Weight = FW_HEAVY;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	lstrcpy(fd.FaceName, L"굴림체");
+	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pNotice);
 
 	{
 		/*AddFontResourceA("font/umberto.ttf"); // 시스템에 없으면 추가.
@@ -121,5 +152,27 @@ void CText::Render(UI_SPELLTYPE type)
 	RECT rect;
 	SetRect(&rect, 0, 20,1000, 50);
 	m_pAlarm->DrawTextA(NULL, string("챔피언을 선택하세요.").c_str(), string("챔피언을 선택하세요").length(), &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));	
-	SetTimeMgr();
+	
+	RECT rec;
+	SetRect(&rec, 0, 70, 1000, 120);
+
+	MAXTIME -= GetTime();
+	if (MAXTIME < 0) MAXTIME = 0;
+	cout << GetTime << " delta" << endl;
+	m_sTime = to_string((int)MAXTIME);	
+	m_pTimeFont->DrawTextA(NULL, m_sTime.c_str(), m_sTime.length(), &rec, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void CText::LoadingNoticeRender()
+{
+	RECT rc;
+	SetRect(&rc, 0, 380, 1000, 400);
+	Rectangle(GetDC(g_hWnd), rc.left, rc.top, rc.right, rc.bottom);
+	m_pNotice->DrawTextA(
+		NULL,
+		m_sNotice.c_str(),
+		m_sNotice.length(),
+		&rc,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255));
 }

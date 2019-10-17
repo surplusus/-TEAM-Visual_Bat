@@ -71,7 +71,7 @@ void CMainGame::Progress()
 void CMainGame::Render()
 {
 	Begin_Render();
-	MyDrawFPSByTimeMgr();
+
 
 	GET_SINGLE(CSceneMgr)->Render();
 

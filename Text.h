@@ -9,10 +9,14 @@ private:
 	LPD3DXFONT				m_pFont;
 	LPD3DXFONT				m_pName;
 	LPD3DXFONT				m_pAlarm;
+	LPD3DXFONT				m_pTimeFont;
+	LPD3DXFONT				m_pNotice;
 public:
 	void Initialize();
 	void Create_Font();
 	void Render(UI_SPELLTYPE type= SPELLTYPE_End);
+
+	void LoadingNoticeRender();
 private:
 	string m_sTime;
 
@@ -25,6 +29,11 @@ private:
 	string m_Teleport;
 	string m_Ignite;
 	string m_Barrier;
+
+	vector<string> m_vecNotice;
+	string m_sNotice;
+
+	float MAXTIME;
 
 public:
 	string GetCleanse() { return m_cleanse; }

@@ -241,6 +241,12 @@
     <Filter Include="cheon\Text">
       <UniqueIdentifier>{97efbbf9-9e5f-49d5-89df-dae5e849eb52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cheon\LoadingScene">
+      <UniqueIdentifier>{f7e12049-a5cb-4b46-8597-69cb68958ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cheon\LoadingScene\Selected Champ">
+      <UniqueIdentifier>{98e12ca1-195c-49f4-8f23-c3e3144e78b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -465,6 +471,15 @@
     <ClInclude Include="Text.h">
       <Filter>cheon\Text</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>소스 파일\Maneger</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>cheon\LoadingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedChamp.h">
+      <Filter>cheon\LoadingScene\Selected Champ</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -667,6 +682,15 @@
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>cheon\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>소스 파일\Maneger</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>cheon\LoadingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedChamp.cpp">
+      <Filter>cheon\LoadingScene\Selected Champ</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
