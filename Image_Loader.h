@@ -19,7 +19,6 @@ protected:
 	D3DXVECTOR3						m_vScale;
 	D3DXVECTOR3						m_vPosition;
 public:
-	RECT GetRect() { return m_Rect; }
 	string	GetFileName() { return m_FileName; }
 	D3DXIMAGE_INFO	GetImageInfo() { return m_ImageInfo; }
 	void Render(D3DXVECTOR3 pos);

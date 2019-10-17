@@ -19,9 +19,6 @@ private:
 	UI_CHAMPTYPE m_eType;
 private:
 	bool bClicked;
-
-private:
-	CImage_Loader*				m_ImageLoader;
 	
 private:
 	bool CheckMouse();

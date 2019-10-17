@@ -8,6 +8,7 @@ enum UI_CHAMPTYPE
 
 enum UI_SPELLTYPE
 {
+	SPELLTYPE_End,
 	cleanse,
 	Exhaust,
 	Flash,
@@ -16,8 +17,7 @@ enum UI_SPELLTYPE
 	Smite,
 	Teleport,
 	Ignite,
-	Barrier,
-	SPELLTYPE_End,
+	Barrier
 };
 
 /*

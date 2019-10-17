@@ -49,7 +49,10 @@ void AppMain::WinMainInit(HINSTANCE hInst, HINSTANCE,LPSTR,INT)
 	};
 
 	RegisterClassEx(&m_wc);
+	
 	RECT rc = {0,0, WINSIZEX,WINSIZEY};
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, NULL);
+
 	m_hWnd = CreateWindow(L"League of Legend", L"League of Legend 1.0", 
 		WS_OVERLAPPEDWINDOW,100, 100, rc.right-rc.left, rc.bottom-rc.top,
 		GetDesktopWindow(), NULL, m_wc.hInstance, NULL);

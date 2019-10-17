@@ -24,6 +24,7 @@ public:
 protected:
 	D3DXVECTOR3				m_vPosition;
 	D3DXVECTOR3				m_vScale;
+	D3DXVECTOR3				m_vCenter;
 	string					m_FileName;
 	RECT					m_Rect;
 	CImage_Loader*			m_ImageLoader;
@@ -31,8 +32,11 @@ protected:
 
 public:
 
-	RECT GetRect()    { return m_Rect; }
+	RECT GetRect();
+	
 	string GetName() { return m_name; }
-	D3DXVECTOR3 GetPosition() { return m_vPosition; }
+	D3DXVECTOR3 GetPosition() { 
+		return m_vPosition; }
+	void SetCenterPos();
 };
 

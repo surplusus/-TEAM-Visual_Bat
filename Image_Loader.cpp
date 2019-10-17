@@ -44,6 +44,8 @@ void CImage_Loader::Initialize()
 		NULL,
 		&m_pTexture
 	);
+	cout << m_ImageInfo.Width << " " << m_ImageInfo.Height << endl;
+
 	if (FAILED(hr))		ERR_MSG(g_hWnd, L"텍스쳐 호출 실패");
 }
 
@@ -57,22 +59,20 @@ void CImage_Loader::Render()
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixTranslation(&matT,m_vPosition.x, m_vPosition.y, 0);
 
-	m_Rect.left = m_vPosition.x;
-	m_Rect.top = m_vPosition.y;
-	m_Rect.right = m_vPosition.x + m_ImageInfo.Width * m_vScale.x;
-	m_Rect.bottom = m_vPosition.y + m_ImageInfo.Height * m_vScale.x;
+	
 
 	matWorld = matS * matT;
 
 	m_pSprite->SetTransform(&matWorld);
-
 	
 
 	RECT rc;
 	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 
-	m_pSprite->Draw(m_pTexture, &rc, NULL,
-		NULL, D3DCOLOR_ARGB(255, 255, 255, 255));
+	ID3DXSprite* temp;
+
+	m_pSprite->Draw(m_pTexture, nullptr, nullptr,
+		nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	m_pSprite->End();
 }
@@ -86,20 +86,19 @@ void CImage_Loader::Render(D3DXVECTOR3 pos)
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixTranslation(&matT, pos.x, pos.y, 0);
 
-	m_Rect.left = pos.x;
-	m_Rect.top = pos.y;
-	m_Rect.right = pos.x + m_ImageInfo.Width * m_vScale.x;
-	m_Rect.bottom = pos.y + m_ImageInfo.Height * m_vScale.x;
+	
 
 	matWorld = matS * matT;
 
 	m_pSprite->SetTransform(&matWorld);
 
-
+	m_Rect.left = pos.x - (m_ImageInfo.Width / 2);
+	m_Rect.top = pos.y - (m_ImageInfo.Height / 2);
+	m_Rect.right = pos.x + (m_ImageInfo.Width / 2);
+	m_Rect.bottom = pos.y + (m_ImageInfo.Height / 2);
 
 	RECT rc;
 	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
-
 	m_pSprite->Draw(m_pTexture, &rc, NULL,
 		NULL, D3DCOLOR_ARGB(255, 255, 255, 255));
 

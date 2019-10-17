@@ -8,6 +8,7 @@ public:
 private:
 	LPD3DXFONT				m_pFont;
 	LPD3DXFONT				m_pName;
+	LPD3DXFONT				m_pAlarm;
 public:
 	void Initialize();
 	void Create_Font();

@@ -2,7 +2,7 @@
 #include "Text.h"
 
 
-CText::CText() : m_pFont(NULL), m_pName(NULL)
+CText::CText() : m_pFont(NULL), m_pName(NULL), m_pAlarm(NULL)
 {
 }
 
@@ -39,7 +39,6 @@ void CText::Create_Font()
 	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 	fd.PitchAndFamily = FF_DONTCARE;
 	lstrcpy(fd.FaceName, L"굴림체");
-
 	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pName);
 
 	
@@ -52,12 +51,24 @@ void CText::Create_Font()
 	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 	fd.PitchAndFamily = FF_DONTCARE;
 	lstrcpy(fd.FaceName, L"굴림체");
+	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pFont);
+
+
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 30;
+	fd.Width = 20;
+	fd.Weight = FW_HEAVY;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	lstrcpy(fd.FaceName, L"굴림체");
+	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pAlarm);
+
 	{
 		/*AddFontResourceA("font/umberto.ttf"); // 시스템에 없으면 추가.
 		lstrcpy(fd.FaceName, L"umberto");*/
 	}
-
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pFont);
 }
 
 void CText::Render(UI_SPELLTYPE type)
@@ -107,4 +118,8 @@ void CText::Render(UI_SPELLTYPE type)
 	default:
 		break;
 	}
+	RECT rect;
+	SetRect(&rect, 0, 20,1000, 50);
+	m_pAlarm->DrawTextA(NULL, string("챔피언을 선택하세요.").c_str(), string("챔피언을 선택하세요").length(), &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));	
+	SetTimeMgr();
 }
