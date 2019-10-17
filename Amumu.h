@@ -1,26 +1,29 @@
 #pragma once
 #include "Champion.h"
-
-class CAmumu : public CChampion
+class CAmumu :
+	public CChampion
 {
 public:
 	CAmumu();
-	virtual ~CAmumu();
+	~CAmumu();
 private:
-	LPD3DXMESH			m_pMesh;
-	float				m_fSize;
-	bool				m_IsRunning = false;
-	bool				m_bIsPicked = false;
+	LPD3DXMESH m_pMesh;
 public:
-	virtual	HRESULT		Initialize()	override;
-	virtual void		Progress()		override;
-	virtual void		Render()		override;
-	virtual void		Release()		override;
+	virtual void	SetContantTable();
+
 private:
-	void UpdateWorldMatrix();
-	void MouseControl();
-	void WASDControl();
+	void WorldSetting();
+	bool MouseCheck();
+	void SetAngleFromPostion();
+	bool Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed);
+	static bool MapChecktThreadLoop(int number, const VTXTEX * vtx);
+	static bool					bPick;
+	static D3DXVECTOR3			g_MouseHitPoint;
+	static std::atomic<bool>	g_bMouseHitPoint;
 public:
-	void SetPickingPoint(D3DXVECTOR3* pickpoint);
+	virtual HRESULT Initialize() override;
+	virtual void	Progress()   override;
+	virtual void	Render()     override;
+	virtual void	Release()    override;
 };
 

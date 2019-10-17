@@ -4,7 +4,12 @@
 #include <memory>
 #include <d3dx9.h>
 #include <d3d9.h>
-		 
+
+#pragma comment("")
+#include <fmod.hpp>
+#include <fmod_errors.h>
+
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <time.h>
@@ -17,7 +22,7 @@
 #include "ResourceFunc.h"
 #include "Include.h"
 
-#include<assert.h>
+#include <assert.h>
 #include <chrono>
 #include <condition_variable>
 #include <cstdio>
@@ -27,8 +32,8 @@
 #include <queue>
 #include <thread>
 #include <vector>
-#include<deque>
-#include<atomic>
+#include <deque>
+#include <atomic>
 
 // >> cheon
 #include "Cheon.h"

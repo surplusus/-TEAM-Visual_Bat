@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+
 class GuhyunScene :
 	public CScene
 {
@@ -12,10 +13,12 @@ public:
 	virtual void Progress();
 	virtual void Render();
 	virtual void Release();
-
+private:
+	float		m_fSceneTime = 0.f;
 private:
 	HRESULT Setup();
 	void Update();
+	void SoundUpdate();
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	template<typename T, typename U>
