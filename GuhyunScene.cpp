@@ -11,7 +11,7 @@
 
 #include "SoundManager.h"
 #include "Amumu.h"
-//#include "Ezreal.h"
+#include "Zealot.h"
 #include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
@@ -50,10 +50,10 @@ HRESULT GuhyunScene::Initialize()
 	}
 	
 	//=========== Add Mesh(static or dynamic) ===========//
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
-		, L"Ez.x", L"Amumu", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Zealot/"
+		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Amumu Load Failed");
+		ERR_MSG(g_hWnd, L"zealot Load Failed");
 	}
 
 	//=========== Add Mesh(Bounding) ===========//
@@ -67,9 +67,9 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Object ===========//	
 	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
+	if (FAILED(m_pObjMgr->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject())))
 	{
-		ERR_MSG(g_hWnd, L"Amumu Load Failed");
+		ERR_MSG(g_hWnd, L"Zealot Load Failed");
 	}
 
 
@@ -96,6 +96,7 @@ void GuhyunScene::Progress()
 void GuhyunScene::Render()
 {
 	m_pObjMgr->Render();
+	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
 
 void GuhyunScene::Release()

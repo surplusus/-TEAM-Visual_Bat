@@ -23,16 +23,17 @@ HRESULT CZealot::Initialize()
 
 void CZealot::Progress()
 {
-	UpdateWorldMatrix();
 	MouseControl();
+	QWERControl();
+	UpdateWorldMatrix();
+	m_pAnimationCtrl->SetAnimationSet("Stand");
+	m_pAnimationCtrl->FrameMove(L"Zealot", g_fDeltaTime);
 }
 
 void CZealot::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	m_pAnimationCtrl->SetAnimationSet("Armature_001Action");
-	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime / 1000.f);
-	Mesh_Render(GetDevice(), L"Ezreal");
+	Mesh_Render(GetDevice(), L"Zealot");
 }
 
 void CZealot::Release()
@@ -52,29 +53,44 @@ void CZealot::UpdateWorldMatrix()
 
 void CZealot::MouseControl()
 {
+	static bool isTurning = false;
 	if (MyGetMouseState().rgbButtons[0])
 		EnqueueMousePickingFunc();
-	D3DXVECTOR3 mouseHitPos;
-	if (g_bMouseHitPoint) {
+	if (g_bHitFloor) {
+		isTurning = true;
 		m_bIsPicked = true;
-		mouseHitPos = g_MouseHitPoint;
 	}
 
 	if (m_bIsPicked)
 	{
 		float speed;
-		if (TurnSlowly(&mouseHitPos))
+		if (isTurning) {
+			isTurning = TurnSlowly(&g_MouseHitPoint);
 			speed = 0.1f;
+		}
 		else
 			speed = 1.f;
-
+		printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
+			g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
 		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 0.1f 보다 작으면 false 리턴
-		m_bIsPicked = Update_vPos_ByDestPoint(&mouseHitPos, speed);
+		m_bIsPicked = Update_vPos_ByDestPoint(&g_MouseHitPoint, speed);
 	}
 }
 
-void CZealot::WASDControl()
+void CZealot::QWERControl()
 {
+	if (CheckPushKeyOneTime(VK_Q)) {
+
+	}
+	if (CheckPushKeyOneTime(VK_W)) {
+
+	}
+	if (CheckPushKeyOneTime(VK_E)) {
+
+	}
+	if (CheckPushKeyOneTime(VK_R)) {
+
+	}
 }
 
 bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
@@ -94,9 +110,7 @@ bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 		D3DXVECTOR3 left;
 		D3DXVec3Cross(&left, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
 		if (D3DXVec3Dot(&normal, &left) > 0)
-		{
 			m_fAngle[ANGLE_Y] -= radian * speed / 100.f;
-		}
 		else
 			m_fAngle[ANGLE_Y] += radian * speed / 100.f;
 	}

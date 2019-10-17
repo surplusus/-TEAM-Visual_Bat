@@ -19,7 +19,7 @@ private:
 	static bool MapChecktThreadLoop(int number, const VTXTEX * vtx);
 	static bool					bPick;
 	static D3DXVECTOR3			g_MouseHitPoint;
-	static std::atomic<bool>	g_bMouseHitPoint;
+	static std::atomic<bool>	g_bHitFloor;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;

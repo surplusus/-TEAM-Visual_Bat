@@ -9,20 +9,19 @@ public:
 	~CChampion();
 protected:
 	CObjMgr*				m_ObjMgr;
-	//LPD3DXMESH				m_pMesh;
 protected:
 	// Init
 
 	// Update
 	void		SetDirectionToMouseHitPoint();
-	bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bMouseHitPoint 로 결과를 받는다
-	// Thread
+	bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bHitFloor 로 결과를 받는다
 private:
-	static bool			MapCheckThreadLoop(int number, const VTXTEX* vtx);
+	// Thread
+	static bool	MapCheckThreadLoop(int number, const VTXTEX* vtx);
 	static bool					bPick;
 protected:
 	static D3DXVECTOR3			g_MouseHitPoint;
-	static std::atomic<bool>	g_bMouseHitPoint;
+	static std::atomic<bool>	g_bHitFloor;
 public:
 	virtual	HRESULT		Initialize()	PURE;
 	virtual void		Progress()		PURE;

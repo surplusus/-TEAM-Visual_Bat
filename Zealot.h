@@ -5,9 +5,8 @@ class CZealot :	public CChampion
 public:
 	CZealot();
 	virtual ~CZealot();
-
 private:
-	float				m_fSize = 0.1f;
+	float				m_fSize = 1.f;
 	bool				m_IsRunning = false;
 	bool				m_bIsPicked = false;
 public:
@@ -18,7 +17,7 @@ public:
 private:
 	void UpdateWorldMatrix();
 	void MouseControl();
-	void WASDControl();
+	void QWERControl();
 	bool TurnSlowly(const D3DXVECTOR3* destPos);
 };
 
