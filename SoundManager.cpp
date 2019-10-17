@@ -9,10 +9,16 @@ SoundManager::~SoundManager()
 		//FMOD_Sound_Release(it->second);
 	m_result = m_pSystem->close();
 	m_result = m_pSystem->release();
+	for (size_t i = 0; i < m_mapAlarm.size(); i++)
+	{
+		delete m_mapAlarm[i];
+		m_mapAlarm.erase(i);
+	}
 }
 
 void SoundManager::SetUp()
 {
+	const int idxSound = 10;
 	unsigned int version;
 	//FMOD_System_Create(&m_pSystem);
 	System_Create(&m_pSystem);
@@ -26,25 +32,28 @@ void SoundManager::SetUp()
 	m_result = m_pSystem->init(1, FMOD_INIT_NORMAL, 0);	ErrCheck(m_result);
 	m_result = m_pSystem->setStreamBufferSize(64 * 1024, FMOD_TIMEUNIT_RAWBYTES); ErrCheck(m_result);
 
-	Sound* sound;
-	m_pSystem->createSound("./Resource/Sound/gun.wav", FMOD_DEFAULT, 0, &sound);  ErrCheck(m_result);
-	map_pSounds["gun"] = sound;
-	m_pSystem->createSound("./Resource/Sound/get_coin.wav", FMOD_DEFAULT, 0, &sound);  ErrCheck(m_result);
-	map_pSounds["get_coin"] = sound;
-	m_pSystem->createSound("./Resource/Sound/bgm.wav", FMOD_LOOP_NORMAL, 0, &sound);  ErrCheck(m_result);
-	map_pSounds["bgm"] = sound;
-	m_pSystem->createSound("./Resource/Sound/30secleft.wav", FMOD_DEFAULT, 0, &sound);  ErrCheck(m_result);
-	map_pSounds["30secleft"] = sound;
-	m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound);  ErrCheck(m_result);
-	map_pSounds["createminion"] = sound;
-	m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound);  ErrCheck(m_result);
+	Sound* sound[idxSound];
+	m_result = m_pSystem->createSound("./Resource/Sound/gun.wav", FMOD_DEFAULT, 0, &sound[0]);  
+	ErrCheck(m_result);		map_pSounds["gun"] = sound[0];
+	m_result = m_pSystem->createSound("./Resource/Sound/get_coin.wav", FMOD_DEFAULT, 0, &sound[1]);  
+	ErrCheck(m_result);  	map_pSounds["get_coin"] = sound[1];
+	m_result = m_pSystem->createSound("./Resource/Sound/bgm.wav", FMOD_LOOP_NORMAL, 0, &sound[2]);  
+	ErrCheck(m_result);		map_pSounds["bgm"] = sound[2];
+	m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound[3]);  
+	ErrCheck(m_result);		map_pSounds["left30sec"] = sound[3];
+	m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound[4]);  
+	ErrCheck(m_result);		map_pSounds["createminion"] = sound[4];
+	m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound[5]);  
+	ErrCheck(m_result);		map_pSounds["welcome"] = sound[5];
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
-	map_pSounds["welcome"] = sound;
+	
 }
 
 void SoundManager::Update()
 {
 	m_pSystem->update();
+	if (m_mapAlarm.size() != 0)
+		m_cumulativeTime += g_fDeltaTime;
 }
 
 void SoundManager::PlayEffectSound(string name)
@@ -90,10 +99,10 @@ void SoundManager::PlayBGMSound(string name)
 
 void SoundManager::PlayAnnouncerMention(string name)
 {
-	float startTime = GetTime();
-	if (startTime - m_fPrevPlayTime < m_fPlayGap)
-		return;
-	m_fPrevPlayTime = startTime;
+	//float startTime = GetTime();
+	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
+	//	return;
+	//m_fPrevPlayTime = startTime;
 
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
@@ -162,4 +171,29 @@ void SoundManager::ErrCheck(FMOD_RESULT result)
 		printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
 		PostMessage(NULL, WM_QUIT, 0, 0);
 	}
+}
+
+bool SoundManager::PlayOnTime(float endsec, int idx)
+{
+	bool ringing = false;
+	if (m_mapAlarm.find(idx) == m_mapAlarm.end()) {
+		m_bitFlag |= (1 << idx);
+		MyAlarm* a = new MyAlarm;
+		m_mapAlarm[idx] = a;
+		m_mapAlarm[idx]->startTime = m_cumulativeTime;
+		printf("bitflaf on : %b", m_bitFlag);
+	}
+	if (m_cumulativeTime - m_mapAlarm[idx]->startTime >= endsec && (m_bitFlag & (1 << idx))) {
+		m_mapAlarm[idx]->isRinging = ringing = true;
+		m_bitFlag &= ~(1 << idx);
+	}
+
+	if (m_bitFlag == 0) {
+		m_cumulativeTime = 0.f;
+	}
+	return ringing;
+}
+
+void SoundManager::PlayBySoundType(T_SOUND sound)
+{
 }

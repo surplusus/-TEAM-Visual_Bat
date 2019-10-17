@@ -63,11 +63,8 @@ HRESULT CMainGame::Init()
 void CMainGame::Progress()
 {
 	SetInputState();
-	UpdateTimeMgr();
-	//if (!UpdateTimeMgr())
-	//	return;
-	SetTimeMgr();
-	//cout << "deltatime : " << g_fDeltaTime << " sec_per_frame" << 1.0/61.0 << endl;
+	//printf("Progress at : %f : %f\n", g_fDeltaTime, GetTime());
+	
 	GET_SINGLE(CSceneMgr)->Progress();
 }
 

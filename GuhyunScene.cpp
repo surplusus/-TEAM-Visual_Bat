@@ -119,45 +119,20 @@ void GuhyunScene::SoundUpdate()
 {
 	m_fSceneTime += GetTime();
 	float time[3] = { 0.2f, 4.f, 5.f };
-	static int bitFlag = 0;
-	//if (Alarm(GetTime(), 1.f, 1)) {
-	//	bitFlag = 1;
-	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
-	//	cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
-	//}
-	cout << GetTime() <<" " << g_fDeltaTime<< endl;
-	if (m_fSceneTime >= time[1] && bitFlag == 1) {
-		bitFlag = 2;
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("30secleft");
+	if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
+		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
+	}
+	if (GET_SINGLE(SoundManager)->PlayOnTime(5.f, 2)) {
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
 		cout << "미니언 생성까지 30초 남았습니다." << endl;
 	}
-
-	if (m_fSceneTime >= time[2] && bitFlag == 2) {
-		bitFlag = 4;
+	
+	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 3)) {
 		GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
 		cout << "미니언이 생성되었습니다." << endl;
 	}
 	GET_SINGLE(SoundManager)->Update();
-}
-
-bool GuhyunScene::Alarm(float getticktime, float endsec, int idx)
-{
-	static unordered_map<int, MyAlarm*> alarm;
-	bool isRinging = false;
-	if (alarm.find(idx) == alarm.end()) {
-		MyAlarm* a = new MyAlarm;
-		alarm[idx] = a;
-	}
-	alarm[idx]->cumulativeTime += getticktime;
-	if (alarm[idx]->cumulativeTime >= endsec) {
-		isRinging = alarm[idx]->isRinging;
-		alarm[idx]->isDead = true;
-	}
-	if (alarm[idx]->isDead) {
-		delete alarm[idx];
-		alarm.erase(idx);
-	}
-	return isRinging;
 }
 
 void GuhyunScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

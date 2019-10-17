@@ -67,6 +67,7 @@ int AppMain::WinMainLoop()
 		m_MainGame.Init();
 
 		while (msg.message != WM_QUIT) {
+			
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
@@ -74,7 +75,10 @@ int AppMain::WinMainLoop()
 			}
 			else
 			{
-				m_MainGame.Progress();
+				SetTimeMgr();
+				if (ControlFPS(m_fFramePerSec)) {
+					m_MainGame.Progress();
+				}
 				m_MainGame.Render();
 			}
 		}

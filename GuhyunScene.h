@@ -1,12 +1,6 @@
 #pragma once
 #include "Scene.h"
 
-struct MyAlarm
-{
-	float cumulativeTime = 0.f;
-	bool isRinging = false;
-	bool isDead = false;
-};
 class GuhyunScene :
 	public CScene
 {
