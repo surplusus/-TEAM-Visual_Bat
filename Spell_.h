@@ -15,13 +15,7 @@ public:
 	void Render() override;
 	void Render(D3DXVECTOR3 pos) override;
 	void Release() override;
-	
 
-private:
-	bool				bClicked;
-
-public:
-	bool Checked();
 private:
 	UI_SPELLTYPE				m_eType;
 public:

@@ -86,8 +86,8 @@ void CText::Create_Font()
 	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pTimeFont);
 
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 30;
-	fd.Width = 20;
+	fd.Height = 20;
+	fd.Width = 10;
 	fd.Weight = FW_HEAVY;
 	fd.Italic = false;
 	fd.CharSet = DEFAULT_CHARSET;
@@ -166,13 +166,12 @@ void CText::Render(UI_SPELLTYPE type)
 void CText::LoadingNoticeRender()
 {
 	RECT rc;
-	SetRect(&rc, 0, 380, 1000, 400);
-	Rectangle(GetDC(g_hWnd), rc.left, rc.top, rc.right, rc.bottom);
+	SetRect(&rc, 0, 350, 1000, 380);
 	m_pNotice->DrawTextA(
 		NULL,
 		m_sNotice.c_str(),
 		m_sNotice.length(),
 		&rc,
 		DT_CENTER | DT_NOCLIP,
-		D3DCOLOR_XRGB(255, 255, 255));
+		D3DCOLOR_XRGB(0, 0, 0));
 }

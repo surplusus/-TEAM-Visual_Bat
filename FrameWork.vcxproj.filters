@@ -477,7 +477,7 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>cheon\LoadingScene</Filter>
     </ClInclude>
-    <ClInclude Include="SelectedChamp.h">
+    <ClInclude Include="SelectedChampion.h">
       <Filter>cheon\LoadingScene\Selected Champ</Filter>
     </ClInclude>
   </ItemGroup>
@@ -689,7 +689,7 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>cheon\LoadingScene</Filter>
     </ClCompile>
-    <ClCompile Include="SelectedChamp.cpp">
+    <ClCompile Include="SelectedChampion.cpp">
       <Filter>cheon\LoadingScene\Selected Champ</Filter>
     </ClCompile>
   </ItemGroup>

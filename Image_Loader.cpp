@@ -108,4 +108,5 @@ void CImage_Loader::Render(D3DXVECTOR3 pos)
 void CImage_Loader::Release()
 {
 	delete m_pSprite;
+	delete this;
 }

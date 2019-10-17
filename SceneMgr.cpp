@@ -17,6 +17,7 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Initialize()
 {
 	m_State = new CLoadingScene;
+	//m_State = new CSelectScene;
 	if (m_State != NULL)
 		m_State->Initialize();
 }

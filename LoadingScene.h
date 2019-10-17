@@ -2,13 +2,15 @@
 #include "Scene.h"
 
 class CImage_Loader;
-
+class CSelectedChampion;
+class CUI;
 class CLoadingScene :
 	public CScene
 {
 public:
 	CLoadingScene();
 	~CLoadingScene();
+	CLoadingScene(CUI * Champ) {}
 public:
 	HRESULT Initialize();
 	void Progress() ;
@@ -18,5 +20,6 @@ public:
 
 private:
 	CImage_Loader*				m_pBackGround;
+	CSelectedChampion*			m_pChampSelect;
 };
 

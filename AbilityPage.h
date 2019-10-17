@@ -35,4 +35,3 @@ public:
 	void ImageRender_To_Masic();
 	void ImageRender_To_Resolution();
 };
-

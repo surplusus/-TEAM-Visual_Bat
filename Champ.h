@@ -27,4 +27,3 @@ public:
 	bool GetClicked() { return bClicked; }
 	void SetClicked(bool click) { bClicked = click; }
 };
-
