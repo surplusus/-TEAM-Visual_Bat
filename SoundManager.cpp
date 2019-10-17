@@ -18,7 +18,6 @@ SoundManager::~SoundManager()
 
 void SoundManager::SetUp()
 {
-	const int idxSound = 10;
 	unsigned int version;
 	//FMOD_System_Create(&m_pSystem);
 	System_Create(&m_pSystem);
@@ -32,19 +31,19 @@ void SoundManager::SetUp()
 	m_result = m_pSystem->init(1, FMOD_INIT_NORMAL, 0);	ErrCheck(m_result);
 	m_result = m_pSystem->setStreamBufferSize(64 * 1024, FMOD_TIMEUNIT_RAWBYTES); ErrCheck(m_result);
 
-	Sound* sound[idxSound];
-	m_result = m_pSystem->createSound("./Resource/Sound/gun.wav", FMOD_DEFAULT, 0, &sound[0]);  
-	ErrCheck(m_result);		map_pSounds["gun"] = sound[0];
-	m_result = m_pSystem->createSound("./Resource/Sound/get_coin.wav", FMOD_DEFAULT, 0, &sound[1]);  
-	ErrCheck(m_result);  	map_pSounds["get_coin"] = sound[1];
-	m_result = m_pSystem->createSound("./Resource/Sound/bgm.wav", FMOD_LOOP_NORMAL, 0, &sound[2]);  
-	ErrCheck(m_result);		map_pSounds["bgm"] = sound[2];
-	m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound[3]);  
-	ErrCheck(m_result);		map_pSounds["left30sec"] = sound[3];
-	m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound[4]);  
-	ErrCheck(m_result);		map_pSounds["createminion"] = sound[4];
-	m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound[5]);  
-	ErrCheck(m_result);		map_pSounds["welcome"] = sound[5];
+	Sound* sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/gun.wav", FMOD_DEFAULT, 0, &sound);  
+	ErrCheck(m_result);		map_pSounds["gun"] = sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/get_coin.wav", FMOD_DEFAULT, 0, &sound);  
+	ErrCheck(m_result);  	map_pSounds["get_coin"] = sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/bgm.wav", FMOD_LOOP_NORMAL, 0, &sound);  
+	ErrCheck(m_result);		map_pSounds["bgm"] = sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound);  
+	ErrCheck(m_result);		map_pSounds["left30sec"] = sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound);  
+	ErrCheck(m_result);		map_pSounds["createminion"] = sound;
+	m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound);  
+	ErrCheck(m_result);		map_pSounds["welcome"] = sound;
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
 }

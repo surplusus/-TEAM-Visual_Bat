@@ -49,10 +49,10 @@ HRESULT GuhyunScene::Initialize()
 	}
 	
 	//=========== Add Mesh(static or dynamic) ===========//
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
-		, L"Ez.x", L"Amumu", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Amumu/"
+		, L"Amumu.x", L"Amumu", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
+		ERR_MSG(g_hWnd, L"Amumu Load Failed");
 	}
 
 	//=========== Add Mesh(Bounding) ===========//
@@ -68,7 +68,7 @@ HRESULT GuhyunScene::Initialize()
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu>::CreateObject())))
 	{
-		ERR_MSG(g_hWnd, L"Ezreal Load Failed");
+		ERR_MSG(g_hWnd, L"Amumu Load Failed");
 	}
 
 
@@ -88,7 +88,7 @@ void GuhyunScene::Progress()
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
-	SoundUpdate();
+	//SoundUpdate();
 	//cout << "Get Time : " << GetTime() << " g_fdeltaTime : " << g_fDeltaTime << endl;
 }
 
@@ -123,12 +123,12 @@ void GuhyunScene::SoundUpdate()
 		GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
 		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	}
-	if (GET_SINGLE(SoundManager)->PlayOnTime(5.f, 2)) {
+	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
 		GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
 		cout << "미니언 생성까지 30초 남았습니다." << endl;
 	}
 	
-	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 3)) {
+	if (GET_SINGLE(SoundManager)->PlayOnTime(40.f, 3)) {
 		GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
 		cout << "미니언이 생성되었습니다." << endl;
 	}

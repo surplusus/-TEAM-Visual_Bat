@@ -19,7 +19,6 @@ private:
 	HRESULT Setup();
 	void Update();
 	void SoundUpdate();
-	bool Alarm(float getticktime, float endsec, int idx);
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	template<typename T, typename U>

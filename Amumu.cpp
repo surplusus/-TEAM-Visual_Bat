@@ -140,7 +140,7 @@ void CAmumu::Render()
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 	static bool b = true;
 	
-	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
+	m_pAnimationCtrl->SetAnimationSet("ArmatureAction");
 	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
 	Mesh_Render(GetDevice(), L"Amumu");
 }
