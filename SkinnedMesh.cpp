@@ -80,7 +80,7 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 void CSkinnedMesh::UpdateMatrix(BONE* pBone, D3DXMATRIX* pParentMatrix)
 {
 	if (pBone == NULL)
-		return;
+		pBone = (BONE*)m_pRootBone;
 
 	//pBone->matWorld = pBone->TransformationMatrix * *pParentMatrix;
 	D3DXMatrixMultiply(&pBone->matWorld, &pBone->TransformationMatrix

@@ -41,8 +41,8 @@ void CAmumu::WorldSetting()
 bool CAmumu::MouseCheck()
 {
 	if (m_ObjMgr == NULL) return false;
-	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
-	int number = m_ObjMgr->GetVtxNumber(L"Map");
+	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
+	int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
 
 	if (vtx == NULL) return false;
 	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())
@@ -140,7 +140,7 @@ void CAmumu::Render()
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 	static bool b = true;
 	
-	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
+	m_pAnimationCtrl->SetAnimationSet("ArmatureAction");
 	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
 	Mesh_Render(GetDevice(), L"Amumu");
 }

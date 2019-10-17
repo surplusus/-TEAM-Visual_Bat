@@ -50,6 +50,7 @@ void AppMain::WinMainInit(HINSTANCE hInst, HINSTANCE,LPSTR,INT)
 
 	RegisterClassEx(&m_wc);
 	RECT rc = {0,0, WINSIZEX,WINSIZEY};
+	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, NULL);
 	m_hWnd = CreateWindow(L"League of Legend", L"League of Legend 1.0", 
 		WS_OVERLAPPEDWINDOW,100, 100, rc.right-rc.left, rc.bottom-rc.top,
 		GetDesktopWindow(), NULL, m_wc.hInstance, NULL);
@@ -67,6 +68,7 @@ int AppMain::WinMainLoop()
 		m_MainGame.Init();
 
 		while (msg.message != WM_QUIT) {
+			
 			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
 				TranslateMessage(&msg);
@@ -74,7 +76,10 @@ int AppMain::WinMainLoop()
 			}
 			else
 			{
-				m_MainGame.Progress();
+				SetTimeMgr();
+				if (ControlFPS(m_fFramePerSec)) {
+					m_MainGame.Progress();
+				}
 				m_MainGame.Render();
 			}
 		}

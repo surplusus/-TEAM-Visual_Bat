@@ -35,29 +35,30 @@ void CTimeMgr::InitTimeMgr()
 	QueryPerformanceCounter(&m_FixTime);
 	// 备泅 货肺 父店	
 	QueryPerformanceCounter(&m_NowTime);
-	m_nFPS = 0;
-	m_fDeltaTime = 0.f;
-	m_fPileDeltaTime = 0.f;
 }
 
-bool CTimeMgr::UpdateTimeMgr()
+bool CTimeMgr::ControlFPS(float framePerSec)
 {
-	LARGE_INTEGER tTime;
-	QueryPerformanceCounter(&tTime);
-	m_fDeltaTime = (tTime.QuadPart - m_NowTime.QuadPart) / (float)m_CpuTick.QuadPart;
-
-	if (m_fDeltaTime < SEC_PER_FRAME) // frame 包府
-		return false;
-
-	m_NowTime = tTime;
-	static int nCountFPS = 0;
-	nCountFPS++;
-	m_fPileDeltaTime += m_fDeltaTime;
-	if (m_fPileDeltaTime >= 1.f) {
+	const float secByOneFrame = 1.f / framePerSec;
+	static int cntLoop = 0;
+	static float fPileUntilOneSec = 0.f;
+	bool checker = false;
+	m_fPileDeltaTime += GetTime();
+	fPileUntilOneSec += GetTime();
+	if (m_fPileDeltaTime >= secByOneFrame) {
+		checker = true;
+		g_fDeltaTime = m_fDeltaTime = m_fPileDeltaTime;
 		m_fPileDeltaTime = 0.f;
-		m_nFPS = nCountFPS;
-		nCountFPS = 0;
+		++cntLoop;
 	}
-	g_fDeltaTime = m_fDeltaTime;
-	return true;
+
+	if (fPileUntilOneSec >= 1.f)
+	{
+		//printf("PileUntilOneSec : %f\n", fPileUntilOneSec);
+		fPileUntilOneSec = 0.f;
+		m_nFPS = cntLoop;
+		cntLoop = 0;
+	}
+
+	return checker;
 }

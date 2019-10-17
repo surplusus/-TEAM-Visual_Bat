@@ -18,17 +18,17 @@ private:
 private:
 	float   m_fTime;
 	// 구현 새로 만듦
-	int		m_nFPS;
-	float	m_fDeltaTime;
-	float   m_fPileDeltaTime;
-	const float SEC_PER_FRAME = 1.0 / 61.0;
+	int		m_nFPS = 0.f;
+	float	m_fDeltaTime = 0.f;
+	float   m_fPileDeltaTime = 0.f;
+	const float SEC_PER_FRAME = 1.0f / 60.0f;
 public:
 	void SetTime();
 	void InitTimeMgr();
 	// 구현 새로 만듦
-	bool UpdateTimeMgr();
+	bool ControlFPS(float framePerSec);
 public:
-	float GetTime() const {
+	float GetTime() const {		
 		return m_fTime;
 	}
 	// 구현 새로 만듦
