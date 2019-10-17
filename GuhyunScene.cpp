@@ -11,7 +11,7 @@
 
 #include "SoundManager.h"
 #include "Amumu.h"
-#include "Ezreal.h"
+//#include "Ezreal.h"
 #include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
@@ -25,7 +25,7 @@ GuhyunScene::~GuhyunScene()
 
 HRESULT GuhyunScene::Initialize()
 {
-	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
+	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(-15.f, 30.f, -20.f)
 		, D3DXVECTOR3(0.f, 10.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
@@ -33,6 +33,7 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 	GET_SINGLE(SoundManager)->SetUp();
+
 
 	//=========== Add Texture ===========//
 	//if (FAILED(InsertTexture(GetDevice()
@@ -49,8 +50,8 @@ HRESULT GuhyunScene::Initialize()
 	}
 	
 	//=========== Add Mesh(static or dynamic) ===========//
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Amumu/"
-		, L"Amumu.x", L"Amumu", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/"
+		, L"Ez.x", L"Amumu", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Amumu Load Failed");
 	}

@@ -405,11 +405,11 @@
     <ClInclude Include="Ray.h">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="Ezreal.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>System\SystemManager\SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Zealot.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -584,11 +584,11 @@
     <ClCompile Include="Ray.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="Ezreal.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>System\SystemManager\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Zealot.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

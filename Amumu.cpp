@@ -1,7 +1,6 @@
 #include "BaseInclude.h"
 #include "Amumu.h"
 #include "ThreadPool.h"
-#include "BaseInclude.h"
 #include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
@@ -132,6 +131,8 @@ void CAmumu::Progress()
 		g_bMouseHitPoint = false;
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
+	m_pAnimationCtrl->SetAnimationSet("RightAttack1");
+	m_pAnimationCtrl->FrameMove(L"Amumu", g_fDeltaTime / 100);
 }
 
 void CAmumu::Render()
@@ -140,8 +141,7 @@ void CAmumu::Render()
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 	static bool b = true;
 	
-	m_pAnimationCtrl->SetAnimationSet("ArmatureAction");
-	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
+
 	Mesh_Render(GetDevice(), L"Amumu");
 }
 

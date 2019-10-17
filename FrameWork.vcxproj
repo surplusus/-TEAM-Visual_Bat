@@ -34,7 +34,6 @@
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
-    <ClInclude Include="Ezreal.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -94,6 +93,7 @@
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
+    <ClInclude Include="Zealot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Amumu.cpp" />
@@ -113,7 +113,6 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
-    <ClCompile Include="Ezreal.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
@@ -167,6 +166,7 @@
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />
     <ClCompile Include="Obj.cpp" />
+    <ClCompile Include="Zealot.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6361E8D1-DB23-4357-B567-D00501F45692}</ProjectGuid>
