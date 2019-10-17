@@ -30,6 +30,7 @@ void cHUDScene::Render()
 
 void cHUDScene::Release()
 {
+	GET_SINGLE(cGameHUD)->Release();
 }
 
 void cHUDScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

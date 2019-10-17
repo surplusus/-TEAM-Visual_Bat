@@ -20,6 +20,5 @@ public:
 
 private:
 	cGameHUD * m_pGameHUD;
-
 };
 

@@ -3,6 +3,8 @@
 
 #include "ImageLoader.h"
 
+#include "Font.h"
+
 cGameHUD::cGameHUD()
 {
 	m_isLButtonDown = false;
@@ -58,6 +60,9 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(1150, 0, 0));
 	m_mapImage["time"] = time;
 	m_mapImage["time"]->Initialize();
+
+	m_Text = new cFont;
+	m_Text->Initialize(20, 10, L"±Ã¼­Ã¼");
 }
 
 void cGameHUD::Progress()
@@ -74,10 +79,17 @@ void cGameHUD::Render()
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
+
+	m_Text->Render("abcd");
 }
 
 void cGameHUD::Release()
 {
+	for (auto it = m_mapImage.begin();
+		it != m_mapImage.end(); it++)
+	{
+		it->second->Release();
+	}
 }
 
 void cGameHUD::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -1,6 +1,7 @@
 #pragma once
 
 class cImageLoader;
+class cFont;
 
 class cGameHUD
 {
@@ -20,6 +21,8 @@ public:
 
 private:
 	map<string, cImageLoader *> m_mapImage;
+	cFont * m_Text;
+
 	bool m_isLButtonDown;
 };
 
