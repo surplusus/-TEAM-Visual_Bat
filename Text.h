@@ -15,6 +15,7 @@ public:
 	void Initialize();
 	void Create_Font();
 	void Render(UI_SPELLTYPE type= SPELLTYPE_End);
+	void Render_time();
 
 	void LoadingNoticeRender();
 private:
@@ -45,5 +46,7 @@ public:
 	string GetTeleport() { return m_Teleport; }
 	string GetIgnite() { return m_Ignite; }
 	string GetBairrer() { return m_Barrier; }
+
+	string GetTimer() { return m_sTime; }
 };
 

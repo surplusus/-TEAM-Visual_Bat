@@ -34,7 +34,7 @@ private:
 
 	// >> temp
 private:
-	CImage_Loader*						m_testsuzi;
+	vector<CImage_Loader*>						m_vecBackGround;
 
 	// >> new class
 	CUI*								m_pChamp;

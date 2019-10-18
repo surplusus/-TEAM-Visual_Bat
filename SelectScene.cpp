@@ -16,7 +16,6 @@ string g_Spell_1;
 string g_Spell_2;
 CSelectScene::CSelectScene()
 	:m_p2Dmouse(NULL)
-	, m_testsuzi(NULL)
 	, m_pChamp(NULL)
 	, m_pSpell(NULL)
 	, m_pSpellRender_1(NULL)
@@ -34,8 +33,16 @@ CSelectScene::~CSelectScene()
 
 HRESULT CSelectScene::Initialize()
 {	
-	m_testsuzi = new CImage_Loader("Resource/choen/suzi.jpeg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.7f, 1.7f, 0));
-	if (m_testsuzi)	m_testsuzi->Initialize();
+	m_vecBackGround.push_back( new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
+	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
+	
+	for (int i = 0; i < m_vecBackGround.size(); i++)
+	{
+		if (m_vecBackGround[i])
+		{
+			m_vecBackGround[i]->Initialize();
+		}
+	}
 
 	ChampInitialize();
 	SpellInitialize();
@@ -72,19 +79,24 @@ void CSelectScene::Progress()
 		}
 	}
 
-
-	if (GetAsyncKeyState(VK_ESCAPE))
+	
+	/*if (GET_SINGLE(CText)->GetTimer() == "0")
 	{
 		GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
-	}
+	}*/
+	if(GetAsyncKeyState(VK_ESCAPE))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
+
 }
 
 void CSelectScene::Render()
 {
-	//if (m_testsuzi) m_testsuzi->Render();
+	for (int i = 0; i < m_vecBackGround.size(); i++)
+	{
+		if (m_vecBackGround[i]) m_vecBackGround[i]->Render();
+	}
 
 	MyDrawFPSByTimeMgr();
-
+	GET_SINGLE(CText)->Render_time();
 	ChampRender();
 	SpellRender();
 }
@@ -101,13 +113,14 @@ void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
 
 void CSelectScene::ChampInitialize()
 {
-	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.dds", D3DXVECTOR3(250, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
-	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.dds", D3DXVECTOR3(350, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
+	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.dds", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
+	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.dds", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
 
 	m_mapUI_List.insert(make_pair("Champ", &m_vecChamp));
 
-	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Circle_0.dds", D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
-	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Circle.dds", D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
+	D3DXVECTOR3 pick = D3DXVECTOR3(60, 258, 0);
+	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.dds",	pick, D3DXVECTOR3(0.48f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.dds", pick, D3DXVECTOR3(0.48f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
