@@ -16,12 +16,13 @@ private:
 	CImage_Loader*						m_pImageLoader;
 	D3DXVECTOR3							m_vPosition;
 	D3DXVECTOR3							m_scale;
-	CUI*								m_pSelect1;
-	CUI*								m_pSelect2;
+	vector<CUI*>						m_vecSpells;
 
 private:
 	UI_SPELLTYPE						m_eType;
 
 	bool Checked();
+public:
+	vector<CUI*>	GetVecSpells() { return m_vecSpells; }
 };
 

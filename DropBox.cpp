@@ -10,8 +10,6 @@
 
 CDropBox::CDropBox(D3DXVECTOR3 pos, D3DXVECTOR3 scale) : m_vPosition(pos), m_scale(scale)
 , m_pImageLoader(NULL)
-, m_pSelect1(NULL)
-, m_pSelect2(NULL)
 {
 }
 
@@ -68,23 +66,20 @@ void CDropBox::Initialize()
 	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
 	{
 		it->second->Initialize();
+		m_vecSpells.push_back(it->second);
 	}
 	GET_SINGLE(CText)->Initialize();
 }
 
 void CDropBox::Progress()
 {
-
-		if (Checked() == true)
+	if (Checked() == true)
+	{
+		for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
 		{
-			for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
-			{
-				if (GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second))		m_eType = GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second);
-			}
+			if (GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second))		m_eType = GET_SINGLE(C2DMouse)->Is_PointInSpellImage(it->second);
 		}
-		if(GetAsyncKeyState(VK_RBUTTON))	cout << "¸¶¿ì½º ÁÂÇ¥ : " << GET_SINGLE(C2DMouse)->GetMousePoint().x << " " << GET_SINGLE(C2DMouse)->GetMousePoint().y << endl;
-
-	
+	}
 }
 
 void CDropBox::Render()

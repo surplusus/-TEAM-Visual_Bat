@@ -17,4 +17,5 @@ public:
 	CUI* IsInImage_(CUI* vecUI);
 
 	UI_SPELLTYPE Is_PointInSpellImage(CUI * UI);
+	string IsInImage_Spell(CUI* UI);
 };

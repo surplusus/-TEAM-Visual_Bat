@@ -30,6 +30,7 @@ void CText::Initialize()
 	m_vecNotice.push_back(string("UI가 이렇게 어려울 줄이야"));
 	m_vecNotice.push_back(string("다같이 취업됬으면 좋겠네요"));
 	m_vecNotice.push_back(string("앞으로 더 열심히 살겁니다."));
+	m_vecNotice.push_back(string("취업하고 싶어요ㅠㅠ"));
 
 	m_sNotice = m_vecNotice[rand() % m_vecNotice.size()];
 
@@ -39,52 +40,77 @@ void CText::Initialize()
 void CText::Create_Font()
 {
 	D3DXFONT_DESC fd;
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 15;
-	fd.Width = 8;
-	fd.Weight = FW_MEDIUM;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	lstrcpy(fd.FaceName, L"굴림체");
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pName);
 
-	
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 10;
-	fd.Width = 4;
-	fd.Weight = FW_MEDIUM;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	lstrcpy(fd.FaceName, L"굴림체");
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pFont);
+	//스펠 이름
+	{
+		ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+		fd.Height = 15;
+		fd.Width = 8;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		lstrcpy(fd.FaceName, L"굴림체");
+		D3DXCreateFontIndirect(GetDevice(), &fd, &m_pName);
+	}
 
+	//스펠 설명
+	{
+		ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+		fd.Height = 10;
+		fd.Width = 4;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		//lstrcpy(fd.FaceName, L"굴림체");
+		{
+			AddFontResourceA("Resource/Fonts/BeaufortforLOL-Bold.ttf"); // 시스템에 없으면 추가.
+			lstrcpy(fd.FaceName, L"umberto");
+		}
+		D3DXCreateFontIndirect(GetDevice(), &fd, &m_pFont);
+	}
 
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 30;
-	fd.Width = 20;
-	fd.Weight = FW_HEAVY;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	lstrcpy(fd.FaceName, L"굴림체");
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pAlarm);
+	//알람
+	{
+		ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+		fd.Height = 30;
+		fd.Width = 20;
+		fd.Weight = FW_HEAVY;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		//lstrcpy(fd.FaceName, L"굴림체");
+		{
+			AddFontResourceA("Resource/BeaufortforLOL-Bold/arial.ttf"); // 시스템에 없으면 추가.
+			lstrcpy(fd.FaceName, L"umberto");
+		}
+		D3DXCreateFontIndirect(GetDevice(), &fd, &m_pAlarm);
+	}
 
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 30;
-	fd.Width = 20;
-	fd.Weight = FW_HEAVY;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-	lstrcpy(fd.FaceName, L"굴림체");
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pTimeFont);
+	//타이머
+	{
+		ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+		fd.Height = 30;
+		fd.Width = 20;
+		fd.Weight = FW_HEAVY;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		//lstrcpy(fd.FaceName, L"굴림체");
+		{
+			AddFontResourceA("Resource/Fonts/BeaufortforLOL-Bold.ttf"); // 시스템에 없으면 추가.
+			lstrcpy(fd.FaceName, L"umberto");
+		}
+		D3DXCreateFontIndirect(GetDevice(), &fd, &m_pTimeFont);
+	}
 
+	//알림
+	{
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
 	fd.Height = 20;
 	fd.Width = 10;
@@ -93,13 +119,13 @@ void CText::Create_Font()
 	fd.CharSet = DEFAULT_CHARSET;
 	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 	fd.PitchAndFamily = FF_DONTCARE;
-	lstrcpy(fd.FaceName, L"굴림체");
-	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pNotice);
-
+	//lstrcpy(fd.FaceName, L"굴림체");
 	{
-		/*AddFontResourceA("font/umberto.ttf"); // 시스템에 없으면 추가.
-		lstrcpy(fd.FaceName, L"umberto");*/
+		AddFontResourceA("Resource/Fonts/BeaufortforLOL-Bold.ttf"); // 시스템에 없으면 추가.
+		lstrcpy(fd.FaceName, L"umberto");
 	}
+	D3DXCreateFontIndirect(GetDevice(), &fd, &m_pNotice);
+	}	
 }
 
 void CText::Render(UI_SPELLTYPE type)

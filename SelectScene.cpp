@@ -7,7 +7,13 @@
 #include "Spell_.h"
 #include "DropBox.h"
 #include "Text.h"
+#include "SceneMgr.h"
+#include "LoadingScene.h"
 
+static CUI* temp = NULL;
+string g_ChampName;
+string g_Spell_1;
+string g_Spell_2;
 CSelectScene::CSelectScene()
 	:m_p2Dmouse(NULL)
 	, m_testsuzi(NULL)
@@ -54,6 +60,23 @@ void CSelectScene::Progress()
 		}
 	}
 	if (m_pDorpBox) m_pDorpBox->Progress();
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		if (m_pDorpBox)
+		{
+			for (int i = 0; i < m_pDorpBox->GetVecSpells().size(); i++)
+			{
+				if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox->GetVecSpells()[i]))
+					g_Spell_1 = GET_SINGLE(C2DMouse)->IsInImage_Spell(m_pDorpBox->GetVecSpells()[i]);
+			}
+		}
+	}
+
+
+	if (GetAsyncKeyState(VK_ESCAPE))
+	{
+		GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
+	}
 }
 
 void CSelectScene::Render()
@@ -78,12 +101,13 @@ void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
 
 void CSelectScene::ChampInitialize()
 {
-	m_vecChamp.push_back(new CChamp("Garen", "Resource/choen/ChampImage/Garen/Garen_Square.dds",   D3DXVECTOR3(250, 150, 0),D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
-	m_vecChamp.push_back(new CChamp("Aatrox", "Resource/choen/ChampImage/Atrox/Aatrox_Square.dds", D3DXVECTOR3(350, 150, 0),D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
+	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.dds", D3DXVECTOR3(250, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
+	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.dds", D3DXVECTOR3(350, 150, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f)));
+
 	m_mapUI_List.insert(make_pair("Champ", &m_vecChamp));
 
-	m_vecChampCircle.push_back(new CChamp("Garen", "Resource/choen/ChampImage/Garen/Garen_Circle.dds",   D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f),UI_CHAMPTYPE_DYNAMIC));
-	m_vecChampCircle.push_back(new CChamp("Aatrox", "Resource/choen/ChampImage/Atrox/Aatrox_Circle.dds", D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f),UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Circle_0.dds", D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Circle.dds", D3DXVECTOR3(80, 300, 0), D3DXVECTOR3(0.5f, 0.5f, 0.5f), UI_CHAMPTYPE_DYNAMIC));
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
@@ -94,7 +118,12 @@ void CSelectScene::ChampInitialize()
 void CSelectScene::SpellInitialize()
 {
 	m_pDorpBox = new CDropBox(D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0.7f, 0.7f, 0.7f));
-	m_pDorpBox->Initialize();
+	if(m_pDorpBox)	m_pDorpBox->Initialize();
+
+	if (m_pDorpBox)
+	{
+		m_pSpellRender_1 = m_pDorpBox->GetVecSpells()[rand() % m_pDorpBox->GetVecSpells().size()];
+	}
 }
 
 void CSelectScene::ChampRender()
@@ -113,14 +142,37 @@ void CSelectScene::ChampRender()
 		{
 			if (m_pChamp->GetName() == m_vecChampCircle[i]->GetName())
 			{
-				m_vecChampCircle[i]->Render();
+				temp = m_vecChampCircle[i];
+				g_ChampName = m_vecChampCircle[i]->GetName();
 				break;
 			}
 		}
 	}
+	if(temp) temp->Render();
 }
 
 void CSelectScene::SpellRender()
 {
-	m_pDorpBox->Render();
+	if(m_pDorpBox)	m_pDorpBox->Render();
+	/*if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		for (int i = 0; i < m_pDorpBox->GetVecSpells().size(); i++)
+		{
+			if (GET_SINGLE(C2DMouse)->IsInImage(m_pSpellRender_1))
+				if (m_pDorpBox)
+					m_pDorpBox->Render();
+		}
+	}*/
+
+	if (m_pDorpBox)
+	{
+		for (int i = 0; i < m_pDorpBox->GetVecSpells().size(); i++)
+			if (m_pDorpBox->GetVecSpells()[i]->GetName() == g_Spell_1)
+				m_pSpellRender_1 = m_pDorpBox->GetVecSpells()[i];
+	}
+	if (m_pSpellRender_1)
+	{
+		m_pSpellRender_1->Render(D3DXVECTOR3(20, 300, 0));
+		m_pSpellRender_1->Render(D3DXVECTOR3(500, 700, 0));
+	}
 }

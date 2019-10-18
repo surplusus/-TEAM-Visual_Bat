@@ -3,6 +3,8 @@
 #include "Image_Loader.h"
 #include "SelectedChampion.h"
 #include "Text.h"
+#include "SceneMgr.h"
+#include "SelectScene.h"
 
 CLoadingScene::CLoadingScene() :m_pBackGround(NULL)
 {
@@ -27,19 +29,38 @@ HRESULT CLoadingScene::Initialize()
 
 
 	GET_SINGLE(CText)->Initialize();
-	return E_NOTIMPL;
+	cout << "·Îµù µÊ" << endl;
+	return S_OK;
 }
+
+static int x = 0;
 
 void CLoadingScene::Progress()
 {
+	if (GetAsyncKeyState(VK_SPACE))
+		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 }
 
 void CLoadingScene::Render()
 {
 	m_pBackGround->Render();
 	GET_SINGLE(CText)->LoadingNoticeRender();
-
 	m_pChampSelect->Render();
+
+	Rectangle(GetDC(g_hWnd), 0, WINSIZEY - 20, x, WINSIZEY);
+	static int i = 0;
+	i++;
+	if (i <= WINSIZEX)
+	{
+		return;
+	}
+	i = 0;
+
+	x += (WINSIZEX / 100);
+	if (WINSIZEX < x)	x = WINSIZEX;
+
+
+	cout << x << endl;
 }
 
 void CLoadingScene::Release()

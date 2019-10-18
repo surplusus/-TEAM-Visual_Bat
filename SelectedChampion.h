@@ -19,4 +19,12 @@ public:
 private:
 	CImage_Loader*				m_pLoadingBoarder_blue;
 	CImage_Loader*				m_pLoadingBoarder_red;
+
+	map<string, CUI*>			m_mapChampList;
+	map<string, CUI*>			m_mapSpellList_1;
+	map<string, CUI*>			m_mapSpellList_2;
+
+	CUI*						m_pEnemy;
+	void ChampInitialize();
+	void SpellInitialize();
 };

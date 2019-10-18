@@ -40,6 +40,7 @@ void CSpell_::Render()
 void CSpell_::Render(D3DXVECTOR3 pos)
 {
 	m_ImageLoader->Render(pos);
+	Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 }
 
 void CSpell_::Release()
