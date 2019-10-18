@@ -34,14 +34,14 @@ HRESULT GameScene::Initialize()
 	if (Setup())
 		return E_FAIL;
 	
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Amumu", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+	//}
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Amumu", MESHTYPE_DYNAMIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	//}
 
 	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//	return E_FAIL;
@@ -50,10 +50,10 @@ HRESULT GameScene::Initialize()
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		return E_FAIL;
 
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu >::CreateObject())))
-		return E_FAIL;
+	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//	return E_FAIL;
+	//if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu >::CreateObject())))
+	//	return E_FAIL;
 
 	//ObjMgr정보를 등록한다.
 	//const CObj*pObj = m_pObjMgr->GetObj(L"Amumu");

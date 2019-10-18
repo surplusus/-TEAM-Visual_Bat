@@ -155,7 +155,7 @@ void CAnimationCtrl::FrameMove(const TCHAR * pMeshKey, float fTime)
 	if (m_bIsBlending)
 	{
 		m_fTimeDuringBlending += fTime;
-		if (m_fTimeDuringBlending >= m_fBlendProcessTime)
+		if (m_fTimeDuringBlending >= m_fAniOverlapTime)
 		{
 			//m_fTimeDuringBlending = 0.f;
 			m_bIsBlending = false;
@@ -164,7 +164,7 @@ void CAnimationCtrl::FrameMove(const TCHAR * pMeshKey, float fTime)
 		}
 		else
 		{
-			float fWeight = m_fTimeDuringBlending / m_fBlendProcessTime;
+			float fWeight = m_fTimeDuringBlending / m_fAniOverlapTime;
 			m_pAniCtrl->SetTrackWeight(0, fWeight);
 			m_pAniCtrl->SetTrackWeight(1, 1.f - fWeight);
 		}

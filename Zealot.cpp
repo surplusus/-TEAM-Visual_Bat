@@ -1,6 +1,8 @@
 #include "BaseInclude.h"
 #include "Zealot.h"
 #include "Ray.h"
+#include "ObjMgr.h"
+
 
 CZealot::CZealot()
 {
@@ -47,8 +49,14 @@ void CZealot::Release()
 
 void CZealot::MouseControl()
 {
-	if (MyGetMouseState().rgbButtons[0])
-		EnqueueMousePickingFunc();
+	if (MyGetMouseState().rgbButtons[0]) {
+		m_pAnimationCtrl->BlendAnimationSet("Walk");
+		const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
+		int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
+		if (MapCheckThreadLoop(number, vtx))
+			return;
+		//EnqueueMousePickingFunc();
+	}
 	if (g_bHitFloor) {
 		m_IsRunning = true;
 		g_bHitFloor = false;
@@ -57,15 +65,17 @@ void CZealot::MouseControl()
 
 	if (m_IsRunning)
 	{
-		float speed = 10.f;
+		float speed = 2.5f;
 		printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
 			g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
-
-		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 0.1f 보다 작으면 false 리턴
-		m_IsRunning = Update_vPos_ByDestPoint(&g_MouseHitPoint, speed);
-
-		if (m_IsTurning)
+		if (m_IsTurning) {
 			m_IsTurning = TurnSlowly(&g_MouseHitPoint);
+		}
+
+		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 작으면 false 리턴
+		m_IsRunning = Update_vPos_ByDestPoint(&g_MouseHitPoint, speed);
+		if (!m_IsRunning)
+			m_pAnimationCtrl->BlendAnimationSet("Stand");
 	}
 }
 
@@ -94,10 +104,11 @@ bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 	// m_Info.vDir : (0,0,-1)
 	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
 	float fRadian = acosf(fDot);
-	float fDirLerped = lerp(0.f, fRadian, 0.5f);
+	float fDirLerped = fRadian / 7.f;
+	//float fDirLerped = fRadian;
 
 	if (fabs(fDirLerped) <= 0.01f){
-		fDirLerped = fRadian;
+		m_fAngle[ANGLE_Y] += fRadian;
 		return false;
 	}
 

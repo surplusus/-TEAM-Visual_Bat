@@ -22,7 +22,7 @@ private:
 	string	m_sAnimationSets;
 	bool	m_bIsBlending = false;
 	float   m_fTimeDuringBlending = 0.f;
-	const float		   m_fBlendProcessTime = 1.f;
+	const float	 m_fAniOverlapTime = 0.25f;
 	double  m_dPeriodCurAnimSet = 0.0;
 	vector<string> m_vAllAnimationName;
 public:

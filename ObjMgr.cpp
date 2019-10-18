@@ -103,6 +103,7 @@ const VTXTEX* CObjMgr::GetVtxInfo(const TCHAR* pObjKey, const int& iCnt /*= 0*/)
 {
 	DWORD	dwIndex = Hashing(pObjKey);
 
+	
 	for (auto iter = m_pObjects[dwIndex]->begin();
 		iter != m_pObjects[dwIndex]->end(); ++iter)
 	{

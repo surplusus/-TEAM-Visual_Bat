@@ -17,7 +17,7 @@ protected:
 	void		UpdateWorldMatrix();
 	void		SetDirectionToMouseHitPoint();
 	bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bHitFloor 로 결과를 받는다
-private:
+//private:
 	// Thread
 	static bool	MapCheckThreadLoop(int number, const VTXTEX* vtx);
 	static bool					bPick;
