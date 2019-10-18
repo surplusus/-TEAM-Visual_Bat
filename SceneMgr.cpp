@@ -22,13 +22,13 @@ void CSceneMgr::Initialize()
 
 void CSceneMgr::Progress()
 {
-	if (m_State != NULL && m_bSignChangeScene == false)
+	if (m_State != NULL)
 		m_State->Progress();
 }
 
 void CSceneMgr::Render()
 {
-	if (m_State != NULL && m_bSignChangeScene == false)
+	if (m_State != NULL)
 		m_State->Render();
 }
 
@@ -39,7 +39,6 @@ void CSceneMgr::Release()
 
 		delete m_State;
 		m_State = NULL;
-		TriggerOffChangeScene();
 	}
 }
 
@@ -63,16 +62,7 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 
 	m_State = pState;
 
-	TriggerOnChangeScene();
+	m_State->Initialize();
+
 	return S_OK;
-}
-
-void CSceneMgr::TriggerOffChangeScene()
-{
-	m_bSignChangeScene = false;
-}
-
-void CSceneMgr::TriggerOnChangeScene()
-{
-	m_bSignChangeScene = true;
 }

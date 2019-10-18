@@ -6,18 +6,19 @@ public:
 	CZealot();
 	virtual ~CZealot();
 private:
-	float				m_fSize = 1.f;
 	bool				m_IsRunning = false;
-	bool				m_bIsPicked = false;
+	bool				m_IsTurning = false;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 private:
-	void UpdateWorldMatrix();
+	//void UpdateWorldMatrix(); Champion 클래스에 있음
 	void MouseControl();
 	void QWERControl();
-	bool TurnSlowly(const D3DXVECTOR3* destPos);
+	bool TurnSlowly(const D3DXVECTOR3* destPos);	// 수정해야됨
+
+	float lerp(float p1, float p2, float d);
 };
 

@@ -12,15 +12,19 @@ private:
 	//각 모션당 한 Set이라고 부름, 만약 위에 네가지 모션이 있으면
 	//x파일은 네가지 애니메이션 set을 가진 것이라고 할 수 있음
 	
-	DWORD m_dwCurrentTrack;//현재 트랙
-	DWORD m_dwNewTrack;//새로운 것
+	DWORD m_dwCurrentTrack;	//현재 트랙
+	DWORD m_dwNewTrack;		//새로운 것
 	DWORD m_dwCurrentAniSet;//현재 애니메이션 set
 
 	//x파일 내에서 제공해주는 애니메이션 Set갯수
-	int m_numAnimationSets;
-	string m_sAnimationSets;
-	int m_fCurrentTime;
-
+	int		m_fDurationTime;
+	int		m_numAnimationSets;
+	string	m_sAnimationSets;
+	bool	m_bIsBlending = false;
+	float   m_fTimeDuringBlending = 0.f;
+	const float		   m_fBlendProcessTime = 1.f;
+	double  m_dPeriodCurAnimSet = 0.0;
+	vector<string> m_vAllAnimationName;
 public:
 	//애니메이션 관련 함수
 	// 해당 함수들은 애니메이션을 들리고자하느 객체의 Progres함수에서 반복 호출
@@ -28,8 +32,9 @@ public:
 	//여기에서 인데스는 전체 애니메이션중 어떤 부분을 돌려줄 것인지 판단하는 인자
 	void SetAnimationSet(int);
 	void SetAnimationSet(string aniName);
+	void BlendAnimationSet(string aniName);
 	void FrameMove(const TCHAR* pMeshKey, float fTime);
-
+	void DisplayAniSetNameOnConsole();
 public:
 	LPD3DXANIMATIONCONTROLLER* GetAniCtrl()
 	{

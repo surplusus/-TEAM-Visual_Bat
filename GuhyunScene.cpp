@@ -25,8 +25,9 @@ GuhyunScene::~GuhyunScene()
 
 HRESULT GuhyunScene::Initialize()
 {
-	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(-15.f, 30.f, -20.f)
-		, D3DXVECTOR3(0.f, 10.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
+	//if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(-15.f, 30.f, -20.f)
+	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
+		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
 
@@ -44,11 +45,14 @@ HRESULT GuhyunScene::Initialize()
 	//	ERR_MSG(g_hWnd, L"Texture Create Failed");
 	//	return E_FAIL;
 	//}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
+	//}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
 	{
 		ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
 	}
-	
 	//=========== Add Mesh(static or dynamic) ===========//
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Zealot/"
 		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))

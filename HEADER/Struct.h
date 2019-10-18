@@ -104,8 +104,8 @@ const DWORD	VTXFVF_VTXCOL = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 typedef struct tagInfo
 {
 	D3DXVECTOR3		vPos;		// 위치
-	D3DXVECTOR3		vLook;		// 카메라 방향
-	D3DXVECTOR3		vDir;		// 캐릭터 전방
+	D3DXVECTOR3		vLook;		// 캐릭터 기준 방향(matrix만들때 쓴다, 왠만하면 고치지말것)
+	D3DXVECTOR3		vDir;		// 캐릭터 전방(Look이 정해준다)
 	D3DXMATRIX		matWorld;	// 캐릭터 월드 매트릭스
 }INFO;
 

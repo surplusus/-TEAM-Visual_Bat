@@ -34,6 +34,23 @@ CChampion::~CChampion()
 
 }
 
+void CChampion::UpdateWorldMatrix()
+{
+	D3DXMATRIX matRotX, matRotY, matRotZ;
+	D3DXMATRIX matScale, matRot, matTrans;
+	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
+	//D3DXMatrixRotationYawPitchRoll(&matRot, m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]);
+	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
+	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
+	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
+	matRot = matRotX * matRotY * matRotZ;
+	fill(&m_fAngle[ANGLE_X], &m_fAngle[ANGLE_END], 0.f);
+	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
+	m_Info.matWorld = matScale * matRot * matTrans;
+	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vDir, &m_Info.matWorld);
+	//D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
+}
+
 void CChampion::SetDirectionToMouseHitPoint()
 {
 	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
