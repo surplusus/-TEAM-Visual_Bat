@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "CombatAlgorithm.h"
-#include "EventMgr.h"
 #include "Obj.h"
+#include "EventMgr.h"
 
 CCombatAlgorithm::CCombatAlgorithm()
 {
@@ -18,11 +18,9 @@ void CCombatAlgorithm::SubscribeEvent()
 	GET_SINGLE(EventMgr)->Subscribe(this, &CCombatAlgorithm::Follow);
 }
 
-void CCombatAlgorithm::Follow(CObj * champ, CObj * enemy)
+void CCombatAlgorithm::Follow(FOLLOWEVENT * evt)
 {
 	D3DXVECTOR3 champPos, enemyPos;
-	champPos= champ->GetInfo()->vPos;
-	enemyPos = enemy->GetInfo()->vPos;
-
-
+	champPos = evt->m_champ->GetInfo()->vPos;
+	enemyPos = evt->m_enemy->GetInfo()->vPos;
 }

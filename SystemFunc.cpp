@@ -3,7 +3,6 @@
 #include "Device.h"
 #include "TimeMgr.h"
 #include "Input.h"
-#include "EventMgr.h"
 
 extern  HRESULT InitDevice(HWND hWnd, WINMODE Mode
 	, const UINT& iWinCX

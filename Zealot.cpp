@@ -53,8 +53,7 @@ void CZealot::MouseControl()
 		m_pAnimationCtrl->BlendAnimationSet("Walk");
 		const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
 		int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
-		if (MapCheckThreadLoop(number, vtx))
-			return;
+		MapCheckThreadLoop(number, vtx);
 		//EnqueueMousePickingFunc();
 	}
 	if (g_bHitFloor) {

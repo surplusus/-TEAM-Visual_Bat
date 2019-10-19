@@ -10,9 +10,13 @@ typedef struct _tagEvent
 
 typedef struct _tagAnnounceEvent : EVENT
 {
-	//_tagSoundEvent(SoundManager* sound, GuhyunScene* caller)
-	//	: m_sound(sound), m_caller(caller) {}
-	//SoundManager* m_sound;
-	//GuhyunScene* m_caller;
+
 } ANNOUNCEEVENT;
 
+typedef struct _tagFollowEvent : EVENT
+{
+	_tagFollowEvent(CObj* champ, CObj* enemy)
+	: m_champ(champ), m_enemy(enemy) {}
+	CObj* m_champ;
+	CObj* m_enemy;
+} FOLLOWEVENT;

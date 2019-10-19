@@ -205,9 +205,6 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Grid\Pyramid">
       <UniqueIdentifier>{d5d12325-37c6-46aa-9883-78bab1927104}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cube">
-      <UniqueIdentifier>{3872f7ce-84be-4d14-a150-db2cde37ce1d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\SystemManager\Thread">
       <UniqueIdentifier>{2a9968a2-e881-4f57-a8d4-76a86bcb73eb}</UniqueIdentifier>
     </Filter>
@@ -222,6 +219,9 @@
     </Filter>
     <Filter Include="System\Algorithm">
       <UniqueIdentifier>{9f157568-4791-412a-bf7b-881e51f9a8be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion">
+      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -435,6 +435,12 @@
     <ClInclude Include="GameAlgorithm.h">
       <Filter>System\Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="MinionMgr.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+    </ClInclude>
+    <ClInclude Include="Minion.h">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -622,6 +628,12 @@
     </ClCompile>
     <ClCompile Include="CombatAlgorithm.cpp">
       <Filter>System\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionMgr.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+    </ClCompile>
+    <ClCompile Include="Minion.cpp">
+      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

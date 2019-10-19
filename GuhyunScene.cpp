@@ -15,6 +15,7 @@
 #include "Zealot.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
+#include "MinionMgr.h"
 
 //bool GuhyunScene::m_bMapLoad = false;
 bool m_bMapLoad = false;
@@ -86,8 +87,9 @@ HRESULT GuhyunScene::Initialize()
 	//	ERR_MSG(g_hWnd, L"Zealot Load Failed");
 	//}
 
-
 	//=========== Add Particle ===========//	
+
+	m_minion = new MinionMgr();
 
 		// 스레드 돌려서 맵 로딩
 	//EnqueueLoadMapFunc();

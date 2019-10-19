@@ -16,7 +16,7 @@ protected:
 	void		SetDirectionToMouseHitPoint();
 	bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bHitFloor 로 결과를 받는다
 	// Algorithm
-	void		
+
 //private:
 	// Thread or 지금은 작은 맵이라 그냥 개별 챔피언이 부름
 	static bool	MapCheckThreadLoop(int number, const VTXTEX* vtx);

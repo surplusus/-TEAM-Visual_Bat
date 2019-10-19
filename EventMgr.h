@@ -1,5 +1,6 @@
 #pragma once
 #include "EventFunctionHandler.h"
+#include "Events.h"
 #include <typeindex>
 
 class EventFunc;

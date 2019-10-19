@@ -9,6 +9,6 @@ public:
 	virtual ~CCombatAlgorithm();
 public:
 	void SubscribeEvent();
-	void Follow(CObj* champ, CObj* enemy);
+	void Follow(FOLLOWEVENT* evt);
 };
 

@@ -25,6 +25,6 @@ private:
 	// Thread MapLoad
 	//static bool m_bMapLoad;
 	static bool LoadMapByThread();
-
+	class MinionMgr*  m_minion;
 };
 
