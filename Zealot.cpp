@@ -111,7 +111,7 @@ bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 		m_fAngle[ANGLE_Y] += fRadian;
 		return false;
 	}
-
+	
 	D3DXVECTOR3 vLeft;
 	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
 	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0)

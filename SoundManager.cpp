@@ -1,5 +1,7 @@
 #include "BaseInclude.h"
 #include "SoundManager.h"
+#include "EventMgr.h"
+
 using namespace FMOD;
 
 SoundManager::~SoundManager()
@@ -14,6 +16,8 @@ SoundManager::~SoundManager()
 		delete m_mapAlarm[i];
 		m_mapAlarm.erase(i);
 	}
+	//=========== Unsubscribe Events ==========//
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }
 
 void SoundManager::SetUp()
@@ -46,6 +50,8 @@ void SoundManager::SetUp()
 	ErrCheck(m_result);		map_pSounds["welcome"] = sound;
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
+	//=========== Subscribe Events ==========//
+	GET_SINGLE(EventMgr)->Subscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }
 
 void SoundManager::Update()
@@ -57,10 +63,10 @@ void SoundManager::Update()
 
 void SoundManager::PlayEffectSound(string name)
 {
-	float startTime = GetTime();
-	if (startTime - m_fPrevPlayTime < m_fPlayGap)
-		return;
-	m_fPrevPlayTime = startTime;
+	//float startTime = GetTime();
+	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
+	//	return;
+	//m_fPrevPlayTime = startTime;
 
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
@@ -98,11 +104,6 @@ void SoundManager::PlayBGMSound(string name)
 
 void SoundManager::PlayAnnouncerMention(string name)
 {
-	//float startTime = GetTime();
-	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
-	//	return;
-	//m_fPrevPlayTime = startTime;
-
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
 		bool playing;
@@ -195,4 +196,9 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 
 void SoundManager::PlayBySoundType(T_SOUND sound)
 {
+}
+
+void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
+{
+	PlayAnnouncerMention("left30sec");
 }

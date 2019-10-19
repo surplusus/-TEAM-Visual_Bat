@@ -33,6 +33,7 @@
 #include "SystemFunc.h"
 #include "ResourceFunc.h"
 #include "Include.h"
+#include "Events.h"
 
 
 extern HWND g_hWnd;

@@ -214,6 +214,15 @@
     <Filter Include="System\SystemManager\SoundMgr">
       <UniqueIdentifier>{5d0bca01-7ce6-4daf-a45a-9c4daa192467}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\SystemManager\EventMgr">
+      <UniqueIdentifier>{d2f3fb36-e8b9-448b-9396-3dbd3154e5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Event">
+      <UniqueIdentifier>{fe072088-7b52-453a-9d68-143536772964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Algorithm">
+      <UniqueIdentifier>{9f157568-4791-412a-bf7b-881e51f9a8be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -411,6 +420,21 @@
     <ClInclude Include="Zealot.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
+    <ClInclude Include="EventMgr.h">
+      <Filter>System\SystemManager\EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>System\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventFunctionHandler.h">
+      <Filter>System\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatAlgorithm.h">
+      <Filter>System\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAlgorithm.h">
+      <Filter>System\Algorithm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -589,6 +613,15 @@
     </ClCompile>
     <ClCompile Include="Zealot.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgr.cpp">
+      <Filter>System\SystemManager\EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="EventFunctionHandler.cpp">
+      <Filter>System\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatAlgorithm.cpp">
+      <Filter>System\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

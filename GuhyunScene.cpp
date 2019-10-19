@@ -14,6 +14,7 @@
 #include "Amumu.h"
 #include "Zealot.h"
 #include "SummonTerrain.h"
+#include "EventMgr.h"
 
 //bool GuhyunScene::m_bMapLoad = false;
 bool m_bMapLoad = false;
@@ -39,7 +40,9 @@ HRESULT GuhyunScene::Initialize()
 		return E_FAIL;
 	GET_SINGLE(SoundManager)->SetUp();
 
-	////=========== Add Mesh(Bounding) ===========//
+	//=========== Subscribe Events ==========//
+
+	//=========== Add Mesh(Bounding) ===========//
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	{
 		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
@@ -104,17 +107,13 @@ void GuhyunScene::Progress()
 		printf("그 어렵다는 맵을 로드하였습니다.");
 	}
 
-	if (m_bMapLoad) {
-		//m_bMapLoad = false;
-	}
+	if (CheckPushKeyOneTime(VK_0))
+		GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
 		
 	GET_SINGLE(CCameraMgr)->Progress();
-	//if (!m_bMapLoad)
-	//	return;
-	//
 	m_pObjMgr->Progress();
-	//SoundUpdate();
-	//cout << "Get Time : " << GetTime() << " g_fdeltaTime : " << g_fDeltaTime << endl;
+	
+	SoundUpdate();
 }
 
 void GuhyunScene::Render()
@@ -141,19 +140,19 @@ void GuhyunScene::SoundUpdate()
 {
 	m_fSceneTime += GetTime();
 	float time[3] = { 0.2f, 4.f, 5.f };
-	if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
-		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
-	}
-	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
-		cout << "미니언 생성까지 30초 남았습니다." << endl;
-	}
-	
-	if (GET_SINGLE(SoundManager)->PlayOnTime(40.f, 3)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
-		cout << "미니언이 생성되었습니다." << endl;
-	}
+	//if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
+	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
+	//	cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
+	//}
+	//if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
+	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
+	//	cout << "미니언 생성까지 30초 남았습니다." << endl;
+	//}
+	//
+	//if (GET_SINGLE(SoundManager)->PlayOnTime(40.f, 3)) {
+	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
+	//	cout << "미니언이 생성되었습니다." << endl;
+	//}
 	GET_SINGLE(SoundManager)->Update();
 }
 
@@ -163,15 +162,15 @@ void GuhyunScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool GuhyunScene::LoadMapByThread()
 {
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
-	//else
-	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
 		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
 	else
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
+	//	GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
+	//else
+	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
 		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))

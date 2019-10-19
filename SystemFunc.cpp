@@ -1,8 +1,9 @@
 #include "SystemFunc.h"
-#include"BaseInclude.h"
+#include "BaseInclude.h"
 #include "Device.h"
 #include "TimeMgr.h"
 #include "Input.h"
+#include "EventMgr.h"
 
 extern  HRESULT InitDevice(HWND hWnd, WINMODE Mode
 	, const UINT& iWinCX
@@ -162,7 +163,6 @@ extern bool CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVECTO
 	return (*(CInput::GetInstance()))->CheckPiningOnTriangleAndGetPosition(p0, p1, p2, hitpoint);
 }
 
-//=============== SystemDll Release 14.05.12 By Burger ===============//
 extern  void System_Release(void)
 {
 	(*(CDevice::GetInstance()))->DestroyInstance();

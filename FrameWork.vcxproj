@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
     <ClInclude Include="Atrox.h">
@@ -34,6 +35,10 @@
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="CombatAlgorithm.h" />
+    <ClInclude Include="EventFunctionHandler.h" />
+    <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -113,6 +118,9 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="CombatAlgorithm.cpp" />
+    <ClCompile Include="EventFunctionHandler.cpp" />
+    <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
