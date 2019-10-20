@@ -1,5 +1,6 @@
 #pragma once
-
+#include <vector>
+#include <string>
 class CObj;
 class SoundManager;
 class GuhyunScene;
@@ -20,3 +21,10 @@ typedef struct _tagFollowEvent : EVENT
 	CObj* m_champ;
 	CObj* m_enemy;
 } FOLLOWEVENT;
+
+typedef struct _tagRegisterObj : EVENT
+{
+	_tagRegisterObj(std::vector<std::string>* result)
+		: m_result(result) {}
+	std::vector<std::string>* m_result;
+} REGISTEREVENT;

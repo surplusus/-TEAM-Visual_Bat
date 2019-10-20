@@ -9,6 +9,7 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 #include "ThreadPool.h"
+#include <sstream>
 
 #include "SoundManager.h"
 #include "Amumu.h"
@@ -39,9 +40,11 @@ HRESULT GuhyunScene::Initialize()
 
 	if (Setup())		// light off
 		return E_FAIL;
+
 	GET_SINGLE(SoundManager)->SetUp();
 
 	//=========== Subscribe Events ==========//
+	GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
 	//=========== Add Mesh(Bounding) ===========//
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
@@ -60,10 +63,6 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	//{
-	//	ERR_MSG(g_hWnd, L"Summon Map_Floor Load Failed");		return E_FAIL;
-	//}
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
 	//	GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
 	//else
@@ -111,8 +110,14 @@ void GuhyunScene::Progress()
 
 	if (CheckPushKeyOneTime(VK_0))
 		GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
-		
+
+
 	GET_SINGLE(CCameraMgr)->Progress();
+
+	for (auto& it : m_vFuncRegister) {
+		ProcessRegisterMapLoaded(it);
+	}
+	m_vFuncRegister.clear();
 	m_pObjMgr->Progress();
 	
 	SoundUpdate();
@@ -120,8 +125,6 @@ void GuhyunScene::Progress()
 
 void GuhyunScene::Render()
 {
-	//if (m_bMapLoad == false)
-	//	return;
 	m_pObjMgr->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
@@ -129,6 +132,7 @@ void GuhyunScene::Render()
 void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
 HRESULT GuhyunScene::Setup()
@@ -158,31 +162,76 @@ void GuhyunScene::SoundUpdate()
 	GET_SINGLE(SoundManager)->Update();
 }
 
-void GuhyunScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+void GuhyunScene::RegisterMapLoaded(REGISTEREVENT * evt)
 {
+	vector<string> sResult(*(evt->m_result));
+	size_t nSize = evt->m_result->size();
+	
+	delete evt->m_result;
+	delete evt;
+
+	for (size_t i = 0; i < nSize; i++)
+	{
+		bool bResult = false;
+		stringstream ss;
+		string strResult, strName, strType, dump;
+		ss << sResult[i];
+		ss >> strName >> dump >> strResult;
+		ss.str("");
+		strType = strName;
+		bResult = (strResult[0] == 'C') ? true : false;
+		stEventInfo queMem = { bResult,strName,strType };
+		m_vFuncRegister.push_back(queMem);
+		
+		cout << sResult[i] << '\n';
+	}
+}
+
+void GuhyunScene::ProcessRegisterMapLoaded(stEventInfo evtInfo)
+{
+	if (!evtInfo.m_bComplate)
+		return;
+
+	basic_string<TCHAR> converted(evtInfo.m_sObjName.begin(), evtInfo.m_sObjName.end());
+	const TCHAR * szName = converted.c_str();
+
+
+	if (evtInfo.m_sObjType == "MapSummon") {
+		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CSummonTerrain >::CreateObject());
+		cout << evtInfo.m_sObjType << " Register Complited\n";
+	}
+	else if (evtInfo.m_sObjType == "Zealot") {
+		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CZealot>::CreateObject());
+		cout << evtInfo.m_sObjType << " Register Complited\n";
+	}
 }
 
 bool GuhyunScene::LoadMapByThread()
 {
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	vector<string>* result = new vector<string>;
 
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
+	//	result->push_back("MapSummon Load Complited");
 	//else
-	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	//	result->push_back("MapSummon Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
+		result->push_back("MapSummon Load Complited");
+	else
+		result->push_back("MapSummon Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//	result->push_back("MapSummon Load Complited");
+	//else
+	//	result->push_back("MapSummon Load Failed");
 
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
 		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
+		result->push_back("Zealot Load Complited");
 	else
-		ERR_MSG(g_hWnd, L"Zealot Load Failed");
+		result->push_back("Zealot Load Failed");
+	
+	GET_SINGLE(EventMgr)->Publish(new REGISTEREVENT(result));
 
-	m_bMapLoad = true;
-
-	return false;
+	return true;
 }
 
 bool GuhyunScene::EnqueueLoadMapFunc()
