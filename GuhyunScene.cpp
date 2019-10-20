@@ -130,7 +130,7 @@ void GuhyunScene::Progress()
 void GuhyunScene::Render()
 {
 	m_pObjMgr->Render();
-	m_pHeightMap->Render();
+	//m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
 
@@ -142,8 +142,19 @@ void GuhyunScene::Release()
 
 HRESULT GuhyunScene::Setup()
 {
-
-	SetRenderState(D3DRS_LIGHTING, false);
+	D3DLIGHT9 stLight;
+	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	stLight.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Specular = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	D3DXVECTOR3 vDir(1.f, -1.f, 1.f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	GET_DEVICE->SetLight(0, &stLight);
+	GET_DEVICE->LightEnable(0, true);
+	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	SetRenderState(D3DRS_LIGHTING, true);
 	return S_OK;
 }
 
@@ -208,10 +219,11 @@ void GuhyunScene::ProcessRegisterMapLoaded(stEventInfo evtInfo)
 	else if (evtInfo.m_sObjType == "Zealot") {
 		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CZealot>::CreateObject());
 		cout << evtInfo.m_sObjType << " Register Complited\n";
+	
+		CZealot* zealot = (CZealot*)(m_pObjMgr->GetObj(L"Zealot"));
+		zealot->SetHeightMap(m_pHeightMap);
 	}
 
-	CZealot* zealot = (CZealot*)(m_pObjMgr->GetObj(L"Zealot"));
-	zealot->SetHeightMap(m_pHeightMap);
 }
 
 bool GuhyunScene::LoadMapByThread()
@@ -226,13 +238,13 @@ bool GuhyunScene::LoadMapByThread()
 	//	result->push_back("MapSummon Load Complited");
 	//else
 	//	result->push_back("MapSummon Load Failed");
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	//	result->push_back("MapSummon Load Complited");
-	//else
-	//	result->push_back("MapSummon Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+		result->push_back("MapSummon Load Complited");
+	else
+		result->push_back("MapSummon Load Failed");
 
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
+		, L"Zealot.X", L"Zealot", MESHTYPE_DYNAMIC)))
 		result->push_back("Zealot Load Complited");
 	else
 		result->push_back("Zealot Load Failed");

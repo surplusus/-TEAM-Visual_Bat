@@ -67,8 +67,8 @@ void CZealot::MouseControl()
 	if (m_IsRunning)
 	{
 		float speed = 2.5f;
-		printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
-			g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
+		//printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
+		//	g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
 		if (m_IsTurning) {
 			m_IsTurning = TurnSlowly(&g_MouseHitPoint);
 		}

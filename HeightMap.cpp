@@ -34,6 +34,12 @@ void CHeightMap::LoadData(string fileName)
 
 void CHeightMap::Render()
 {
-	GET_DEVICE->SetRenderState(D3DRS_LIGHTING, false);
+	D3DXMATRIXA16 matS,matWorld;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 1.f, 1.f, 1.f);
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matS;
+	SetTransform(D3DTS_WORLD, &matWorld);
+	//GET_DEVICE->SetRenderState(D3DRS_LIGHTING, true);
 	m_pMesh->DrawSubset(0);
 }
