@@ -22,6 +22,7 @@ public:
 private:
 	float		m_fSceneTime = 0.f;
 	vector<stEventInfo> m_vFuncRegister;
+	class CHeightMap*  m_pHeightMap = nullptr;
 private:
 	HRESULT Setup();
 	void SoundUpdate();

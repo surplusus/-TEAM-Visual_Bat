@@ -1,5 +1,6 @@
 #pragma once
 #include "Champion.h"
+class CHeightMap;
 class CZealot :	public CChampion
 {
 public:
@@ -8,6 +9,7 @@ public:
 private:
 	bool				m_IsRunning = false;
 	bool				m_IsTurning = false;
+	CHeightMap*			m_pHeightMap = nullptr;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -18,7 +20,8 @@ private:
 	void MouseControl();
 	void QWERControl();
 	bool TurnSlowly(const D3DXVECTOR3* destPos);	// ¼öÁ¤ÇØ¾ßµÊ
-
+public:
+	void SetHeightMap(CHeightMap* pHeightMap);
 	float lerp(float p1, float p2, float d);
 };
 

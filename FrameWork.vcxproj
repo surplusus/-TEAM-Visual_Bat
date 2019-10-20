@@ -39,6 +39,7 @@
     <ClInclude Include="EventFunctionHandler.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="HeightMap.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionMgr.h" />
     <ClInclude Include="Ray.h" />
@@ -123,6 +124,7 @@
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
     <ClCompile Include="Ray.cpp" />

@@ -18,7 +18,7 @@ CChampion::CChampion()
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 1.f);
 	m_Info.vPos = D3DXVECTOR3(-10.f, 18.0f, -10.f);
-	m_fHeight = 18.0f; // ³ôÀÌ¸Ê Àû¿ëÇÒ CDynamic ¸É¹ö
+	m_fHeight = 0.0f; // ³ôÀÌ¸Ê Àû¿ëÇÒ CDynamic ¸É¹ö
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
 	D3DXMatrixIdentity(&m_Info.matWorld);
@@ -71,7 +71,7 @@ bool CChampion::EnqueueMousePickingFunc()
 	if (m_ObjMgr == NULL) return false;
 	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
 	int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
-
+	
 	if (vtx == NULL) return false;
 	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapCheckThreadLoop, number, vtx).get())
 	{

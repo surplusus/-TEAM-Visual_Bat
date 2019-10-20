@@ -17,6 +17,7 @@
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"
+#include "HeightMap.h"
 
 //bool GuhyunScene::m_bMapLoad = false;
 bool m_bMapLoad = false;
@@ -32,8 +33,8 @@ GuhyunScene::~GuhyunScene()
 
 HRESULT GuhyunScene::Initialize()
 {
-	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(-15.f, 30.f, -20.f)
-	//if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
+	//if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(-15.f, 30.f, -20.f)
+	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
 		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
@@ -41,7 +42,7 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 
-	GET_SINGLE(SoundManager)->SetUp();
+	//GET_SINGLE(SoundManager)->SetUp();
 
 	//=========== Subscribe Events ==========//
 	GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
@@ -51,6 +52,7 @@ HRESULT GuhyunScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
 	}
+	#pragma region 이제 스레스 부분으로 갔음
 	//=========== Add Texture ===========//
 	//if (FAILED(InsertTexture(GetDevice()
 	//	, TEXTYPE_CUBE
@@ -75,7 +77,6 @@ HRESULT GuhyunScene::Initialize()
 	//else
 	//	ERR_MSG(g_hWnd, L"Zealot Load Failed");
 
-	
 	//=========== Add Shader ===========//
 	
 	//=========== Add Object ===========//	
@@ -88,11 +89,13 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Particle ===========//	
 
-	m_minion = new MinionMgr();
+	#pragma endregion
+	//m_minion = new MinionMgr();
 
 		// 스레드 돌려서 맵 로딩
-	//EnqueueLoadMapFunc();
-
+	EnqueueLoadMapFunc();
+	m_pHeightMap = new CHeightMap();
+	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
 	return S_OK;
 }
 
@@ -103,10 +106,10 @@ void GuhyunScene::Progress()
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
-	if (CheckPushKeyOneTime(VK_HOME)) {
-		EnqueueLoadMapFunc();
-		printf("그 어렵다는 맵을 로드하였습니다.");
-	}
+	//if (CheckPushKeyOneTime(VK_HOME)) {
+	//	EnqueueLoadMapFunc();
+	//	printf("그 어렵다는 맵을 로드하였습니다.");
+	//}
 
 	if (CheckPushKeyOneTime(VK_0))
 		GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
@@ -116,6 +119,7 @@ void GuhyunScene::Progress()
 
 	for (auto& it : m_vFuncRegister) {
 		ProcessRegisterMapLoaded(it);
+
 	}
 	m_vFuncRegister.clear();
 	m_pObjMgr->Progress();
@@ -126,6 +130,7 @@ void GuhyunScene::Progress()
 void GuhyunScene::Render()
 {
 	m_pObjMgr->Render();
+	m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
 
@@ -204,6 +209,9 @@ void GuhyunScene::ProcessRegisterMapLoaded(stEventInfo evtInfo)
 		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CZealot>::CreateObject());
 		cout << evtInfo.m_sObjType << " Register Complited\n";
 	}
+
+	CZealot* zealot = (CZealot*)(m_pObjMgr->GetObj(L"Zealot"));
+	zealot->SetHeightMap(m_pHeightMap);
 }
 
 bool GuhyunScene::LoadMapByThread()
@@ -214,10 +222,10 @@ bool GuhyunScene::LoadMapByThread()
 	//	result->push_back("MapSummon Load Complited");
 	//else
 	//	result->push_back("MapSummon Load Failed");
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
-		result->push_back("MapSummon Load Complited");
-	else
-		result->push_back("MapSummon Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
+	//	result->push_back("MapSummon Load Complited");
+	//else
+	//	result->push_back("MapSummon Load Failed");
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
 	//	result->push_back("MapSummon Load Complited");
 	//else

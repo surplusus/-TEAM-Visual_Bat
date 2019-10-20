@@ -2,7 +2,7 @@
 #include "Zealot.h"
 #include "Ray.h"
 #include "ObjMgr.h"
-
+#include "HeightMap.h"
 
 CZealot::CZealot()
 {
@@ -51,8 +51,10 @@ void CZealot::MouseControl()
 {
 	if (MyGetMouseState().rgbButtons[0]) {
 		m_pAnimationCtrl->BlendAnimationSet("Walk");
-		const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
-		int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
+		//const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
+		//DWORD number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
+		const VTXTEX* vtx = m_pHeightMap->GetVtxInfo();
+		DWORD number = m_pHeightMap->m_VtxNum;
 		MapCheckThreadLoop(number, vtx);
 		//EnqueueMousePickingFunc();
 	}
@@ -119,6 +121,11 @@ bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 		m_fAngle[ANGLE_Y] += fDirLerped;
 
 	return true;
+}
+
+void CZealot::SetHeightMap(CHeightMap * pHeightMap)
+{
+	m_pHeightMap = pHeightMap;
 }
 
 float CZealot::lerp(float p1, float p2, float d)
