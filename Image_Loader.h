@@ -24,5 +24,6 @@ public:
 	void Render(D3DXVECTOR3 pos);
 
 	void Release();
+	D3DXVECTOR3 GetPosition() { return m_vPosition; }
 };
 

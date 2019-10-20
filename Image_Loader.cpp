@@ -28,7 +28,7 @@ void CImage_Loader::Initialize()
 {
 	D3DXCreateSprite(GetDevice(), &m_pSprite);
 
-	HRESULT hr = D3DXCreateTextureFromFileExA(
+	if (FAILED(D3DXCreateTextureFromFileExA(
 		GetDevice(),
 		m_FileName.c_str(),
 		D3DX_DEFAULT_NONPOW2,
@@ -43,10 +43,8 @@ void CImage_Loader::Initialize()
 		&m_ImageInfo,
 		NULL,
 		&m_pTexture
-	);
-	cout << m_ImageInfo.Width << " " << m_ImageInfo.Height << endl;
-
-	if (FAILED(hr))		ERR_MSG(g_hWnd, L"텍스쳐 호출 실패");
+	))) 
+		ERR_MSG(g_hWnd, L"Failed");
 }
 
 
@@ -108,5 +106,6 @@ void CImage_Loader::Render(D3DXVECTOR3 pos)
 void CImage_Loader::Release()
 {
 	delete m_pSprite;
+	delete m_pTexture;
 	delete this;
 }

@@ -55,6 +55,11 @@ private:
 	void ChampRender();
 	void SpellRender();
 
-	CDropBox*						m_pDorpBox;
+	CDropBox*						m_pDorpBox_1;
+	CDropBox*						m_pDorpBox_2;
+	bool m_bChecked_1;
+	bool m_bChecked_2;
+	bool Checked();
+	void IsSelected();
 };
 

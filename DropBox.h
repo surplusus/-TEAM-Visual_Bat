@@ -13,10 +13,12 @@ public:
 	void Release();
 private:
 	map<string, CUI*>					m_mapSpellList;
+	
 	CImage_Loader*						m_pImageLoader;
 	D3DXVECTOR3							m_vPosition;
 	D3DXVECTOR3							m_scale;
 	vector<CUI*>						m_vecSpells;
+	
 
 private:
 	UI_SPELLTYPE						m_eType;

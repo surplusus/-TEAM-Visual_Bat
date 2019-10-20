@@ -1,6 +1,7 @@
 #pragma once
 #include "UI.h"
 #include "Cheon.h"
+#include "DropBox.h"
 
 class CImage_Loader;
 class CSpell_ :
@@ -20,5 +21,10 @@ private:
 	UI_SPELLTYPE				m_eType;
 public:
 	UI_SPELLTYPE GetType() { return m_eType; }
+
+private:
+	bool						m_bClicked;
+
+	CDropBox*					m_dropbox;
 };
 

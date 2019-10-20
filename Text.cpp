@@ -131,9 +131,9 @@ void CText::Create_Font()
 void CText::Render(UI_SPELLTYPE type)
 {
 	RECT rc;
-	SetRect(&rc, 1120, 400, 0, 0);
+	SetRect(&rc, 1050, 250, 0, 0);
 	RECT rt;
-	SetRect(&rt, 1120, 370, 0, 0);
+	SetRect(&rt, 1050, 220, 0, 0);
 	switch (type)
 	{
 	case cleanse:
