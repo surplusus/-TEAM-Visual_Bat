@@ -189,7 +189,6 @@ void CText::Render_time()
 
 	MAXTIME -= GetTime();
 	if (MAXTIME < 0) MAXTIME = 0;
-	cout << GetTime << " delta" << endl;
 	m_sTime = to_string((int)MAXTIME);
 	m_pTimeFont->DrawTextA(NULL, m_sTime.c_str(), m_sTime.length(), &rec, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 }

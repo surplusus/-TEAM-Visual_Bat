@@ -1,6 +1,5 @@
 #pragma once
 #include "UI.h"
-#include "Cheon.h"
 
 class CImage_Loader;
 class CChamp :

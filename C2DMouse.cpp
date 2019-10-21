@@ -24,16 +24,30 @@ bool C2DMouse::IsInImage(CUI * vecUI)
 	ScreenToClient(g_hWnd, &m_GetCur);
 	if (PtInRect(&vecUI->GetRect(), m_GetCur))
 		return true;
-	else return false;
+	else 
+	{
+		cout << "you not enough in Rect" << endl;
+		return false;
+	}
 }
 
-CUI * C2DMouse::IsInImage_(CUI * vecUI)
+CUI * C2DMouse::IsInImage_(vector<CUI *> vecUI)
 {
 	GetCursorPos(&m_GetCur);
 	ScreenToClient(g_hWnd, &m_GetCur);
-	if (PtInRect(&vecUI->GetRect(), m_GetCur))
-		return vecUI;
-	else return NULL;
+	cout << "ÂïÈù À§Ä¡ : " << m_GetCur.x << " " << m_GetCur.y << endl;
+	for (int i = 0; i < vecUI.size(); i++)
+	{
+		if (PtInRect(&vecUI[i]->GetRect(), m_GetCur))
+		{
+			return vecUI[i];
+			break;
+		}
+		else
+		{
+			cout << "you not enough in Rect" << endl;
+		}
+	}
 }
 
 UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CUI * UI)
@@ -47,7 +61,6 @@ UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CUI * UI)
 
 	if (PtInRect(&rt, m_GetCur))
 	{
-		// cout << m_GetCur.x << ", " << m_GetCur.y << endl;
 		return ((CSpell_*)UI)->GetType();
 	}
 

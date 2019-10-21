@@ -27,9 +27,9 @@ CSelectScene::CSelectScene()
 	, m_bChecked_1(false)
 	, m_bChecked_2(false)
 {
-	
-	
-	
+
+
+
 }
 
 
@@ -38,11 +38,11 @@ CSelectScene::~CSelectScene()
 }
 
 HRESULT CSelectScene::Initialize()
-{	
-	m_vecBackGround.push_back( new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
+{
+	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
 	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
 
-	
+
 	for (int i = 0; i < m_vecBackGround.size(); i++)
 	{
 		if (m_vecBackGround[i])
@@ -55,10 +55,10 @@ HRESULT CSelectScene::Initialize()
 	ChampInitialize();
 	SpellInitialize();
 	map<string, vector<CUI*>*>::iterator iter = m_mapUI_List.begin();
-	for(iter; iter != m_mapUI_List.end(); ++iter)
+	for (iter; iter != m_mapUI_List.end(); ++iter)
 	{
 		vector<CUI*>::iterator iter2 = (*m_mapUI_List[iter->first]).begin();
-		for (iter2; iter2!=(*m_mapUI_List[iter->first]).end();++iter2)
+		for (iter2; iter2 != (*m_mapUI_List[iter->first]).end(); ++iter2)
 		{
 			(*iter2)->Initialize();
 		}
@@ -76,18 +76,18 @@ void CSelectScene::Progress()
 	}
 	if (m_pDorpBox_1) m_pDorpBox_1->Progress();
 	if (m_pDorpBox_2) m_pDorpBox_2->Progress();
-		
+
 	//if(GetAsyncKeyState(VK_LBUTTON))	Checked();
 
 	IsSelected();
 
-	
+
 	//Scene ÀüÈ¯
 	/*if (GET_SINGLE(CText)->GetTimer() == "0")
 	{
-		GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
+	GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
 	}*/
-	if(GetAsyncKeyState(VK_ESCAPE))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
+	if (GetAsyncKeyState(VK_ESCAPE))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
 
 }
 
@@ -125,13 +125,13 @@ void CSelectScene::ChampInitialize()
 	m_mapUI_List.insert(make_pair("Champ", &m_vecChamp));
 
 	D3DXVECTOR3 pick = D3DXVECTOR3(60, 258, 0);
-	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png",	pick, D3DXVECTOR3(1.0f, 1.0f, 1.0f), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", pick, D3DXVECTOR3(1.0f, 1.0f, 1.0f), UI_CHAMPTYPE_DYNAMIC));
 	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", pick, D3DXVECTOR3(1.0f, 1.0f, 1.0f), UI_CHAMPTYPE_DYNAMIC));
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
 
-	
+
 }
 
 void CSelectScene::SpellInitialize()
@@ -155,7 +155,7 @@ void CSelectScene::ChampRender()
 	{
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp[i]);
+			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
 		}
 		if (m_pChamp)
 		{
@@ -167,7 +167,7 @@ void CSelectScene::ChampRender()
 			}
 		}
 	}
-	if(temp) temp->Render();
+	if (temp) temp->Render();
 }
 
 void CSelectScene::SpellRender()
@@ -239,9 +239,9 @@ void CSelectScene::IsSelected()
 			{
 				for (int i = 0; i < m_pDorpBox_1->GetVecSpells().size(); i++)
 				{
-					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells()[i]))
+					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells()))
 					{
-						SpellRender_1 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells()[i]);
+						SpellRender_1 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells());
 					}
 				}
 			}
@@ -256,13 +256,12 @@ void CSelectScene::IsSelected()
 			{
 				for (int i = 0; i < m_pDorpBox_2->GetVecSpells().size(); i++)
 				{
-					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells()[i]))
+					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells()))
 					{
-						SpellRender_2 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells()[i]);
+						SpellRender_2 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells());
 					}
 				}
 			}
 		}
 	}
 }
-

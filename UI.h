@@ -1,5 +1,4 @@
 #pragma once
-#include "Cheon.h"
 class CImage_Loader;
 class CUI
 {
@@ -31,12 +30,13 @@ protected:
 	string					m_name;
 
 public:
-
 	RECT GetRect();
-	
-	string GetName() { return m_name; }
+	string GetName();
 	D3DXVECTOR3 GetPosition() { 
 		return m_vPosition; }
 	void SetCenterPos();
+
+public:
+	string GetFileName() { return m_FileName; }
 };
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "UI.h"
-#include "Cheon.h"
 #include "DropBox.h"
 
 class CImage_Loader;
@@ -26,5 +25,6 @@ private:
 	bool						m_bClicked;
 
 	CDropBox*					m_dropbox;
+
 };
 

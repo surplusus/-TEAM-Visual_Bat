@@ -1,7 +1,6 @@
 #include "BaseInclude.h"
 #include "UI.h"
 #include "Image_Loader.h"
-
 CUI::CUI()
 	:m_name("")
 	, m_vPosition(0,0,0)
@@ -10,7 +9,6 @@ CUI::CUI()
 	, m_ImageLoader(NULL)
 {
 	m_Rect = { 0,0,0,0 };
-
 }
 
 
@@ -33,6 +31,11 @@ RECT CUI::GetRect()
 	return rc;
 }
 
+string CUI::GetName()
+{
+	return m_name;
+}
+
 void CUI::SetCenterPos()
 {
 	float Width = m_ImageLoader->GetImageInfo().Width;
@@ -43,7 +46,6 @@ void CUI::SetCenterPos()
 	static bool ckeck = true;
 	
 	if (ckeck) {
-	cout << "setCenterpos()" << Width << " " << Height << " " << m_vCenter.x << " " << m_vCenter.y << endl;
 	ckeck = false;
 	}
 }

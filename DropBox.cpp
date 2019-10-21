@@ -28,7 +28,6 @@ void CDropBox::Initialize()
 	m_mapSpellList.insert(make_pair("cleanse",  new CSpell_("Cleanse",  "Resource/choen/Spell_Image/1.Cleanse.png",		
 		D3DXVECTOR3(m_pImageLoader->GetPosition().x + 17, m_pImageLoader->GetPosition().y + 169, 0), 
 		D3DXVECTOR3(1.0f, 1.0f, 0.f), cleanse)));
-	cout << "winsize : " << WINSIZEX / 2 - 30.5F << " " << WINSIZEY / 2 + 99.5F << endl;
 
 	m_mapSpellList.insert(make_pair("Exhaust",  new CSpell_("Exhaust",  "Resource/choen/Spell_Image/2.Exhaust.png",		
 		D3DXVECTOR3(m_mapSpellList["cleanse"]->GetPosition().x + 42.0f, m_mapSpellList["cleanse"]->GetPosition().y, 0),			

@@ -18,12 +18,6 @@ void CSpell_::Initialize()
 {
 	m_ImageLoader = new CImage_Loader(m_FileName,m_vPosition,m_vScale);
 	m_ImageLoader->Initialize();
-	
-
-	cout << endl;
-	cout << m_name << endl;
-	cout << m_vPosition.x << " " << m_vPosition.y << endl;
-	cout << m_Rect.left << " " << m_Rect.top << " " << m_Rect.right << " " << m_Rect.bottom << endl;
 }
 
 int CSpell_::Progress()

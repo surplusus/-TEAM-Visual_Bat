@@ -20,6 +20,7 @@ void CChamp::Initialize()
 	m_ImageLoader->Initialize();
 
 	m_Rect = GetRect();
+	cout << m_Rect.left << " " << m_Rect.top << " " << m_Rect.right << " " << m_Rect.bottom << endl;
 }
 
 int CChamp::Progress()
@@ -45,11 +46,12 @@ void CChamp::Render()
 	{
 	case UI_CHAMPTYPE_STATIC:
 		m_ImageLoader->Render();
-		//Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
+		Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 		break;
 	case UI_CHAMPTYPE_DYNAMIC:
 		if (bClicked == true)
 			m_ImageLoader->Render();
+		Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 		break;
 	default:
 		break;
@@ -63,14 +65,19 @@ void CChamp::Release()
 {
 	m_ImageLoader->Release();
 }
+
 bool CChamp::CheckMouse()
 {
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		if (GET_SINGLE(C2DMouse)->IsInImage(this))
 		{
-			bClicked = !bClicked;
-			cout << "선택된 챔피언 : " << m_name << endl;
+			bClicked = true;
+			return bClicked;
+		}
+		else
+		{
+			bClicked = false;
 			return bClicked;
 		}
 	}

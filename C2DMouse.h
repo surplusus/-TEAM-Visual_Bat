@@ -14,7 +14,7 @@ public:
 public:
 	//string IsInImage(vector<CUI*> vecUI);
 	bool IsInImage(CUI* vecUI);
-	CUI* IsInImage_(CUI* vecUI);
+	CUI* IsInImage_(vector<CUI *> vecUI);
 
 	UI_SPELLTYPE Is_PointInSpellImage(CUI * UI);
 	string IsInImage_Spell(CUI* UI);

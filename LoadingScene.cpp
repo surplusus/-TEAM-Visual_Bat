@@ -22,7 +22,6 @@ HRESULT CLoadingScene::Initialize()
 	m_pBackGround = new CImage_Loader("Resource/choen/Loading/LoadingBackGround.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_pBackGround->Initialize();
 
-	cout << m_pBackGround->GetImageInfo().Width << " " << m_pBackGround->GetImageInfo().Height << endl;
 
 	m_pChampSelect = new CSelectedChampion(D3DXVECTOR3(255, 0, 0));
 	m_pChampSelect->Initialize();
@@ -58,9 +57,6 @@ void CLoadingScene::Render()
 
 	x += (WINSIZEX / 100);
 	if (WINSIZEX < x)	x = WINSIZEX;
-
-
-	cout << x << endl;
 }
 
 void CLoadingScene::Release()
