@@ -42,7 +42,7 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 
-	//GET_SINGLE(SoundManager)->SetUp();
+	GET_SINGLE(SoundManager)->SetUp();
 
 	//=========== Subscribe Events ==========//
 	GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
@@ -243,12 +243,16 @@ bool GuhyunScene::LoadMapByThread()
 	else
 		result->push_back("MapSummon Load Failed");
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-		, L"Zealot.X", L"Zealot", MESHTYPE_DYNAMIC)))
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
+	//	, L"Ezreal.x", L"Zealot", MESHTYPE_DYNAMIC)))
+	//	result->push_back("Zealot Load Complited");
+	//else
+	//	result->push_back("Zealot Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/"
+		, L"Udyr.x", L"Zealot", MESHTYPE_DYNAMIC)))
 		result->push_back("Zealot Load Complited");
 	else
 		result->push_back("Zealot Load Failed");
-	
 	GET_SINGLE(EventMgr)->Publish(new REGISTEREVENT(result));
 
 	return true;

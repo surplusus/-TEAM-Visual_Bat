@@ -3,6 +3,7 @@
 #include "Ray.h"
 #include "ObjMgr.h"
 #include "HeightMap.h"
+#include "SoundManager.h"
 
 CZealot::CZealot()
 {
@@ -21,7 +22,7 @@ HRESULT CZealot::Initialize()
 		return S_FALSE;
 	g_MouseHitPoint = m_Info.vPos;
 	UpdateWorldMatrix();
-	m_pAnimationCtrl->SetAnimationSet("Stand");
+	m_pAnimationCtrl->SetAnimationSet("Idle");
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
@@ -50,7 +51,7 @@ void CZealot::Release()
 void CZealot::MouseControl()
 {
 	if (MyGetMouseState().rgbButtons[0]) {
-		m_pAnimationCtrl->BlendAnimationSet("Walk");
+		//m_pAnimationCtrl->BlendAnimationSet("Walk");
 		//const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
 		//DWORD number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
 		const VTXTEX* vtx = m_pHeightMap->GetVtxInfo();
@@ -75,8 +76,8 @@ void CZealot::MouseControl()
 
 		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 작으면 false 리턴
 		m_IsRunning = Update_vPos_ByDestPoint(&g_MouseHitPoint, speed);
-		if (!m_IsRunning)
-			m_pAnimationCtrl->BlendAnimationSet("Stand");
+		//if (!m_IsRunning)
+		//	m_pAnimationCtrl->BlendAnimationSet("Stand");
 	}
 }
 
@@ -84,16 +85,35 @@ void CZealot::QWERControl()
 {
 
 	if (CheckPushKeyOneTime(VK_1)) {
-		m_pAnimationCtrl->BlendAnimationSet("Walk");
-	}
-	if (CheckPushKeyOneTime(VK_2)) {
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
-	if (CheckPushKeyOneTime(VK_3)) {
-		m_pAnimationCtrl->BlendAnimationSet("Attack_02");
+	if (CheckPushKeyOneTime(VK_2)) {
+		m_pAnimationCtrl->BlendAnimationSet("Attack_Left");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
 	}
 	if (CheckPushKeyOneTime(VK_3)) {
-		m_pAnimationCtrl->BlendAnimationSet("Attack_01");
+		m_pAnimationCtrl->BlendAnimationSet("Idle");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+	}
+	if (CheckPushKeyOneTime(VK_4)) {
+		m_pAnimationCtrl->BlendAnimationSet("Search");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
+	}
+	if (CheckPushKeyOneTime(VK_5)) {
+		m_pAnimationCtrl->BlendAnimationSet("Run");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr4");
+	}
+	if (CheckPushKeyOneTime(VK_6)) {
+		m_pAnimationCtrl->BlendAnimationSet("Taunt");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr5");
+	}
+	if (CheckPushKeyOneTime(VK_7)) {
+		m_pAnimationCtrl->BlendAnimationSet("Dance");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr6");
+	}
+	if (CheckPushKeyOneTime(VK_8)) {
+		m_pAnimationCtrl->BlendAnimationSet("Death");
+		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr7");
 	}
 }
 
