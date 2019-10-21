@@ -35,11 +35,8 @@
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="Ezreal.h" />
-    <ClInclude Include="LineLazer.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleMgr.h" />
     <ClInclude Include="Ray.h" />
-    <ClInclude Include="Skill.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
@@ -117,11 +114,8 @@
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="Ezreal.cpp" />
-    <ClCompile Include="LineLazer.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleMgr.cpp" />
     <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />

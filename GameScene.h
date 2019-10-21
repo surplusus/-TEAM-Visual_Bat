@@ -1,6 +1,6 @@
 #pragma once
 #include"Scene.h"
-
+class CShader;
 //class CCamera;
 //class CXFileUtil;
 class CObjMgr;
@@ -19,9 +19,11 @@ public:
 private:
 	HRESULT Setup();
 	void Update();
+private:
+	HRESULT InitAsset();
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	
+	CShader* pShader;
 };
 

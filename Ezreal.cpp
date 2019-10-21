@@ -6,12 +6,13 @@
 #include"PipeLine.h"
 #include "ObjMgr.h"
 #include "Ray.h"
-#include"LineLazer.h"
+
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
-bool CEzreal::bPick = false;
+
 CEzreal::CEzreal()
 {
+
 }
 
 
@@ -139,17 +140,11 @@ void CEzreal::Progress()
 		AddSkill_Q();
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
-	for (int i = 0; i < m_vecQSkill.size(); i++)
-	{
-		m_vecQSkill[i]->Progress();
-	}
+
 }
 void CEzreal::AddSkill_Q()
 {
-	CLineLazer* Lazer = new CLineLazer(m_Info);
-	if (FAILED(Lazer->InitParticleBuffer(GET_SINGLE(CDevice)->GetDevice())))		return;
-	Lazer->AddParticle();
-	m_vecQSkill.push_back(Lazer);
+
 
 }
 
@@ -157,16 +152,12 @@ void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
-	static bool b = true;
 
 	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
-	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime());
+	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime()/30);
 	Mesh_Render(GetDevice(), L"Ezreal");
 
-	for (int i = 0; i < m_vecQSkill.size(); i++)
-	{
-		m_vecQSkill[i]->Render(GET_SINGLE(CDevice)->GetDevice());
-	}
+
 }
 
 void CEzreal::Release()

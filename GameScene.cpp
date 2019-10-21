@@ -9,7 +9,7 @@
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
 #include"Ezreal.h"
-#include "ParticleMgr.h"
+#include"Shader.h"
 GameScene::GameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -27,62 +27,31 @@ HRESULT GameScene::Initialize()
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
 
-	if (Setup())
-		return E_FAIL;
-	
-	//Texture 
-	if (FAILED(InsertTexture(GetDevice()
-		, TEXTYPE_NORMAL
-		, L"./Resource/Ez/Particles/Ezreal_Base_Q_erode.dds"
-		, L"Particle", L"Snow", 1)))
-	{
-		ERR_MSG(NULL,L"Texture Create Failed");
-		return E_FAIL;
-	}
-
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Ezreal", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
-
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	//	return E_FAIL;
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_SPHERE)))
-	//	return E_FAIL;
+	if (Setup())		return E_FAIL;
+	if(FAILED(InitAsset())) return E_FAIL;
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		return E_FAIL;
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))			return E_FAIL;
-
-
-
-
+	pShader = new CShader;
+	pShader->LoadAsset(L"./Resource/Shader/Particle_System.fx");
 }
 
 void GameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
-	m_pObjMgr->Progress();
-	//GET_SINGLE(CParticleMgr)->Progress(L"Snow");
-
-	
+	m_pObjMgr->Progress();	
 }
 
 void GameScene::Render()
 {
 	m_pObjMgr->Render();
-	//GET_SINGLE(CParticleMgr)->Render(GetDevice(), L"Snow");
-
+	pShader->RenderScene();
 }
 
 void GameScene::Release()
 {
-	GET_SINGLE(CParticleMgr)->DestroyInstance();
 
 }
 
@@ -98,7 +67,38 @@ void GameScene::Update()
 	GET_SINGLE(CCameraMgr)->Progress();
 }
 
+HRESULT GameScene::InitAsset()
+{
+	//Texture 
+	if (FAILED(InsertTexture(GetDevice()
+		, TEXTYPE_NORMAL
+		, L"./Resource/Ez/Particles/Ezreal_Base_Q_erode.dds"
+		, L"Effect", L"Arrow")))
+	{
+		ERR_MSG(NULL, L"Texture Create Failed");		return E_FAIL;
+	}
+	if (FAILED(InsertTexture(GetDevice()
+		, TEXTYPE_NORMAL
+		, L"./Resource/Ez/Particles/Ezreal_Base_Q_mis_trail.dds"
+		, L"Effect", L"Arrow2")))
+	{
+		ERR_MSG(NULL, L"Texture Create Failed");		return E_FAIL;
+	}
+
+	//>>MESH
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	{
+		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Ezreal", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
+
+}
+
 void GameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
 }
 
