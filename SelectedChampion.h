@@ -15,7 +15,7 @@ public:
 	int Progress();
 	void Render();
 	void Release();
-	void Render(D3DXVECTOR3 pos);
+	void Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale);
 private:
 	CImage_Loader*				m_pLoadingBoarder_blue;
 	CImage_Loader*				m_pLoadingBoarder_red;

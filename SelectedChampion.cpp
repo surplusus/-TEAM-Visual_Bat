@@ -53,7 +53,7 @@ void CSelectedChampion::Release()
 	m_pLoadingBoarder_red ->Release();
 }
 
-void CSelectedChampion::Render(D3DXVECTOR3 pos)
+void CSelectedChampion::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 {
 }
 

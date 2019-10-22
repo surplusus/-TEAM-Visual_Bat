@@ -21,7 +21,7 @@ protected:
 public:
 	string	GetFileName() { return m_FileName; }
 	D3DXIMAGE_INFO	GetImageInfo() { return m_ImageInfo; }
-	void Render(D3DXVECTOR3 pos);
+	void Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale);
 
 	void Release();
 	D3DXVECTOR3 GetPosition() { return m_vPosition; }

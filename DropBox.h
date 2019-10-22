@@ -12,12 +12,11 @@ public:
 	void Render();
 	void Release();
 private:
-	map<string, CImage_Loader*>					m_mapSpellList;
-	
+	map<string, CUI*>					m_mapSpellList;
 	CImage_Loader*						m_pImageLoader;
 	D3DXVECTOR3							m_vPosition;
 	D3DXVECTOR3							m_scale;
-	vector<CImage_Loader*>						m_vecSpells;
+	vector<CUI*>						m_vecSpells;
 	
 
 private:
@@ -25,6 +24,7 @@ private:
 
 	bool Checked();
 public:
-	vector<CImage_Loader*>	GetVecSpells() { return m_vecSpells; }
+	vector<CUI*>	GetVecSpells() { return m_vecSpells; }
+	map<string, CUI*> GetMap() { return m_mapSpellList; }
 };
 
