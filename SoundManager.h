@@ -52,6 +52,8 @@ private:
 	unordered_map<int, MyAlarm*>	m_mapAlarm;
 	float							m_cumulativeTime = 0.f;
 	int								m_bitFlag = 0;
+private:
+	void OnNoticeTestSoundEvent(ANNOUNCEEVENT* evt);
 };
 
 #define GET_SOUNDMGR SoundManager::GetInstance()

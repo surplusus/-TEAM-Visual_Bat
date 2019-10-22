@@ -33,7 +33,7 @@ HRESULT CStaticMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, 
 	for (DWORD i = 0; i < m_dwSubSetCnt; ++i)
 	{
 		TCHAR szBuff[128] = L"";
-
+		cout << "ÀÐÀº ¸Ê vertex ¼ö : " << i << '\n';
 		m_pMtrls[i] = m_pSubSets[i].MatD3D;
 		lstrcpy(szPath, pPath);
 

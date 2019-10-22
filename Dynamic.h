@@ -9,15 +9,16 @@ public:
 	virtual ~CDynamic();
 protected:
 	bool				m_bMove;
+	float				m_fHeight;
 	CAnimationCtrl*		m_pAnimationCtrl;
 public:
 	bool				Update_vPos_ByDestPoint(const D3DXVECTOR3* pDestPoint, const float&fSpeed);
 public:
 
 	virtual HRESULT		Initialize() PURE;
-	virtual void		Progress()PURE;
-	virtual void		Render() PURE;
-	virtual void		Release() ;
+	virtual void		Progress()	 PURE;
+	virtual void		Render()	 PURE;
+	virtual void		Release()	 PURE;
 
 };
 
