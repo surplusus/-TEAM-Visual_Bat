@@ -234,14 +234,14 @@ bool GuhyunScene::LoadMapByThread()
 	//	result->push_back("MapSummon Load Complited");
 	//else
 	//	result->push_back("MapSummon Load Failed");
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Map.x", L"Map", MESHTYPE_STATIC)))
-	//	result->push_back("MapSummon Load Complited");
-	//else
-	//	result->push_back("MapSummon Load Failed");
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/Map/", L"MapSummon.x", L"Map", MESHTYPE_STATIC)))
 		result->push_back("MapSummon Load Complited");
 	else
 		result->push_back("MapSummon Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//	result->push_back("MapSummon Load Complited");
+	//else
+	//	result->push_back("MapSummon Load Failed");
 
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
 	//	, L"Ezreal.x", L"Zealot", MESHTYPE_DYNAMIC)))
