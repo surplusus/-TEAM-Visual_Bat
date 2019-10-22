@@ -72,10 +72,26 @@ void CSelectScene::Progress()
 			((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
 		}
 	}
-	if (m_pDorpBox_1) m_pDorpBox_1->Progress();
-	if (m_pDorpBox_2) m_pDorpBox_2->Progress();
-
 	//if(GetAsyncKeyState(VK_LBUTTON))	Checked();
+
+	for (int i = 0; i < m_vecChampCircle.size(); i++)
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
+		}
+		if (m_pChamp)
+		{
+			if (m_pChamp->GetName() == m_vecChampCircle[i]->GetName())
+			{
+				temp = m_vecChampCircle[i];
+				g_ChampName = m_vecChampCircle[i]->GetName();
+				break;
+			}
+		}
+	}
+
+
 
 	IsSelected();
 
@@ -147,22 +163,7 @@ void CSelectScene::ChampRender()
 	{
 		m_vecChamp[i]->Render();
 	}
-	for (int i = 0; i < m_vecChampCircle.size(); i++)
-	{
-		if (GetAsyncKeyState(VK_LBUTTON))
-		{
-			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
-		}
-		if (m_pChamp)
-		{
-			if (m_pChamp->GetName() == m_vecChampCircle[i]->GetName())
-			{
-				temp = m_vecChampCircle[i];
-				g_ChampName = m_vecChampCircle[i]->GetName();
-				break;
-			}
-		}
-	}
+	
 	if (temp) temp->Render();
 }
 
