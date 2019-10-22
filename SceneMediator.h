@@ -18,15 +18,11 @@ private:
 private:
 
 public:
-	void SetSelectScene(CSelectScene* scene) { m_pSelectScene = scene; }
-	void SetLoadingScene(CLoadingScene* scene) { m_pLoadingScene = scene; }
-	void SetGameScene(CGameScene* scene) { m_pGameScene = scene; }
-	void SetGuhyunScene(GuhyunScene* scene) { m_pGuhyunScene = scene; }
-	void SetSceneMember(string sceneName, CScene* member);
+	void SetSceneMember(CScene* member);
+	void MediateInfo(MEDIATETYPE type, CScene* member);
 
 	void InsertStringInfo(string key, string info);
 	void CopyStringInfo(OUT map<string, string>* info);
 
-	void MediateInfo(MEDIATETYPE type, CScene* member);
 };
 

@@ -18,11 +18,12 @@ CSceneMediator::~CSceneMediator()
 	m_mapSceneMember.clear();
 }
 
-void CSceneMediator::SetSceneMember(string sceneName, CScene * member)
+void CSceneMediator::SetSceneMember(CScene * member)
 {
-	stringstream ss;
-	typeid(member);
-
+	m_pSelectScene = dynamic_cast<CSelectScene*>(member);
+	m_pLoadingScene = dynamic_cast<CLoadingScene*>(member);
+	m_pGameScene = dynamic_cast<CGameScene*>(member);
+	m_pGuhyunScene = dynamic_cast<GuhyunScene*>(member);
 }
 
 void CSceneMediator::InsertStringInfo(string key, string info)

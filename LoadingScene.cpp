@@ -32,7 +32,6 @@ HRESULT CLoadingScene::Initialize()
 	cout << "·Îµù µÊ" << endl;
 
 	{	// mediate
-		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetLoadingScene(this);
 		GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT,this);
 	}
 	{
