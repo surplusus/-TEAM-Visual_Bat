@@ -5,9 +5,6 @@
 #include <d3dx9.h>
 #include <d3d9.h>
 
-#pragma comment("")
-#include <fmod.hpp>
-#include <fmod_errors.h>
 
 #include <unordered_map>
 #include <string>
@@ -35,9 +32,16 @@
 #include <deque>
 #include <atomic>
 
+// >> cheon
+#include "Cheon.h"
+
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fDeltaTime;
+
+
+
+
 using namespace std;
 
 #ifdef __cplusplus

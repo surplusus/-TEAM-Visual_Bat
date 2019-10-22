@@ -15,9 +15,6 @@ public:
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	HRESULT SetState(CScene* pState);
 private:
-	void TriggerOnChangeScene();
-	void TriggerOffChangeScene();
-private:
 	CScene * m_State;
 
 	bool     m_bSignChangeScene = false;
