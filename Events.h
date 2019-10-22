@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+std::string;
 class CObj;
 class SoundManager;
 class GuhyunScene;
@@ -24,7 +25,7 @@ typedef struct _tagFollowEvent : EVENT
 
 typedef struct _tagRegisterObj : EVENT
 {
-	_tagRegisterObj(std::vector<std::string>* result)
+	_tagRegisterObj(std::string* result)
 		: m_result(result) {}
-	std::vector<std::string>* m_result;
+	std::string* m_result;
 } REGISTEREVENT;

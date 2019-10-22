@@ -21,5 +21,13 @@ public:
 private:
 	CImage_Loader*				m_pBackGround;
 	CSelectedChampion*			m_pChampSelect;
+	
+	vector<D3DXVECTOR2>			m_vLinePoint;
+	float						m_fLineLength;
+	// << :: mediate
+	map<string, string>			m_StringInfo;
+public:
+	map<string, string>* GetStringInfo() { return &m_StringInfo; }
+	// >> :: mediate
 };
 

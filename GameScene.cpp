@@ -10,17 +10,17 @@
 #include"SummonTerrain.h"
 #include"Atrox.h"
 #include"Amumu.h"
-GameScene::GameScene()
+CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
 }
 
 
-GameScene::~GameScene()
+CGameScene::~CGameScene()
 {
 }
 
-HRESULT GameScene::Initialize()
+HRESULT CGameScene::Initialize()
 {
 	/*if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
 		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
@@ -61,36 +61,36 @@ HRESULT GameScene::Initialize()
 
 }
 
-void GameScene::Progress()
+void CGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 	
 }
 
-void GameScene::Render()
+void CGameScene::Render()
 {
 	m_pObjMgr->Render();
 }
 
-void GameScene::Release()
+void CGameScene::Release()
 {
 
 }
 
-HRESULT GameScene::Setup()
+HRESULT CGameScene::Setup()
 {
 	SetRenderState(D3DRS_LIGHTING, false);
 	return S_OK;
 }
 
-void GameScene::Update()
+void CGameScene::Update()
 {
 	m_pObjMgr->Progress();
 	GET_SINGLE(CCameraMgr)->Progress();
 }
 
-void GameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+void CGameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 }
 
