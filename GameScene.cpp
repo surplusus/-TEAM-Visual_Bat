@@ -34,8 +34,9 @@ HRESULT GameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))			return E_FAIL;
+	m_pObjMgr->EraseObject(L"Ezreal");
 	pShader = new CShader;
-	pShader->LoadAsset(L"./Resource/Shader/Particle_System.fx");
+	pShader->LoadAsset(L"./Resource/Shader/test2.fx");
 }
 
 void GameScene::Progress()

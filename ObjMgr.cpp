@@ -283,3 +283,29 @@ CObjMgr * CObjMgr::CloneMgr()
 {
 	return this;
 }
+
+HRESULT CObjMgr::EraseObject(const TCHAR * pObjKey)
+{
+	DWORD	dwIndex = Hashing(pObjKey);
+
+	
+	if (m_pObjects[dwIndex] == NULL)
+	{
+		return E_FAIL;
+	}
+	// Crush
+	else
+	{
+		for (list<list<PDATA>*>::iterator iter = m_pObjects[dwIndex]->begin();
+			iter != m_pObjects[dwIndex]->end(); ++iter)
+		{
+			if (!(lstrcmp((*iter)->front()->pKey, pObjKey)))
+			{
+				iter = m_pObjects[dwIndex]->erase(iter);
+				return S_OK;
+			}
+		}
+	}
+
+	return S_OK;
+}

@@ -30,7 +30,8 @@ public:
 	void					Release(void);
 	const CObj*				GetObj(const TCHAR* pObjKey, const int& iCnt = 0);
 	CObjMgr*				CloneMgr();
-
+public:
+	HRESULT					EraseObject(const TCHAR* pObjKey);
 public:
 	static CObjMgr** GetInstance(void)
 	{

@@ -15,12 +15,15 @@
 //**************************************************************//
 
 //--------------------------------------------------------------//
+// Particle Effects
+//--------------------------------------------------------------//
+//--------------------------------------------------------------//
 // Snake
 //--------------------------------------------------------------//
 //--------------------------------------------------------------//
 // Single Pass
 //--------------------------------------------------------------//
-string Particle_Effects_Snake_Single_Pass_Particles : ModelData = "..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\QuadArray.3ds";
+string Particle_Effects_Snake_Single_Pass_Particles : ModelData = " .\\Resource\\Shader\\QuadArray.3ds";
 
 float4x4 matProjection : ViewProjection;
 float4x4 matView : View;
@@ -32,7 +35,7 @@ struct VS_OUTPUT {
 };
 struct VS_INPUT
 {
-   float4 Pos :POSITION;
+   float4 Pos : POSITION;
 };
 VS_OUTPUT Particle_Effects_Snake_Single_Pass_Vertex_Shader_main(VS_INPUT Input){
    VS_OUTPUT Out;
@@ -40,10 +43,11 @@ VS_OUTPUT Particle_Effects_Snake_Single_Pass_Vertex_Shader_main(VS_INPUT Input){
    float3 pos;
    // Billboard the quads.
    // The view matrix gives us our right and up vectors.
-   pos = 100 * Input.Pos.z * (Input.Pos.x * matView[0] + Input.Pos.y * matView[1]);
+   pos = 15 * Input.Pos.z * 
+   (Input.Pos.x * matView[0] + Input.Pos.y * matView[1]);
 
    // Move the quads around along some odd path
-   float t = time_0_X + 2.0f*Input.Pos.z;
+   float t = time_0_X + 2.0f * Input.Pos.z;
    
    pos.x += 50 * cos(1.24 * t);
    //pos.y += 50 * sin(2.97 * t) * cos(0.81 * t);
@@ -61,11 +65,11 @@ float particleExp
    string UIWidget = "Numeric";
    bool UIVisible =  true;
    float UIMin = 0.00;
-   float UIMax = 0.10;
-> = float( 0.70 );
+   float UIMax = 0.47;
+> = float( 1.00 );
 texture Flame_Tex
 <
-   string ResourceName = ".\\Ez\\ASSETS\\Characters\\Ezreal\\Skins\\Base\\Particles\\Ezreal_Base_Q_mis_trail.dds";
+   string ResourceName = ".\\Resource\\Shader\\\\Ezreal_Base_Q_mis_trail.dds";
 >;
 sampler Palette = sampler_state
 {
@@ -79,29 +83,31 @@ sampler Palette = sampler_state
 };
 texture Texture1_Tex
 <
-   string ResourceName = ".\\Ez\\ASSETS\\Characters\\Ezreal\\Skins\\Base\\Particles\\Ezreal_Ashe_Base_ground_CrackNoise_mult.dds";
+   string ResourceName = ".\\Resource\\Shader\\Ezreal_Base_R_trail.dds";
 >;
 sampler Texture1 = sampler_state
 {
    Texture = (Texture1_Tex);
 };
+
 struct PS_INPUT
 {
-   float2 texCoord: TEXCOORD0;
+   float2 texCoord:TEXCOORD0;
    float2 texCoord1:TEXCOORD1;
-    float color: TEXCOORD1;
+   float  clolor : TEXCOORD1;
 };
+
 float4 Particle_Effects_Snake_Single_Pass_Pixel_Shader_main(PS_INPUT Input) : COLOR {
    float4 albedo  = tex2D(Palette,Input.texCoord);
    float4 albedo2 = tex2D(Texture1,Input.texCoord1);
-   float4 tex =  (albedo+albedo2)*albedo.a;
+   float4 tex =  (albedo+albedo2)*albedo2.a;
    return (1 - pow(dot(Input.texCoord, Input.texCoord), particleExp))*tex ;
    
 }
 
 
 //--------------------------------------------------------------//
-// Technique Section for Effect Workspace.Particle Effects.Snake
+// Technique Section for Particle Effects
 //--------------------------------------------------------------//
 technique Snake
 {
@@ -113,8 +119,8 @@ technique Snake
       CULLMODE = NONE;
       ALPHABLENDENABLE = TRUE;
 
-      VertexShader = compile vs_3_0 Particle_Effects_Snake_Single_Pass_Vertex_Shader_main();
-      PixelShader = compile ps_3_0 Particle_Effects_Snake_Single_Pass_Pixel_Shader_main();
+      VertexShader = compile vs_1_1 Particle_Effects_Snake_Single_Pass_Vertex_Shader_main();
+      PixelShader = compile ps_2_0 Particle_Effects_Snake_Single_Pass_Pixel_Shader_main();
    }
 
 }
