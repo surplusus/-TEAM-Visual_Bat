@@ -1,6 +1,17 @@
 #pragma once
 #include "Scene.h"
 
+struct stMeshInfo
+{
+	bool m_bComplete = false;
+	string m_ObjName;
+	string m_FolderPath;
+	string m_FileName;
+	string m_ConsoleText;
+	stMeshInfo(string objName, string folderPath, string fileName)
+		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName) {}
+};
+
 class CImage_Loader;
 class CSelectedChampion;
 class CUI;
@@ -33,5 +44,14 @@ private:
 public:
 	map<string, string>* GetStringInfo() { return &m_StringInfo; }
 	// >> :: mediate
+	// << :: thread
+	enum {BOXCOLLIDER = 0,LOADCHAMP = 1,LOADMAP, INROLLCHAMP, INROLLMAP, ENDSTAGE};
+	int							m_nStage;
+	vector<stMeshInfo*>			m_vpMeshInfo;
+	bool LoadResourceByThread();
+	bool RegisterOnObjMgr(stMeshInfo* info);
+	static bool LoadStaticMeshByThread(stMeshInfo* info);
+	static bool LoadDynamicMeshByThread(stMeshInfo* info);
+	// >> :: thread
 };
 

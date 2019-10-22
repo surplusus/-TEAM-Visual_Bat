@@ -44,7 +44,7 @@ HRESULT GuhyunScene::Initialize()
 
 
 	//=========== Subscribe Events ==========//
-	GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
+	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
 	//=========== Add Mesh(Bounding) ===========//
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
@@ -106,21 +106,11 @@ void GuhyunScene::Progress()
 		return;
 	}
 	
-	if (m_bLoading)
-		m_pLoadingScene->Progress();
-
 	//if (CheckPushKeyOneTime(VK_0))
 	//	GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
 
-	if (CheckPushKeyOneTime(VK_SPACE))
-		m_bLoading = false;
 	GET_SINGLE(CCameraMgr)->Progress();
 
-	for (auto& it : m_vFuncRegister) {
-		//ProcessRegisterMapLoaded(it);
-
-	}
-	m_vFuncRegister.clear();
 	m_pObjMgr->Progress();
 	
 	SoundUpdate();
@@ -128,10 +118,6 @@ void GuhyunScene::Progress()
 
 void GuhyunScene::Render()
 {
-	if (m_bLoading) {
-		m_pLoadingScene->Render();
-		return;
-	}
 	m_pObjMgr->Render();
 	//m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
@@ -140,18 +126,11 @@ void GuhyunScene::Render()
 void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
-	GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
+	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
 HRESULT GuhyunScene::Setup()
 {
-	{	// Immediately Render LoadingScene
-		Begin_Render();
-		m_pLoadingScene = new CLoadingScene();
-		m_pLoadingScene->Initialize();
-		m_pLoadingScene->Render();
-		End_Render(g_hWnd);
-	}
 	{	// Make Light
 		D3DLIGHT9 stLight;
 		ZeroMemory(&stLight, sizeof(D3DLIGHT9));
@@ -193,130 +172,3 @@ void GuhyunScene::SoundUpdate()
 	//}
 	GET_SINGLE(SoundManager)->Update();
 }
-
-void GuhyunScene::RegisterMapLoaded(REGISTEREVENT * evt)
-{
-	//vector<string> sResult(*(evt->m_result));
-	//size_t nSize = evt->m_result->size();
-	string sResult = *evt->m_result;
-	delete evt->m_result;
-	delete evt;
-
-	bool bResult = false;
-	stringstream ss;
-	string strResult, strName, strType, dump;
-	ss << sResult;
-	ss >> strName >> dump >> strResult;
-	ss.str("");
-	bResult = (strResult[0] == 'C') ? true : false;
-	stEventInfo queMem = { bResult,strName};
-	m_vFuncRegister.push_back(queMem);
-		
-	cout << sResult << '\n';
-}
-
-void GuhyunScene::RegisterMapLoaded(string sLoadResult)
-{
-	bool bResult = false;
-	stringstream ss;
-	string strResult, strName, strType, dump;
-	ss << sLoadResult;
-	ss >> strName >> dump >> strResult;
-	ss.str("");
-	bResult = (strResult[0] == 'C') ? true : false;
-	stEventInfo queMem = { bResult,strName };
-	m_vFuncRegister.push_back(queMem);
-
-	cout << sLoadResult << '\n';
-}
-
-//void GuhyunScene::ProcessRegisterMapLoaded(stEventInfo evtInfo)
-//{
-//	if (!evtInfo.m_bComplate)
-//		return;
-//
-//	basic_string<TCHAR> converted(evtInfo.m_sObjName.begin(), evtInfo.m_sObjName.end());
-//	const TCHAR * szName = converted.c_str();
-//
-//
-//	if (evtInfo.m_sObjName == "MapSummon" || evtInfo.m_sObjName == "Floor") {
-//		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CSummonTerrain >::CreateObject());
-//		cout << evtInfo.m_sObjName << " Register Complited\n";
-//	}
-//	else if (evtInfo.m_sObjName == "Zealot" || evtInfo.m_sObjName == "Udyr") {
-//		GET_SINGLE(CObjMgr)->AddObject(szName, CFactory<CObj, CZealot>::CreateObject());
-//		cout << evtInfo.m_sObjName << " Register Complited\n";
-//	
-//		CZealot* zealot = (CZealot*)(m_pObjMgr->GetObj(L"Zealot"));
-//		zealot->SetHeightMap(m_pHeightMap);
-//	}
-//
-//}
-//
-//string GuhyunScene::AddStaticMeshByThread(string path, string fileName, string objName)
-//{
-//	basic_string<TCHAR> sTemp1(path.begin(), path.end());
-//	basic_string<TCHAR> sTemp2(fileName.begin(), fileName.end());
-//	basic_string<TCHAR> sTemp3(objName.begin(), objName.end());
-//	string result;
-//	const TCHAR* t1 = sTemp1.c_str();
-//	const TCHAR* t2 = sTemp1.c_str();
-//	const TCHAR* t3 = sTemp1.c_str();
-//	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_STATIC)))
-//		result = sTemp3 + " Load Complited";
-//	else
-//		result = sTemp3 + " Load Failed";
-//
-//	return result;
-//}
-//
-//string GuhyunScene::AddDynamicMeshByThread(string path, string fileName, string objName)
-//{
-//	basic_string<TCHAR> sTemp1(path.begin(), path.end());
-//	basic_string<TCHAR> sTemp2(fileName.begin(), fileName.end());
-//	basic_string<TCHAR> sTemp3(objName.begin(), objName.end());
-//	string result;
-//	const TCHAR* t1 = sTemp1.c_str();
-//	const TCHAR* t2 = sTemp1.c_str();
-//	const TCHAR* t3 = sTemp1.c_str();
-//	//if (SUCCEEDED(AddMesh(GetDevice(), sTemp1.c_str(), sTemp2.c_str(), sTemp3.c_str(), MESHTYPE_DYNAMIC)))
-//	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_DYNAMIC)))
-//		result = sTemp3 + " Load Complited";
-//	else
-//		result = sTemp3 + " Load Failed";
-//
-//	return result;
-//}
-//
-//bool GuhyunScene::LoadResourceByThread()
-//{
-//	bool result = true;
-//	string sPath, sFileName, sObjName, sResult;
-//	sPath = "./Resource/Test/Map/";
-//	sFileName = "MapSummon.x";
-//	sObjName = "Map";
-//	m_vThreadCompleted.push_back(false);
-//	
-//	sResult = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, AddStaticMeshByThread, sPath, sFileName).get();
-//	g_sThreadResult.push_back();
-//	if (sResult != "") {
-//		GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-//		RegisterMapLoaded(sResult);
-//	}
-//	
-//	sPath = "./Resource/Test/";
-//	sFileName = L"Udyr.x";
-//	sObjName = "Zealot";
-//	m_vThreadCompleted.push_back(false);
-//	sResult = GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP, AddDynamicMeshByThread, sPath, sFileName).get();
-//	if (sResult != "") {
-//		GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
-//		RegisterMapLoaded(sResult);
-//	}
-//
-//	for (auto& it : m_vThreadCompleted)
-//		if (it == false)
-//			return false;
-//
-//	return true;
-//}
