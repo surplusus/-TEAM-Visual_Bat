@@ -22,8 +22,6 @@ CSelectScene::CSelectScene()
 	, m_pSpell(NULL)
 	, m_pSpellRender_1(NULL)
 	, m_pSpellRender_2(NULL)
-	, m_pDorpBox_1(NULL)
-	, m_pDorpBox_2(NULL)
 	, m_bChecked_1(false)
 	, m_bChecked_2(false)
 {
@@ -81,6 +79,8 @@ void CSelectScene::Progress()
 
 	IsSelected();
 
+	SpellRender_1->Progress();
+	SpellRender_2->Progress();
 
 	//Scene ÀüÈ¯
 	/*if (GET_SINGLE(CText)->GetTimer() == "0")
@@ -103,8 +103,8 @@ void CSelectScene::Render()
 	ChampRender();
 	SpellRender();
 
-	if (m_bChecked_1) m_pDorpBox_1->Render();
-	if (m_bChecked_2) m_pDorpBox_2->Render();
+	if (SpellRender_1) SpellRender_1->Render();
+	if (SpellRender_2) SpellRender_2->Render();
 }
 
 void CSelectScene::Release()
@@ -136,14 +136,10 @@ void CSelectScene::ChampInitialize()
 
 void CSelectScene::SpellInitialize()
 {
-	m_pDorpBox_1 = new CDropBox(D3DXVECTOR3(430, 170, 0), D3DXVECTOR3(0.7f, 0.7f, 0.7f));
-	m_pDorpBox_1->Initialize();
-
-	m_pDorpBox_2 = new CDropBox(D3DXVECTOR3(500, 170, 0), D3DXVECTOR3(0.7f, 0.7f, 0.7f));
-	m_pDorpBox_2->Initialize();
-
-	SpellRender_1 = m_pDorpBox_1->GetVecSpells()[rand() % m_pDorpBox_1->GetVecSpells().size()];
-	SpellRender_2 = m_pDorpBox_2->GetVecSpells()[rand() % m_pDorpBox_2->GetVecSpells().size()];
+	SpellRender_1 = new CSpell_("RenderSpell_1", "Resource/choen/Spell_Image/3.Flash.png", D3DXVECTOR3(460, 500, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f), SPELLTYPE_End);
+	SpellRender_2 = new CSpell_("RenderSpell_2", "Resource/choen/Spell_Image/1.Cleanse.png", D3DXVECTOR3(460, 500, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f), SPELLTYPE_End);
+	SpellRender_1->Initialize();
+	SpellRender_2->Initialize();
 }
 void CSelectScene::ChampRender()
 {
@@ -176,14 +172,12 @@ void CSelectScene::SpellRender()
 	{
 		SpellRender_1->Render(D3DXVECTOR3(460, 500, 0));
 		SpellRender_1->Render(D3DXVECTOR3(20, 300, 0));
-		Rectangle(GetDC(g_hWnd), SpellRender_1->GetRect().left, SpellRender_1->GetRect().top, SpellRender_1->GetRect().right, SpellRender_1->GetRect().bottom);
 	}
 
 	if (SpellRender_2)
 	{
 		SpellRender_2->Render(D3DXVECTOR3(503, 500, 0));
 		SpellRender_2->Render(D3DXVECTOR3(20, 350, 0));
-		Rectangle(GetDC(g_hWnd), SpellRender_2->GetRect().left, SpellRender_2->GetRect().top, SpellRender_2->GetRect().right, SpellRender_2->GetRect().bottom);
 	}
 }
 
@@ -191,8 +185,6 @@ bool CSelectScene::Checked()
 {
 	if (SpellRender_1)
 	{
-		if (m_pDorpBox_1)
-		{
 			for (int i = 0; i < m_pDorpBox_1->GetVecSpells().size(); i++)
 			{
 				if (GET_SINGLE(C2DMouse)->IsInImage(SpellRender_1))
@@ -204,14 +196,13 @@ bool CSelectScene::Checked()
 				{
 					m_bChecked_1 = false;
 				}
-			}
+
 		}
 	}
 
 	if (SpellRender_2)
 	{
-		if (m_pDorpBox_2)
-		{
+	
 			for (int i = 0; i < m_pDorpBox_2->GetVecSpells().size(); i++)
 			{
 				if (GET_SINGLE(C2DMouse)->IsInImage(SpellRender_2))
@@ -223,7 +214,7 @@ bool CSelectScene::Checked()
 				{
 					m_bChecked_2 = false;
 				}
-			}
+
 		}
 	}
 	return false;
@@ -231,37 +222,5 @@ bool CSelectScene::Checked()
 
 void CSelectScene::IsSelected()
 {
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if (m_pSpellRender_1)
-		{
-			if (m_pDorpBox_1)
-			{
-				for (int i = 0; i < m_pDorpBox_1->GetVecSpells().size(); i++)
-				{
-					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells()))
-					{
-						SpellRender_1 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_1->GetVecSpells());
-					}
-				}
-			}
-		}
-	}
-
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if (m_pSpellRender_2)
-		{
-			if (m_pDorpBox_2)
-			{
-				for (int i = 0; i < m_pDorpBox_2->GetVecSpells().size(); i++)
-				{
-					if (GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells()))
-					{
-						SpellRender_2 = GET_SINGLE(C2DMouse)->IsInImage_(m_pDorpBox_2->GetVecSpells());
-					}
-				}
-			}
-		}
-	}
+	
 }

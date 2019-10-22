@@ -46,12 +46,10 @@ void CChamp::Render()
 	{
 	case UI_CHAMPTYPE_STATIC:
 		m_ImageLoader->Render();
-		Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 		break;
 	case UI_CHAMPTYPE_DYNAMIC:
 		if (bClicked == true)
 			m_ImageLoader->Render();
-		Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 		break;
 	default:
 		break;

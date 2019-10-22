@@ -25,41 +25,41 @@ void CDropBox::Initialize()
 	m_pImageLoader = new CImage_Loader("Resource/choen/Spell_Image/dropBox.png" , m_vPosition, m_scale);
 	m_pImageLoader->Initialize();
 
-	m_mapSpellList.insert(make_pair("cleanse",  new CSpell_("Cleanse",  "Resource/choen/Spell_Image/1.Cleanse.png",		
+	m_mapSpellList.insert(make_pair("cleanse",  new CImage_Loader("Resource/choen/Spell_Image/1.Cleanse.png",
 		D3DXVECTOR3(m_pImageLoader->GetPosition().x + 17, m_pImageLoader->GetPosition().y + 169, 0), 
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), cleanse)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Exhaust",  new CSpell_("Exhaust",  "Resource/choen/Spell_Image/2.Exhaust.png",		
+	m_mapSpellList.insert(make_pair("Exhaust",  new CImage_Loader("Resource/choen/Spell_Image/2.Exhaust.png",
 		D3DXVECTOR3(m_mapSpellList["cleanse"]->GetPosition().x + 42.0f, m_mapSpellList["cleanse"]->GetPosition().y, 0),			
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Exhaust)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Flash",    new CSpell_("Flash",	"Resource/choen/Spell_Image/3.Flash.png",		
+	m_mapSpellList.insert(make_pair("Flash",    new CImage_Loader("Resource/choen/Spell_Image/3.Flash.png",
 		D3DXVECTOR3(m_mapSpellList["Exhaust"]->GetPosition().x + 42.0f, m_mapSpellList["Exhaust"]->GetPosition().y, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Flash)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Ghost",    new CSpell_("Ghost",	"Resource/choen/Spell_Image/4.Ghost.png",		
+	m_mapSpellList.insert(make_pair("Ghost",    new CImage_Loader("Resource/choen/Spell_Image/4.Ghost.png",
 		D3DXVECTOR3(m_mapSpellList["Flash"]->GetPosition().x + 42.0f, m_mapSpellList["Flash"]->GetPosition().y, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Ghost)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Heal",     new CSpell_("Heal",	    "Resource/choen/Spell_Image/5.Heal.png",		
+	m_mapSpellList.insert(make_pair("Heal",     new CImage_Loader("Resource/choen/Spell_Image/5.Heal.png",
 		D3DXVECTOR3(m_mapSpellList["cleanse"]->GetPosition().x, m_mapSpellList["cleanse"]->GetPosition().y + 42.0f, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Heal)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Smite",    new CSpell_("Smite",	"Resource/choen/Spell_Image/6.Smite.png",		
+	m_mapSpellList.insert(make_pair("Smite",    new CImage_Loader("Resource/choen/Spell_Image/6.Smite.png",
 		D3DXVECTOR3(m_mapSpellList["cleanse"]->GetPosition().x + 42.0f, m_mapSpellList["cleanse"]->GetPosition().y + 42.0f, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Smite)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Teleport", new CSpell_("Teleport", "Resource/choen/Spell_Image/7.Teleport.png",	
+	m_mapSpellList.insert(make_pair("Teleport", new CImage_Loader("Resource/choen/Spell_Image/7.Teleport.png",
 		D3DXVECTOR3(m_mapSpellList["Smite"]->GetPosition().x + 42.0f, m_mapSpellList["cleanse"]->GetPosition().y + 42.0f, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Teleport)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Ignite",   new CSpell_("Ignite",   "Resource/choen/Spell_Image/8.Ignite.png",		
+	m_mapSpellList.insert(make_pair("Ignite",   new CImage_Loader("Resource/choen/Spell_Image/8.Ignite.png",
 		D3DXVECTOR3(m_mapSpellList["Teleport"]->GetPosition().x + 42.0f, m_mapSpellList["cleanse"]->GetPosition().y + 42.0f, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Ignite)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
-	m_mapSpellList.insert(make_pair("Barrier",  new CSpell_("Barrier",  "Resource/choen/Spell_Image/9.Barrier.png",		
+	m_mapSpellList.insert(make_pair("Barrier",  new CImage_Loader("Resource/choen/Spell_Image/9.Barrier.png",		
 		D3DXVECTOR3(m_mapSpellList["cleanse"]->GetPosition().x, m_mapSpellList["Ignite"]->GetPosition().y + 44.0f, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 0.f), Barrier)));
+		D3DXVECTOR3(1.0f, 1.0f, 0.f))));
 
 	
 

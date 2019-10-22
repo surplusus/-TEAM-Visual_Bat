@@ -2,6 +2,7 @@
 #include "C2DMouse.h"
 #include "UI.h"
 #include "Spell_.h"
+#include "Image_Loader.h"
 
 C2DMouse::C2DMouse()
 {
@@ -50,7 +51,7 @@ CUI * C2DMouse::IsInImage_(vector<CUI *> vecUI)
 	}
 }
 
-UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CUI * UI)
+UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CImage_Loader * UI)
 {
 	if (!UI) return SPELLTYPE_End;
 
