@@ -17,7 +17,11 @@ public:
 	void Render() ;
 	void Release() ;
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {}
-
+private:
+	LPD3DXSPRITE				m_pLoadingSprite;
+	LPDIRECT3DTEXTURE9			m_pLoadingTexture;
+	D3DXIMAGE_INFO				m_ImageInfo;
+	void Render_Loading();
 private:
 	CImage_Loader*				m_pBackGround;
 	CSelectedChampion*			m_pChampSelect;

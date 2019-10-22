@@ -145,9 +145,6 @@ void GuhyunScene::Release()
 
 HRESULT GuhyunScene::Setup()
 {
-	{	// Insert in SceneMediator
-		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSceneMember(typeid(this).name(),this);
-	}
 	{	// Immediately Render LoadingScene
 		Begin_Render();
 		m_pLoadingScene = new CLoadingScene();

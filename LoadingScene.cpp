@@ -5,7 +5,7 @@
 #include "Text.h"
 #include "SceneMgr.h"
 #include "SelectScene.h"
-//#include "GuhyunScene.h"
+#include "GuhyunScene.h"
 #include "SceneMediator.h"
 
 CLoadingScene::CLoadingScene() :m_pBackGround(NULL)
@@ -31,23 +31,29 @@ HRESULT CLoadingScene::Initialize()
 	GET_SINGLE(CText)->Initialize();
 	cout << "로딩 됨" << endl;
 
-	{	// mediate
-		GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT,this);
+	{	// Loading Progress Bar
+		if (FAILED(D3DXCreateTextureFromFileExA(GET_DEVICE
+			, "./Resource/choen/Loading/loading_circle.png"
+			, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2
+			, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8
+			, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_DEFAULT
+			, 0, &m_ImageInfo, NULL, &m_pLoadingTexture)))
+			cout << "그림을 못 불렀지용~" << endl;
+		if (FAILED(D3DXCreateSprite(GET_DEVICE, &m_pLoadingSprite)))
+			cout << "sprite를 못 불렀지용~" << endl;
 	}
-	{
-		D3DXVECTOR2 v;
-		v = { 0.f,(float)WINSIZEY - 20.f };	m_vLinePoint.push_back(v);
-		v = { 0.f,(float)WINSIZEY };		m_vLinePoint.push_back(v);
-		v = { 0.f,(float)WINSIZEY};			m_vLinePoint.push_back(v);
-		v = { 0.f,(float)WINSIZEY - 20.f };	m_vLinePoint.push_back(v);
+	{	// Load Resource By Thread
+
 	}
 	return S_OK;
 }
 
 void CLoadingScene::Progress()
 {
-	//if (GetAsyncKeyState(VK_SPACE))
-	//	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	if (GetAsyncKeyState(VK_SPACE))
+		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+
+
 }
 
 void CLoadingScene::Render()
@@ -56,33 +62,8 @@ void CLoadingScene::Render()
 	GET_SINGLE(CText)->LoadingNoticeRender();
 	m_pChampSelect->Render();
 
-	cout << nVertex1 << endl;
-	{
-		//static int n = 0;
-		//n++;
-		//if (n >= 200)	n = 200;
-		//int per = WINSIZEX / (200 - nVertex1);
-		//m_vLinePoint[2].x = per;
-		//m_vLinePoint[3].x = per;
-		//LPD3DXLINE line;
-		//D3DXCreateLine(GET_DEVICE, &line);
-		//line->SetWidth(10);
-		//line->Begin();
-		//line->Draw(&m_vLinePoint[0], 4, D3DCOLOR_XRGB(255, 0, 0));
-		//line->End();
-		//line->Release();
-	}
-	//Rectangle(GetDC(g_hWnd), 0, WINSIZEY - 20, x, WINSIZEY);
-	//static int i = 0;
-	//i++;
-	//if (i <= WINSIZEX)
-	//{
-	//	return;
-	//}
-	//i = 0;
-	//
-	//x += (WINSIZEX / 100);
-	//if (WINSIZEX < x)	x = WINSIZEX;
+	// Loading Progress Bar
+	Render_Loading();
 }
 
 void CLoadingScene::Release()
@@ -92,4 +73,30 @@ void CLoadingScene::Release()
 
 	delete m_pChampSelect;
 	m_pChampSelect = NULL;
+
+	SAFE_RELEASE(m_pLoadingSprite);
+	SAFE_RELEASE(m_pLoadingTexture);
+}
+
+void CLoadingScene::Render_Loading()
+{
+	m_pLoadingSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	static int n = 0;
+	static int y = 0;
+	static float size = 1.f;
+	n++;
+	if (n >= 500) {
+		n = 0;
+		y += 128;
+		size *= 0.8f;
+		if (y >= 3072) y = 0;
+		printf(" %d ", y);
+	}
+	RECT re = { y,0,y+128, 128};
+	D3DXVECTOR3 position(2 * WINSIZEX - 250.f,2 * WINSIZEY - 200.f, 0.f);
+	D3DXMATRIX matS;	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+	m_pLoadingSprite->SetTransform(&matS);
+	m_pLoadingSprite->Draw(m_pLoadingTexture, &re
+		, &D3DXVECTOR3(0.f, 0.f, 0.f), &position, D3DCOLOR_RGBA(255, 255, 255, 100));
+	m_pLoadingSprite->End();
 }
