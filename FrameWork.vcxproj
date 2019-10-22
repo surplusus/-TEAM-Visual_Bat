@@ -35,6 +35,7 @@
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameHUD.h" />
     <ClInclude Include="HUDScene.h" />
     <ClInclude Include="ImageLoader.h" />

@@ -54,14 +54,9 @@ void cImageLoader::Render()
 		| D3DXSPRITE_SORT_TEXTURE
 	);
 
-	D3DXMATRIXA16 matT, matR, matS, matW;
-
+	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, 0, 0, 0);
-	D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.0f);
-
-	matW = matS * matT;
-
-	m_pSprite->SetTransform(&matW);
+	m_pSprite->SetTransform(&matT);
 
 	RECT rc;
 	SetRect(&rc, 0, 0, 

@@ -21,11 +21,7 @@ private:
 	D3DXVECTOR3 m_ImagePos;
 
 public:
-	UINT GetWidth() { return m_stImageInfo.Width; }
-	UINT GetHeight() { return m_stImageInfo.Height; }
-
-	float GetX() { return m_ImagePos.x; }
-	float GetY() { return m_ImagePos.y; }
-	float GetZ() { return m_ImagePos.z; }
+	D3DXIMAGE_INFO * GetImageInfo() { return &m_stImageInfo; }
+	D3DXVECTOR3 * GetImagePos() { return &m_ImagePos; }
 };
 

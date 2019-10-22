@@ -31,12 +31,6 @@
     <Filter Include="소스 파일\Maneger\00. SceneMgr">
       <UniqueIdentifier>{a6667691-8f33-4f10-9f8a-3ef389f32f3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource">
-      <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\XFileUtil">
-      <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{c65a738a-4e2f-4a34-9c12-2e30ce739940}</UniqueIdentifier>
     </Filter>
@@ -57,30 +51,6 @@
     </Filter>
     <Filter Include="System\Camera\CameraInteface">
       <UniqueIdentifier>{a66e54c1-1f9e-4384-8149-558b5e388920}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\Texture">
-      <UniqueIdentifier>{dd1c6170-3fce-47f1-a60b-b6a3ccf83877}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\Texture\Inteface">
-      <UniqueIdentifier>{9839dcca-85a7-4833-8c61-01d3d6d2a04f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\Texture\NormalTexture">
-      <UniqueIdentifier>{3d1984c8-2914-4747-9ec4-d57df32c71ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\Texture\CubeTexture">
-      <UniqueIdentifier>{9b4deb89-5dfa-4d02-80dc-12ee7fa1e546}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\ResourceManger">
-      <UniqueIdentifier>{6516983f-681f-4a9f-a7a3-f187db1a9cac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\ResourceManger\00. TextureMgr">
-      <UniqueIdentifier>{cf7f58f6-a69f-459e-85a5-202e47dda072}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\ResourceManger\01.BufferMgr">
-      <UniqueIdentifier>{48523dad-a693-4c6e-9766-6100f021fd39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\ResourceFunc">
-      <UniqueIdentifier>{aef36926-badb-4b87-8174-8b911bcb1bfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\SystemManager\01.Input">
       <UniqueIdentifier>{8d729690-ee44-4861-b22d-248d80335903}</UniqueIdentifier>
@@ -106,39 +76,6 @@
     <Filter Include="System\SystemManager\03.BoundingMgr">
       <UniqueIdentifier>{27ef2c5c-abbd-4b36-88bc-1d1ee5a26c92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer">
-      <UniqueIdentifier>{99957c24-bfd5-41bb-b150-d0238a7950e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer\Inteface_VIBuffer">
-      <UniqueIdentifier>{7b3db079-fe9f-4766-ba1c-20196cbe7e1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer\Cube_Texture">
-      <UniqueIdentifier>{b9e1d94b-f837-4571-b154-c8348028daf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh">
-      <UniqueIdentifier>{8e0015a4-ee14-422f-8596-5dcdafecf9b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\Mesh_interface">
-      <UniqueIdentifier>{bbe23b6c-c955-4c19-9574-4d6834a119bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\StatticMesh">
-      <UniqueIdentifier>{d8fbc87f-ef73-47fe-a3c6-43d905f63483}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\Dynamic">
-      <UniqueIdentifier>{b980ebe1-2bd5-413b-bdbc-16294f4127c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\AnimationCtrl">
-      <UniqueIdentifier>{39419540-7e5f-4a6e-8f38-cddf467344d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\ResourceManger\02.MeshMgr">
-      <UniqueIdentifier>{249cc547-fcac-4891-b267-986054436f3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\HierachyLoader">
-      <UniqueIdentifier>{725c181f-3d24-409c-9f45-c0d7ce5c37ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\03. Mesh\SkinnedMesh">
-      <UniqueIdentifier>{d93ab8de-db8e-4f85-a5a0-1080bcad0903}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\02. Object">
       <UniqueIdentifier>{d7c727e8-07b5-4cc6-98f0-20d13bb4dd92}</UniqueIdentifier>
     </Filter>
@@ -147,9 +84,6 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\DynnamicObj">
       <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
-      <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Maneger\01. ObjMgr">
       <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
@@ -168,9 +102,6 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\SommonTerrain">
       <UniqueIdentifier>{330a0520-8454-4650-8b48-f5b11b836471}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ReSoureceSource\02.Buffer\Terrain">
-      <UniqueIdentifier>{b0085ec4-2de4-4292-8b62-d0b8b9d19ba8}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Scene">
       <UniqueIdentifier>{0b798ff5-89f9-4fa9-a6c9-f860f70bdef2}</UniqueIdentifier>
@@ -213,6 +144,75 @@
     </Filter>
     <Filter Include="jiyun">
       <UniqueIdentifier>{071c4282-aced-4b19-9baf-e5a129d2e7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource">
+      <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\XFileUtil">
+      <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture">
+      <UniqueIdentifier>{dd1c6170-3fce-47f1-a60b-b6a3ccf83877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\Inteface">
+      <UniqueIdentifier>{9839dcca-85a7-4833-8c61-01d3d6d2a04f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\NormalTexture">
+      <UniqueIdentifier>{3d1984c8-2914-4747-9ec4-d57df32c71ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\Texture\CubeTexture">
+      <UniqueIdentifier>{9b4deb89-5dfa-4d02-80dc-12ee7fa1e546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger">
+      <UniqueIdentifier>{6516983f-681f-4a9f-a7a3-f187db1a9cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\00. TextureMgr">
+      <UniqueIdentifier>{cf7f58f6-a69f-459e-85a5-202e47dda072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\01.BufferMgr">
+      <UniqueIdentifier>{48523dad-a693-4c6e-9766-6100f021fd39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceManger\02.MeshMgr">
+      <UniqueIdentifier>{249cc547-fcac-4891-b267-986054436f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\ResourceFunc">
+      <UniqueIdentifier>{aef36926-badb-4b87-8174-8b911bcb1bfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer">
+      <UniqueIdentifier>{99957c24-bfd5-41bb-b150-d0238a7950e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Inteface_VIBuffer">
+      <UniqueIdentifier>{7b3db079-fe9f-4766-ba1c-20196cbe7e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Cube_Texture">
+      <UniqueIdentifier>{b9e1d94b-f837-4571-b154-c8348028daf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
+      <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\Terrain">
+      <UniqueIdentifier>{b0085ec4-2de4-4292-8b62-d0b8b9d19ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh">
+      <UniqueIdentifier>{8e0015a4-ee14-422f-8596-5dcdafecf9b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\Mesh_interface">
+      <UniqueIdentifier>{bbe23b6c-c955-4c19-9574-4d6834a119bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\StatticMesh">
+      <UniqueIdentifier>{d8fbc87f-ef73-47fe-a3c6-43d905f63483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\Dynamic">
+      <UniqueIdentifier>{b980ebe1-2bd5-413b-bdbc-16294f4127c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\AnimationCtrl">
+      <UniqueIdentifier>{39419540-7e5f-4a6e-8f38-cddf467344d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\HierachyLoader">
+      <UniqueIdentifier>{725c181f-3d24-409c-9f45-c0d7ce5c37ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\03. Mesh\SkinnedMesh">
+      <UniqueIdentifier>{d93ab8de-db8e-4f85-a5a0-1080bcad0903}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -417,6 +417,9 @@
     <ClInclude Include="HUDScene.h">
       <Filter>jiyun</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>jiyun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -603,7 +606,7 @@
       <Filter>jiyun</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>jiyun</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
