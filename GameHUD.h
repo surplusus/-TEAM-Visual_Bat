@@ -19,6 +19,8 @@ public:
 	void WndProc(HWND hwnd, UINT message,
 		WPARAM wParam, LPARAM lParam);
 
+	void Render_Text();
+
 private:
 	map<string, cImageLoader *> m_mapImage;
 	cFont * m_Text;
