@@ -25,7 +25,9 @@
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
     <ClInclude Include="Cheon.h" />
+    <ClInclude Include="CubePC.h" />
     <ClInclude Include="DropBox.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
@@ -46,7 +48,10 @@
     <ClInclude Include="EventFunctionHandler.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="GameHUD.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="HUDScene.h" />
+    <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="Image_Loader.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="Minion.h" />
@@ -142,10 +147,15 @@
     <ClCompile Include="Champ.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
+    <ClCompile Include="CubePC.cpp" />
     <ClCompile Include="DropBox.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="GameHUD.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="HUDScene.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="Image_Loader.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Minion.cpp" />

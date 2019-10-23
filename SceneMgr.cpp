@@ -5,6 +5,7 @@
 #include "SelectScene.h"
 #include "LoadingScene.h"
 #include "GuhyunScene.h"
+#include "HUDScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -19,7 +20,8 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Initialize()
 {
 	m_pSceneMediator = new CSceneMediator();
-	m_State = new CLoadingScene();
+	//m_State = new CLoadingScene();
+	m_State = new cHUDScene;
 	m_pSceneMediator->SetSceneMember(m_State);
 	//m_State = new CSelectScene;
 	if (m_State != NULL)
