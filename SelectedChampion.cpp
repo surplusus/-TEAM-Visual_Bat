@@ -4,7 +4,9 @@
 #include "UI.h"
 #include "Champ.h"
 #include "Spell_.h"
-
+string g_ChampName;
+string g_Spell_1;
+string g_Spell_2;
 CSelectedChampion::CSelectedChampion()
 {
 }

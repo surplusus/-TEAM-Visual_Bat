@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "StaticMesh.h"
 
+int nVertex1 = 0;
 
 CStaticMesh::CStaticMesh()
 	: CMesh()
