@@ -5,7 +5,7 @@
 #include "C2DMouse.h"
 #include "UI.h"
 #include "Spell_.h"
-#include "Text.h"
+#include "TextMgr.h"
 
 
 CDropBox::CDropBox(D3DXVECTOR3 pos, D3DXVECTOR3 scale) : m_vPosition(pos), m_scale(scale)
@@ -68,7 +68,7 @@ void CDropBox::Initialize()
 		it->second->Initialize();
 		m_vecSpells.push_back(it->second);
 	}
-	GET_SINGLE(CText)->Initialize();
+	GET_SINGLE(CTextMgr)->Initialize();
 }
 
 void CDropBox::Progress()
@@ -95,7 +95,7 @@ void CDropBox::Render()
 	RECT rc = {1050, 220, 0, 0 };*/
 	RECT rt = { m_vPosition.x + 550, m_vPosition.y - 250, 0, 0 };
 	RECT rc = { m_vPosition.x + 550, m_vPosition.y - 280, 0, 0 };
-	GET_SINGLE(CText)->Render(rt, rc, m_eType);
+	GET_SINGLE(CTextMgr)->Render(rt, rc, m_eType);
 }
 
 void CDropBox::Release()

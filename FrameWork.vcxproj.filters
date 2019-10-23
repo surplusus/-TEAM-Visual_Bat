@@ -223,14 +223,26 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion">
       <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\LoadScene">
-      <UniqueIdentifier>{33f92d37-a589-4285-a86c-780327d64234}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Scene\SceneMediator">
       <UniqueIdentifier>{d248f93a-2aa9-4312-ba93-775e5a0695fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Jiyun">
       <UniqueIdentifier>{996c4b30-f7b3-4501-8d50-3ddf03888e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon">
+      <UniqueIdentifier>{5d37e9f5-137b-49a6-b45b-031ffc5836c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\SelectScene">
+      <UniqueIdentifier>{6a6f6239-b3c0-4581-9e67-34133055009e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\cheon_etc">
+      <UniqueIdentifier>{238c40c2-f8fb-442a-b10b-42b4f69e5a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene">
+      <UniqueIdentifier>{33f92d37-a589-4285-a86c-780327d64234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{10073328-25ec-4495-8f0a-5918ef383fe8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -454,48 +466,15 @@
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
+      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClInclude>
     <ClInclude Include="SelectedChampion.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectScene.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Spell_.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="AbilityPage.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="C2DMouse.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Champ.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheon.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="DropBox.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Image_Loader.h">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
+      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClInclude>
     <ClInclude Include="SceneMediator.h">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
     </ClInclude>
     <ClInclude Include="CubePC.h">
-      <Filter>Jiyun</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
       <Filter>Jiyun</Filter>
     </ClInclude>
     <ClInclude Include="GameHUD.h">
@@ -506,6 +485,42 @@
     </ClInclude>
     <ClInclude Include="ImageLoader.h">
       <Filter>Jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Spell_.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectScene.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="DropBox.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Champ.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="AbilityPage.h">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Image_Loader.h">
+      <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheon.h">
+      <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
+    </ClInclude>
+    <ClInclude Include="C2DMouse.h">
+      <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
+    </ClInclude>
+    <ClInclude Include="TextList.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMgr.h">
+      <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -705,45 +720,15 @@
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
+      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClCompile>
     <ClCompile Include="SelectedChampion.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectScene.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Spell_.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="AbilityPage.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="C2DMouse.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Champ.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="DropBox.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Image_Loader.cpp">
-      <Filter>소스 파일\Scene\LoadScene</Filter>
+      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClCompile>
     <ClCompile Include="SceneMediator.cpp">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
     </ClCompile>
     <ClCompile Include="CubePC.cpp">
-      <Filter>Jiyun</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
       <Filter>Jiyun</Filter>
     </ClCompile>
     <ClCompile Include="GameHUD.cpp">
@@ -754,6 +739,36 @@
     </ClCompile>
     <ClCompile Include="ImageLoader.cpp">
       <Filter>Jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell_.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectScene.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="DropBox.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Champ.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="AbilityPage.cpp">
+      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Image_Loader.cpp">
+      <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
+    </ClCompile>
+    <ClCompile Include="C2DMouse.cpp">
+      <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMgr.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,10 +20,3 @@ enum UI_SPELLTYPE
 	Ignite,
 	Barrier
 };
-
-
-
-// >> cheon Champion Key value
-extern std::string g_ChampName;
-extern std::string g_Spell_1;
-extern std::string g_Spell_2;
