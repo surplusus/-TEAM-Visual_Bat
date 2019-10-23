@@ -14,10 +14,6 @@ CGameCamera::~CGameCamera()
 
 void CGameCamera::Progress(void)
 {
-
-
-
-
 	POINT		ptMouse = { WINSIZEX >> 1, WINSIZEY >> 1 };
 	ClientToScreen(g_hWnd, &ptMouse);
 
@@ -26,7 +22,6 @@ void CGameCamera::Progress(void)
 	SetCamPosition(&m_vEye, &m_vAt);
 
 	CCamera::Progress();
-
 }
 
 void CGameCamera::Joom_Mouse(void)
