@@ -226,6 +226,9 @@
     <Filter Include="소스 파일\Maneger\02.Shader">
       <UniqueIdentifier>{6f752ef2-40b5-4cd3-90bd-9922f3f21e17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\03.Skill">
+      <UniqueIdentifier>{352c8d8d-eabd-4b43-86f0-240a4176da80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -423,6 +426,12 @@
     <ClInclude Include="Shader.h">
       <Filter>소스 파일\Maneger\02.Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Ezeal_Q.h">
+      <Filter>소스 파일\Maneger\03.Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\Maneger\03.Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -601,6 +610,12 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>소스 파일\Maneger\02.Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Ezeal_Q.cpp">
+      <Filter>소스 파일\Maneger\03.Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\Maneger\03.Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

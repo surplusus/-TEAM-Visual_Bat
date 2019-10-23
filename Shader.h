@@ -11,10 +11,11 @@ protected:
 	LPD3DXMESH gModel;
 
 public:
-	HRESULT LoadAsset(const TCHAR* pFileName);
+	virtual HRESULT LoadAsset(const TCHAR* pFileName);
 	void Release();
-	LPD3DXEFFECT LoadShader(const TCHAR * pFileName);
-	void RenderScene();
-	LPD3DXMESH LoadModel(const TCHAR * pFileNAme);
+	LPD3DXEFFECT LoadShader(const TCHAR * pFileName);	
+	virtual LPD3DXMESH LoadModel(const TCHAR * pFileName);
+public:
+	virtual void RenderScene();
 };
 

@@ -34,9 +34,11 @@
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="Ezeal_Q.h" />
     <ClInclude Include="Ezreal.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="Cube_Texture.h" />
@@ -113,9 +115,11 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="Ezeal_Q.cpp" />
     <ClCompile Include="Ezreal.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="Cube_Texture.cpp" />

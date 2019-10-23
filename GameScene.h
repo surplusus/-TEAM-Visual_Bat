@@ -1,5 +1,6 @@
 #pragma once
 #include"Scene.h"
+class CObj;
 class CShader;
 //class CCamera;
 //class CXFileUtil;
@@ -24,6 +25,7 @@ private:
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	CShader* pShader;
+	CObj* pShader;
+	CShader* TestShader;
 };
 

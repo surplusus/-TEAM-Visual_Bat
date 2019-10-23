@@ -9,7 +9,7 @@
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
 #include"Ezreal.h"
-#include"Shader.h"
+#include"Ezeal_Q.h"
 GameScene::GameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -34,9 +34,10 @@ HRESULT GameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))			return E_FAIL;
-	m_pObjMgr->EraseObject(L"Ezreal");
-	pShader = new CShader;
-	pShader->LoadAsset(L"./Resource/Shader/test2.fx");
+	pShader = new CEzeal_Q;
+	TestShader = new CShader;
+	TestShader->LoadAsset(L"./Resource/Shader/test3.fx");
+	pShader->Initialize();
 }
 
 void GameScene::Progress()
@@ -48,7 +49,8 @@ void GameScene::Progress()
 void GameScene::Render()
 {
 	m_pObjMgr->Render();
-	pShader->RenderScene();
+	pShader->Render();
+	//TestShader->RenderScene();
 }
 
 void GameScene::Release()

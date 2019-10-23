@@ -25,10 +25,6 @@ HRESULT CShader::LoadAsset(const TCHAR* pFileName)
 	{
 		return E_FAIL;
 	}
-
-
-	
-
 	return S_OK;
 }
 
@@ -81,31 +77,47 @@ void CShader::RenderScene()
 		D3DXMATRIX matScale, matTrans;
 		D3DXVECTOR3 vScale,vPos;
 		D3DXMATRIX matWorld2;
-		vScale = { 0.05f,0.05f,0.05f };
-		vPos = { 5,18,0 };
+		D3DXVECTOR4 vDirection = {1,0,1,1};
+		vScale = { 1.0,1.0,1.0f };
+		vPos = { 1.0,18,0 };
 		D3DXMatrixIdentity(&matTrans);
 		D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, vPos.z);
 		D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+
 		GetTransform(D3DTS_PROJECTION, &matProj);
 		GetTransform(D3DTS_VIEW, &matView);
-		GetTransform(D3DTS_WORLD, &matWorld);
+		
 		matWorld2 = matScale * matTrans;
+
+		D3DXVec4Normalize(&vDirection, &vDirection);
+		vDirection.w = 1.0f;
 		HRESULT hr;
 		
-		float fTime = GetTime()*100.0f;
-		float fLenght = 1.0f;
-		float Exp = 0.7;
+		float fTime = GetTime()/30.0f;
+		float fWidth = 0.1;
+
+		float fHeight = 4.0f;
+		float Exp = 0.5;
+		
+		//텍스쳐 설정
 		hr = gTextureMappingShader->SetTexture("Flame_Tex"    , gpEarthDM);
 		hr = gTextureMappingShader->SetTexture("Texture1_Tex" , gpEarthDM2);
+
+		//Proj,World,View 설정
 		hr = gTextureMappingShader->SetMatrix( "matProjection", &matProj);
 		hr = gTextureMappingShader->SetMatrix( "matWorld"     , &matWorld2);
 		hr = gTextureMappingShader->SetMatrix( "matView"	  , &matView);
-		hr = gTextureMappingShader->SetFloat(  "time_0_X"	  , fTime);
-		hr = gTextureMappingShader->SetFloat(  "fSpeed"		  ,fLenght);
-		hr = gTextureMappingShader->SetFloat(  "particleExp"  , Exp);
 
-		D3DXVECTOR4 p = { vPos.x,vPos.y,vPos.z,1 };
-		hr = gTextureMappingShader->SetVector(  "ViewPosition"    ,&p);
+		//꼬리선과 넓이 조정
+		hr = gTextureMappingShader->SetFloat(  "fWidth"		  , fWidth);
+		hr = gTextureMappingShader->SetFloat(  "fHeight"	  , fHeight);
+
+		//광의 세기
+		hr = gTextureMappingShader->SetFloat(  "particleExp"  , Exp);	
+		//방향
+		hr = gTextureMappingShader->SetVector( "vDirection"   , &vDirection);
+
+
 		gTextureMappingShader->Begin(&numPasses, NULL);
 
 		for (UINT i = 0; i < numPasses; ++i)
