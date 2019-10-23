@@ -241,5 +241,3 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 archive.zip
-*.vcxproj
-*.filters
