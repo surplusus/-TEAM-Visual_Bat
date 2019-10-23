@@ -13,9 +13,7 @@
 static CUI* temp = NULL;
 static CUI* SpellRender_1 = NULL;
 static CUI* SpellRender_2 = NULL;
-string g_ChampName;
-string g_Spell_1;
-string g_Spell_2;
+
 CSelectScene::CSelectScene()
 	:m_p2Dmouse(NULL)
 	, m_pChamp(NULL)

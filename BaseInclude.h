@@ -34,6 +34,7 @@
 #include "ResourceFunc.h"
 #include "Include.h"
 #include "Events.h"
+#include "Cheon.h"
 
 
 extern HWND g_hWnd;

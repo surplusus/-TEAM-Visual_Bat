@@ -8,6 +8,9 @@ const int GAP = 1;
 const int VTXCNTX = 129;
 const int VTXCNTZ = 129;
 
+extern int nVertex1;
+extern int nVertex2;
+
 // WinAPI에서 부족한 키 보충
 #define VK_0 0x30
 #define VK_1 0x31
