@@ -1,10 +1,9 @@
 #include "SystemFunc.h"
-#include"BaseInclude.h"
+#include "BaseInclude.h"
 #include "Device.h"
 #include "TimeMgr.h"
 #include "Input.h"
 
-//=============== Device Func 14.05.12 By Burger ===============//
 extern  HRESULT InitDevice(HWND hWnd, WINMODE Mode
 	, const UINT& iWinCX
 	, const UINT& iWinCY)
@@ -59,7 +58,6 @@ extern  void Font_Render(const char* szFont, int iX
 	(*(CDevice::GetInstance()))->FontRender(szFont, iX, iY, dwColor);
 }
 
-//=============== Device Library : Getter 14.05.12 By Burger ===============//
 extern  LPDIRECT3DDEVICE9 GetDevice(void)
 {
 	return (*(CDevice::GetInstance()))->GetDevice();
@@ -71,7 +69,6 @@ extern  void GetTransform(_D3DTRANSFORMSTATETYPE Type, D3DXMATRIX* pMatrix)
 }
 
 
-//=============== Time Library 14.05.12 By Burger ===============//
 extern  void InitTimeMgr(void)
 {
 	(*(CTimeMgr::GetInstance()))->InitTimeMgr();
@@ -81,14 +78,12 @@ extern  void SetTimeMgr(void)
 	(*(CTimeMgr::GetInstance()))->SetTime();
 }
 
-bool UpdateTimeMgr(void)
+extern bool ControlFPS(float framePerSec)
 {
-	bool result = (*(CTimeMgr::GetInstance()))->UpdateTimeMgr();
-	g_fDeltaTime = (*(CTimeMgr::GetInstance()))->GetSystemDeltaTime();
+	bool result = (*(CTimeMgr::GetInstance()))->ControlFPS(framePerSec);
 	return result;
 }
 
-//=============== Time Library :: Getter 14.05.12 By Burger ===============//
 extern  float GetTime(void)
 {
 	return (*(CTimeMgr::GetInstance()))->GetTime();
@@ -167,7 +162,6 @@ extern bool CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVECTO
 	return (*(CInput::GetInstance()))->CheckPiningOnTriangleAndGetPosition(p0, p1, p2, hitpoint);
 }
 
-//=============== SystemDll Release 14.05.12 By Burger ===============//
 extern  void System_Release(void)
 {
 	(*(CDevice::GetInstance()))->DestroyInstance();

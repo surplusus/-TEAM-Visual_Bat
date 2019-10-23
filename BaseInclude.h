@@ -4,7 +4,12 @@
 #include <memory>
 #include <d3dx9.h>
 #include <d3d9.h>
-		 
+
+#pragma comment("")
+#include <fmod.hpp>
+#include <fmod_errors.h>
+
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <time.h>
@@ -12,12 +17,7 @@
 #include <dinput.h>
 #include <stdlib.h>
 #include <list>
-#include "Device.h"
-#include "SystemFunc.h"
-#include "ResourceFunc.h"
-#include "Include.h"
-
-#include<assert.h>
+#include <assert.h>
 #include <chrono>
 #include <condition_variable>
 #include <cstdio>
@@ -27,12 +27,19 @@
 #include <queue>
 #include <thread>
 #include <vector>
-#include<deque>
-#include<atomic>
+#include <deque>
+#include <atomic>
+#include "Device.h"
+#include "SystemFunc.h"
+#include "ResourceFunc.h"
+#include "Include.h"
+#include "Events.h"
+
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fDeltaTime;
+extern bool m_bMapLoad;
 using namespace std;
 
 #ifdef __cplusplus

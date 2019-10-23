@@ -12,7 +12,7 @@ typedef struct Data
 class CObjMgr
 {
 private:
-	list<list<PDATA>*>**	m_pObjects;
+	list<list<PDATA>* >**	m_pObjects;
 	DWORD					m_dwRevCnt;
 
 public:

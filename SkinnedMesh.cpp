@@ -51,6 +51,7 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 
 			for (int i = 0; i < iNumBone; ++i)
 			{
+				cout << "Ã¨ÇÇ¾ð »À ±¸¼º ¼ö : " << i << '\n';
 				BONE*		pLinkedBone = (BONE*)D3DXFrameFind(m_pRootBone
 					, pBoneMesh->pSkinInfo->GetBoneName(i));
 
@@ -80,7 +81,7 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 void CSkinnedMesh::UpdateMatrix(BONE* pBone, D3DXMATRIX* pParentMatrix)
 {
 	if (pBone == NULL)
-		return;
+		pBone = (BONE*)m_pRootBone;
 
 	//pBone->matWorld = pBone->TransformationMatrix * *pParentMatrix;
 	D3DXMatrixMultiply(&pBone->matWorld, &pBone->TransformationMatrix
