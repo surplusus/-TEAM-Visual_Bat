@@ -12,7 +12,7 @@ typedef struct Data
 class CObjMgr
 {
 private:
-	list<list<PDATA>*>**	m_pObjects;
+	list<list<PDATA>* >**	m_pObjects;
 	DWORD					m_dwRevCnt;
 
 public:
@@ -30,7 +30,7 @@ public:
 	void					Release(void);
 	const CObj*				GetObj(const TCHAR* pObjKey, const int& iCnt = 0);
 	CObjMgr*				CloneMgr();
-
+	HRESULT					EraseObject(const TCHAR* pObjKey);
 public:
 	static CObjMgr** GetInstance(void)
 	{

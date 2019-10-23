@@ -1,5 +1,7 @@
 #include "BaseInclude.h"
 #include "SoundManager.h"
+#include "EventMgr.h"
+
 using namespace FMOD;
 
 SoundManager::~SoundManager()
@@ -14,6 +16,8 @@ SoundManager::~SoundManager()
 		delete m_mapAlarm[i];
 		m_mapAlarm.erase(i);
 	}
+	//=========== Unsubscribe Events ==========//
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }
 
 void SoundManager::SetUp()
@@ -32,20 +36,35 @@ void SoundManager::SetUp()
 	m_result = m_pSystem->setStreamBufferSize(64 * 1024, FMOD_TIMEUNIT_RAWBYTES); ErrCheck(m_result);
 
 	Sound* sound;
-	m_result = m_pSystem->createSound("./Resource/Sound/gun.wav", FMOD_DEFAULT, 0, &sound);  
-	ErrCheck(m_result);		map_pSounds["gun"] = sound;
-	m_result = m_pSystem->createSound("./Resource/Sound/get_coin.wav", FMOD_DEFAULT, 0, &sound);  
-	ErrCheck(m_result);  	map_pSounds["get_coin"] = sound;
-	m_result = m_pSystem->createSound("./Resource/Sound/bgm.wav", FMOD_LOOP_NORMAL, 0, &sound);  
-	ErrCheck(m_result);		map_pSounds["bgm"] = sound;
+	{	// 아나운서
 	m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound);  
 	ErrCheck(m_result);		map_pSounds["left30sec"] = sound;
 	m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound);  
 	ErrCheck(m_result);		map_pSounds["createminion"] = sound;
 	m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound);  
 	ErrCheck(m_result);		map_pSounds["welcome"] = sound;
+	}
+	{	// 우디르
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr1.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr1"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr2.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr2"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr3.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr3"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr4.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr4"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr5.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr5"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr6.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr6"] = sound;
+		m_result = m_pSystem->createSound("./Resource/Sound/Udyr7.mp3", FMOD_DEFAULT, 0, &sound);
+		ErrCheck(m_result);		map_pSounds["Udyr7"] = sound;
+
+	}
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
+	//=========== Subscribe Events ==========//
+	GET_SINGLE(EventMgr)->Subscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }
 
 void SoundManager::Update()
@@ -57,10 +76,10 @@ void SoundManager::Update()
 
 void SoundManager::PlayEffectSound(string name)
 {
-	float startTime = GetTime();
-	if (startTime - m_fPrevPlayTime < m_fPlayGap)
-		return;
-	m_fPrevPlayTime = startTime;
+	//float startTime = GetTime();
+	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
+	//	return;
+	//m_fPrevPlayTime = startTime;
 
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
@@ -98,11 +117,6 @@ void SoundManager::PlayBGMSound(string name)
 
 void SoundManager::PlayAnnouncerMention(string name)
 {
-	//float startTime = GetTime();
-	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
-	//	return;
-	//m_fPrevPlayTime = startTime;
-
 	if (map_pSounds.find(name) != map_pSounds.end())
 	{
 		bool playing;
@@ -195,4 +209,9 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 
 void SoundManager::PlayBySoundType(T_SOUND sound)
 {
+}
+
+void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
+{
+	PlayAnnouncerMention("left30sec");
 }

@@ -1,13 +1,12 @@
 #include "BaseInclude.h"
 #include "Amumu.h"
 #include "ThreadPool.h"
-#include "BaseInclude.h"
 #include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
 #include "Ray.h"
 D3DXVECTOR3 CAmumu::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
-std::atomic<bool> CAmumu::g_bMouseHitPoint = false;
+std::atomic<bool> CAmumu::g_bHitFloor = false;
 bool CAmumu::bPick = false;
 CAmumu::CAmumu()
 {
@@ -87,7 +86,7 @@ bool CAmumu::MapChecktThreadLoop(int number, const VTXTEX * vtx)
 
 		if (m_Ray.IsPicked(g_MouseHitPoint, V0, V1, V2))
 		{
-			g_bMouseHitPoint = true;
+			g_bHitFloor = true;
 			return true;
 		}
 	}
@@ -128,10 +127,12 @@ void CAmumu::Progress()
 
 		}
 	}
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
+	if (g_bHitFloor) {
+		g_bHitFloor = false;
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
+	m_pAnimationCtrl->SetAnimationSet("RightAttack1");
+	m_pAnimationCtrl->FrameMove(L"Amumu", g_fDeltaTime / 100);
 }
 
 void CAmumu::Render()
@@ -140,8 +141,7 @@ void CAmumu::Render()
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 	static bool b = true;
 	
-	m_pAnimationCtrl->SetAnimationSet("ArmatureAction");
-	m_pAnimationCtrl->FrameMove(L"Amumu", GetTime());
+
 	Mesh_Render(GetDevice(), L"Amumu");
 }
 
