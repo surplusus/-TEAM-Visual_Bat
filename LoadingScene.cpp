@@ -114,7 +114,7 @@ void CLoadingScene::Progress()
 	}
 #pragma endregion
 
-	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }
 
 void CLoadingScene::Render()
