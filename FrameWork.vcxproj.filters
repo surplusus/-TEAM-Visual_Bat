@@ -229,6 +229,9 @@
     <Filter Include="소스 파일\Scene\SceneMediator">
       <UniqueIdentifier>{d248f93a-2aa9-4312-ba93-775e5a0695fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Jiyun">
+      <UniqueIdentifier>{996c4b30-f7b3-4501-8d50-3ddf03888e97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -489,6 +492,21 @@
     <ClInclude Include="SceneMediator.h">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
     </ClInclude>
+    <ClInclude Include="CubePC.h">
+      <Filter>Jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHUD.h">
+      <Filter>Jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDScene.h">
+      <Filter>Jiyun</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoader.h">
+      <Filter>Jiyun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -721,6 +739,21 @@
     </ClCompile>
     <ClCompile Include="SceneMediator.cpp">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
+    </ClCompile>
+    <ClCompile Include="CubePC.cpp">
+      <Filter>Jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="GameHUD.cpp">
+      <Filter>Jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDScene.cpp">
+      <Filter>Jiyun</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoader.cpp">
+      <Filter>Jiyun</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
