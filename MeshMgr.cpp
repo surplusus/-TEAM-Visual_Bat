@@ -26,8 +26,7 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 {
 	// Loading 정보 입력 시작
 	basic_string<TCHAR> tmp(pFileName);
-	m_mapLoadInfo[pMeshKey] = { 0,true,string(tmp.begin(), tmp.end()) };
-
+	string name(tmp.begin(), tmp.end());
 
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
 	
@@ -40,7 +39,7 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 			pMesh = new CStaticMesh;
 			break;
 		case MESHTYPE_DYNAMIC:
-			pMesh = new CSkinnedMesh;
+			pMesh = new CSkinnedMesh(name);
 			break;
 		}
 		if (FAILED(pMesh->CreateMesh(pDevice, pPath, pFileName)))

@@ -9,10 +9,11 @@ struct stMeshInfo
 	string m_FileName;
 	string m_ConsoleText;
 	MESHTYPE m_MeshType;
+	stMeshInfo() {}
 	stMeshInfo(string objName, string folderPath, string fileName, MESHTYPE type)
 		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName), m_MeshType(type) {}
 };
-
+typedef function<bool(stMeshInfo*)> FuncLoadMesh;
 class CImage_Loader;
 class CSelectedChampion;
 class CUI;
@@ -48,12 +49,12 @@ public:
 	enum {BOXCOLLIDER = 0,LOADCHAMP = 1,LOADMAP, INROLLCHAMP, INROLLMAP, ENDSTAGE};
 	int							m_nStage;
 	vector<stMeshInfo*>			m_vpMeshInfo;
-	map<string, stMeshInfo*>	m_mapMeshInfo;
+	map<string, stMeshInfo>		m_mapMeshInfo;
+	vector<FuncLoadMesh>		m_queFuncLoadMesh;
 	bool LoadResourceByThread();
 	bool RegisterOnObjMgr(stMeshInfo* info);
-	static bool LoadMeshByThread(stMeshInfo* info);
-
-	//static bool LoadDynamicMeshByThread(stMeshInfo* info);
+	bool LoadMeshByThread(stMeshInfo* info);
+	void SetMeshRegistryInfoThruFile();
 	// >> :: thread
 };
 

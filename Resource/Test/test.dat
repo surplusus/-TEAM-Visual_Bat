@@ -1,0 +1,7 @@
+-Udyr-
+bComplete false
+ObjName Zealot
+FolderPath ./Resource/Test/
+FileName Udyr.x
+ConsoleText "Udyr File Load Start"
+MeshType 1

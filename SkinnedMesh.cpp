@@ -3,7 +3,8 @@
 #include "AnimationCtrl.h"
 #include "MeshMgr.h"
 
-CSkinnedMesh::CSkinnedMesh(void)
+CSkinnedMesh::CSkinnedMesh(string name)
+	: m_MeshName(name)
 {
 }
 
@@ -49,11 +50,11 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 			int		iNumBone = pBoneMesh->pSkinInfo->GetNumBones();
 
 			pBoneMesh->ppBoneMatrix = new D3DXMATRIX*[iNumBone];
-			GET_SINGLE(CMeshMgr)->GetLoadInfo(pFileName).sConsoleOut += " 에서 읽은 Bone 수 : "; // 로딩정보
+			GET_SINGLE(CMeshMgr)->GetLoadInfo(m_MeshName).sConsoleOut += " 에서 읽은 Bone 수 : "; // 로딩정보
 
 			for (int i = 0; i < iNumBone; ++i)
 			{
-				GET_SINGLE(CMeshMgr)->GetLoadInfo(pFileName).nSubSetLoaded = i; // 로딩정보
+				GET_SINGLE(CMeshMgr)->GetLoadInfo(m_MeshName).nSubSetLoaded = i; // 로딩정보
 
 				BONE*		pLinkedBone = (BONE*)D3DXFrameFind(m_pRootBone
 					, pBoneMesh->pSkinInfo->GetBoneName(i));

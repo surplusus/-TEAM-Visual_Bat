@@ -27,11 +27,13 @@ HRESULT CStaticMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, 
 	m_pTextures = new LPDIRECT3DTEXTURE9[m_dwSubSetCnt];
 	m_pMtrls = new D3DMATERIAL9[m_dwSubSetCnt];
 
-	GET_SINGLE(CMeshMgr)->GetLoadInfo(pFileName).sConsoleOut += " 에서 읽은 vertex 수 : "; // 로딩정보
+	basic_string<TCHAR> tmp(pFileName);
+	string name(tmp.begin(), tmp.end());
+	GET_SINGLE(CMeshMgr)->GetLoadInfo(name).sConsoleOut += " 에서 읽은 vertex 수 : "; // 로딩정보
 	for (DWORD i = 0; i < m_dwSubSetCnt; ++i)
 	{
 		TCHAR szBuff[128] = L"";
-		GET_SINGLE(CMeshMgr)->GetLoadInfo(pFileName).nSubSetLoaded = i; // 로딩정보
+		GET_SINGLE(CMeshMgr)->GetLoadInfo(name).nSubSetLoaded = i; // 로딩정보
 		m_pMtrls[i] = m_pSubSets[i].MatD3D;
 		lstrcpy(szPath, pPath);
 
