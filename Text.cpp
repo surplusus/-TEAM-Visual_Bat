@@ -128,12 +128,15 @@ void CText::Create_Font()
 	}	
 }
 
-void CText::Render(UI_SPELLTYPE type)
+void CText::Render(RECT name, RECT info, UI_SPELLTYPE type)
 {
 	RECT rc;
-	SetRect(&rc, 1050, 250, 0, 0);
+	//SetRect(&rc, 1050, 250, 0, 0);
+	//SetRect(&rt, 1050, 220, 0, 0);
+	SetRect(&rc, name.left, name.top, name.right, name.bottom);
 	RECT rt;
-	SetRect(&rt, 1050, 220, 0, 0);
+	
+	SetRect(&rt, info.left, info.top, info.right, info.bottom);
 	switch (type)
 	{
 	case cleanse:

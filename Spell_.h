@@ -13,7 +13,7 @@ public:
 	void Initialize() override;
 	int Progress() override;
 	void Render() override;
-	void Render(D3DXVECTOR3 pos) override;
+	void Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale) override;
 	void Release() override;
 
 private:
@@ -23,8 +23,5 @@ public:
 
 private:
 	bool						m_bClicked;
-
-	CDropBox*					m_dropbox;
-
 };
 

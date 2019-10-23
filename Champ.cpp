@@ -20,7 +20,6 @@ void CChamp::Initialize()
 	m_ImageLoader->Initialize();
 
 	m_Rect = GetRect();
-	cout << m_Rect.left << " " << m_Rect.top << " " << m_Rect.right << " " << m_Rect.bottom << endl;
 }
 
 int CChamp::Progress()
@@ -54,8 +53,9 @@ void CChamp::Render()
 	default:
 		break;
 	}
+	Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 }
-void CChamp::Render(D3DXVECTOR3 pos)
+void CChamp::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 {
 
 }

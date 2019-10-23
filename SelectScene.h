@@ -47,20 +47,40 @@ private:
 	vector<CUI*>						m_vecChamp;
 	vector<CUI*>						m_vecChampCircle;
 
+	map<string, vector<CUI*>*>			m_mapUI_List;
+
 	vector<CUI*>						m_vecSpell;
 
-	map<string, vector<CUI*>*>			m_mapUI_List;
+	map<string, CUI*>					m_mapSpellList;
+	map<string, CUI*>					m_mapSpellList_2;
+
+	vector<map<string, CUI*>>			m_vmapSpellList_1;
+	vector<map<string, CUI*>>			m_vmapSpellList_2;
 
 	void ChampInitialize();
 	void SpellInitialize();
 	void ChampRender();
 	void SpellRender();
 
-	CDropBox*						m_pDorpBox_1;
-	CDropBox*						m_pDorpBox_2;
+	CDropBox*							m_pDropBox_1;
+	CDropBox*							m_pDropBox_2;
+
+private:
 	bool m_bChecked_1;
 	bool m_bChecked_2;
 	bool Checked();
-	void IsSelected();
+	void Selected_1();
+	void Selected_2();
+	bool isChecked_1;
+	bool isChecked_2;
+
+private:
+	string m_ChampName;
+	string m_Spell_1Name;
+	string m_Spell_2Name;
+public:
+	string GetChampName() { return m_ChampName; }
+	string GetSpell_1Name() { return m_Spell_1Name; }
+	string GetSpell_2Name() { return m_Spell_2Name; }
 };
 

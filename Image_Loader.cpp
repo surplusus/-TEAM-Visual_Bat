@@ -75,7 +75,7 @@ void CImage_Loader::Render()
 	m_pSprite->End();
 }
 
-void CImage_Loader::Render(D3DXVECTOR3 pos)
+void CImage_Loader::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 

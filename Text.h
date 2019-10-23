@@ -14,7 +14,7 @@ private:
 public:
 	void Initialize();
 	void Create_Font();
-	void Render(UI_SPELLTYPE type= SPELLTYPE_End);
+	void Render(RECT rt, RECT rc, UI_SPELLTYPE type = SPELLTYPE_End);
 	void Render_time();
 
 	void LoadingNoticeRender();
