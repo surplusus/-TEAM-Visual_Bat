@@ -44,7 +44,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 	case INIT:
 		{
 			if (member == m_pSelectScene) {
-
+				
 			}
 			else if (member == m_pLoadingScene) {
 				CopyStringInfo(m_pLoadingScene->GetStringInfo());
@@ -59,7 +59,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 	case PROGRESS:
 		{
 			if (member == m_pSelectScene) {
-
+				SetChampName(m_pSelectScene->GetChampName());
 			}
 			else if (member == m_pLoadingScene) {
 

@@ -9,6 +9,7 @@
 #include "SceneMgr.h"
 #include "LoadingScene.h"
 #include "DropBox.h"
+#include "SceneMediator.h"
 
 static CUI* temp = NULL;
 static CUI* SpellRender_1 = NULL;
@@ -77,7 +78,11 @@ void CSelectScene::Progress()
 	}
 	
 	//if(GetAsyncKeyState(VK_LBUTTON))	Checked();
+	/*GET_SINGLE(CSceneMgr)->GetSceneMediator()->CopyStringInfo(m_bstring);
+	GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::PROGRESS, this);*/
 
+	
+	
 	
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
@@ -91,12 +96,13 @@ void CSelectScene::Progress()
 				if (Sname == m_vecChampCircle[i]->GetName())
 				{
 					temp = m_vecChampCircle[i];
-					g_ChampName = Sname;
+					m_ChampName = Sname;
 					break;
 				}
 			}
 		}
 	}
+	GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::PROGRESS, this);
 
 	Checked();
 	m_pDropBox_1->Progress();

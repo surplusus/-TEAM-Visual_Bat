@@ -73,5 +73,9 @@ private:
 	void Selected_2();
 	bool isChecked_1;
 	bool isChecked_2;
+
+	string m_ChampName;
+public:
+	string GetChampName() { return m_ChampName; }
 };
 
