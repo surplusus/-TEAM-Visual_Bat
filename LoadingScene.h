@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-
+#include "Text.h"
 struct stMeshInfo
 {
 	bool m_bComplete = false;
@@ -8,8 +8,9 @@ struct stMeshInfo
 	string m_FolderPath;
 	string m_FileName;
 	string m_ConsoleText;
-	stMeshInfo(string objName, string folderPath, string fileName)
-		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName) {}
+	MESHTYPE m_MeshType;
+	stMeshInfo(string objName, string folderPath, string fileName, MESHTYPE type)
+		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName), m_MeshType(type) {}
 };
 
 class CImage_Loader;
@@ -29,16 +30,15 @@ public:
 	void Release() ;
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {}
 private:
+	// << :: Progress Bar
 	LPD3DXSPRITE				m_pLoadingSprite;
 	LPDIRECT3DTEXTURE9			m_pLoadingTexture;
 	D3DXIMAGE_INFO				m_ImageInfo;
 	void Render_Loading();
+	// << :: Progress Bar
 private:
 	CImage_Loader*				m_pBackGround;
 	CSelectedChampion*			m_pChampSelect;
-	
-	vector<D3DXVECTOR2>			m_vLinePoint;
-	float						m_fLineLength;
 	// << :: mediate
 	map<string, string>			m_StringInfo;
 public:
@@ -48,10 +48,12 @@ public:
 	enum {BOXCOLLIDER = 0,LOADCHAMP = 1,LOADMAP, INROLLCHAMP, INROLLMAP, ENDSTAGE};
 	int							m_nStage;
 	vector<stMeshInfo*>			m_vpMeshInfo;
+	map<string, stMeshInfo*>	m_mapMeshInfo;
 	bool LoadResourceByThread();
 	bool RegisterOnObjMgr(stMeshInfo* info);
-	static bool LoadStaticMeshByThread(stMeshInfo* info);
-	static bool LoadDynamicMeshByThread(stMeshInfo* info);
+	static bool LoadMeshByThread(stMeshInfo* info);
+
+	//static bool LoadDynamicMeshByThread(stMeshInfo* info);
 	// >> :: thread
 };
 

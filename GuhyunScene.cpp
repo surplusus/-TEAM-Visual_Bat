@@ -64,27 +64,27 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
-	//else
-	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
+		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
+	else
+		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 	//
 	//
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-	//	, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
-	//else
-	//	ERR_MSG(g_hWnd, L"Zealot Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
+		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
+		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
+	else
+		ERR_MSG(g_hWnd, L"Zealot Load Failed");
 
 	//=========== Add Shader ===========//
 	
 	//=========== Add Object ===========//	
-	//if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-	//	ERR_MSG(g_hWnd, L"Test Floor Load Failed");
-	//if (FAILED(m_pObjMgr->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject())))
-	//{
-	//	ERR_MSG(g_hWnd, L"Zealot Load Failed");
-	//}
+	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+		ERR_MSG(g_hWnd, L"Test Floor Load Failed");
+	if (FAILED(m_pObjMgr->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject())))
+	{
+		ERR_MSG(g_hWnd, L"Zealot Load Failed");
+	}
 
 	//=========== Add Particle ===========//	
 

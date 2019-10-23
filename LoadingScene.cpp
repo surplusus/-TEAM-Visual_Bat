@@ -2,7 +2,7 @@
 #include "LoadingScene.h"
 #include "Image_Loader.h"
 #include "SelectedChampion.h"
-#include "TextMgr.h"
+#include "Text.h"
 #include "SceneMgr.h"
 #include "SelectScene.h"
 #include "GuhyunScene.h"
@@ -35,7 +35,7 @@ HRESULT CLoadingScene::Initialize()
 	m_pChampSelect = new CSelectedChampion(D3DXVECTOR3(255, 0, 0));
 	m_pChampSelect->Initialize();
 
-	GET_SINGLE(CTextMgr)->Initialize();
+	GET_SINGLE(CText)->Initialize();
 	cout << "로딩 됨" << endl;
 
 	{	// Loading Progress Bar
@@ -64,54 +64,54 @@ void CLoadingScene::Progress()
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 
 #pragma region 스테이지 시작
-	// STAGE 1
-	if (!(m_nStage & (1 << BOXCOLLIDER))) {
-		if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-		{
-			ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
-		}
-		m_nStage ^= (1 << BOXCOLLIDER);
-		return;
-	}
-	// STAGE 2
-	if (!(m_nStage & (1 << LOADCHAMP))) {
-		m_vpMeshInfo.emplace_back(new stMeshInfo("Zealot"
-			, "./Resource/Test/", "Udyr.x"));
-		if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP
-			, LoadDynamicMeshByThread, m_vpMeshInfo[0]).get()) {
-			GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
-			m_vpMeshInfo[0]->m_bComplete = true;
-		}
-		m_nStage ^= (1 << LOADCHAMP);
-		return;
-	}
-	// STAGE 3
-	if (!(m_nStage & (1 << LOADMAP))) {
-		// Load Map
-		m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-			, "./Resource/MapSummon/", "Floor.x"));
-		//m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-		//	, "./Resource/MapSummon/", "SummonMap.x"));
-		if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP
-			, LoadStaticMeshByThread, m_vpMeshInfo[1]).get()) {
-			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-			m_vpMeshInfo[1]->m_bComplete = true;
-		}
-		m_nStage ^= (1 << LOADMAP);
-		return;
-	}
-	// STAGE 4
-	if (!(m_nStage & (1 << INROLLCHAMP))) {
-		RegisterOnObjMgr(m_vpMeshInfo[0]);
-		m_nStage ^= (1 << INROLLCHAMP);
-		return;
-	}
-	// STAGE 5
-	if (!(m_nStage & (1 << INROLLMAP))) {
-		//RegisterOnObjMgr(m_vpMeshInfo[1]);
-		m_nStage ^= (1 << INROLLMAP);
-		return;
-	}
+	//// STAGE 1
+	//if (!(m_nStage & (1 << BOXCOLLIDER))) {
+	//	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	//	{
+	//		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+	//	}
+	//	m_nStage ^= (1 << BOXCOLLIDER);
+	//	return;
+	//}
+	//// STAGE 2
+	//if (!(m_nStage & (1 << LOADCHAMP))) {
+	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Zealot"
+	//		, "./Resource/Test/", "Udyr.x"));
+	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP
+	//		, LoadDynamicMeshByThread, m_vpMeshInfo[0]).get()) {
+	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
+	//		m_vpMeshInfo[0]->m_bComplete = true;
+	//	}
+	//	m_nStage ^= (1 << LOADCHAMP);
+	//	return;
+	//}
+	//// STAGE 3
+	//if (!(m_nStage & (1 << LOADMAP))) {
+	//	// Load Map
+	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
+	//		, "./Resource/MapSummon/", "Floor.x"));
+	//	//m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
+	//	//	, "./Resource/MapSummon/", "SummonMap.x"));
+	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP
+	//		, LoadStaticMeshByThread, m_vpMeshInfo[1]).get()) {
+	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
+	//		m_vpMeshInfo[1]->m_bComplete = true;
+	//	}
+	//	m_nStage ^= (1 << LOADMAP);
+	//	return;
+	//}
+	//// STAGE 4
+	//if (!(m_nStage & (1 << INROLLCHAMP))) {
+	//	RegisterOnObjMgr(m_vpMeshInfo[0]);
+	//	m_nStage ^= (1 << INROLLCHAMP);
+	//	return;
+	//}
+	//// STAGE 5
+	//if (!(m_nStage & (1 << INROLLMAP))) {
+	//	//RegisterOnObjMgr(m_vpMeshInfo[1]);
+	//	m_nStage ^= (1 << INROLLMAP);
+	//	return;
+	//}
 #pragma endregion
 
 	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
@@ -120,7 +120,7 @@ void CLoadingScene::Progress()
 void CLoadingScene::Render()
 {
 	m_pBackGround->Render();
-	GET_SINGLE(CTextMgr)->LoadingNoticeRender();
+	GET_SINGLE(CText)->LoadingNoticeRender();
 	m_pChampSelect->Render();
 
 	// Loading Progress Bar
@@ -163,6 +163,7 @@ void CLoadingScene::Render_Loading()
 	m_pLoadingSprite->SetTransform(&matS);
 	m_pLoadingSprite->Draw(m_pLoadingTexture, &re
 		, &D3DXVECTOR3(0.f, 0.f, 0.f), &position, D3DCOLOR_RGBA(255, 255, 255, 100));
+	
 	m_pLoadingSprite->End();
 }
 
@@ -186,7 +187,7 @@ bool CLoadingScene::RegisterOnObjMgr(stMeshInfo * info)
 	return true;
 }
 
-bool CLoadingScene::LoadStaticMeshByThread(stMeshInfo * info)
+bool CLoadingScene::LoadMeshByThread(stMeshInfo * info)
 {
 	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
 	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
@@ -195,29 +196,33 @@ bool CLoadingScene::LoadStaticMeshByThread(stMeshInfo * info)
 	const TCHAR* t2 = sTemp2.c_str();
 	const TCHAR* t3 = sTemp3.c_str();
 	
-	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_STATIC))) {
+	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, info->m_MeshType))) {
 		info->m_ConsoleText = info->m_ObjName + " Load Complited";
 		return true;
 	}
+
+	//CLoadingScene temp;
+	//  
+	//std::function<bool(stMeshInfo*)> func = [this](stMeshInfo* info) { this-> }
 
 	info->m_ConsoleText = info->m_ObjName + " Load Failed";
 	return false;
 }
 
-bool CLoadingScene::LoadDynamicMeshByThread(stMeshInfo * info)
-{
-	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
-	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
-	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
-	string result;
-	const TCHAR* t1 = sTemp1.c_str();
-	const TCHAR* t2 = sTemp2.c_str();
-	const TCHAR* t3 = sTemp3.c_str();
-	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_DYNAMIC))) {
-		result = info->m_ObjName + " Load Complited";
-		return true;
-	}
-
-	result = info->m_ObjName + " Load Failed";
-	return false;
-}
+//bool CLoadingScene::LoadDynamicMeshByThread(stMeshInfo * info)
+//{
+//	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
+//	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
+//	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
+//	string result;
+//	const TCHAR* t1 = sTemp1.c_str();
+//	const TCHAR* t2 = sTemp2.c_str();
+//	const TCHAR* t3 = sTemp3.c_str();
+//	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_DYNAMIC))) {
+//		result = info->m_ObjName + " Load Complited";
+//		return true;
+//	}
+//
+//	result = info->m_ObjName + " Load Failed";
+//	return false;
+//}

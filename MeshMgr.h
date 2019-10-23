@@ -1,4 +1,10 @@
 #pragma once
+struct stLoadProcess
+{
+	DWORD nSubSetLoaded = 0;
+	const bool bCompleted = false;
+	string sConsoleOut = "";
+};
 class CAnimationCtrl;
 class CMesh;
 class CMeshMgr
@@ -10,7 +16,10 @@ public:
 	~CMeshMgr();
 private:
 	map<const TCHAR*, CMesh*> m_MapMesh;
+	map<const TCHAR*, stLoadProcess> m_mapLoadInfo;
 public:
+	stLoadProcess& GetLoadInfo(const TCHAR* name) { return m_mapLoadInfo[name]; }
+
 	void GetBonMatrix(const TCHAR* pMeshKey
 		, const CHAR* pBoneName
 		, D3DXMATRIX* pOut);

@@ -24,6 +24,11 @@ void CMeshMgr::GetBonMatrix(const TCHAR * pMeshKey, const CHAR * pBoneName, D3DX
 
 HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const TCHAR * pFileName, const TCHAR * pMeshKey, MESHTYPE MeshType)
 {
+	// Loading 정보 입력 시작
+	basic_string<TCHAR> tmp(pFileName);
+	m_mapLoadInfo[pMeshKey] = { 0,true,string(tmp.begin(), tmp.end()) };
+
+
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
 	
 	CMesh* pMesh = NULL;
