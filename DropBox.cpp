@@ -11,6 +11,7 @@
 CDropBox::CDropBox(D3DXVECTOR3 pos, D3DXVECTOR3 scale) : m_vPosition(pos), m_scale(scale)
 , m_pImageLoader(NULL)
 {
+	GET_SINGLE(CTextMgr)->SetPosition(m_vPosition);
 }
 
 

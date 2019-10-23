@@ -52,7 +52,7 @@ HRESULT CSelectScene::Initialize()
 			m_vecBackGround[i]->Initialize();
 		}
 	}
-ChampInitialize();
+	ChampInitialize();
 	SpellInitialize();
 	GET_SINGLE(CTextMgr)->Initialize();
 	
