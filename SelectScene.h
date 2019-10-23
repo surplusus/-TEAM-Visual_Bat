@@ -74,8 +74,13 @@ private:
 	bool isChecked_1;
 	bool isChecked_2;
 
+private:
 	string m_ChampName;
+	string m_Spell_1Name;
+	string m_Spell_2Name;
 public:
 	string GetChampName() { return m_ChampName; }
+	string GetSpell_1Name() { return m_Spell_1Name; }
+	string GetSpell_2Name() { return m_Spell_2Name; }
 };
 

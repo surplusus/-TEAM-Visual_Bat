@@ -60,6 +60,8 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 		{
 			if (member == m_pSelectScene) {
 				SetChampName(m_pSelectScene->GetChampName());
+				SetSpell_1Name(m_pSelectScene->GetSpell_1Name());
+				SetSepll_2Name(m_pSelectScene->GetSpell_2Name());
 			}
 			else if (member == m_pLoadingScene) {
 

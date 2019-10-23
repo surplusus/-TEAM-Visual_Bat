@@ -5,9 +5,9 @@
 #include <d3dx9.h>
 #include <d3d9.h>
 
-//#pragma comment("")
-//#include <fmod.hpp>
-//#include <fmod_errors.h>
+#pragma comment("")
+#include <fmod.hpp>
+#include <fmod_errors.h>
 
 #include <unordered_map>
 #include <string>
