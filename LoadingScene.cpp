@@ -2,7 +2,7 @@
 #include "LoadingScene.h"
 #include "Image_Loader.h"
 #include "SelectedChampion.h"
-#include "Text.h"
+#include "TextMgr.h"
 #include "SceneMgr.h"
 #include "SelectScene.h"
 #include "GuhyunScene.h"
@@ -35,7 +35,7 @@ HRESULT CLoadingScene::Initialize()
 	m_pChampSelect = new CSelectedChampion(D3DXVECTOR3(255, 0, 0));
 	m_pChampSelect->Initialize();
 
-	GET_SINGLE(CText)->Initialize();
+	GET_SINGLE(CTextMgr)->Initialize();
 	cout << "·Îµù µÊ" << endl;
 
 	{	// Loading Progress Bar
@@ -120,7 +120,7 @@ void CLoadingScene::Progress()
 void CLoadingScene::Render()
 {
 	m_pBackGround->Render();
-	GET_SINGLE(CText)->LoadingNoticeRender();
+	GET_SINGLE(CTextMgr)->LoadingNoticeRender();
 	m_pChampSelect->Render();
 
 	// Loading Progress Bar

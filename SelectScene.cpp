@@ -5,7 +5,7 @@
 #include "Image_Loader.h"
 #include "Champ.h"
 #include "Spell_.h"
-#include "Text.h"
+#include "TextMgr.h"
 #include "SceneMgr.h"
 #include "LoadingScene.h"
 #include "DropBox.h"
@@ -54,7 +54,7 @@ HRESULT CSelectScene::Initialize()
 	}
 ChampInitialize();
 	SpellInitialize();
-	GET_SINGLE(CText)->Initialize();
+	GET_SINGLE(CTextMgr)->Initialize();
 	
 	map<string, vector<CUI*>*>::iterator iter = m_mapUI_List.begin();
 	for (iter; iter != m_mapUI_List.end(); ++iter)
@@ -75,14 +75,7 @@ void CSelectScene::Progress()
 			m_vecChampCircle[i]->Progress();
 			((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
 		}
-	}
-	
-	//if(GetAsyncKeyState(VK_LBUTTON))	Checked();
-	/*GET_SINGLE(CSceneMgr)->GetSceneMediator()->CopyStringInfo(m_bstring);
-	GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::PROGRESS, this);*/
-
-	
-	
+	}	
 	
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
@@ -127,7 +120,7 @@ void CSelectScene::Render()
 	}
 
 	MyDrawFPSByTimeMgr();
-	GET_SINGLE(CText)->Render_time();
+	GET_SINGLE(CTextMgr)->Render_time();
 	ChampRender();
 	SpellRender();
 
@@ -282,9 +275,15 @@ void CSelectScene::SpellRender()
 	{
 		m_pDropBox_1->Render();
 		isChecked_1 = true;
+		isChecked_2 = false;
 	}
 
-	if (m_bChecked_2) m_pDropBox_2->Render();
+	if (m_bChecked_2)
+	{
+		m_pDropBox_2->Render();
+		isChecked_2 = true;
+		isChecked_1 = false;
+	}
 }
 
 bool CSelectScene::Checked()
@@ -324,10 +323,11 @@ void CSelectScene::Selected_1()
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		string name;
-		
 		for (auto it = m_pDropBox_1->GetMap().begin(); it != m_pDropBox_1->GetMap().end(); it++)
 		{
 			name = GET_SINGLE(C2DMouse)->IsInImage_Spell(it->second);
+			if (name != string(""))
+				break;
 		}
 
 		for (auto jt = m_mapSpellList.begin(); jt != m_mapSpellList.end(); jt++)
@@ -335,7 +335,7 @@ void CSelectScene::Selected_1()
 			if (name == jt->second->GetName())
 			{
 				SpellRender_1 = jt->second;
-				g_Spell_1 = SpellRender_1->GetName();
+				m_Spell_1Name = SpellRender_1->GetName();
 			}
 		}
 	}
@@ -346,18 +346,19 @@ void CSelectScene::Selected_2()
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		string name;
-
 		for (auto it = m_pDropBox_2->GetMap().begin(); it != m_pDropBox_2->GetMap().end(); it++)
 		{
 			name = GET_SINGLE(C2DMouse)->IsInImage_Spell(it->second);
+			if (name != string(""))
+				break;
 		}
 
-		for (auto jt = m_mapSpellList.begin(); jt != m_mapSpellList.end(); jt++)
+		for (auto jt = m_mapSpellList_2.begin(); jt != m_mapSpellList_2.end(); jt++)
 		{
 			if (name == jt->second->GetName())
 			{
 				SpellRender_2 = jt->second;
-				g_Spell_2 = SpellRender_2->GetName();
+				m_Spell_2Name = SpellRender_2->GetName();
 			}
 		}
 	}

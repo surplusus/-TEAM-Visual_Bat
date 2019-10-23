@@ -29,7 +29,6 @@ int CSpell_::Progress()
 void CSpell_::Render()
 {
 	m_ImageLoader->Render();
-	Rectangle(GetDC(g_hWnd), m_Rect.left, m_Rect.top, m_Rect.right, m_Rect.bottom);
 }
 
 void CSpell_::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)

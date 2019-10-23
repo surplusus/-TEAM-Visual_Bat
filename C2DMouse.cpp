@@ -73,7 +73,7 @@ UI_SPELLTYPE C2DMouse::Is_PointInSpellImage(CUI * UI)
 
 string C2DMouse::IsInImage_Spell(CUI * UI)
 {
-	if (!UI) return NULL;
+	if (!UI) return string("");
 
 	GetCursorPos(&m_GetCur);
 	ScreenToClient(g_hWnd, &m_GetCur);

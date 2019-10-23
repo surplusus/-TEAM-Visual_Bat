@@ -90,11 +90,6 @@ void CImage_Loader::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 
 	m_pSprite->SetTransform(&matWorld);
 
-	m_Rect.left = pos.x - (m_ImageInfo.Width / 2);
-	m_Rect.top = pos.y - (m_ImageInfo.Height / 2);
-	m_Rect.right = pos.x + (m_ImageInfo.Width / 2);
-	m_Rect.bottom = pos.y + (m_ImageInfo.Height / 2);
-
 	RECT rc;
 	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	m_pSprite->Draw(m_pTexture, &rc, NULL,
@@ -107,5 +102,4 @@ void CImage_Loader::Release()
 {
 	delete m_pSprite;
 	delete m_pTexture;
-	delete this;
 }
