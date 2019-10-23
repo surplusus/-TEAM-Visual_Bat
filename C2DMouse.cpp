@@ -83,4 +83,9 @@ string C2DMouse::IsInImage_Spell(CUI * UI)
 	{
 		return UI->GetName();
 	}
+	else
+	{
+		cout << "none" << endl;
+		return string("");
+	}
 }

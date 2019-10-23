@@ -69,14 +69,6 @@ void CDropBox::Initialize()
 		m_vecSpells.push_back(it->second);
 	}
 	GET_SINGLE(CText)->Initialize();
-	
-
-	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
-	{
-		it->second->Initialize();
-		m_vecSpells.push_back(it->second);
-	}
-	GET_SINGLE(CText)->Initialize();
 }
 
 void CDropBox::Progress()

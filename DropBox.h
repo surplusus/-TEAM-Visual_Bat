@@ -25,6 +25,6 @@ private:
 	bool Checked();
 public:
 	vector<CUI*>	GetVecSpells() { return m_vecSpells; }
-	map<string, CUI*> GetMap() { return m_mapSpellList; }
+	map<string, CUI*>& GetMap() { return m_mapSpellList; }
 };
 

@@ -64,9 +64,14 @@ private:
 
 	CDropBox*							m_pDropBox_1;
 	CDropBox*							m_pDropBox_2;
+
+private:
 	bool m_bChecked_1;
 	bool m_bChecked_2;
 	bool Checked();
-	void Selected();
+	void Selected_1();
+	void Selected_2();
+	bool isChecked_1;
+	bool isChecked_2;
 };
 
