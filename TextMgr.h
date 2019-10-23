@@ -13,7 +13,6 @@ struct SPELL_LIST
 	string m_Barrier;
 };
 
-
 struct SPELL_NAME
 {
 	string m_cleanse;
@@ -40,23 +39,25 @@ struct CTEXT_INFO
 	CText*				m_pBarrier;
 };
 
-
 struct  CTEXT_NAME
 {
-
+	CText*				m_pCleanse_name;
+	CText*				m_pGhost_name;
+	CText*				m_pHeal_name;
+	CText*				m_pExhaust_name;
+	CText*				m_pFlash_name;
+	CText*				m_pSmite_name;
+	CText*				m_pTeleport_name;
+	CText*				m_pIgnite_name;
+	CText*				m_pBarrier_name;
 };
+
 class CTextMgr
 {
 	DECLARE_SINGLETON(CTextMgr);
 public:
 	CTextMgr();
 	~CTextMgr();
-private:
-	LPD3DXFONT				m_pFont;
-	LPD3DXFONT				m_pName;
-	LPD3DXFONT				m_pAlarm;
-	LPD3DXFONT				m_pTimeFont;
-	LPD3DXFONT				m_pNotice;
 public:
 	void Initialize();
 	void Render(UI_SPELLTYPE type = SPELLTYPE_End);
@@ -68,18 +69,8 @@ private:
 
 	SPELL_LIST			Spell_list;
 	SPELL_NAME			Spell_name;
-
-	
-
-	CText*				m_pCleanse_name;
-	CText*				m_pGhost_name;
-	CText*				m_pHeal_name;
-	CText*				m_pExhaust_name;
-	CText*				m_pFlash_name;
-	CText*				m_pSmite_name;
-	CText*				m_pTeleport_name;
-	CText*				m_pIgnite_name;
-	CText*				m_pBarrier_name;
+	CTEXT_INFO			CSpell_Info;
+	CTEXT_NAME			CSpell_Name;
 
 
 	vector<string> m_vecNotice;

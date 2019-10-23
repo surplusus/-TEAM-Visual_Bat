@@ -41,10 +41,10 @@ CTextMgr::~CTextMgr()
 
 void CTextMgr::Initialize()
 {
-	RECT rt = { m_vpos.x + 550, m_vpos.y - 250, 0, 0 };
-	RECT rc = { m_vpos.x + 550, m_vpos.y - 280, 0, 0 };
+	RECT name = { m_vpos.x + 510, m_vpos.y - 280, 0, 0 };
+	RECT info = { m_vpos.x + 510, m_vpos.y - 250, 0, 0 };
 	//Spell Name setting
-	CSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", rt, Spell_name.m_cleanse);
+	CSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", name, Spell_name.m_cleanse);
 	
 	CSpell_Name.m_pExhaust_name = new CText(*CSpell_Name.m_pCleanse_name); 
 	CSpell_Name.m_pExhaust_name->m_sInfo = Spell_name.m_Exhaust;
@@ -53,7 +53,7 @@ void CTextMgr::Initialize()
 	CSpell_Name.m_pGhost_name->m_sInfo = Spell_name.m_Ghost;
 
 	//Spell Info setting
-	CSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"arial", rc, Spell_list.m_cleanse);
+	CSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"arial", info, Spell_list.m_cleanse);
 }
 
 void CTextMgr::Render(UI_SPELLTYPE type)
@@ -110,28 +110,28 @@ void CTextMgr::Render(UI_SPELLTYPE type)
 
 void CTextMgr::Render_time()
 {
-	RECT rect;
-	SetRect(&rect, 0, 20, 1000, 50);
-	m_pAlarm->DrawTextA(NULL, string("챔피언을 선택하세요.").c_str(), string("챔피언을 선택하세요").length(), &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+	//RECT rect;
+	//SetRect(&rect, 0, 20, 1000, 50);
+	//m_pAlarm->DrawTextA(NULL, string("챔피언을 선택하세요.").c_str(), string("챔피언을 선택하세요").length(), &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 
-	RECT rec;
-	SetRect(&rec, 0, 70, 1000, 120);
+	//RECT rec;
+	//SetRect(&rec, 0, 70, 1000, 120);
 
-	MAXTIME -= GetTime();
-	if (MAXTIME < 0) MAXTIME = 0;
-	m_sTime = to_string((int)MAXTIME);
-	m_pTimeFont->DrawTextA(NULL, m_sTime.c_str(), m_sTime.length(), &rec, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+	//MAXTIME -= GetTime();
+	//if (MAXTIME < 0) MAXTIME = 0;
+	//m_sTime = to_string((int)MAXTIME);
+	//m_pTimeFont->DrawTextA(NULL, m_sTime.c_str(), m_sTime.length(), &rec, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void CTextMgr::LoadingNoticeRender()
 {
-	RECT rc;
-	SetRect(&rc, 0, 350, 1000, 380);
-	m_pNotice->DrawTextA(
-		NULL,
-		m_sNotice.c_str(),
-		m_sNotice.length(),
-		&rc,
-		DT_CENTER | DT_NOCLIP,
-		D3DCOLOR_XRGB(0, 0, 0));
+	//RECT rc;
+	//SetRect(&rc, 0, 350, 1000, 380);
+	//m_pNotice->DrawTextA(
+	//	NULL,
+	//	m_sNotice.c_str(),
+	//	m_sNotice.length(),
+	//	&rc,
+	//	DT_CENTER | DT_NOCLIP,
+	//	D3DCOLOR_XRGB(0, 0, 0));
 }

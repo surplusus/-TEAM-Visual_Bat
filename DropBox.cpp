@@ -96,7 +96,7 @@ void CDropBox::Render()
 	RECT rc = {1050, 220, 0, 0 };*/
 	RECT rt = { m_vPosition.x + 550, m_vPosition.y - 250, 0, 0 };
 	RECT rc = { m_vPosition.x + 550, m_vPosition.y - 280, 0, 0 };
-	GET_SINGLE(CTextMgr)->Render(rt, rc, m_eType);
+	GET_SINGLE(CTextMgr)->Render(m_eType);
 }
 
 void CDropBox::Release()
