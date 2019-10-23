@@ -4,6 +4,7 @@
 
 #include "ImageLoader.h"
 #include "Font.h"
+#include "CubePC.h"
 
 cGameHUD::cGameHUD()
 {
@@ -80,6 +81,8 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(WINSIZEX - 424, WINSIZEY - 794, 0));
 	m_mapImage["exam"] = exam;
 	m_mapImage["exam"]->Initialize();
+
+	GET_SINGLE(cCubePC)->Initialize();
 }
 
 void cGameHUD::Progress()
@@ -89,14 +92,16 @@ void cGameHUD::Progress()
 
 	if (CheckPushKey(DIK_RIGHT))
 	{
-		(m_mapImage["exam"]->GetImagePos()->x)++;
-		(m_mapImage["mini_cham"]->GetImagePos()->x) += 0.01f;
+		//(m_mapImage["exam"]->GetImagePos()->x)++;
+		(GET_SINGLE(cCubePC)->GetPosition().x)++;
+		(m_mapImage["mini_cham"]->GetImagePos()->x)++;
 	}
 
 	if (CheckPushKey(DIK_LEFT))
 	{
-		(m_mapImage["exam"]->GetImagePos()->x)--;
-		(m_mapImage["mini_cham"]->GetImagePos()->x) -= 0.01f;
+		//(m_mapImage["exam"]->GetImagePos()->x)--;
+		(GET_SINGLE(cCubePC)->GetPosition().x)--;
+		(m_mapImage["mini_cham"]->GetImagePos()->x)--;
 	}
 
 	if (CheckPushKey(DIK_UP))
@@ -110,6 +115,8 @@ void cGameHUD::Progress()
 		(m_mapImage["exam"]->GetImagePos()->y)++;
 		(m_mapImage["mini_cham"]->GetImagePos()->y) += 0.01f;
 	}
+
+	GET_SINGLE(cCubePC)->Progress();
 }
 
 void cGameHUD::Render()
@@ -129,6 +136,8 @@ void cGameHUD::Render()
 	m_Text->Render("abcd");
 
 	m_mapImage["exam"]->Render();
+
+	GET_SINGLE(cCubePC)->Render();
 }
 
 void cGameHUD::Release()

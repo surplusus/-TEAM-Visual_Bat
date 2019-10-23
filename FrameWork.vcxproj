@@ -34,6 +34,7 @@
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
+    <ClInclude Include="CubePC.h" />
     <ClInclude Include="Ezreal.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameHUD.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="CubePC.cpp" />
     <ClCompile Include="Ezreal.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameHUD.cpp" />

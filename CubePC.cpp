@@ -1,5 +1,4 @@
 #include "BaseInclude.h"
-#include "TimeMgr.h"
 #include "CubePC.h"
 
 
@@ -108,6 +107,12 @@ void cCubePC::Progress()
 
 void cCubePC::Render()
 {
-	GET_SINGLE(CDevice)->GetDevice()->SetTransform(D3DTS_WORLD, &m_matWorld);
-	GET_SINGLE(CDevice)->
+	GetDevice()->SetTransform(D3DTS_WORLD, &m_matWorld);
+	GetDevice()->SetFVF(CUSTOMVERTEX::FVF);
+	GetDevice()->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		m_vecVertex.size() / 3,
+		&m_vecVertex[0],
+		sizeof(CUSTOMVERTEX)
+	);
 }

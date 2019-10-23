@@ -1,6 +1,7 @@
 #pragma once
 class cCubePC
 {
+	DECLARE_SINGLETON(cCubePC)
 public:
 	cCubePC();
 	~cCubePC();

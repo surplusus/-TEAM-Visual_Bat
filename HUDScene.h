@@ -2,7 +2,6 @@
 #include "Scene.h"
 
 class cGameHUD;
-class cCubePC;
 
 class cHUDScene
 	: public CScene
@@ -18,8 +17,5 @@ public:
 	virtual void Release();
 
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-private:
-	cGameHUD * m_pGameHUD;
 };
 

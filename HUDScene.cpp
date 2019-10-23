@@ -1,6 +1,5 @@
 #include "BaseInclude.h"
 #include "CameraMgr.h"
-#include"ObjMgr.h"
 
 #include "HUDScene.h"
 #include "GameHUD.h"
@@ -29,7 +28,6 @@ HRESULT cHUDScene::Initialize()
 void cHUDScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
-
 	GET_SINGLE(cGameHUD)->Progress();
 }
 
