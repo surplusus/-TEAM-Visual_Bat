@@ -11,6 +11,8 @@ public:
 private:
 	HWND m_hWnd;
 	WNDCLASSEX m_wc;
+
+	const float m_fFramePerSec = 60.f;
 public:
 	static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParm, LPARAM lParam);
 	void WinMainInit(HINSTANCE hInst, HINSTANCE, LPSTR, INT);

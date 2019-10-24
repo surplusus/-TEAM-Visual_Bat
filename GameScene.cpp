@@ -8,100 +8,89 @@
 #include"Terrain.h"
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
-#include"Ezreal.h"
-#include"Ezeal_Q.h"
-GameScene::GameScene()
+#include"Atrox.h"
+#include"Amumu.h"
+CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
 }
 
 
-GameScene::~GameScene()
+CGameScene::~CGameScene()
 {
 }
 
-HRESULT GameScene::Initialize()
+HRESULT CGameScene::Initialize()
 {
+	/*if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
+		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
+		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
+		return E_FAIL;*/
 	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
 		, D3DXVECTOR3(0.f, 10.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;
 
-	if (Setup())		return E_FAIL;
-	if(FAILED(InitAsset())) return E_FAIL;
+	if (Setup())
+		return E_FAIL;
+	
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+	//}
+	//if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Amumu", MESHTYPE_DYNAMIC)))
+	//{
+	//	ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	//}
+
+	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	//	return E_FAIL;
+	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_SPHERE)))
+	//	return E_FAIL;
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		return E_FAIL;
 
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))			return E_FAIL;
-	pShader = new CEzeal_Q;
-	TestShader = new CShader;
-	TestShader->LoadAsset(L"./Resource/Shader/test3.fx");
-	pShader->Initialize();
+	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//	return E_FAIL;
+	//if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu >::CreateObject())))
+	//	return E_FAIL;
+
+	//ObjMgr정보를 등록한다.
+	//const CObj*pObj = m_pObjMgr->GetObj(L"Amumu");
+	//((CChampion*)pObj)->RegisterObjMgr(m_pObjMgr);
+
 }
 
-void GameScene::Progress()
+void CGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
-	m_pObjMgr->Progress();	
+	m_pObjMgr->Progress();
+	
 }
 
-void GameScene::Render()
+void CGameScene::Render()
 {
 	m_pObjMgr->Render();
-	pShader->Render();
-	//TestShader->RenderScene();
 }
 
-void GameScene::Release()
+void CGameScene::Release()
 {
 
 }
 
-HRESULT GameScene::Setup()
+HRESULT CGameScene::Setup()
 {
 	SetRenderState(D3DRS_LIGHTING, false);
 	return S_OK;
 }
 
-void GameScene::Update()
+void CGameScene::Update()
 {
 	m_pObjMgr->Progress();
 	GET_SINGLE(CCameraMgr)->Progress();
 }
 
-HRESULT GameScene::InitAsset()
+void CGameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//Texture 
-	if (FAILED(InsertTexture(GetDevice()
-		, TEXTYPE_NORMAL
-		, L"./Resource/Ez/Particles/Ezreal_Base_Q_erode.dds"
-		, L"Effect", L"Arrow")))
-	{
-		ERR_MSG(NULL, L"Texture Create Failed");		return E_FAIL;
-	}
-	if (FAILED(InsertTexture(GetDevice()
-		, TEXTYPE_NORMAL
-		, L"./Resource/Ez/Particles/Ezreal_Base_Q_mis_trail.dds"
-		, L"Effect", L"Arrow2")))
-	{
-		ERR_MSG(NULL, L"Texture Create Failed");		return E_FAIL;
-	}
-
-	//>>MESH
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Ezreal", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
-
-}
-
-void GameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-
 }
 

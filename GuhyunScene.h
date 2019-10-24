@@ -1,43 +1,25 @@
 #pragma once
 #include "Scene.h"
-class GuhyunScene :
-	public CScene
+
+class GuhyunScene :	public CScene
 {
 public:
 	GuhyunScene();
 	virtual ~GuhyunScene();
 public:
 	class CObjMgr* m_pObjMgr;
-	virtual HRESULT Initialize();
-	virtual void Progress();
-	virtual void Render();
-	virtual void Release();
-
+	virtual HRESULT Initialize() override;
+	virtual void Progress()		 override;
+	virtual void Render()		 override;
+	virtual void Release()		 override;
+	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override {}
+private:
+	float					m_fSceneTime = 0.f;
+	class CHeightMap*		m_pHeightMap = nullptr;
 private:
 	HRESULT Setup();
-	void Update();
-public:
-	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	template<typename T, typename U>
-	HRESULT ProcessLButtonPicking(T * obj, U * floor);
+	void SoundUpdate();
+	
+	class MinionMgr*  m_minion;
 };
 
-template<typename T, typename U>
-inline HRESULT GuhyunScene::ProcessLButtonPicking(T * obj, U * floor)
-{
-	if (obj && floor) {
-		if (GetMouseState().rgbButtons[1] & 0x80) {
-
-			D3DXVECTOR3 pos = floor->GetPickingPoint();
-			if (pos == D3DXVECTOR3(0.f, 0.f, 0.f)) {
-				cout << "no face is picked" << endl;
-				return S_FALSE;
-			}
-			obj->SetPickingPoint(&pos);
-			return S_OK;
-		}
-	}
-	
-	cout << "not exist mouse picking obj or floor" << endl;
-	return S_FALSE;
-}

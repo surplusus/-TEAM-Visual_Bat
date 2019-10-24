@@ -1,6 +1,7 @@
 #pragma once
 //class CStateObj;
 class CScene;
+class CSceneMediator;
 class CSceneMgr
 {
 	DECLARE_SINGLETON(CSceneMgr)
@@ -13,13 +14,11 @@ public:
 	void Render();
 	void Release();
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	
 	HRESULT SetState(CScene* pState);
+	CSceneMediator* GetSceneMediator() { return m_pSceneMediator; }
 private:
-	void TriggerOnChangeScene();
-	void TriggerOffChangeScene();
-private:
-	CScene * m_State;
-
-	bool     m_bSignChangeScene = false;
+	CScene *		m_State;
+	CSceneMediator* m_pSceneMediator;
 };
 

@@ -1,13 +1,12 @@
 #include "BaseInclude.h"
 #include "Amumu.h"
 #include "ThreadPool.h"
-#include "BaseInclude.h"
 #include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
 #include "Ray.h"
 D3DXVECTOR3 CAmumu::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
-std::atomic<bool> CAmumu::g_bMouseHitPoint = false;
+std::atomic<bool> CAmumu::g_bHitFloor = false;
 bool CAmumu::bPick = false;
 CAmumu::CAmumu()
 {
@@ -41,8 +40,8 @@ void CAmumu::WorldSetting()
 bool CAmumu::MouseCheck()
 {
 	if (m_ObjMgr == NULL) return false;
-	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
-	int number = m_ObjMgr->GetVtxNumber(L"Map");
+	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
+	int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
 
 	if (vtx == NULL) return false;
 	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())
@@ -87,7 +86,7 @@ bool CAmumu::MapChecktThreadLoop(int number, const VTXTEX * vtx)
 
 		if (m_Ray.IsPicked(g_MouseHitPoint, V0, V1, V2))
 		{
-			g_bMouseHitPoint = true;
+			g_bHitFloor = true;
 			return true;
 		}
 	}
@@ -107,7 +106,7 @@ HRESULT CAmumu::Initialize()
 
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	CloneMesh(GetDevice(), L"Ez", &m_pAnimationCtrl);
+	CloneMesh(GetDevice(), L"Amumu", &m_pAnimationCtrl);
 
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
@@ -128,10 +127,12 @@ void CAmumu::Progress()
 
 		}
 	}
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
+	if (g_bHitFloor) {
+		g_bHitFloor = false;
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
+	m_pAnimationCtrl->SetAnimationSet("RightAttack1");
+	m_pAnimationCtrl->FrameMove(L"Amumu", g_fDeltaTime / 100);
 }
 
 void CAmumu::Render()
@@ -140,9 +141,8 @@ void CAmumu::Render()
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 	static bool b = true;
 	
-	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
-	m_pAnimationCtrl->FrameMove(L"Ez", GetTime());
-	Mesh_Render(GetDevice(), L"Ez");
+
+	Mesh_Render(GetDevice(), L"Amumu");
 }
 
 void CAmumu::Release()

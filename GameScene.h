@@ -5,11 +5,11 @@ class CShader;
 //class CCamera;
 //class CXFileUtil;
 class CObjMgr;
-class GameScene: public CScene
+class CGameScene: public CScene
 {
 public:
-	GameScene();
-	~GameScene();
+	CGameScene();
+	~CGameScene();
 public:
 	CObjMgr* m_pObjMgr;
 	virtual HRESULT Initialize() ;

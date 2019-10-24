@@ -1,7 +1,11 @@
 #include "BaseInclude.h"
 #include "SceneMgr.h"
+#include "SceneMediator.h"
 #include "GameScene.h"
+#include "SelectScene.h"
+#include "LoadingScene.h"
 #include "GuhyunScene.h"
+#include "HUDScene.h"
 
 CSceneMgr::CSceneMgr()
 	:m_State(NULL)
@@ -15,31 +19,43 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Initialize()
 {
-	m_State = new GameScene();
+	m_pSceneMediator = new CSceneMediator();
+	//m_State = new CLoadingScene();
+	m_State = new CSelectScene;
+	m_pSceneMediator->SetSceneMember(m_State);
+	//m_State = new CSelectScene;
 	if (m_State != NULL)
 		m_State->Initialize();
 }
 
 void CSceneMgr::Progress()
 {
-	if (m_State != NULL && m_bSignChangeScene == false)
+	if (CheckPushKeyOneTime(VK_ESCAPE)) {
+		//GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
+		PostMessage(NULL, WM_QUIT, 0, 0);
+		return;
+	}
+	if (m_State != NULL)
 		m_State->Progress();
 }
 
 void CSceneMgr::Render()
 {
-	if (m_State != NULL && m_bSignChangeScene == false)
+	if (m_State != NULL)
 		m_State->Render();
+	MyDrawFPSByTimeMgr();
 }
 
 void CSceneMgr::Release()
 {
 	if (m_State != NULL) {
 		m_State->Release();
-
 		delete m_State;
 		m_State = NULL;
-		TriggerOffChangeScene();
+	}
+	if (m_pSceneMediator != NULL) {
+		delete m_pSceneMediator;
+		m_pSceneMediator = NULL;
 	}
 }
 
@@ -53,6 +69,9 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 {
 	if (pState == NULL) 
 		return E_FAIL;
+	// mediator로 이전 Scene에서 정보 건내받기
+	m_pSceneMediator->SetSceneMember(pState);
+	m_pSceneMediator->MediateInfo(MEDIATETYPE::INIT, pState);
 
 	if (m_State)
 	{
@@ -62,17 +81,7 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 	}
 
 	m_State = pState;
-
-	TriggerOnChangeScene();
+	m_State->Initialize();
+	
 	return S_OK;
-}
-
-void CSceneMgr::TriggerOffChangeScene()
-{
-	m_bSignChangeScene = false;
-}
-
-void CSceneMgr::TriggerOnChangeScene()
-{
-	m_bSignChangeScene = true;
 }

@@ -48,6 +48,7 @@ void CSummonTerrain::Progress(void)
 void CSummonTerrain::Render(void)
 {	
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
+	GET_DEVICE->SetRenderState(D3DRS_LIGHTING, false);
 	GET_SINGLE(CDevice)->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	Mesh_Render(GetDevice(), L"Map");
 	

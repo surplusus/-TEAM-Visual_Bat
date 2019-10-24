@@ -65,8 +65,8 @@ void CAtrox::Progress()
 
 		}
 	}
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
+	if (g_bHitFloor) {
+		g_bHitFloor = false;
 	}
 	Move_Chase(&g_MouseHitPoint, 1.0f);
 }
