@@ -20,6 +20,7 @@ private:
 	void MouseControl();
 	void QWERControl();
 	bool TurnSlowly(const D3DXVECTOR3* destPos);	// ¼öÁ¤ÇØ¾ßµÊ
+	bool Turn(const D3DXVECTOR3* destPos);
 public:
 	void SetHeightMap(CHeightMap* pHeightMap);
 	float lerp(float p1, float p2, float d);

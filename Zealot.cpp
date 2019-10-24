@@ -94,11 +94,11 @@ void CZealot::QWERControl()
 		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
 	}
-	/*if (CheckPushKeyOneTime(VK_3)) {
-		m_pAnimationCtrl->BlendAnimationSet("Attact2");
+	if (CheckPushKeyOneTime(VK_3)) {
+		m_pAnimationCtrl->BlendAnimationSet("Spell3");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
 	}
-	if (CheckPushKeyOneTime(VK_4)) {
+	/*if (CheckPushKeyOneTime(VK_4)) {
 		m_pAnimationCtrl->BlendAnimationSet("Search");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
 	}
@@ -135,7 +135,7 @@ bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 		m_fAngle[ANGLE_Y] += fRadian;
 		return false;
 	}
-	
+
 	D3DXVECTOR3 vLeft;
 	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
 	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0)
@@ -155,3 +155,4 @@ float CZealot::lerp(float p1, float p2, float d)
 {
 	return (1-d) * p1 + d * p2;
 }
+

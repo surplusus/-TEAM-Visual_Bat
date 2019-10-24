@@ -43,8 +43,11 @@ void CChampion::UpdateWorldMatrix()
 		//m_Info.vLook = m_Info.vPos; 
 		D3DXQUATERNION quat; D3DXQuaternionIdentity(&quat);
 		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.f, 1.f, 0.f), m_fAngle[ANGLE_Y]);
+		//m_fAngle[ANGLE_Y] = 0.f;
 		D3DXMatrixRotationQuaternion(&matRot, &quat);
 		D3DXVec3TransformNormal(&m_Info.vDir, &D3DXVECTOR3(0.f,0.f,-1.f), &matRot);
+		//D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
+		//m_Info.vLook = m_Info.vDir; 
 		D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 		m_Info.matWorld = matScale * matRot * matTrans;
 	}
