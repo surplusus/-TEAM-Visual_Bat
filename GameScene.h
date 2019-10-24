@@ -1,6 +1,7 @@
 #pragma once
 #include"Scene.h"
-
+class CObj;
+class CShader;
 //class CCamera;
 //class CXFileUtil;
 class CObjMgr;
@@ -19,9 +20,12 @@ public:
 private:
 	HRESULT Setup();
 	void Update();
+private:
+	HRESULT InitAsset();
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	
+	CObj* pShader;
+	CShader* TestShader;
 };
 

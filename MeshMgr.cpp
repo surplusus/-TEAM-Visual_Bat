@@ -14,12 +14,12 @@ CMeshMgr::~CMeshMgr()
 {
 }
 
-void CMeshMgr::GetBonMatrix(const TCHAR * pMeshKey, const CHAR * pBoneName, D3DXMATRIX * pOut)
+void CMeshMgr::GetBoneMatrix(const TCHAR * pMeshKey, const CHAR * pBoneName, D3DXMATRIX * pOut)
 {
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
 	if (iter == m_MapMesh.end()) return;
 	
-	iter->second->GetBonMatrix(pBoneName, pOut);
+	iter->second->GetBoneMatrix(pBoneName, pOut);
 }
 
 HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const TCHAR * pFileName, const TCHAR * pMeshKey, MESHTYPE MeshType)

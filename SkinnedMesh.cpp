@@ -35,7 +35,7 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 	UpdateMatrix((BONE*)m_pRootBone, &matrix);
 	SetUpBoneMatrixPointer((BONE*)m_pRootBone);
 	ID3DXBuffer* adjBuffer;
-
+	
 	return S_OK;
 }
 

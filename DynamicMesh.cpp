@@ -4,7 +4,6 @@
 
 void CDynamicMesh::GetBoneMatrix(const CHAR * pBoneName, D3DXMATRIX * pOut)
 {
-
 	FindBone(pBoneName, (BONE*)m_pRootBone, pOut);
 }
 

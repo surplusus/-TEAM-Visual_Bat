@@ -14,7 +14,7 @@ protected:
 	D3DMATERIAL9*			m_pMtrls;
 
 public:
-	virtual void			GetBonMatrix(const CHAR* pBoneName, D3DXMATRIX* pOut) {};
+	virtual void			GetBoneMatrix(const CHAR* pBoneName, D3DXMATRIX* pOut) {};
 public:
 	virtual void			InvalidateMesh(D3DXMATRIX* pMatWorld) {}
 public:

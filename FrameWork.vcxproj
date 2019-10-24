@@ -29,6 +29,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DropBox.h" />
+    <ClInclude Include="Ezeal_Q.h" />
+    <ClInclude Include="Ezreal.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
@@ -63,6 +65,8 @@
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionMgr.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneMediator.h" />
@@ -162,6 +166,8 @@
     <ClCompile Include="DropBox.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="Ezeal_Q.cpp" />
+    <ClCompile Include="Ezreal.cpp" />
     <ClCompile Include="GameHUD.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -176,6 +182,8 @@
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneMediator.cpp" />

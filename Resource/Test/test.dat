@@ -5,3 +5,10 @@ FolderPath ./Resource/Test/
 FileName Udyr.x
 ConsoleText "Udyr File Load Start"
 MeshType 1
+-Map-
+bComplete false
+ObjName Map
+FolderPath ./Resource/MapSummon/
+FileName Floor.x
+ConsoleText "Floor File Load Start"
+MeshType 1

@@ -53,8 +53,10 @@ HRESULT CLoadingScene::Initialize()
 		Render();
 		End_Render(g_hWnd);
 		LoadResourceByThread();
+		
+		SetMeshRegistryInfoThruFile();
+		FuncLoadMesh func = 
 	}
-	SetMeshRegistryInfoThruFile();
 	return S_OK;
 }
 
@@ -114,6 +116,8 @@ void CLoadingScene::Progress()
 	//	return;
 	//}
 #pragma endregion
+
+
 
 	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }

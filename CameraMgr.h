@@ -26,6 +26,12 @@ public:
 	}
 
 	void Release(void);
+public:
+	D3DXVECTOR4 GetPos()
+	{
+		if (m_pCamera) return m_pCamera->GetPos();
+		return D3DXVECTOR4(0, 0, 0, 1.f);
+	}
 private:
 	CCameraMgr(void);
 public:
