@@ -15,5 +15,6 @@ public:
 	void Release();
 	LPD3DXEFFECT LoadShader(const TCHAR * pFileName);	
 	LPD3DXMESH LoadModel(const TCHAR * pFileName);
+	
 };
 

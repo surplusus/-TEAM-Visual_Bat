@@ -244,6 +244,12 @@
     <Filter Include="Text">
       <UniqueIdentifier>{10073328-25ec-4495-8f0a-5918ef383fe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\Skill">
+      <UniqueIdentifier>{32ce7749-a373-440d-a535-6ab9fe7c6ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Champion\Ez">
+      <UniqueIdentifier>{17617303-f336-4de8-a36c-1141675f9ccf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -522,6 +528,18 @@
     <ClInclude Include="TextMgr.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Ezreal.h">
+      <Filter>소스 파일\02. Object\Champion\Ez</Filter>
+    </ClInclude>
+    <ClInclude Include="Ezeal_Q.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -769,6 +787,18 @@
     </ClCompile>
     <ClCompile Include="TextMgr.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Ezreal.cpp">
+      <Filter>소스 파일\02. Object\Champion\Ez</Filter>
+    </ClCompile>
+    <ClCompile Include="Ezeal_Q.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
