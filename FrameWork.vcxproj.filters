@@ -540,6 +540,12 @@
     <ClInclude Include="Ezeal_Q.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="EzealQ_Particle.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -798,6 +804,12 @@
       <Filter>소스 파일\02. Object\Champion\Ez</Filter>
     </ClCompile>
     <ClCompile Include="Ezeal_Q.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="EzealQ_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>

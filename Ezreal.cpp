@@ -105,7 +105,7 @@ HRESULT CEzreal::Initialize()
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(-10.f, 16.0f, -10.f);
+	m_Info.vPos = D3DXVECTOR3(0, 0, 0);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
@@ -138,28 +138,33 @@ void CEzreal::Progress()
 	}
 	if (CheckPushKeyOneTime(VK_Q))
 	{
-		AddSkill_Q();
+		//AddSkill_Q();
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
 
+
+
 }
 void CEzreal::AddSkill_Q()
-{
-	
-	m_ListQSkill.push_back(new CEzeal_Q(m_Info));
-
-
+{	
+	D3DXMATRIX matWorld;
+	D3DXVECTOR3 vPos;
+	GetBoneMatrix(L"Ezreal", "Armature_L_Hand", &matWorld);
+	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
+	INFO info = m_Info;
+	info.vPos = vPos;
 }
 
 void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
-
+	
 	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
 	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime()/30);
 	Mesh_Render(GetDevice(), L"Ezreal");
-
+	
+	
 
 }
 

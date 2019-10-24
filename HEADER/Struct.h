@@ -18,7 +18,13 @@ typedef struct ST_PC_VERTEX
 	D3DCOLOR c;
 	enum {FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE};
 }CUSTOMVERTEX;
+typedef struct PRRTICLE_VERTEX
+{
 
+	D3DXVECTOR3 p;
+	D3DXVECTOR2 t;
+	enum { FVF = D3DFVF_XYZ | D3DFVF_TEX1 };
+}PARTICLE_VERTEX;
 
 typedef struct tagBoneMesh : public D3DXMESHCONTAINER
 {

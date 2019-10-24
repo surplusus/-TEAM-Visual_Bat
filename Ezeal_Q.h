@@ -6,7 +6,7 @@ class CEzeal_Q :
 public:
 	CEzeal_Q();
 	~CEzeal_Q();
-	CEzeal_Q(INFO& tInfo);
+	CEzeal_Q(INFO tInfo);
 private:
 	float m_fHeight;
 	float m_fWidth;
@@ -20,11 +20,15 @@ public:
 	void Render_End();
 	void WorldSetting();
 public:
-	virtual HRESULT Initialize()	;
-	virtual void	Progress()		;
-	virtual void	Render()		;
-	virtual void	Release()		;
+	virtual HRESULT Initialize()	override;
+	virtual bool	Progress()		override;
+	virtual void	Render()		override;
+	virtual void	Release()		override;
 public:
-	
+	virtual bool  ReMoveSkill();
+
+private:
+	//test
+	LPD3DXMESH pMesh;
 };
 

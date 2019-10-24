@@ -8,8 +8,7 @@
 #include"Terrain.h"
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
-#include"Atrox.h"
-#include"Amumu.h"
+#include"Ezreal.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -33,31 +32,20 @@ HRESULT CGameScene::Initialize()
 
 	if (Setup())
 		return E_FAIL;
-	
-	//if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
-	//{
-	//	ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
-	//}
-	//if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Amumu", MESHTYPE_DYNAMIC)))
-	//{
-	//	ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	//}
+	InitAsset();
+	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE))) return E_FAIL;
 
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	//	return E_FAIL;
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_SPHERE)))
-	//	return E_FAIL;
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Ez/", L"Ez.X", L"Ezreal", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
 
-	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-	//	return E_FAIL;
-	//if (FAILED(m_pObjMgr->AddObject(L"Amumu", CFactory<CObj, CAmumu >::CreateObject())))
-	//	return E_FAIL;
+	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+		return E_FAIL;
+	
 
-	//ObjMgr정보를 등록한다.
-	//const CObj*pObj = m_pObjMgr->GetObj(L"Amumu");
-	//((CChampion*)pObj)->RegisterObjMgr(m_pObjMgr);
 
 }
 
@@ -88,6 +76,26 @@ void CGameScene::Update()
 {
 	m_pObjMgr->Progress();
 	GET_SINGLE(CCameraMgr)->Progress();
+}
+
+HRESULT CGameScene::InitAsset()
+{
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/MapSummon/", L"Floor.x", L"Map", MESHTYPE_STATIC)))
+	{
+		ERR_MSG(g_hWnd, L"Summon Map Load Failed");		return E_FAIL;
+	}
+
+	HRESULT hr;
+	if (FAILED(InsertTexture(GetDevice(), TEXTYPE_NORMAL, L"./Resource/Ez/Particles/Ezreal_Base_Q_mis_trail.dds", L"Effect", L"Arrow_Q1")))
+	{
+		return E_FAIL;
+	}
+	if (FAILED(InsertTexture(GetDevice(), TEXTYPE_NORMAL, L"./Resource/Ez/Particles/Ezreal_Base_R_trail.dds", L"Effect", L"Arrow_Q2")))
+	{
+		return E_FAIL;
+	}
+
+	return S_OK;
 }
 
 void CGameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

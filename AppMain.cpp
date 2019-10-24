@@ -77,9 +77,9 @@ int AppMain::WinMainLoop()
 			else
 			{
 				SetTimeMgr();
-				if (ControlFPS(m_fFramePerSec)) {
+			//	if (ControlFPS(m_fFramePerSec)) {
 					m_MainGame.Progress();
-				}
+			//	}
 				m_MainGame.Render();
 			}
 		}
