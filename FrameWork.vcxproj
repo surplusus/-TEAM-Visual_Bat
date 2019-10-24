@@ -29,7 +29,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DropBox.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Ezeal_Q.h" />
     <ClInclude Include="Ezreal.h" />
     <ClInclude Include="GameAlgorithm.h" />
@@ -72,7 +71,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneMediator.h" />
-    <ClInclude Include="SelectedChampion.h" />
+    <ClInclude Include="SelectedPlayer.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -165,7 +164,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DropBox.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="Ezeal_Q.cpp" />
@@ -190,7 +188,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneMediator.cpp" />
-    <ClCompile Include="SelectedChampion.cpp" />
+    <ClCompile Include="SelectedPlayer.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />

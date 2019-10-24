@@ -13,7 +13,7 @@ struct stMeshInfo
 };
 
 class CImage_Loader;
-class CSelectedChampion;
+class CSelectedPlayer;
 class CSelectedSpells;
 class CUI;
 class CTextMgr;
@@ -38,7 +38,7 @@ private:
 	void Render_Loading();
 private:
 	CImage_Loader*				m_pBackGround;
-	CSelectedChampion*			m_pChampSelect;
+	CSelectedPlayer*			m_pChampSelect;
 	CSelectedSpells*				m_pSpell_1;
 	CSelectedSpells*				m_pSpell_2;
 

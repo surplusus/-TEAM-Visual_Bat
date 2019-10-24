@@ -1,5 +1,5 @@
 #include "BaseInclude.h"
-#include "SelectedChampion.h"
+#include "SelectedPlayer.h"
 #include "SceneMgr.h"
 #include "Image_Loader.h"
 #include "UI.h"
@@ -8,16 +8,16 @@
 #include "SelectedSpells.h"
 
 
-CSelectedChampion::CSelectedChampion(string ChampName)
+CSelectedPlayer::CSelectedPlayer(string ChampName)
 	: m_pLoadingBoarder_blue(NULL), m_pLoadingBoarder_red(NULL), m_pEnemy(NULL), m_ChampName(ChampName)
 {
 }
 
-CSelectedChampion::~CSelectedChampion()
+CSelectedPlayer::~CSelectedPlayer()
 {
 }
 
-void CSelectedChampion::Initialize()
+void CSelectedPlayer::Initialize()
 {
 	m_pLoadingBoarder_blue = new CImage_Loader("Resource/choen/Loading/ChallengerBoarder.png", D3DXVECTOR3(400, 0, 0), D3DXVECTOR3(0.7f, 0.7f, 0));
 	m_pLoadingBoarder_red = new CImage_Loader("Resource/choen/Loading/ChallengerBoarder.png", D3DXVECTOR3(400, 410, 0), D3DXVECTOR3(0.7f, 0.7f, 0));
@@ -50,7 +50,7 @@ void CSelectedChampion::Initialize()
 	m_pEnemy = vecChamp[rand() % vecChamp.size()];
 }
 
-void CSelectedChampion::Render()
+void CSelectedPlayer::Render()
 {
 	for (auto it = m_mapChampList.begin(); it != m_mapChampList.end(); it++)
 	{
@@ -70,7 +70,7 @@ void CSelectedChampion::Render()
 	m_pSpell_2->Render();
 }
 
-void CSelectedChampion::Release()
+void CSelectedPlayer::Release()
 {
 	m_pLoadingBoarder_blue->Release();
 	m_pLoadingBoarder_red ->Release();

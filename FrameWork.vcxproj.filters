@@ -259,9 +259,6 @@
     <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Spell">
       <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Enemy">
-      <UniqueIdentifier>{f1fdea25-8c6a-4e45-8017-0ea668cdafa2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -546,14 +543,11 @@
     <ClInclude Include="Ezeal_Q.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="SelectedChampion.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
-    </ClInclude>
     <ClInclude Include="SelectedSpells.h">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Enemy</Filter>
+    <ClInclude Include="SelectedPlayer.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -812,14 +806,11 @@
     <ClCompile Include="Ezeal_Q.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="SelectedChampion.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
-    </ClCompile>
     <ClCompile Include="SelectedSpells.cpp">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Enemy</Filter>
+    <ClCompile Include="SelectedPlayer.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

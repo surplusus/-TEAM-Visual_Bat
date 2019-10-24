@@ -2,11 +2,11 @@
 class CImage_Loader;
 class CUI;
 class CSelectedSpells;
-class CSelectedChampion
+class CSelectedPlayer
 {
 public:
-	CSelectedChampion(string ChampName);
-	~CSelectedChampion();
+	CSelectedPlayer(string ChampName);
+	~CSelectedPlayer();
 
 public:
 	void Initialize();

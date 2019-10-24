@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "LoadingScene.h"
 #include "Image_Loader.h"
-#include "SelectedChampion.h"
+#include "SelectedPlayer.h"
 #include "TextMgr.h"
 #include "SceneMgr.h"
 #include "SelectScene.h"
@@ -38,7 +38,7 @@ HRESULT CLoadingScene::Initialize()
 	m_pBackGround->Initialize();
 
 
-	m_pChampSelect = new CSelectedChampion(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampName());
+	m_pChampSelect = new CSelectedPlayer(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampName());
 	m_pChampSelect->Initialize();
 	
 	m_pTextMgr = new CTextMgr();
