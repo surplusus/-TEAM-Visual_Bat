@@ -7,8 +7,8 @@ public:
 	CZealot();
 	virtual ~CZealot();
 private:
-	bool				m_IsRunning = false;
-	bool				m_IsTurning = false;
+	bool				m_bRunning = false;
+	bool				m_bTurning = false;
 	CHeightMap*			m_pHeightMap = nullptr;
 public:
 	virtual HRESULT Initialize() override;

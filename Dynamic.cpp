@@ -17,10 +17,10 @@ CDynamic::~CDynamic()
 
 bool CDynamic::Update_vPos_ByDestPoint(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
 {
-	D3DXVECTOR3 dir = *pDestPoint - m_Info.vPos;
-	float fDistance = D3DXVec3Length(&dir);
+	D3DXVECTOR3 vDir = *pDestPoint - m_Info.vPos;
+	float fDistance = D3DXVec3Length(&vDir);
 	float speed = fSpeed;
-	D3DXVec3Normalize(&dir, &dir);
+	D3DXVec3Normalize(&vDir, &vDir);
 	if (fDistance < 0.1f) {
 		if (fDistance <= 0.001f) {
 			m_Info.vPos = *pDestPoint;
@@ -29,9 +29,15 @@ bool CDynamic::Update_vPos_ByDestPoint(const D3DXVECTOR3 * pDestPoint, const flo
 		D3DXVec3Lerp(&m_Info.vPos, &m_Info.vPos, pDestPoint, 0.5f);
 		return true;
 	}
-
-	m_Info.vPos += dir * speed * g_fDeltaTime;
-	return true;
+	vDir = vDir * speed * g_fDeltaTime;
+	if (D3DXVec3Length(&vDir) <= fDistance) {
+		m_Info.vPos += vDir;
+		return true;
+	}
+	else {
+		m_Info.vPos = *pDestPoint;
+		return false;
+	}
 }
 
 void CDynamic::Release()
