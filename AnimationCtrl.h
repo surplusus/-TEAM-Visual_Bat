@@ -33,6 +33,7 @@ public:
 	void SetAnimationSet(int);
 	void SetAnimationSet(string aniName);
 	void BlendAnimationSet(string aniName);
+	void BlendAnimationSet(int aniIdx);
 	void FrameMove(const TCHAR* pMeshKey, float fTime);
 	void DisplayAniSetNameOnConsole();
 public:

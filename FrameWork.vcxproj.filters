@@ -145,9 +145,6 @@
     <Filter Include="소스 파일\02. Object\Objinterface">
       <UniqueIdentifier>{a45ed24e-13f5-4925-9697-0af5741aaf2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\DynnamicObj">
-      <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
       <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
     </Filter>
@@ -249,6 +246,9 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\Champion\Ez">
       <UniqueIdentifier>{17617303-f336-4de8-a36c-1141675f9ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\DynamicObj">
+      <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,7 +376,7 @@
       <Filter>소스 파일\02. Object\Objinterface</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic.h">
-      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
+      <Filter>소스 파일\02. Object\DynamicObj</Filter>
     </ClInclude>
     <ClInclude Include="Rect_Texture.h">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
@@ -422,9 +422,6 @@
     </ClInclude>
     <ClInclude Include="Atrox.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
-    </ClInclude>
-    <ClInclude Include="CFloor.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="GuhyunScene.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -523,7 +520,7 @@
       <Filter>Text</Filter>
     </ClInclude>
     <ClInclude Include="TextMgr.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+      <Filter>Text</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
@@ -648,7 +645,7 @@
       <Filter>소스 파일\02. Object\Objinterface</Filter>
     </ClCompile>
     <ClCompile Include="Dynamic.cpp">
-      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
+      <Filter>소스 파일\02. Object\DynamicObj</Filter>
     </ClCompile>
     <ClCompile Include="Rect_Texture.cpp">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
@@ -691,9 +688,6 @@
     </ClCompile>
     <ClCompile Include="Atrox.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
-    </ClCompile>
-    <ClCompile Include="CFloor.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="GuhyunScene.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -783,7 +777,7 @@
       <Filter>Text</Filter>
     </ClCompile>
     <ClCompile Include="TextMgr.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Text</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>

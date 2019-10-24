@@ -1,4 +1,10 @@
 #pragma once
+struct stLoadProcess
+{
+	DWORD nSubSetLoaded;
+	bool bCompleted ;
+	string sConsoleOut ;
+};
 class CAnimationCtrl;
 class CMesh;
 class CMeshMgr
@@ -10,7 +16,10 @@ public:
 	~CMeshMgr();
 private:
 	map<const TCHAR*, CMesh*> m_MapMesh;
+	map<string, stLoadProcess> m_mapLoadInfo;
 public:
+	stLoadProcess& GetLoadInfo(string name) { return m_mapLoadInfo[name]; }
+
 	void GetBoneMatrix(const TCHAR* pMeshKey
 		, const CHAR* pBoneName
 		, D3DXMATRIX* pOut);
@@ -29,4 +38,3 @@ public:
 	LPD3DXMESH GetMesh(const TCHAR* pMeshKey);
 	void Release();
 };
-
