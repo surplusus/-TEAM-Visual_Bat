@@ -164,19 +164,20 @@ void CAnimationCtrl::BlendAnimationSet(int aniIdx)
 	D3DXTRACK_DESC stTrackDesc;
 	m_pAniCtrl->GetTrackDesc(0, &stTrackDesc);
 	m_pAniCtrl->GetTrackAnimationSet(0, &pPrevAnimSet);
-
+	
 	m_dPeriodCurAnimSet = pPrevAnimSet->GetPeriod();
-	string sCompName = pPrevAnimSet->GetName();
-	UNIT iCurrAniIdx = // Áö±Ý²¨ ÀÎµ¦½º ¹Þ¾Æ¼­ °Ë»çÇØ¾ßµÊ
-	if (p == sCompName) {
+	string sPrevName = pPrevAnimSet->GetName();
+	m_pAniCtrl->GetAnimationSet(aniIdx, &pNextAnimSet);
+	string sNextName = pNextAnimSet->GetName();
+	if (sPrevName == sNextName) {
 		SAFE_RELEASE(pPrevAnimSet);
+		SAFE_RELEASE(pNextAnimSet);
 		return;
 	}
 
 	m_pAniCtrl->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAniCtrl->SetTrackDesc(1, &stTrackDesc);
 
-	m_pAniCtrl->GetAnimationSet(aniIdx, &pNextAnimSet);
 	m_pAniCtrl->SetTrackAnimationSet(0, pNextAnimSet);
 	m_pAniCtrl->SetTrackPosition(0, 0.0f);
 

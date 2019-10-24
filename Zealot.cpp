@@ -6,6 +6,9 @@
 #include "SoundManager.h"
 
 CZealot::CZealot()
+	: m_IsRunning(false)
+	, m_IsTurning(false)
+	, m_pHeightMap(nullptr)
 {
 
 }
@@ -83,15 +86,15 @@ void CZealot::MouseControl()
 
 void CZealot::QWERControl()
 {
-
+	static int iAniIndex = 0;
 	if (CheckPushKeyOneTime(VK_1)) {
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
 	if (CheckPushKeyOneTime(VK_2)) {
-		m_pAnimationCtrl->BlendAnimationSet("Attact1");
+		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
 	}
-	if (CheckPushKeyOneTime(VK_3)) {
+	/*if (CheckPushKeyOneTime(VK_3)) {
 		m_pAnimationCtrl->BlendAnimationSet("Attact2");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
 	}
@@ -114,7 +117,7 @@ void CZealot::QWERControl()
 	if (CheckPushKeyOneTime(VK_8)) {
 		m_pAnimationCtrl->BlendAnimationSet("Death");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr7");
-	}
+	}*/
 }
 
 bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)

@@ -79,12 +79,6 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Shader ===========//
 	
 	//=========== Add Object ===========//	
-	if (FAILED(m_pObjMgr->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		ERR_MSG(g_hWnd, L"Test Floor Load Failed");
-	if (FAILED(m_pObjMgr->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject())))
-	{
-		ERR_MSG(g_hWnd, L"Zealot Load Failed");
-	}
 
 	//=========== Add Particle ===========//	
 
@@ -95,6 +89,7 @@ HRESULT GuhyunScene::Initialize()
 	//LoadResourceByThread();
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
+	dynamic_cast<CZealot*>(const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot")))->SetHeightMap(m_pHeightMap);
 	return S_OK;
 }
 
