@@ -8,7 +8,6 @@ CSkill::CSkill()
 
 CSkill::CSkill(INFO & tInfo)
 {
-	m_Info = tInfo;
 }
 
 

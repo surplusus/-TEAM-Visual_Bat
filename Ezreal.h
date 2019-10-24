@@ -35,6 +35,6 @@ public:
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 public:
-	bool DeleteSkill();
+	// DeleteSkill();
 };
 

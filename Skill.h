@@ -1,6 +1,6 @@
 #pragma once
-class CShader;
-class CSkill 	
+#include "Shader.h"
+class CSkill  : public CShader	
 {
 public:
 	CSkill();
@@ -8,6 +8,8 @@ public:
 	~CSkill();
 protected:
 	CShader * m_pShader;
+	INFO			m_Info;
+	float			m_fAngle[ANGLE_END];
 protected:
 	virtual HRESULT LoadAsset(const TCHAR* pFileName) { return S_OK; }
 	virtual void RenderScene() {};
