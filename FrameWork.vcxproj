@@ -125,7 +125,6 @@
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="SystemFunc.h" />
     <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TextList.h" />
     <ClInclude Include="TextMgr.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
