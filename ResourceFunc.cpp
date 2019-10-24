@@ -106,7 +106,7 @@ extern  void GetBoneMatrix(const TCHAR* pMeshKey
 	, const CHAR* pBoneName
 	, D3DXMATRIX* pOut)
 {
-	(*(CMeshMgr::GetInstance()))->GetBonMatrix(pMeshKey, pBoneName, pOut);
+	(*(CMeshMgr::GetInstance()))->GetBoneMatrix(pMeshKey, pBoneName, pOut);
 }
 
 LPD3DXMESH GetMesh(const TCHAR * pMeshKey)

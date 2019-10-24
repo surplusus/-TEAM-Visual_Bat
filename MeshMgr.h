@@ -11,7 +11,7 @@ public:
 private:
 	map<const TCHAR*, CMesh*> m_MapMesh;
 public:
-	void GetBonMatrix(const TCHAR* pMeshKey
+	void GetBoneMatrix(const TCHAR* pMeshKey
 		, const CHAR* pBoneName
 		, D3DXMATRIX* pOut);
 public:
