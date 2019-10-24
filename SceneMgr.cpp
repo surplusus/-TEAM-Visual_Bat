@@ -85,3 +85,8 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 	
 	return S_OK;
 }
+
+CSceneMediator * CSceneMgr::GetSceneMediator()
+{
+	 return m_pSceneMediator; 
+}

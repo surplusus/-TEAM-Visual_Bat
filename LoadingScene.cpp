@@ -12,10 +12,16 @@
 #include "SummonTerrain.h"
 #include "Zealot.h"
 #include "Factory.h"
+#include "SelectedSpells.h"
+#include "GameScene.h"
 
 CLoadingScene::CLoadingScene() 
 	: m_pBackGround(NULL)
 	, m_nStage(0)
+	, m_pTextMgr(NULL)
+	, m_pChampSelect(NULL)
+	, m_pSpell_1(NULL)
+	, m_pSpell_2(NULL)
 {
 }
 
@@ -32,11 +38,13 @@ HRESULT CLoadingScene::Initialize()
 	m_pBackGround->Initialize();
 
 
-	m_pChampSelect = new CSelectedChampion(D3DXVECTOR3(255, 0, 0));
+	m_pChampSelect = new CSelectedChampion(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampName());
 	m_pChampSelect->Initialize();
-
-	GET_SINGLE(CTextMgr)->Initialize();
+	
+	m_pTextMgr = new CTextMgr();
+	m_pTextMgr->Initialize();
 	cout << "로딩 됨" << endl;
+	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// Loading Progress Bar
 		if (FAILED(D3DXCreateTextureFromFileExA(GET_DEVICE
@@ -60,67 +68,71 @@ HRESULT CLoadingScene::Initialize()
 
 void CLoadingScene::Progress()
 {
-	if (GetAsyncKeyState(VK_SPACE))
+	if (GetAsyncKeyState(VK_SPACE)) //GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	if (GetAsyncKeyState(VK_LEFT))
+		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 
 #pragma region 스테이지 시작
-	// STAGE 1
-	if (!(m_nStage & (1 << BOXCOLLIDER))) {
-		if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-		{
-			ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
-		}
-		m_nStage ^= (1 << BOXCOLLIDER);
-		return;
-	}
-	// STAGE 2
-	if (!(m_nStage & (1 << LOADCHAMP))) {
-		m_vpMeshInfo.emplace_back(new stMeshInfo("Zealot"
-			, "./Resource/Test/", "Udyr.x"));
-		if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP
-			, LoadDynamicMeshByThread, m_vpMeshInfo[0]).get()) {
-			GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
-			m_vpMeshInfo[0]->m_bComplete = true;
-		}
-		m_nStage ^= (1 << LOADCHAMP);
-		return;
-	}
-	// STAGE 3
-	if (!(m_nStage & (1 << LOADMAP))) {
-		// Load Map
-		m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-			, "./Resource/MapSummon/", "Floor.x"));
-		//m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-		//	, "./Resource/MapSummon/", "SummonMap.x"));
-		if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP
-			, LoadStaticMeshByThread, m_vpMeshInfo[1]).get()) {
-			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-			m_vpMeshInfo[1]->m_bComplete = true;
-		}
-		m_nStage ^= (1 << LOADMAP);
-		return;
-	}
-	// STAGE 4
-	if (!(m_nStage & (1 << INROLLCHAMP))) {
-		RegisterOnObjMgr(m_vpMeshInfo[0]);
-		m_nStage ^= (1 << INROLLCHAMP);
-		return;
-	}
-	// STAGE 5
-	if (!(m_nStage & (1 << INROLLMAP))) {
-		//RegisterOnObjMgr(m_vpMeshInfo[1]);
-		m_nStage ^= (1 << INROLLMAP);
-		return;
-	}
+	//// STAGE 1
+	//if (!(m_nStage & (1 << BOXCOLLIDER))) {
+	//	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	//	{
+	//		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+	//	}
+	//	m_nStage ^= (1 << BOXCOLLIDER);
+	//	return;
+	//}
+	//// STAGE 2
+	//if (!(m_nStage & (1 << LOADCHAMP))) {
+	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Zealot"
+	//		, "./Resource/Test/", "Udyr.x"));
+	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP
+	//		, LoadDynamicMeshByThread, m_vpMeshInfo[0]).get()) {
+	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
+	//		m_vpMeshInfo[0]->m_bComplete = true;
+	//	}
+	//	m_nStage ^= (1 << LOADCHAMP);
+	//	return;
+	//}
+	//// STAGE 3
+	//if (!(m_nStage & (1 << LOADMAP))) {
+	//	// Load Map
+	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
+	//		, "./Resource/MapSummon/", "Floor.x"));
+	//	//m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
+	//	//	, "./Resource/MapSummon/", "SummonMap.x"));
+	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP
+	//		, LoadStaticMeshByThread, m_vpMeshInfo[1]).get()) {
+	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
+	//		m_vpMeshInfo[1]->m_bComplete = true;
+	//	}
+	//	m_nStage ^= (1 << LOADMAP);
+	//	return;
+	//}
+	//// STAGE 4
+	//if (!(m_nStage & (1 << INROLLCHAMP))) {
+	//	RegisterOnObjMgr(m_vpMeshInfo[0]);
+	//	m_nStage ^= (1 << INROLLCHAMP);
+	//	return;
+	//}
+	//// STAGE 5
+	//if (!(m_nStage & (1 << INROLLMAP))) {
+	//	//RegisterOnObjMgr(m_vpMeshInfo[1]);
+	//	m_nStage ^= (1 << INROLLMAP);
+	//	return;
+	//}
 #pragma endregion
 
 	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+
+	
 }
 
 void CLoadingScene::Render()
 {
 	m_pBackGround->Render();
-	GET_SINGLE(CTextMgr)->LoadingNoticeRender();
+	m_pTextMgr->LoadingNoticeRender();
 	m_pChampSelect->Render();
 
 	// Loading Progress Bar

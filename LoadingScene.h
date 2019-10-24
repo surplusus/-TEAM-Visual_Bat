@@ -14,7 +14,9 @@ struct stMeshInfo
 
 class CImage_Loader;
 class CSelectedChampion;
+class CSelectedSpells;
 class CUI;
+class CTextMgr;
 class CLoadingScene :
 	public CScene
 {
@@ -32,11 +34,15 @@ private:
 	LPD3DXSPRITE				m_pLoadingSprite;
 	LPDIRECT3DTEXTURE9			m_pLoadingTexture;
 	D3DXIMAGE_INFO				m_ImageInfo;
+	CTextMgr*					m_pTextMgr;
 	void Render_Loading();
 private:
 	CImage_Loader*				m_pBackGround;
 	CSelectedChampion*			m_pChampSelect;
-	
+	CSelectedSpells*				m_pSpell_1;
+	CSelectedSpells*				m_pSpell_2;
+
+
 	vector<D3DXVECTOR2>			m_vLinePoint;
 	float						m_fLineLength;
 	// << :: mediate

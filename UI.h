@@ -8,9 +8,8 @@ public:
 		:m_name(name)
 		, m_vPosition(pos)
 		, m_FileName(FileName)
-		, m_vScale(vScale)	{	
+		, m_vScale(vScale) {
 		m_Rect = { 0,0,0,0 };
-
 	}
 	~CUI();
 public:

@@ -1,6 +1,17 @@
 #include "BaseInclude.h"
 #include "TextMgr.h"
 #include "Text.h"
+#include "LoadingScene.h"
+#include "SceneMgr.h"
+
+
+/*
+Initialize
+: CText* AA = new CText(폰트 위치, 높이, 넓이, 폰트파일안에 내장된 폰트명, RECT값, 출력할 정보)
+
+Render() <- 파라메터 있는건 스펠용이라 없는거 만들어 놓음
+: AA->멤버 폰트->drawtexta호출 하면됨
+*/
 
 
 CTextMgr::CTextMgr() : m_vpos(0, 0, 0), MAXTIME(80.0F)
@@ -16,7 +27,6 @@ CTextMgr::CTextMgr() : m_vpos(0, 0, 0), MAXTIME(80.0F)
 		Spell_list.m_Ignite = "적 챔피언을 불태워 5초동안 70~410의 고정\n 피해(챔피언 레벨에 따라 변동)를 입히고 모습\n을 드러내며 치료 효과를 감소시킵니다.\n\n기본 재사용 대기시간:180초";
 		Spell_list.m_Barrier = "2초동안 방어막으로 감싸 피해를\n 115~455(챔피언 레벨에 따라 변동)만큼 흡수\n합니다.\n기본 재사용 대기시간:180초";
 	}
-
 
 	{
 		Spell_name.m_cleanse = "정화";
@@ -41,11 +51,11 @@ CTextMgr::~CTextMgr()
 
 void CTextMgr::Initialize()
 {
-	RECT name = { m_vpos.x + 510, m_vpos.y - 280, 0, 0 };
-	RECT info = { m_vpos.x + 510, m_vpos.y - 250, 0, 0 };
+	m_rcName = { (LONG)m_vpos.x + 45, (LONG)m_vpos.y / 2  - 30,	(LONG)m_vpos.x + 45, (LONG)m_vpos.y / 2 };
+	m_rcInfo = { (LONG)m_vpos.x + 45, (LONG)m_vpos.y / 2,		(LONG)m_vpos.x + 45, (LONG)m_vpos.y / 2 };
 	//Spell Name setting
 	{
-		CtSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", name, Spell_name.m_cleanse);
+		CtSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", m_rcName, Spell_name.m_cleanse);
 
 		CtSpell_Name.m_pExhaust_name = new CText(*CtSpell_Name.m_pCleanse_name);
 		CtSpell_Name.m_pExhaust_name->m_sInfo = Spell_name.m_Exhaust;
@@ -77,7 +87,7 @@ void CTextMgr::Initialize()
 
 	//Spell Info setting
 	{
-		CtSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4.5, L"arial", info, Spell_list.m_cleanse);
+		CtSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"arial", m_rcInfo, Spell_list.m_cleanse);
 
 		CtSpell_Info.m_pExhaust = new CText(*CtSpell_Info.m_pCleanse);
 		CtSpell_Info.m_pExhaust->m_sInfo = Spell_list.m_Exhaust;
@@ -104,15 +114,19 @@ void CTextMgr::Initialize()
 		CtSpell_Info.m_pBarrier->m_sInfo = Spell_list.m_Barrier;
 	}
 	RECT alarm;
-	SetRect(&alarm, 0, 20, 1000, 50);
+	SetRect(&alarm, WINSIZEX / 2, 50, WINSIZEX / 2, 50);
 
 	RECT time;
-	SetRect(&time, 0, 70, 1000, 120);
-	m_pAlarm =	new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 15, L"Dejavu Sans", alarm, string("챔피언을 선택해 주세요"));
+	SetRect(&time, WINSIZEX / 4 - 15, 50, WINSIZEX / 4 - 15, 50);
+	m_pAlarm =	new CText("Resource/choen/Fonts/DejaVuSans.ttf", 25, 15, L"Dejavu Sans", alarm, string("챔피언을 선택해 주세요"));
 	m_pTime =	new CText(*m_pAlarm);
 	m_pTime->m_Rect = time;
 	m_pNotice = new CText(*m_pAlarm);
 	m_pNotice->m_sInfo = m_sNotice;
+}
+
+void CTextMgr::Render() // << 나머지
+{
 }
 
 void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
@@ -134,7 +148,7 @@ void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 			CtSpell_Info.m_pCleanse->m_sInfo.c_str(), 
 			CtSpell_Info.m_pCleanse->m_sInfo.length(), 
 			&CtSpell_Info.m_pCleanse->m_Rect,
-			DT_CENTER | DT_NOCLIP, 
+			DT_CENTER | DT_NOCLIP,
 			D3DCOLOR_XRGB(255, 255, 255)
 		);
 		break;
@@ -285,6 +299,8 @@ void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 	default:
 		break;
 	}
+	Rectangle(GetDC(g_hWnd), CtSpell_Name.m_pCleanse_name->m_Rect.left, CtSpell_Name.m_pCleanse_name->m_Rect.top, CtSpell_Name.m_pCleanse_name->m_Rect.right, CtSpell_Name.m_pCleanse_name->m_Rect.bottom);
+	Rectangle(GetDC(g_hWnd), CtSpell_Info.m_pCleanse->m_Rect.left, CtSpell_Info.m_pCleanse->m_Rect.top, CtSpell_Info.m_pCleanse->m_Rect.right, CtSpell_Info.m_pCleanse->m_Rect.bottom);
 }
 
 void CTextMgr::Render_time()
@@ -302,7 +318,7 @@ void CTextMgr::Render_time()
 	MAXTIME -= GetTime();
 	if (MAXTIME < 0) MAXTIME = 0;
 	m_pTime->m_sInfo = to_string((int)MAXTIME);
-	
+	int time = MAXTIME;
 
 	m_pTime->m_pFont->DrawTextA(
 		NULL, 
@@ -312,6 +328,8 @@ void CTextMgr::Render_time()
 		DT_CENTER | DT_NOCLIP, 
 		D3DCOLOR_XRGB(255, 255, 255)
 	);
+	/*if (time < 0)
+		GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);*/
 }
 
 void CTextMgr::LoadingNoticeRender()

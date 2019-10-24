@@ -25,5 +25,8 @@ public:
 
 	void Release();
 	D3DXVECTOR3 GetPosition() { return m_vPosition; }
+
+	int GetWidth();
+	int GetHeight();
 };
 

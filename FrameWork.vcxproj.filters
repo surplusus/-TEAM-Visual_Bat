@@ -250,6 +250,18 @@
     <Filter Include="소스 파일\02. Object\Champion\Ez">
       <UniqueIdentifier>{17617303-f336-4de8-a36c-1141675f9ccf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected">
+      <UniqueIdentifier>{f727c4d2-08eb-4535-98e7-7bc47468edea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Champ">
+      <UniqueIdentifier>{0884f528-bd86-48e1-834d-0ef0f34a9077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Spell">
+      <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Enemy">
+      <UniqueIdentifier>{f1fdea25-8c6a-4e45-8017-0ea668cdafa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -474,9 +486,6 @@
     <ClInclude Include="LoadingScene.h">
       <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClInclude>
-    <ClInclude Include="SelectedChampion.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
-    </ClInclude>
     <ClInclude Include="SceneMediator.h">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
     </ClInclude>
@@ -536,6 +545,15 @@
     </ClInclude>
     <ClInclude Include="Ezeal_Q.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedChampion.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedSpells.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -737,9 +755,6 @@
     <ClCompile Include="LoadingScene.cpp">
       <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClCompile>
-    <ClCompile Include="SelectedChampion.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
-    </ClCompile>
     <ClCompile Include="SceneMediator.cpp">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
     </ClCompile>
@@ -796,6 +811,15 @@
     </ClCompile>
     <ClCompile Include="Ezeal_Q.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedChampion.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedSpells.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

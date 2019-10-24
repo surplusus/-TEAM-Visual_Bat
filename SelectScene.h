@@ -7,6 +7,7 @@ class CAbilityPage;
 class C2DMouse;
 class CImage_Loader;
 class CDropBox;
+class CTextMgr;
 
 class CSelectScene :
 	public CScene
@@ -82,5 +83,8 @@ public:
 	string GetChampName() { return m_ChampName; }
 	string GetSpell_1Name() { return m_Spell_1Name; }
 	string GetSpell_2Name() { return m_Spell_2Name; }
+
+private:
+	CTextMgr*				m_pTextMgr;
 };
 

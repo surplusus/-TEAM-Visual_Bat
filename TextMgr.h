@@ -54,17 +54,20 @@ struct  CTEXT_NAME
 
 class CTextMgr
 {
-	DECLARE_SINGLETON(CTextMgr);
 public:
 	CTextMgr();
 	~CTextMgr();
 public:
 	void Initialize();
+
+	void Render();
+
 	void Render(UI_SPELLTYPE type = SPELLTYPE_End);
 	void Render_time();
 
 	void LoadingNoticeRender();
 private:
+	//cheon
 	string m_sTime;
 
 	SPELL_LIST			Spell_list;
@@ -82,7 +85,15 @@ private:
 	float MAXTIME;
 
 	D3DXVECTOR3		m_vpos;
+
+	RECT				m_rcName;
+	RECT				m_rcInfo;
 public:
 	void SetPosition(D3DXVECTOR3 pos) { m_vpos = pos; }
+	//>> 필요한거 작업
+
+private:
+
+public:
 };
 

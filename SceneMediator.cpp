@@ -48,6 +48,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 			}
 			else if (member == m_pLoadingScene) {
 				CopyStringInfo(m_pLoadingScene->GetStringInfo());
+				SetSelectedChampInfo(m_stInFo);
 			}
 			else if (member == m_pGameScene) {
 
@@ -59,12 +60,10 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 	case PROGRESS:
 		{
 			if (member == m_pSelectScene) {
-				SetChampName(m_pSelectScene->GetChampName());
-				SetSpell_1Name(m_pSelectScene->GetSpell_1Name());
-				SetSpell_2Name(m_pSelectScene->GetSpell_2Name());
+				
 			}
 			else if (member == m_pLoadingScene) {
-
+				
 			}
 			else if (member == m_pGameScene) {
 
