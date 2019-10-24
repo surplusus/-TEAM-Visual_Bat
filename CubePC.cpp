@@ -4,7 +4,7 @@
 
 cCubePC::cCubePC()
 	:m_vDirection(0, 0, 1)
-	, m_vPosition(0, 0, 0)
+	, m_vPosition(-15, 0, -13)
 	, m_fRotY(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -78,26 +78,26 @@ void cCubePC::Initialize()
 
 void cCubePC::Progress()
 {
-	if (GetKeyState('A') & 0x8000)
+	if (CheckPushKey(DIK_LCONTROL))
 	{
 		m_fRotY -= 0.1f;
 	}
-	if (GetKeyState('D') & 0x8000)
+	if (CheckPushKey(DIK_LALT))
 	{
 		m_fRotY += 0.1f;
 	}
-	if (GetKeyState('W') & 0x8000)
+	/*if (GetKeyState('W') & 0x8000)
 	{
 		m_vPosition += (m_vDirection*0.1f);
 	}
 	if (GetKeyState('S') & 0x8000)
 	{
 		m_vPosition -= (m_vDirection*0.1f);
-	}
+	}*/
 
 	D3DXMATRIXA16 matR, matT;
 	D3DXMatrixRotationY(&matR, m_fRotY);
-	m_vDirection = D3DXVECTOR3(0, 0, 1);
+	m_vDirection = D3DXVECTOR3(0, 0, 0);
 	D3DXVec3TransformNormal(&m_vDirection, &m_vDirection, &matR);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vDirection.y, m_vPosition.z);
 
