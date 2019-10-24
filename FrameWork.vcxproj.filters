@@ -519,9 +519,6 @@
     <ClInclude Include="C2DMouse.h">
       <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
     </ClInclude>
-    <ClInclude Include="TextList.h">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Text</Filter>
     </ClInclude>

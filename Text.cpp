@@ -1,14 +1,25 @@
 #include "BaseInclude.h"
 #include "Text.h"
-#include "TextList.h"
 
 CText::~CText()
 {
 	SAFE_RELEASE(m_pFont);
 }
 
-CText::CText(LPCSTR root, int height, int width, LPCTSTR fontname, RECT rc)
-	:m_Rect(rc)
+CText::CText(const CText & text)
+{
+	m_pFont = text.m_pFont;
+	m_Rect = text.m_Rect;
+	m_sInfo = text.m_sInfo;
+	m_iHeight = text.m_iHeight;
+	m_iWidth = text.m_iWidth;
+}
+
+CText::CText( LPCSTR root, int height, int width, LPCTSTR fontname, RECT rc, string sinfo)
+	: m_Rect(rc)
+	, m_sInfo(sinfo)
+	, m_iHeight(height)
+	, m_iWidth(width)
 {
 	m_pFont = NULL;
 
