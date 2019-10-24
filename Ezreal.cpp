@@ -6,6 +6,7 @@
 #include"PipeLine.h"
 #include "ObjMgr.h"
 #include "Ray.h"
+#include"Ezeal_Q.h"
 
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
@@ -144,6 +145,8 @@ void CEzreal::Progress()
 }
 void CEzreal::AddSkill_Q()
 {
+	
+	m_ListQSkill.push_back(new CEzeal_Q(m_Info));
 
 
 }

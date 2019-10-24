@@ -1,6 +1,6 @@
 #pragma once
 #include "Champion.h"
-class CLineLazer;
+class CSkill;
 class CEzreal :
 	public CChampion
 {
@@ -27,12 +27,14 @@ private:
 #pragma endregion
 //test
 private:
-	vector<CLineLazer*> m_vecQSkill;
+	list<CSkill*> m_ListQSkill;
 	void AddSkill_Q();
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
 	virtual void	Render()     override;
 	virtual void	Release()    override;
+public:
+	bool DeleteSkill();
 };
 

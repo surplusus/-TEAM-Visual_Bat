@@ -3,7 +3,7 @@
 
 
 CEzeal_Q::CEzeal_Q()
-	:m_fHeight(4.0),m_fWidth(0.1),m_ParticleExp(0.5f)
+	:m_fHeight(4.0),m_fWidth(0.1),m_ParticleExp(0.5f), m_fDistance(1.0f),m_vStartPosition(0,0,0), m_fSpeed(1.0f)
 {
 	m_fAngle[ANGLE_X] = 0;		m_fAngle[ANGLE_Y] = 0;		m_fAngle[ANGLE_Z] = 0;
 }
@@ -12,6 +12,15 @@ CEzeal_Q::CEzeal_Q()
 CEzeal_Q::~CEzeal_Q()
 {
 	Release();
+}
+
+CEzeal_Q::CEzeal_Q(INFO & tInfo)
+	: m_fHeight(4.0), m_fWidth(0.1), m_ParticleExp(0.5f), m_fDistance(1.0f),CSkill(tInfo),m_fSpeed(1.0f)
+{
+	m_fAngle[ANGLE_X] = 0;		m_fAngle[ANGLE_Y] = 0;		m_fAngle[ANGLE_Z] = 0;
+	m_vStartPosition = m_Info.vPos;
+	
+
 }
 
 HRESULT CEzeal_Q::LoadAsset(const TCHAR * pFileName)
@@ -93,19 +102,7 @@ void CEzeal_Q::RenderSetting()
 	}
 }
 
-LPD3DXMESH CEzeal_Q::LoadModel(const TCHAR * pFileName)
-{
-	LPD3DXMESH ret = NULL;
-	if (FAILED(D3DXLoadMeshFromX(pFileName, D3DXMESH_SYSTEMMEM, GetDevice(),
-		NULL, NULL, NULL, NULL, &ret)))
-	{
-		OutputDebugString(L"모델 로딩 실패: ");
-		OutputDebugString(pFileName);
-		OutputDebugString(L"\n");
-	};
 
-	return ret;
-}
 
 void CEzeal_Q::Render_End()
 {
@@ -120,6 +117,16 @@ void CEzeal_Q::Render_End()
 
 void CEzeal_Q::Progress()
 {
+	D3DXVECTOR3 vDirection =  m_vStartPosition- m_Info.vPos;
+	float fDistance = D3DXVec3Length(&vDirection);
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	m_Info.vPos += vDirection * m_fSpeed*GetTime();
+	if (fDistance > m_fDistance)
+	{
+
+	}
 
 }
 
@@ -133,6 +140,7 @@ void CEzeal_Q::Render()
 		for (UINT i = 0; i < numPasses; ++i)
 		{
 			gTextureMappingShader->BeginPass(i);
+			
 			if (gModel)	gModel->DrawSubset(0);
 
 			gTextureMappingShader->EndPass();

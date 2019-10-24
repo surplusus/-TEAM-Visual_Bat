@@ -14,8 +14,6 @@ public:
 	virtual HRESULT LoadAsset(const TCHAR* pFileName);
 	void Release();
 	LPD3DXEFFECT LoadShader(const TCHAR * pFileName);	
-	virtual LPD3DXMESH LoadModel(const TCHAR * pFileName);
-public:
-	virtual void RenderScene();
+	LPD3DXMESH LoadModel(const TCHAR * pFileName);
 };
 
