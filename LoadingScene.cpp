@@ -200,7 +200,7 @@ bool CLoadingScene::RegisterOnObjMgr(stMeshInfo * info)
 
 bool CLoadingScene::LoadStaticMeshByThread(stMeshInfo * info)
 {
-	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
+	/*basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
 	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
 	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
 	const TCHAR* t1 = sTemp1.c_str();
@@ -212,13 +212,13 @@ bool CLoadingScene::LoadStaticMeshByThread(stMeshInfo * info)
 		return true;
 	}
 
-	info->m_ConsoleText = info->m_ObjName + " Load Failed";
+	info->m_ConsoleText = info->m_ObjName + " Load Failed";*/
 	return false;
 }
 
 bool CLoadingScene::LoadDynamicMeshByThread(stMeshInfo * info)
 {
-	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
+	/*basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
 	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
 	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
 	string result;
@@ -230,6 +230,6 @@ bool CLoadingScene::LoadDynamicMeshByThread(stMeshInfo * info)
 		return true;
 	}
 
-	result = info->m_ObjName + " Load Failed";
+	result = info->m_ObjName + " Load Failed";*/
 	return false;
 }
