@@ -69,9 +69,12 @@ private:
 
 	SPELL_LIST			Spell_list;
 	SPELL_NAME			Spell_name;
-	CTEXT_INFO			CSpell_Info;
-	CTEXT_NAME			CSpell_Name;
+	CTEXT_INFO			CtSpell_Info;
+	CTEXT_NAME			CtSpell_Name;
 
+	CText*				m_pNotice;
+	CText*				m_pTime;
+	CText*				m_pAlarm;
 
 	vector<string> m_vecNotice;
 	string m_sNotice;

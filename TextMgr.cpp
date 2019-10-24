@@ -3,7 +3,7 @@
 #include "Text.h"
 
 
-CTextMgr::CTextMgr() : m_vpos(0, 0, 0)
+CTextMgr::CTextMgr() : m_vpos(0, 0, 0), MAXTIME(80.0F)
 {
 	{
 		Spell_list.m_cleanse = "챔피언에 걸린 모든 이동 불가와(제압 및 공중\n으로 띄우는 효과 제외) 소환사 주문에 의한 해\n로운 효과를 제거하고 새로 적용되는 이동 불가\n 효과들의 지속시간을 3초가 65 % 감소시킵니\n다.\n기본 재사용 대기 시간:210초";
@@ -44,64 +44,243 @@ void CTextMgr::Initialize()
 	RECT name = { m_vpos.x + 510, m_vpos.y - 280, 0, 0 };
 	RECT info = { m_vpos.x + 510, m_vpos.y - 250, 0, 0 };
 	//Spell Name setting
-	CSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", name, Spell_name.m_cleanse);
-	
-	CSpell_Name.m_pExhaust_name = new CText(*CSpell_Name.m_pCleanse_name); 
-	CSpell_Name.m_pExhaust_name->m_sInfo = Spell_name.m_Exhaust;
+	{
+		CtSpell_Name.m_pCleanse_name = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", name, Spell_name.m_cleanse);
 
-	CSpell_Name.m_pGhost_name = new CText(*CSpell_Name.m_pCleanse_name);
-	CSpell_Name.m_pGhost_name->m_sInfo = Spell_name.m_Ghost;
+		CtSpell_Name.m_pExhaust_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pExhaust_name->m_sInfo = Spell_name.m_Exhaust;
+
+		CtSpell_Name.m_pGhost_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pGhost_name->m_sInfo = Spell_name.m_Ghost;
+
+		CtSpell_Name.m_pFlash_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pFlash_name->m_sInfo = Spell_name.m_Flash;
+
+		CtSpell_Name.m_pGhost_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pGhost_name->m_sInfo = Spell_name.m_Ghost;
+
+		CtSpell_Name.m_pHeal_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pHeal_name->m_sInfo = Spell_name.m_heal;
+
+		CtSpell_Name.m_pSmite_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pSmite_name->m_sInfo = Spell_name.m_Smite;
+
+		CtSpell_Name.m_pTeleport_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pTeleport_name->m_sInfo = Spell_name.m_Teleport;
+
+		CtSpell_Name.m_pIgnite_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pIgnite_name->m_sInfo = Spell_name.m_Ignite;
+
+		CtSpell_Name.m_pBarrier_name = new CText(*CtSpell_Name.m_pCleanse_name);
+		CtSpell_Name.m_pBarrier_name->m_sInfo = Spell_name.m_Barrier;
+	}
 
 	//Spell Info setting
-	CSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"arial", info, Spell_list.m_cleanse);
+	{
+		CtSpell_Info.m_pCleanse = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4.5, L"arial", info, Spell_list.m_cleanse);
+
+		CtSpell_Info.m_pExhaust = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pExhaust->m_sInfo = Spell_list.m_Exhaust;
+
+		CtSpell_Info.m_pFlash = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pFlash->m_sInfo = Spell_list.m_Flash;
+
+		CtSpell_Info.m_pGhost = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pGhost->m_sInfo = Spell_list.m_Ghost;
+
+		CtSpell_Info.m_pHeal = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pHeal->m_sInfo = Spell_list.m_heal;
+
+		CtSpell_Info.m_pSmite = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pSmite->m_sInfo = Spell_list.m_Smite;
+
+		CtSpell_Info.m_pTeleport = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pTeleport->m_sInfo = Spell_list.m_Teleport;
+
+		CtSpell_Info.m_pIgnite = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pIgnite->m_sInfo = Spell_list.m_Ignite;
+
+		CtSpell_Info.m_pBarrier = new CText(*CtSpell_Info.m_pCleanse);
+		CtSpell_Info.m_pBarrier->m_sInfo = Spell_list.m_Barrier;
+	}
+	RECT alarm;
+	SetRect(&alarm, 0, 20, 1000, 50);
+
+	RECT time;
+	SetRect(&time, 0, 70, 1000, 120);
+	m_pAlarm =	new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 15, L"Dejavu Sans", alarm, string("챔피언을 선택해 주세요"));
+	m_pTime =	new CText(*m_pAlarm);
+	m_pTime->m_Rect = time;
+	m_pNotice = new CText(*m_pAlarm);
+	m_pNotice->m_sInfo = m_sNotice;
 }
 
-void CTextMgr::Render(UI_SPELLTYPE type)
+void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 {
 	switch (type)
 	{
 	case cleanse:
-		CSpell_Name.m_pCleanse_name->m_pFont->DrawTextA
+		CtSpell_Name.m_pCleanse_name->m_pFont->DrawTextA
 		(NULL, 
-			CSpell_Name.m_pCleanse_name->m_sInfo.c_str(), 
-			CSpell_Name.m_pCleanse_name->m_sInfo.length(), 
-			&CSpell_Name.m_pCleanse_name->m_Rect, 
+			CtSpell_Name.m_pCleanse_name->m_sInfo.c_str(), 
+			CtSpell_Name.m_pCleanse_name->m_sInfo.length(), 
+			&CtSpell_Name.m_pCleanse_name->m_Rect, 
 			DT_CENTER | DT_NOCLIP, 
 			D3DCOLOR_XRGB(255, 255, 255)
 		);
-		CSpell_Info.m_pCleanse->m_pFont->DrawTextA
+		CtSpell_Info.m_pCleanse->m_pFont->DrawTextA
 		(
 			NULL, 
-			CSpell_Info.m_pCleanse->m_sInfo.c_str(), 
-			CSpell_Info.m_pCleanse->m_sInfo.length(), 
-			&CSpell_Info.m_pCleanse->m_Rect,
+			CtSpell_Info.m_pCleanse->m_sInfo.c_str(), 
+			CtSpell_Info.m_pCleanse->m_sInfo.length(), 
+			&CtSpell_Info.m_pCleanse->m_Rect,
 			DT_CENTER | DT_NOCLIP, 
 			D3DCOLOR_XRGB(255, 255, 255)
 		);
 		break;
 	case Exhaust:
-		
+		CtSpell_Name.m_pExhaust_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pExhaust_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pExhaust_name->m_sInfo.length(),
+			&CtSpell_Name.m_pExhaust_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pExhaust->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pExhaust->m_sInfo.c_str(),
+			CtSpell_Info.m_pExhaust->m_sInfo.length(),
+			&CtSpell_Info.m_pExhaust->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Flash:
-		
+		CtSpell_Name.m_pExhaust_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pExhaust_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pExhaust_name->m_sInfo.length(),
+			&CtSpell_Name.m_pExhaust_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pExhaust->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pExhaust->m_sInfo.c_str(),
+			CtSpell_Info.m_pExhaust->m_sInfo.length(),
+			&CtSpell_Info.m_pExhaust->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Ghost:
-		
+		CtSpell_Name.m_pGhost_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pGhost_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pGhost_name->m_sInfo.length(),
+			&CtSpell_Name.m_pGhost_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pGhost->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pGhost->m_sInfo.c_str(),
+			CtSpell_Info.m_pGhost->m_sInfo.length(),
+			&CtSpell_Info.m_pGhost->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Heal:
-		
+		CtSpell_Name.m_pHeal_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pHeal_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pHeal_name->m_sInfo.length(),
+			&CtSpell_Name.m_pHeal_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pHeal->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pHeal->m_sInfo.c_str(),
+			CtSpell_Info.m_pHeal->m_sInfo.length(),
+			&CtSpell_Info.m_pHeal->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Smite:
-		
+		CtSpell_Name.m_pSmite_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pSmite_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pSmite_name->m_sInfo.length(),
+			&CtSpell_Name.m_pSmite_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pSmite->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pSmite->m_sInfo.c_str(),
+			CtSpell_Info.m_pSmite->m_sInfo.length(),
+			&CtSpell_Info.m_pSmite->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Teleport:
-		
+		CtSpell_Name.m_pTeleport_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pTeleport_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pTeleport_name->m_sInfo.length(),
+			&CtSpell_Name.m_pTeleport_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pTeleport->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pTeleport->m_sInfo.c_str(),
+			CtSpell_Info.m_pTeleport->m_sInfo.length(),
+			&CtSpell_Info.m_pTeleport->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Ignite:
-		
+		CtSpell_Name.m_pIgnite_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pIgnite_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pIgnite_name->m_sInfo.length(),
+			&CtSpell_Name.m_pIgnite_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pIgnite->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pIgnite->m_sInfo.c_str(),
+			CtSpell_Info.m_pIgnite->m_sInfo.length(),
+			&CtSpell_Info.m_pIgnite->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	case Barrier:
-		
+		CtSpell_Name.m_pBarrier_name->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Name.m_pBarrier_name->m_sInfo.c_str(),
+			CtSpell_Name.m_pBarrier_name->m_sInfo.length(),
+			&CtSpell_Name.m_pBarrier_name->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+		CtSpell_Info.m_pBarrier->m_pFont->DrawTextA(
+			NULL,
+			CtSpell_Info.m_pBarrier->m_sInfo.c_str(),
+			CtSpell_Info.m_pBarrier->m_sInfo.length(),
+			&CtSpell_Info.m_pBarrier->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
 		break;
 	default:
 		break;
@@ -110,28 +289,40 @@ void CTextMgr::Render(UI_SPELLTYPE type)
 
 void CTextMgr::Render_time()
 {
-	//RECT rect;
-	//SetRect(&rect, 0, 20, 1000, 50);
-	//m_pAlarm->DrawTextA(NULL, string("챔피언을 선택하세요.").c_str(), string("챔피언을 선택하세요").length(), &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+	
+	m_pAlarm->m_pFont->DrawTextA(
+		NULL, 
+		m_pAlarm->m_sInfo.c_str(),
+		m_pAlarm->m_sInfo.length(),
+		&m_pAlarm->m_Rect, 
+		DT_CENTER | DT_NOCLIP, 
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
 
-	//RECT rec;
-	//SetRect(&rec, 0, 70, 1000, 120);
+	MAXTIME -= GetTime();
+	if (MAXTIME < 0) MAXTIME = 0;
+	m_pTime->m_sInfo = to_string((int)MAXTIME);
+	
 
-	//MAXTIME -= GetTime();
-	//if (MAXTIME < 0) MAXTIME = 0;
-	//m_sTime = to_string((int)MAXTIME);
-	//m_pTimeFont->DrawTextA(NULL, m_sTime.c_str(), m_sTime.length(), &rec, DT_CENTER | DT_NOCLIP, D3DCOLOR_XRGB(255, 255, 255));
+	m_pTime->m_pFont->DrawTextA(
+		NULL, 
+		m_pTime->m_sInfo.c_str(),
+		m_pTime->m_sInfo.length(),
+		&m_pTime->m_Rect, 
+		DT_CENTER | DT_NOCLIP, 
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
 }
 
 void CTextMgr::LoadingNoticeRender()
 {
-	//RECT rc;
-	//SetRect(&rc, 0, 350, 1000, 380);
-	//m_pNotice->DrawTextA(
-	//	NULL,
-	//	m_sNotice.c_str(),
-	//	m_sNotice.length(),
-	//	&rc,
-	//	DT_CENTER | DT_NOCLIP,
-	//	D3DCOLOR_XRGB(0, 0, 0));
+	RECT rc;
+	SetRect(&rc, 0, 350, 1000, 380);
+	m_pNotice->m_pFont->DrawTextA(
+		NULL,
+		m_sNotice.c_str(),
+		m_sNotice.length(),
+		&rc,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(0, 0, 0));
 }
