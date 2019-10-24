@@ -7,7 +7,7 @@ class CSkinnedMesh
 public:
 	CSkinnedMesh(string name);
 	~CSkinnedMesh(void);
-	string m_MeshName;
+	string m_MeshName;		// StaticMesh와 같은 이름형이 필요해서 만듦(LoadingScene에서 사용)
 public:
 	HRESULT CreateMesh(LPDIRECT3DDEVICE9 pDevice
 		, const TCHAR* pPathName, const TCHAR* pFileName);
@@ -19,11 +19,4 @@ private:
 public:
 	virtual void Render(LPDIRECT3DDEVICE9 pDevice, const BONE* pBone = NULL);
 	void Release(void);
-<<<<<<< HEAD
-=======
-
-public:
-	CSkinnedMesh(void);
-	~CSkinnedMesh(void);
->>>>>>> origin/master
 };

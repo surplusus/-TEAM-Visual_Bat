@@ -55,7 +55,8 @@ HRESULT CLoadingScene::Initialize()
 		LoadResourceByThread();
 		
 		SetMeshRegistryInfoThruFile();
-		FuncLoadMesh func = 
+		FuncLoadMesh func = [this]() {this->LoadMeshByThread(&this->m_mapMeshInfo["Udyr"]); return true; };
+		m_queFuncLoadMesh.push_back(func);
 	}
 	return S_OK;
 }
@@ -116,8 +117,10 @@ void CLoadingScene::Progress()
 	//	return;
 	//}
 #pragma endregion
-
-
+	
+	if (m_queFuncLoadMesh.size() != 0)
+	FuncLoadMesh func = *(m_queFuncLoadMesh.rend());
+	//m_queFuncLoadMesh.pop_back(&func);
 
 	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }
@@ -203,7 +206,7 @@ bool CLoadingScene::LoadMeshByThread(stMeshInfo * info)
 	
 	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, info->m_MeshType))) {
 		info->m_ConsoleText = info->m_ObjName + " Load Complited";
-		
+		RegisterOnObjMgr(info);
 		return true;
 	}
 
@@ -253,5 +256,4 @@ void CLoadingScene::SetMeshRegistryInfoThruFile()
 			m_mapMeshInfo[name].m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
 		if (file.eof())	break;
 	}
-	int n = 0;
 }

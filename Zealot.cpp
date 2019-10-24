@@ -22,7 +22,7 @@ HRESULT CZealot::Initialize()
 		return S_FALSE;
 	g_MouseHitPoint = m_Info.vPos;
 	UpdateWorldMatrix();
-	m_pAnimationCtrl->SetAnimationSet("Idle");
+	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
@@ -88,11 +88,11 @@ void CZealot::QWERControl()
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
 	if (CheckPushKeyOneTime(VK_2)) {
-		m_pAnimationCtrl->BlendAnimationSet("Attack_Left");
+		m_pAnimationCtrl->BlendAnimationSet("Attact1");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
 	}
 	if (CheckPushKeyOneTime(VK_3)) {
-		m_pAnimationCtrl->BlendAnimationSet("Idle");
+		m_pAnimationCtrl->BlendAnimationSet("Attact2");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
 	}
 	if (CheckPushKeyOneTime(VK_4)) {

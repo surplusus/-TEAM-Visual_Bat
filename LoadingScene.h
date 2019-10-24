@@ -13,7 +13,9 @@ struct stMeshInfo
 	stMeshInfo(string objName, string folderPath, string fileName, MESHTYPE type)
 		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName), m_MeshType(type) {}
 };
-typedef function<bool(stMeshInfo*)> FuncLoadMesh;
+
+typedef function<bool(void)> FuncLoadMesh;
+
 class CImage_Loader;
 class CSelectedChampion;
 class CUI;

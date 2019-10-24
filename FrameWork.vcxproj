@@ -45,7 +45,6 @@
     <ClInclude Include="BufferMgr.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
-    <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="CombatAlgorithm.h" />
     <ClInclude Include="EventFunctionHandler.h" />
@@ -84,7 +83,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Grid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GuhyunScene.h" />
     <ClInclude Include="HEADER\Defines.h" />
     <ClInclude Include="HEADER\Enum.h" />
@@ -107,7 +108,9 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="PipeLine.h" />
-    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Pyramid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Rect_Texture.h" />
     <ClInclude Include="ResourceFunc.h" />
     <ClInclude Include="Scene.h" />
@@ -155,7 +158,6 @@
     <ClCompile Include="C2DMouse.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
-    <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champ.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
@@ -199,7 +201,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Grid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GuhyunScene.cpp" />
     <ClCompile Include="HierachyLoader.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -216,7 +220,9 @@
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="PipeLine.cpp" />
-    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Pyramid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />
     <ClCompile Include="Scene.cpp" />

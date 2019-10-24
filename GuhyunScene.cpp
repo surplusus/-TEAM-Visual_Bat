@@ -70,8 +70,8 @@ HRESULT GuhyunScene::Initialize()
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 	//
 	//
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/"
+		, L"Ezreal.x", L"Zealot", MESHTYPE_DYNAMIC)))
 		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
 	else
 		ERR_MSG(g_hWnd, L"Zealot Load Failed");

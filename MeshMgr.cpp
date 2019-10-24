@@ -18,7 +18,7 @@ void CMeshMgr::GetBoneMatrix(const TCHAR * pMeshKey, const CHAR * pBoneName, D3D
 {
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
 	if (iter == m_MapMesh.end()) return;
-	
+
 	iter->second->GetBoneMatrix(pBoneName, pOut);
 }
 
@@ -26,10 +26,13 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 {
 	// Loading 정보 입력 시작
 	basic_string<TCHAR> tmp(pFileName);
-	string name(tmp.begin(), tmp.end());
+	string sFileName(tmp.begin(), tmp.end());
+	//stLoadProcess LP = ;
+	m_mapLoadInfo[sFileName] = { 0,true,sFileName };
+
 
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
-	
+
 	CMesh* pMesh = NULL;
 	if (iter == m_MapMesh.end())
 	{
@@ -39,7 +42,7 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 			pMesh = new CStaticMesh;
 			break;
 		case MESHTYPE_DYNAMIC:
-			pMesh = new CSkinnedMesh(name);
+			pMesh = new CSkinnedMesh(sFileName);
 			break;
 		}
 		if (FAILED(pMesh->CreateMesh(pDevice, pPath, pFileName)))
@@ -70,7 +73,7 @@ HRESULT CMeshMgr::CloneMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pMeshKey, C
 void CMeshMgr::Release()
 {
 
-	for (map<const TCHAR*, CMesh*>::iterator iter =m_MapMesh.begin();
+	for (map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.begin();
 		iter != m_MapMesh.end(); ++iter)
 	{
 		if (iter->second)

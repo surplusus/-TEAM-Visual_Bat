@@ -1,9 +1,9 @@
 #pragma once
 struct stLoadProcess
 {
-	DWORD nSubSetLoaded = 0;
-	bool bCompleted = false;
-	string sConsoleOut = "";
+	DWORD nSubSetLoaded;
+	bool bCompleted ;
+	string sConsoleOut ;
 };
 class CAnimationCtrl;
 class CMesh;
@@ -18,13 +18,9 @@ private:
 	map<const TCHAR*, CMesh*> m_MapMesh;
 	map<string, stLoadProcess> m_mapLoadInfo;
 public:
-<<<<<<< HEAD
 	stLoadProcess& GetLoadInfo(string name) { return m_mapLoadInfo[name]; }
 
-	void GetBonMatrix(const TCHAR* pMeshKey
-=======
 	void GetBoneMatrix(const TCHAR* pMeshKey
->>>>>>> origin/master
 		, const CHAR* pBoneName
 		, D3DXMATRIX* pOut);
 public:
@@ -42,4 +38,3 @@ public:
 	LPD3DXMESH GetMesh(const TCHAR* pMeshKey);
 	void Release();
 };
-
