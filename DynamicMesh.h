@@ -9,8 +9,9 @@ protected:
 	CHierachyLoader*			m_pLoader;
 	D3DXFRAME*					m_pRootBone;
 	CAnimationCtrl*				m_pAniCtrl;
+	
 public:
-	virtual void GetBoneMatrix(const CHAR* pBoneName, D3DXMATRIX* pOut);
+	virtual void GetBoneMatrix(const CHAR* pBoneName, D3DXMATRIX* pOut) override;
 	void FindBone(const CHAR* pBoneName, BONE* pBone, D3DXMATRIX* pOut);
 public:
 	virtual HRESULT CreateMesh(LPDIRECT3DDEVICE9 pDevice
@@ -22,6 +23,8 @@ public:
 
 	virtual void Render(LPDIRECT3DDEVICE9 pDevice
 		, const BONE* pRootBone = NULL);
+
+
 public:
 	CDynamicMesh(void);
 	~CDynamicMesh(void);

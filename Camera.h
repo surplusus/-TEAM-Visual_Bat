@@ -31,5 +31,8 @@ public:
 		, const float&fNear
 		, const float &fFar);
 	virtual void Progress();
+	D3DXVECTOR4 GetPos() {
+		return D3DXVECTOR4(m_vEye.x, m_vEye.y, m_vEye.z, 1.0f);
+	}
 };
 
