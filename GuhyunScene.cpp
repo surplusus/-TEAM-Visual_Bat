@@ -85,15 +85,11 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Object ===========//	
 
 	//=========== Add Particle ===========//	
-
 	#pragma endregion
-	//m_minion = new MinionMgr();
 
-		// 스레드 돌려서 맵 로딩
-	//LoadResourceByThread();
-	m_pHeightMap = new CHeightMap();
-	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
-	dynamic_cast<CUdyr*>(const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr")))->SetHeightMap(m_pHeightMap);
+	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
+	LetObjectKnowHeightMap();
+	m_pMinionMgr = new CMinionMgr();
 	return S_OK;
 }
 
@@ -104,9 +100,8 @@ void GuhyunScene::Progress()
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
-	
-	//if (CheckPushKeyOneTime(VK_0))
-	//	GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
+	if (CheckPushKeyOneTime(VK_SPACE))
+		m_pMinionMgr->CreateMinions();
 	m_pObjMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
@@ -171,4 +166,17 @@ void GuhyunScene::SoundUpdate()
 	//	cout << "미니언이 생성되었습니다." << endl;
 	//}
 	GET_SINGLE(SoundManager)->Update();
+}
+
+void GuhyunScene::LetObjectKnowHeightMap()
+{
+	m_pHeightMap = new CHeightMap();
+	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
+	CObj* pObj = nullptr;
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
+	if (pObj != nullptr)
+		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
+	if (pObj != nullptr)
+		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
 }

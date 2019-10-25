@@ -550,7 +550,7 @@
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
     <ClInclude Include="Udyr.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -819,7 +819,7 @@
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClCompile>
     <ClCompile Include="Udyr.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

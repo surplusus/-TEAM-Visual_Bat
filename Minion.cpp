@@ -1,32 +1,32 @@
 #include "BaseInclude.h"
 #include "Minion.h"
+#include "ObjMgr.h"
+#include "Factory.h"
 
-Minion::Minion()
-	: m_Child(child)
+CMinion::CMinion()
 {
 	m_sName = "None";
 }
 
-Minion::~Minion()
+CMinion::~CMinion()
 {
 }
 
-void Minion::SetUp(string sName, string sFolderPath, string sFilePath)
+void CMinion::SetUp(string sName, string sFolderPath, string sFilePath)
 {
-	basic_string<TCHAR> convertedFolder(sFolderPath.begin(), sFolderPath.end());
-	basic_string<TCHAR> convertedFile(sFilePath.begin(), sFilePath.end());
-	basic_string<TCHAR> convertedName(sName.begin(), sName.end());
+	basic_string<TCHAR> szFolder(sFolderPath.begin(), sFolderPath.end());
+	basic_string<TCHAR> szFile(sFilePath.begin(), sFilePath.end());
+	basic_string<TCHAR> szName(sName.begin(), sName.end());
 
-	if (SUCCEEDED(AddMesh(GetDevice(), sFolderPath.c_str()
-		, convertedFile.c_str(), L"Minion", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(convertedName.c_str(), CFactory<CObj, Minion>::CreateObject());
-	else {
-		ERR_MSG(g_hWnd, L"Minion Load Failed");
-		m_sName = "None";
+	if (SUCCEEDED(AddMesh(GetDevice(), szFolder.c_str(), szFile.c_str(), L"Minion", MESHTYPE_DYNAMIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(szName.c_str(), CFactory<CObj, CMinion>::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On Minion");
 	}
+	else
+		ERR_MSG(g_hWnd, L"Minion Load Failed");
 }
 
-void Minion::UpdateWolrdMatrix()
+void CMinion::UpdateWorldMatrix()
 {
 	D3DXMATRIX matScale, matRot, matTrans;
 	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
@@ -38,7 +38,7 @@ void Minion::UpdateWolrdMatrix()
 	m_Info.matWorld = matScale * matRot * matTrans;
 }
 
-bool Minion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
+bool CMinion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
 {
 	m_SphereForPick.fRadius = r;
 	m_SphereForPick.vCenter.x = v.x;
@@ -49,7 +49,7 @@ bool Minion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
 	return false;
 }
 
-bool Minion::Render_PickingShere()
+bool CMinion::Render_PickingShere()
 {
 	if (m_MeshSphere != NULL) {
 		m_MeshSphere->DrawSubset(0);

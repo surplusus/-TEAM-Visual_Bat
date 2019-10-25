@@ -16,10 +16,10 @@ public:
 private:
 	float					m_fSceneTime = 0.f;
 	class CHeightMap*		m_pHeightMap = nullptr;
+	class CMinionMgr*		m_pMinionMgr = nullptr;
 private:
 	HRESULT Setup();
 	void SoundUpdate();
-	
-	class MinionMgr*  m_minion;
+	void LetObjectKnowHeightMap();
 };
 

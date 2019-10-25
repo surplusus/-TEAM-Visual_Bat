@@ -1,6 +1,6 @@
 #pragma once
 #include "Minion.h"
-class CMeleeMinion : public Minion
+class CMeleeMinion : public CMinion
 {
 public:
 	CMeleeMinion();

@@ -1,11 +1,8 @@
 #include "BaseInclude.h"
 #include "MeleeMinion.h"
-#include "ObjMgr.h"
-#include "Factory.h"
 #include <random>
 
 CMeleeMinion::CMeleeMinion()
-	: Minion(this)
 {
 }
 
@@ -16,18 +13,25 @@ CMeleeMinion::~CMeleeMinion()
 
 HRESULT CMeleeMinion::Initialize()
 {
-	if (m_sName == "None")
-	{
-		Minion::SetUp("Minion", "./Resource/Test/", "Minion_Melee_Blue.x")
-	}
-	//random_device random_device;
-	//uniform_int_distribution<int> dist(0, 10);
-	//num = dist(random_device);
+	CloneMesh(GetDevice(), L"Minion", &m_pAnimationCtrl);
+	if (!m_pAnimationCtrl)
+		return S_FALSE;
+	UpdateWorldMatrix();
+	m_pAnimationCtrl->SetAnimationSet("Default_Action");
+	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
+	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
+	float fPos = 0.f;
+	
+	fPos += stof(m_sName, m_sName.size() - 2);
+	m_Info.vPos = D3DXVECTOR3(fPos, 0.f, 0.f);
 	return S_OK;
 }
 
 void CMeleeMinion::Progress()
 {
+	float speed = 1.f;
+	m_Info.vPos.x -= speed * g_fDeltaTime;
+	m_Info.vPos.y -= speed * g_fDeltaTime;
 }
 
 void CMeleeMinion::Render()
