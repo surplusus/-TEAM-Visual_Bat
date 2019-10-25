@@ -9,6 +9,7 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 #include "ThreadPool.h"
+#include "Frustum.h"
 #include <sstream>
 
 #include "SoundManager.h"
@@ -103,10 +104,10 @@ void GuhyunScene::Progress()
 	
 	//if (CheckPushKeyOneTime(VK_0))
 	//	GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
+	m_pObjMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
-
-	m_pObjMgr->Progress();
+	GET_SINGLE(CFrustum)->InitFrustum();
 	
 	SoundUpdate();
 }
@@ -121,6 +122,7 @@ void GuhyunScene::Render()
 void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
+	GET_SINGLE(CFrustum)->DestroyInstance();
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 

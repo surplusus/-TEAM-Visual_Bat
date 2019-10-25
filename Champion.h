@@ -9,13 +9,17 @@ public:
 	~CChampion();
 protected:
 	CObjMgr*				m_ObjMgr;
-	float					m_fSize = 1.f;
+	float					m_fSize;
 	D3DXVECTOR3				m_MouseHitPoint;
 	bool					m_bPicked;
+	SPHERE					m_SphereForPick;
+	LPD3DXMESH				m_MeshSphere;
 protected:
 	// Update
 	void		UpdateWorldMatrix();
 	void		SetDirectionToMouseHitPoint();
+	bool		SetUpPickingShere(const float r, const D3DXVECTOR3 v);
+	bool		Render_PickingShere();
 	//bool		EnqueueMousePickingFunc();		// 마우스 피킹포인트를 찾았으면 true /  g_MouseHitPoint 과 g_bHitFloor 로 결과를 받는다
 	// Algorithm
 

@@ -19,6 +19,7 @@ private:
 	//void UpdateWorldMatrix(); Champion 클래스에 있음
 	void MouseControl();
 	void QWERControl();
+	void ArrowControl();
 	bool TurnSlowly(const D3DXVECTOR3* destPos);	// 수정해야됨
 	bool Turn(const D3DXVECTOR3* destPos);
 public:

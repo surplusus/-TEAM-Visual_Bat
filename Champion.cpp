@@ -16,6 +16,8 @@ CChampion::CChampion()
 	, m_MouseHitPoint(0.f,0.f,0.f)
 	, m_bPicked(false)
 {
+	m_SphereForPick = SPHERE(1.f, D3DXVECTOR3(0.f, 0.f, 0.f));
+
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 	
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
@@ -40,29 +42,15 @@ CChampion::~CChampion()
 
 void CChampion::UpdateWorldMatrix()
 {
-	{
-		D3DXMATRIX matRotX, matRotY, matRotZ;
-		D3DXMATRIX matScale, matRot, matTrans;
-		D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-		//D3DXQUATERNION quat; D3DXQuaternionIdentity(&quat);
-		//D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.f, 1.f, 0.f), m_fAngle[ANGLE_Y]);
-		//D3DXMatrixRotationQuaternion(&matRot, &quat);
-		if (_isnan(m_fAngle[ANGLE_Y]))	m_fAngle[ANGLE_Y] = 0.f;
-		D3DXMatrixRotationY(&matRot, m_fAngle[ANGLE_Y]);
-		//CMathMgr::Rotation_Y(&m_Info.vDir, &m_Info.vDir, m_fAngle[ANGLE_Y]);
-		D3DXVec3TransformNormal(&m_Info.vDir, &D3DXVECTOR3(0.f,0.f,-1.f), &matRot);
-		//D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vDir, &matRot);
-		D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-		m_Info.matWorld = matScale * matRot * matTrans;
-	}
-	//D3DXMATRIX matRotX, matRotY, matRotZ;
-	//D3DXMATRIX matScale, matRot, matTrans;
-	//D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-	//D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
-	//matRot = matRotY;
-	//D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
-	//D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-	//m_Info.matWorld = matScale * matRot * matTrans;
+	D3DXMATRIX matRotX, matRotY, matRotZ;
+	D3DXMATRIX matScale, matRot, matTrans;
+	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
+	if (_isnan(m_fAngle[ANGLE_Y]))	m_fAngle[ANGLE_Y] = 0.f;
+	D3DXMatrixRotationY(&matRot, m_fAngle[ANGLE_Y]);
+	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
+	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
+	D3DXMatrixIdentity(&m_Info.matWorld);
+	m_Info.matWorld = matScale * matRot * matTrans;
 }
 
 void CChampion::SetDirectionToMouseHitPoint()
@@ -70,6 +58,26 @@ void CChampion::SetDirectionToMouseHitPoint()
 	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
 	m_Info.vDir = m_Info.vPos - m_MouseHitPoint;
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
+}
+
+bool CChampion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
+{
+	m_SphereForPick.fRadius = r;
+	m_SphereForPick.vCenter.x = v.x;
+	m_SphereForPick.vCenter.y = v.y;
+	m_SphereForPick.vCenter.z = v.z;
+	// 관리자에게 등록??????
+	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_MeshSphere, NULL);
+	return false;
+}
+
+bool CChampion::Render_PickingShere()
+{
+	if (m_MeshSphere != NULL) {
+		m_MeshSphere->DrawSubset(0);
+		return true;
+	}
+	return false;
 }
 
 //bool CChampion::EnqueueMousePickingFunc()

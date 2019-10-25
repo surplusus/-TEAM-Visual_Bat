@@ -1,14 +1,12 @@
 #include "BaseInclude.h"
 #include "Dynamic.h"
 
-
 CDynamic::CDynamic()
-	: m_bMove(false)
+	: m_pAnimationCtrl(nullptr)
+	, m_bMove(false)
 	, m_fHeight(0.f)
-	, m_pAnimationCtrl(NULL)
 {
 }
-
 
 CDynamic::~CDynamic()
 {

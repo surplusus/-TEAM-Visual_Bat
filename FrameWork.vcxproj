@@ -31,6 +31,7 @@
     <ClInclude Include="DropBox.h" />
     <ClInclude Include="Ezeal_Q.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
@@ -62,8 +63,16 @@
     </ClInclude>
     <ClInclude Include="Image_Loader.h" />
     <ClInclude Include="LoadingScene.h" />
-    <ClInclude Include="Minion.h" />
-    <ClInclude Include="MinionMgr.h" />
+    <ClInclude Include="MeleeMinion.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Minion.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="MinionMgr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PickingSphereMgr.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Text.h" />
@@ -169,6 +178,7 @@
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="Ezeal_Q.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameHUD.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -181,8 +191,16 @@
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
-    <ClCompile Include="Minion.cpp" />
-    <ClCompile Include="MinionMgr.cpp" />
+    <ClCompile Include="MeleeMinion.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Minion.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="MinionMgr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PickingSphereMgr.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Text.cpp" />

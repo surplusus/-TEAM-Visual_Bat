@@ -151,9 +151,6 @@
     <Filter Include="소스 파일\Maneger\01. ObjMgr">
       <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Maneger\MathMgr">
-      <UniqueIdentifier>{0a34fdea-378c-4417-b608-dbc496eaa7d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Maneger\PipleLine">
       <UniqueIdentifier>{326cc5ed-5f12-4546-b5d9-08a00ae037a7}</UniqueIdentifier>
     </Filter>
@@ -217,9 +214,6 @@
     <Filter Include="System\Algorithm">
       <UniqueIdentifier>{9f157568-4791-412a-bf7b-881e51f9a8be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion">
-      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Scene\SceneMediator">
       <UniqueIdentifier>{d248f93a-2aa9-4312-ba93-775e5a0695fa}</UniqueIdentifier>
     </Filter>
@@ -249,6 +243,15 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\DynamicObj">
       <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\SystemManager\FrustumMgr">
+      <UniqueIdentifier>{c81cc406-45e0-40a7-9b6e-23213d47ef52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Minion">
+      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\PickingSphereMgr">
+      <UniqueIdentifier>{38004248-daea-429a-8610-0952575601a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -384,9 +387,6 @@
     <ClInclude Include="ObjMgr.h">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClInclude>
-    <ClInclude Include="MathMgr.h">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
-    </ClInclude>
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClInclude>
@@ -460,10 +460,10 @@
       <Filter>System\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="MinionMgr.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="Minion.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="HeightMap.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -533,6 +533,18 @@
     </ClInclude>
     <ClInclude Include="Ezeal_Q.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="MathMgr.h">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>System\SystemManager\FrustumMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeMinion.h">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClInclude>
+    <ClInclude Include="PickingSphereMgr.h">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -653,9 +665,6 @@
     <ClCompile Include="ObjMgr.cpp">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClCompile>
-    <ClCompile Include="MathMgr.cpp">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
-    </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClCompile>
@@ -720,10 +729,10 @@
       <Filter>System\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="MinionMgr.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="Minion.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="HeightMap.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -790,6 +799,18 @@
     </ClCompile>
     <ClCompile Include="Ezeal_Q.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="MathMgr.cpp">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>System\SystemManager\FrustumMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeMinion.cpp">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClCompile>
+    <ClCompile Include="PickingSphereMgr.cpp">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

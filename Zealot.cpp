@@ -36,8 +36,9 @@ HRESULT CZealot::Initialize()
 void CZealot::Progress()
 {
 	MouseControl();
+	ArrowControl();
 	QWERControl();
-	UpdateWorldMatrix();
+	CChampion::UpdateWorldMatrix();
 	{	// Animation 상태머신 써야됨
 		//if (m_bRunning)
 		//	m_pAnimationCtrl->BlendAnimationSet("Walk");
@@ -60,6 +61,7 @@ void CZealot::Release()
 void CZealot::MouseControl()
 {
 	if (MyGetMouseState().rgbButtons[0]) {
+		cout << "누름" << endl;
 		const VTXTEX* vtx = m_pHeightMap->GetVtxInfo();
 		DWORD number = m_pHeightMap->m_VtxNum;
 		m_bPicked = MapCheckThreadLoop(number, vtx);
@@ -74,9 +76,9 @@ void CZealot::MouseControl()
 	if (m_bRunning)
 	{
 		float speed = 2.5f;
+		m_bTurning = Turn(&m_MouseHitPoint);
 		//printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
 		//	g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
-		m_bTurning = Turn(&m_MouseHitPoint);
 		//if (m_bTurning) {
 		//	m_bTurning = Turn(&g_MouseHitPoint);
 		//}
@@ -124,6 +126,19 @@ void CZealot::QWERControl()
 	}*/
 }
 
+void CZealot::ArrowControl()
+{
+	float speed = 1.f;
+	if (CheckPushKey(DIK_UP))
+		m_Info.vPos += m_Info.vDir * speed * g_fDeltaTime;
+	if (CheckPushKey(DIK_DOWN))
+		m_Info.vPos -= m_Info.vDir * speed * g_fDeltaTime;
+	if (CheckPushKey(DIK_LEFT))
+		m_fAngle[ANGLE_Y] -= speed * g_fDeltaTime;
+	if (CheckPushKey(DIK_RIGHT))
+		m_fAngle[ANGLE_Y] += speed * g_fDeltaTime;
+}
+
 bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
 {
 	D3DXVECTOR3 vMousePos = *destPos; vMousePos.y = m_fHeight;
@@ -158,8 +173,11 @@ bool CZealot::Turn(const D3DXVECTOR3 * destPos)
 	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
 	float fRadian = acosf(fDot);
 	
-	if (fabs(fRadian) < 0.01f) {
-		m_fAngle[ANGLE_Y] = 0.f;
+	//if (fabs(fRadian) < 0.01f) {
+	//	m_fAngle[ANGLE_Y] = 0.f;
+	//	return false;
+	//}
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
 		return false;
 	}
 
