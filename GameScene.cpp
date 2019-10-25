@@ -9,6 +9,8 @@
 #include"CameraMgr.h"
 #include"SummonTerrain.h"
 #include"Ezreal.h"
+#include"EzealQ_Particle.h"
+#include"ParticleMgr.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -44,21 +46,26 @@ HRESULT CGameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-	
-
-
+	const INFO tInfo = *((CEzreal*)m_pObjMgr->GetObj(L"Ezreal"))->GetInfo();
+	D3DXMATRIX matBone;
+	GetBoneMatrix(L"Ezreal", "Armature_L_Gauntlet_Hand", &matBone);
+	TestParticle = new CEzealQ_Particle(tInfo,10,D3DXVECTOR3(matBone._41,matBone._42,matBone._43));
+	TestParticle->Initalize();
+	GET_SINGLE(CParticleMgr)->AddParticle(L"Ez_Q", TestParticle);
+	GET_SINGLE(CParticleMgr)->Initalize();
 }
 
 void CGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
-	
+	GET_SINGLE(CParticleMgr)->Progress();
 }
 
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
+	GET_SINGLE(CParticleMgr)->Render();
 }
 
 void CGameScene::Release()

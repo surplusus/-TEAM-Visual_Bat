@@ -69,6 +69,7 @@
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionMgr.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleMgr.h" />
     <ClInclude Include="Shader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -194,6 +195,7 @@
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleMgr.cpp" />
     <ClCompile Include="Shader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

@@ -546,6 +546,9 @@
     <ClInclude Include="EzealQ_Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleMgr.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -810,6 +813,9 @@
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
     <ClCompile Include="EzealQ_Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleMgr.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>

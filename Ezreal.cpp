@@ -5,14 +5,17 @@
 #include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
-#include "Ray.h"
-#include"Ezeal_Q.h"
-
+#include "Ray.h""
+#include"ParticleMgr.h"
+#include"EzealQ_Particle.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
 {
+	m_fAngle[ANGLE_X] = 0;
+	m_fAngle[ANGLE_Y] = 0;
+	m_fAngle[ANGLE_Z] = 0;
 
 }
 
@@ -118,6 +121,9 @@ HRESULT CEzreal::Initialize()
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();
+	
+
+
 	return S_OK;
 }
 
@@ -138,12 +144,13 @@ void CEzreal::Progress()
 	}
 	if (CheckPushKeyOneTime(VK_Q))
 	{
-		//AddSkill_Q();
+		AddSkill_Q();
 	}
 	Move_Chase(&g_MouseHitPoint, 10.0f);
-
-
-
+	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
+	{
+		(*iter)->Progress();
+	}
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -151,8 +158,11 @@ void CEzreal::AddSkill_Q()
 	D3DXVECTOR3 vPos;
 	GetBoneMatrix(L"Ezreal", "Armature_L_Hand", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
-	INFO info = m_Info;
-	info.vPos = vPos;
+	INFO tInfo = m_Info;
+	tInfo.vPos = vPos;
+	CParticle * p = new CEzealQ_Particle(tInfo,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
+	p->Initalize();
+	GET_SINGLE(CParticleMgr)->AddParticle(L"Ez", p);
 }
 
 void CEzreal::Render()
@@ -163,9 +173,6 @@ void CEzreal::Render()
 	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
 	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime()/30);
 	Mesh_Render(GetDevice(), L"Ezreal");
-	
-	
-
 }
 
 void CEzreal::Release()

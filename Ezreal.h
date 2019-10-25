@@ -1,6 +1,7 @@
 #pragma once
 #include "Champion.h"
-class CSkill;
+
+class CParticle;
 class CEzreal :
 	public CChampion
 {
@@ -27,7 +28,7 @@ private:
 #pragma endregion
 //test
 private:
-	list<CSkill*> m_ListQSkill;
+	list<CParticle*> m_ListQSkill;
 	void AddSkill_Q();
 public:
 	virtual HRESULT Initialize() override;

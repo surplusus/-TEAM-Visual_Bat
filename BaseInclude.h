@@ -35,7 +35,6 @@
 #include "Events.h"
 #include "Cheon.h"
 
-
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fDeltaTime;
