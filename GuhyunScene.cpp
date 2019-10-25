@@ -90,6 +90,7 @@ HRESULT GuhyunScene::Initialize()
 	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
 	m_pMinionMgr = new CMinionMgr();
+	m_pMinionMgr->CreateMinions();
 	return S_OK;
 }
 
@@ -100,9 +101,10 @@ void GuhyunScene::Progress()
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
-	if (CheckPushKeyOneTime(VK_SPACE))
-		m_pMinionMgr->CreateMinions();
+
 	m_pObjMgr->Progress();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	GET_SINGLE(CFrustum)->InitFrustum();
@@ -113,6 +115,8 @@ void GuhyunScene::Progress()
 void GuhyunScene::Render()
 {
 	m_pObjMgr->Render();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Render();
 	//m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
@@ -121,6 +125,7 @@ void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
 	GET_SINGLE(CFrustum)->DestroyInstance();
+	SAFE_RELEASE(m_pMinionMgr);
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 

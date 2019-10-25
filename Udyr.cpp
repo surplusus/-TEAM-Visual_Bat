@@ -19,11 +19,16 @@ HRESULT CUdyr::Initialize()
 	CloneMesh(GetDevice(), L"Udyr", &m_pAnimationCtrl);
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
+	
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
+	
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
+	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
+
+	SetUpPickingShere(10.f, m_Info.vPos);
 	return S_OK;
 }
 
@@ -89,22 +94,22 @@ void CUdyr::QWERControl()
 	if (CheckPushKeyOneTime(VK_1)) {	// 애니메이션 정보 콘솔 출력
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
-	if (CheckPushKeyOneTime(VK_Q)) {
-		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
-	}
-	if (CheckPushKeyOneTime(VK_W)) {
-		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
-	}
-	if (CheckPushKeyOneTime(VK_E)) {
-		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
-	}
-	if (CheckPushKeyOneTime(VK_R)) {
-		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr4");
-	}
+	//if (CheckPushKeyOneTime(VK_Q)) {
+	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
+	//}
+	//if (CheckPushKeyOneTime(VK_W)) {
+	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+	//}
+	//if (CheckPushKeyOneTime(VK_E)) {
+	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
+	//}
+	//if (CheckPushKeyOneTime(VK_R)) {
+	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr4");
+	//}
 }
 
 bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)

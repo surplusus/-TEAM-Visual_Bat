@@ -6,19 +6,21 @@ public:
 	CMinion();
 	virtual ~CMinion();
 
-	void				SetUp(string sName, string sFolderPath, string sFilePath);
+	bool				SetUp(string sName, string sFolderPath, string sFilePath);
 	void				UpdateWorldMatrix();
 	virtual HRESULT		Initialize() PURE;
 	virtual void		Progress() PURE;
 	virtual void		Render() PURE;
 	virtual void		Release() PURE;
 protected:
-	string				m_sName;
+	basic_string<TCHAR>	m_sName;
 	float				m_fSize;
 	SPHERE				m_SphereForPick;
-	LPD3DXMESH			m_MeshSphere;
+	LPD3DXMESH			m_pMeshSphere;
 protected:
-	bool		SetUpPickingShere(const float r, const D3DXVECTOR3 v);
-	bool		Render_PickingShere();
+	bool			SetUpPickingShere(const float r, const D3DXVECTOR3 v);
+	bool			Render_PickingShere();
+public:
+	const TCHAR*	GetName();
 };
 

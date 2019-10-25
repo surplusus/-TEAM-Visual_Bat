@@ -5,10 +5,10 @@ class CMeleeMinion : public CMinion
 public:
 	CMeleeMinion();
 	virtual ~CMeleeMinion();
-public:
-	virtual HRESULT		Initialize();
-	virtual void		Progress();
-	virtual void		Render();
-	virtual void		Release();
+private:
+	virtual HRESULT		Initialize() override;
+	virtual void		Progress()	 override;
+	virtual void		Render()	 override;
+	virtual void		Release()	 override;
 };
 

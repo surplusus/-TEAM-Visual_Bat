@@ -14,7 +14,7 @@ CChampion::CChampion()
 	, m_fSize(1.f)
 	, m_MouseHitPoint(0.f,0.f,0.f)
 	, m_bPicked(false)
-	, m_MeshSphere(nullptr)
+	, m_pMeshSphere(nullptr)
 {
 	m_SphereForPick = SPHERE(1.f, D3DXVECTOR3(0.f, 0.f, 0.f));
 
@@ -67,14 +67,15 @@ bool CChampion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
 	m_SphereForPick.vCenter.y = v.y;
 	m_SphereForPick.vCenter.z = v.z;
 	// 관리자에게 등록??????
-	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_MeshSphere, NULL);
+	m_SphereForPick = SPHERE(r, v);
+	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
 	return false;
 }
 
 bool CChampion::Render_PickingShere()
 {
-	if (m_MeshSphere != NULL) {
-		m_MeshSphere->DrawSubset(0);
+	if (m_pMeshSphere != NULL) {
+		m_pMeshSphere->DrawSubset(0);
 		return true;
 	}
 	return false;

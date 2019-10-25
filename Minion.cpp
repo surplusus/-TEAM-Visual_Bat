@@ -5,25 +5,25 @@
 
 CMinion::CMinion()
 {
-	m_sName = "None";
+	m_sName = L"None";
 }
 
 CMinion::~CMinion()
 {
 }
 
-void CMinion::SetUp(string sName, string sFolderPath, string sFilePath)
+bool CMinion::SetUp(string sName, string sFolderPath, string sFilePath)
 {
 	basic_string<TCHAR> szFolder(sFolderPath.begin(), sFolderPath.end());
 	basic_string<TCHAR> szFile(sFilePath.begin(), sFilePath.end());
-	basic_string<TCHAR> szName(sName.begin(), sName.end());
-
-	if (SUCCEEDED(AddMesh(GetDevice(), szFolder.c_str(), szFile.c_str(), L"Minion", MESHTYPE_DYNAMIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(szName.c_str(), CFactory<CObj, CMinion>::CreateObject())))
-			ERR_MSG(g_hWnd, L"Fail : Register On Minion");
-	}
-	else
+	//basic_string<TCHAR> szName(sName.begin(), sName.end());
+	m_sName = basic_string<TCHAR>(sName.begin(), sName.end());
+	
+	if (FAILED(AddMesh(GetDevice(), szFolder.c_str(), szFile.c_str(), m_sName.c_str(), MESHTYPE_DYNAMIC))) {
 		ERR_MSG(g_hWnd, L"Minion Load Failed");
+		return false;
+	}
+	return true;
 }
 
 void CMinion::UpdateWorldMatrix()
@@ -45,15 +45,21 @@ bool CMinion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
 	m_SphereForPick.vCenter.y = v.y;
 	m_SphereForPick.vCenter.z = v.z;
 	// 관리자에게 등록??????
-	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_MeshSphere, NULL);
+	m_SphereForPick = SPHERE(r, v);
+	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
 	return false;
 }
 
 bool CMinion::Render_PickingShere()
 {
-	if (m_MeshSphere != NULL) {
-		m_MeshSphere->DrawSubset(0);
+	if (m_pMeshSphere != NULL) {
+		m_pMeshSphere->DrawSubset(0);
 		return true;
 	}
 	return false;
+}
+
+const TCHAR * CMinion::GetName()
+{
+	return m_sName.c_str();
 }
