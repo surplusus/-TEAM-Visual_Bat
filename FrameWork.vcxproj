@@ -70,6 +70,7 @@
     <ClInclude Include="SelectedSpells.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneMediator.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="SelectedSpells.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneMediator.cpp" />
