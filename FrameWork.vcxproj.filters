@@ -259,6 +259,18 @@
     <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Spell">
       <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower">
+      <UniqueIdentifier>{8d31df44-1cec-4216-a096-980ec4b11066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Turret">
+      <UniqueIdentifier>{4d879ace-44f3-48ba-b077-f48db37b4831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Nexus">
+      <UniqueIdentifier>{7ca32f7a-1fd8-4ca3-94f0-99ffadd665dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Inhibitor">
+      <UniqueIdentifier>{1552e09b-8c02-4660-b6c0-d1eec05d3a23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -528,9 +540,6 @@
     <ClInclude Include="Text.h">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="TextMgr.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
@@ -548,6 +557,21 @@
     </ClInclude>
     <ClInclude Include="SelectedPlayer.h">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMgr.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Turret</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Nexus</Filter>
+    </ClInclude>
+    <ClInclude Include="Inhibitor.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -791,9 +815,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>Text</Filter>
     </ClCompile>
-    <ClCompile Include="TextMgr.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
@@ -811,6 +832,21 @@
     </ClCompile>
     <ClCompile Include="SelectedPlayer.cpp">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMgr.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Nexus</Filter>
+    </ClCompile>
+    <ClCompile Include="Inhibitor.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

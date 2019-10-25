@@ -28,6 +28,9 @@ CSelectScene::CSelectScene()
 	, isChecked_1(false)
 	, isChecked_2(false)
 	, m_pTextMgr(NULL)
+	, m_ReddyButton(NULL)
+	, m_Reddy(false)
+	, m_bChampCheck(false)
 {
 
 
@@ -44,6 +47,9 @@ HRESULT CSelectScene::Initialize()
 	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
 	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
 	
+	m_ReddyButton = new CImage_Loader("Resource/choen/Select/ReddyButton.png", D3DXVECTOR3(610, 470, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
+	m_ReddyButton->Initialize();
+
 	m_pTextMgr = new CTextMgr();
 	m_pTextMgr->Initialize();
 
@@ -71,56 +77,72 @@ HRESULT CSelectScene::Initialize()
 }
 void CSelectScene::Progress()
 {
-	for (int i = 0; i < m_vecChamp.size(); i++)
+	if (!m_Reddy)
 	{
-		if (m_vecChamp[i]->Progress()) {
-			m_vecChampCircle[i]->Progress();
-			((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
-		}
-	}	
-	
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
-
-		for (int i = 0; i < m_vecChampCircle.size(); i++)
+		for (int i = 0; i < m_vecChamp.size(); i++)
 		{
-			if (m_pChamp)
+			if (m_vecChamp[i]->Progress()) {
+				m_vecChampCircle[i]->Progress();
+				((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
+			}
+		}
+
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
+
+			for (int i = 0; i < m_vecChampCircle.size(); i++)
 			{
-				string Sname = m_pChamp->GetName();
-				if (Sname == m_vecChampCircle[i]->GetName())
+				if (m_pChamp)
 				{
-					Filnal_Champ = m_vecChampCircle[i];
-					m_ChampName = Sname;
-					break;
+					string Sname = m_pChamp->GetName();
+					if (Sname == m_vecChampCircle[i]->GetName())
+					{
+						Filnal_Champ = m_vecChampCircle[i];
+						m_ChampName = Sname;
+						m_bChampCheck = true;
+						break;
+					}
 				}
 			}
 		}
-	}
-	
 
-	if (Filnal_Champ && SpellRender_1 && SpellRender_2)
-	{
-		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampInfo
-		(
-			new ST_SELECTED_CHAMP_INFO
+
+		if (Filnal_Champ && SpellRender_1 && SpellRender_2)
+		{
+			GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampInfo
 			(
-				Filnal_Champ->GetName(),
-				SpellRender_1->GetName(),
-				SpellRender_2->GetName()
-			)
-		);
+				new ST_SELECTED_CHAMP_INFO
+				(
+					Filnal_Champ->GetName(),
+					SpellRender_1->GetName(),
+					SpellRender_2->GetName()
+				)
+			);
+		}
+
+		Checked();
+		m_pDropBox_1->Progress();
+		m_pDropBox_2->Progress();
+
+		if (isChecked_1 == true)
+			Selected_1();
+
+		if (isChecked_2 == true)
+			Selected_2();
+
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			if (GET_SINGLE(C2DMouse)->IsClicked_Button(m_ReddyButton))
+			{
+				m_Reddy = true;
+			}
+		}
+		if (m_Reddy)
+		{
+			m_pTextMgr->SetMaxTime(10.0f);
+		}
 	}
-
-	Checked();
-	m_pDropBox_1->Progress();
-	m_pDropBox_2->Progress();
-
-	if (isChecked_1 == true)
-		Selected_1();
-
-	if (isChecked_2 == true)
-		Selected_2();
 
 	if (GetAsyncKeyState(VK_RIGHT))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
 }
@@ -133,18 +155,29 @@ void CSelectScene::Render()
 	}
 
 	MyDrawFPSByTimeMgr();
-	m_pTextMgr->Render_time();
+	
+	m_pTextMgr->Render_time(m_Reddy);
 	ChampRender();
 	SpellRender();
 
 	if (SpellRender_1) SpellRender_1->Render();
 	if (SpellRender_2) SpellRender_2->Render();
 
+	if (m_ReddyButton) m_ReddyButton->Render();
+
+	
 }
 
 void CSelectScene::Release()
 {
-
+	if (m_Reddy)
+	{
+		m_mapSpellList.clear();
+		m_mapSpellList_2.clear();
+		m_mapUI_List.clear();
+		delete  m_pDropBox_1;
+		delete  m_pDropBox_2;
+	}
 }
 
 void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -166,7 +199,11 @@ void CSelectScene::ChampInitialize()
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
 
+	m_VecSelectImage.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Select.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
+	m_VecSelectImage.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Select.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
 
+	for (int i = 0; i < m_VecSelectImage.size(); i++)
+		m_VecSelectImage[i]->Initialize();
 }
 
 void CSelectScene::SpellInitialize()
@@ -270,6 +307,24 @@ void CSelectScene::ChampRender()
 	}
 	
 	if (Filnal_Champ) Filnal_Champ->Render();
+	if (m_bChampCheck)
+	{
+		for (int i = 0; i < m_VecSelectImage.size(); i++)
+		{
+			if (Filnal_Champ->GetName() == m_VecSelectImage[i]->GetName())
+			{
+				m_VecSelectImage[i]->Render();
+			}
+		}
+	}
+
+	if (m_Reddy)
+	{
+		for (int i = 0; i < m_VecSelectImage.size(); i++)
+		{
+			m_VecSelectImage[i]->Render();
+		}
+	}
 }
 
 void CSelectScene::SpellRender()

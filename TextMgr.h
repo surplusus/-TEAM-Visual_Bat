@@ -63,13 +63,12 @@ public:
 	void Render();
 
 	void Render(UI_SPELLTYPE type = SPELLTYPE_End);
-	void Render_time();
+	void Render_time(bool Reddy);
 
 	void LoadingNoticeRender();
 private:
 	//cheon
-	string m_sTime;
-
+	string				m_sTime;
 	SPELL_LIST			Spell_list;
 	SPELL_NAME			Spell_name;
 	CTEXT_INFO			CtSpell_Info;
@@ -79,17 +78,18 @@ private:
 	CText*				m_pTime;
 	CText*				m_pAlarm;
 
-	vector<string> m_vecNotice;
-	string m_sNotice;
+	vector<string>		m_vecNotice;
+	string				m_sNotice;
 
-	float MAXTIME;
+	float				m_MAXTIME;
 
-	D3DXVECTOR3		m_vpos;
+	D3DXVECTOR3			m_vpos;
 
 	RECT				m_rcName;
 	RECT				m_rcInfo;
 public:
 	void SetPosition(D3DXVECTOR3 pos) { m_vpos = pos; }
+	void SetMaxTime(float MAXTIME_) { m_MAXTIME = MAXTIME_; }
 	//>> 필요한거 작업
 
 private:

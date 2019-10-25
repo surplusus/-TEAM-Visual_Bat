@@ -28,5 +28,7 @@ public:
 
 	int GetWidth();
 	int GetHeight();
-};
 
+public:
+	RECT	GetRect() { return m_Rect; }
+};

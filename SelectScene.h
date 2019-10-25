@@ -55,8 +55,7 @@ private:
 	map<string, CUI*>					m_mapSpellList;
 	map<string, CUI*>					m_mapSpellList_2;
 
-	vector<map<string, CUI*>>			m_vmapSpellList_1;
-	vector<map<string, CUI*>>			m_vmapSpellList_2;
+	vector<CUI*>						m_VecSelectImage;
 
 	void ChampInitialize();
 	void SpellInitialize();
@@ -86,5 +85,9 @@ public:
 
 private:
 	CTextMgr*				m_pTextMgr;
+
+	CImage_Loader*			m_ReddyButton;
+	bool					m_Reddy;
+	bool					m_bChampCheck;
 };
 

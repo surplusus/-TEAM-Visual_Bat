@@ -14,7 +14,7 @@ Render() <- 파라메터 있는건 스펠용이라 없는거 만들어 놓음
 */
 
 
-CTextMgr::CTextMgr() : m_vpos(0, 0, 0), MAXTIME(80.0F)
+CTextMgr::CTextMgr() : m_vpos(0, 0, 0), m_MAXTIME(80.0f)
 {
 	{
 		Spell_list.m_cleanse = "챔피언에 걸린 모든 이동 불가와(제압 및 공중\n으로 띄우는 효과 제외) 소환사 주문에 의한 해\n로운 효과를 제거하고 새로 적용되는 이동 불가\n 효과들의 지속시간을 3초가 65 % 감소시킵니\n다.\n기본 재사용 대기 시간:210초";
@@ -303,22 +303,25 @@ void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 	Rectangle(GetDC(g_hWnd), CtSpell_Info.m_pCleanse->m_Rect.left, CtSpell_Info.m_pCleanse->m_Rect.top, CtSpell_Info.m_pCleanse->m_Rect.right, CtSpell_Info.m_pCleanse->m_Rect.bottom);
 }
 
-void CTextMgr::Render_time()
+void CTextMgr::Render_time(bool Reddy)
 {
+	if (!Reddy)
+	{
+		m_pAlarm->m_pFont->DrawTextA(
+			NULL,
+			m_pAlarm->m_sInfo.c_str(),
+			m_pAlarm->m_sInfo.length(),
+			&m_pAlarm->m_Rect,
+			DT_CENTER | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 255)
+		);
+	}
 	
-	m_pAlarm->m_pFont->DrawTextA(
-		NULL, 
-		m_pAlarm->m_sInfo.c_str(),
-		m_pAlarm->m_sInfo.length(),
-		&m_pAlarm->m_Rect, 
-		DT_CENTER | DT_NOCLIP, 
-		D3DCOLOR_XRGB(255, 255, 255)
-	);
 
-	MAXTIME -= GetTime();
-	if (MAXTIME < 0) MAXTIME = 0;
-	m_pTime->m_sInfo = to_string((int)MAXTIME);
-	int time = MAXTIME;
+	m_MAXTIME -= GetTime();
+	if (m_MAXTIME < 0) m_MAXTIME = 0;
+	m_pTime->m_sInfo = to_string((int)m_MAXTIME);
+	
 
 	m_pTime->m_pFont->DrawTextA(
 		NULL, 
@@ -328,8 +331,6 @@ void CTextMgr::Render_time()
 		DT_CENTER | DT_NOCLIP, 
 		D3DCOLOR_XRGB(255, 255, 255)
 	);
-	/*if (time < 0)
-		GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);*/
 }
 
 void CTextMgr::LoadingNoticeRender()
