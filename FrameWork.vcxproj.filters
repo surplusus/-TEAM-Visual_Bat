@@ -253,6 +253,9 @@
     <Filter Include="소스 파일\Maneger\PickingSphereMgr">
       <UniqueIdentifier>{38004248-daea-429a-8610-0952575601a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02. Object\Champion\Udyr">
+      <UniqueIdentifier>{367cbf2e-d02b-4107-810d-3df64342360f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -546,6 +549,9 @@
     <ClInclude Include="PickingSphereMgr.h">
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
+    <ClInclude Include="Udyr.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -811,6 +817,9 @@
     </ClCompile>
     <ClCompile Include="PickingSphereMgr.cpp">
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Udyr.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

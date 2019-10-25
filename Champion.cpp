@@ -6,15 +6,15 @@
 #include "ObjMgr.h"
 #include "Ray.h"
 #include "MathMgr.h"
+#include "HeightMap.h"
 
-//D3DXVECTOR3 CChampion::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
-//std::atomic<bool> CChampion::g_bHitFloor = false;
-//bool CChampion::bPick = false;
 CChampion::CChampion()
 	: m_ObjMgr(nullptr)
+	, m_pHeightMap(nullptr)
 	, m_fSize(1.f)
 	, m_MouseHitPoint(0.f,0.f,0.f)
 	, m_bPicked(false)
+	, m_MeshSphere(nullptr)
 {
 	m_SphereForPick = SPHERE(1.f, D3DXVECTOR3(0.f, 0.f, 0.f));
 
@@ -80,24 +80,7 @@ bool CChampion::Render_PickingShere()
 	return false;
 }
 
-//bool CChampion::EnqueueMousePickingFunc()
-//{
-//	// 쓰레드를 돌려 g_MouseHitPoint 과 g_bHitFloor 로 결과를 받는다.
-//	if (m_ObjMgr == NULL) return false;
-//	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map_Floor");
-//	int number = m_ObjMgr->GetVtxNumber(L"Map_Floor");
-//	
-//	if (vtx == NULL) return false;
-//	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapCheckThreadLoop, number, vtx).get())
-//	{
-//		GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);
-//		return true;
-//	}
-//	g_MouseHitPoint = D3DXVECTOR3(0.f, 0.f, 0.f);
-//	return false;
-//}
-
-bool CChampion::MapCheckThreadLoop(int number, const VTXTEX * vtx)
+bool CChampion::SearchPickingPointInHeightMap(int number, const VTXTEX * vtx)
 {
 	CRay m_Ray;		POINT pt;
 	GetCursorPos(&pt);
@@ -115,4 +98,19 @@ bool CChampion::MapCheckThreadLoop(int number, const VTXTEX * vtx)
 		}
 	}
 	return false;
+}
+
+void CChampion::SetHeightMap(CHeightMap * pHeightMap)
+{
+	m_pHeightMap = pHeightMap;
+}
+
+const VTXTEX * CChampion::GetVertexInHeightMap()
+{
+	return m_pHeightMap->GetVtxInfo();
+}
+
+DWORD & CChampion::GetVertexNumInHeightMap()
+{
+	return m_pHeightMap->m_VtxNum;
 }

@@ -15,6 +15,7 @@
 #include "SoundManager.h"
 #include "Amumu.h"
 #include "Zealot.h"
+#include "Udyr.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"
@@ -65,17 +66,19 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
 	else
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-	//
-	//
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/"
-		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
+		
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
 	else
-		ERR_MSG(g_hWnd, L"Zealot Load Failed");
+		ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	//=========== Add Shader ===========//
 	
@@ -90,7 +93,7 @@ HRESULT GuhyunScene::Initialize()
 	//LoadResourceByThread();
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
-	dynamic_cast<CZealot*>(const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot")))->SetHeightMap(m_pHeightMap);
+	dynamic_cast<CUdyr*>(const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr")))->SetHeightMap(m_pHeightMap);
 	return S_OK;
 }
 

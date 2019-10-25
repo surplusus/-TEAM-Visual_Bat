@@ -142,6 +142,7 @@
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
+    <ClInclude Include="Udyr.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
+    <ClCompile Include="Udyr.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />

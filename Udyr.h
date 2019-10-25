@@ -1,16 +1,14 @@
 #pragma once
 #include "Champion.h"
-class CHeightMap;
-class CZealot :	public CChampion
+class CUdyr : public CChampion
 {
 public:
-	CZealot();
-	virtual ~CZealot();
+	CUdyr();
+	virtual ~CUdyr();
 private:
-	bool				m_bRunning = false;
-	bool				m_bTurning = false;
-	bool				m_bDirty = false;
-	CHeightMap*			m_pHeightMap = nullptr;
+	bool				m_bRunning;
+	bool				m_bTurning;
+	bool				m_bDirty;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -21,11 +19,6 @@ public:
 private:
 	void MouseControl();
 	void QWERControl();
-	void ArrowControl();
 	bool TurnSlowly(const D3DXVECTOR3* destPos);
-	
-public:
-	void SetHeightMap(CHeightMap* pHeightMap);
-	float lerp(float p1, float p2, float d);
 };
 

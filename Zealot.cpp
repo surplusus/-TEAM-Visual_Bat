@@ -38,6 +38,7 @@ void CZealot::Progress()
 	MouseControl();
 	ArrowControl();
 	QWERControl();
+	ChangeAniSetByState();
 	CChampion::UpdateWorldMatrix();
 	{	// Animation 상태머신 써야됨
 		//if (m_bRunning)
@@ -61,32 +62,24 @@ void CZealot::Release()
 void CZealot::MouseControl()
 {
 	if (MyGetMouseState().rgbButtons[0]) {
-		cout << "누름" << endl;
 		const VTXTEX* vtx = m_pHeightMap->GetVtxInfo();
 		DWORD number = m_pHeightMap->m_VtxNum;
-		m_bPicked = MapCheckThreadLoop(number, vtx);
+		m_bPicked = SearchPickingPointInHeightMap(number, vtx);
 	}
 
 	if (m_bPicked) {
 		m_bPicked = false;
 		m_bRunning = true;
-		m_bTurning = true;
+		m_bDirty = true;
 	}
 
 	if (m_bRunning)
 	{
 		float speed = 2.5f;
-		m_bTurning = Turn(&m_MouseHitPoint);
-		//printf("MouseHitPoint : %.2f,%.2f,%.2f\n",
-		//	g_MouseHitPoint.x, g_MouseHitPoint.y, g_MouseHitPoint.z);
-		//if (m_bTurning) {
-		//	m_bTurning = Turn(&g_MouseHitPoint);
-		//}
-
-		// Update_vPos_ByDestPoint : mouseHitPos와 거리가 작으면 false 리턴
+		m_bTurning = TurnSlowly(&m_MouseHitPoint);
 		m_bRunning = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
-		//if (!m_bRunning)
-		//	m_pAnimationCtrl->BlendAnimationSet("Stand");
+		if (!m_bRunning)
+			m_bDirty = true;
 	}
 }
 
@@ -128,65 +121,68 @@ void CZealot::QWERControl()
 
 void CZealot::ArrowControl()
 {
-	float speed = 1.f;
+	float speed = 10.f;
 	if (CheckPushKey(DIK_UP))
 		m_Info.vPos += m_Info.vDir * speed * g_fDeltaTime;
 	if (CheckPushKey(DIK_DOWN))
 		m_Info.vPos -= m_Info.vDir * speed * g_fDeltaTime;
-	if (CheckPushKey(DIK_LEFT))
+	if (CheckPushKey(DIK_LEFT)) {
 		m_fAngle[ANGLE_Y] -= speed * g_fDeltaTime;
+		if (m_fAngle[ANGLE_Y] <= D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+	}
 	if (CheckPushKey(DIK_RIGHT))
 		m_fAngle[ANGLE_Y] += speed * g_fDeltaTime;
+
+	static int cnt = 0;
+	cnt++;
+	if (cnt > 100) {
+		printf("각도 : %f\n", m_fAngle[ANGLE_Y]);
+		cnt = 0.f;
+	}
+}
+
+void CZealot::ChangeAniSetByState()
+{
+	if (m_bDirty)
+	{
+		if (m_bRunning) {
+			m_pAnimationCtrl->BlendAnimationSet("Walk");
+			m_bDirty = false;
+			return;
+		}
+		
+		
+		m_pAnimationCtrl->BlendAnimationSet("Stand");
+		m_bDirty = false;
+	}
 }
 
 bool CZealot::TurnSlowly(const D3DXVECTOR3 * destPos)
-{
-	D3DXVECTOR3 vMousePos = *destPos; vMousePos.y = m_fHeight;
-	D3DXVECTOR3 vMouseNor;
-	D3DXVec3Normalize(&vMouseNor, &vMousePos);
-	// m_Info.vDir : (0,0,-1)
-	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
-	float fRadian = acosf(fDot);
-	float fDirLerped = fRadian / 7.f;
-	//float fDirLerped = fRadian;
-	
-	if (fabs(fDirLerped) <= 0.01f){
-		m_fAngle[ANGLE_Y] += fRadian;
-		return false;
-	}
-
-	D3DXVECTOR3 vLeft;
-	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
-	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0)
-		m_fAngle[ANGLE_Y] -= fDirLerped;
-	else
-		m_fAngle[ANGLE_Y] += fDirLerped;
-
-	return true;
-}
-
-bool CZealot::Turn(const D3DXVECTOR3 * destPos)
 {
 	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
 	D3DXVECTOR3 vMouseNor;
 	D3DXVec3Normalize(&vMouseNor, &vMousePos);
 	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
 	float fRadian = acosf(fDot);
+	float fDirLerped = fRadian / 7.f;
 	
-	//if (fabs(fRadian) < 0.01f) {
-	//	m_fAngle[ANGLE_Y] = 0.f;
-	//	return false;
-	//}
 	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
 		return false;
 	}
 
 	D3DXVECTOR3 vLeft;
 	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
-	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0)
-		m_fAngle[ANGLE_Y] = -fRadian;
-	else
-		m_fAngle[ANGLE_Y] = +fRadian;
+	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] <= D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+	}
+	else {
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] >= D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+	}
 
 	return false;
 }
