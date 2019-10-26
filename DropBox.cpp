@@ -11,7 +11,8 @@
 CDropBox::CDropBox(D3DXVECTOR3 pos, D3DXVECTOR3 scale) : m_vPosition(pos), m_scale(scale)
 , m_pImageLoader(NULL)
 {
-	GET_SINGLE(CTextMgr)->SetPosition(m_vPosition);
+	m_pTextMgr = new CTextMgr();
+	m_pTextMgr->SetPosition(m_vPosition);
 }
 
 
@@ -19,12 +20,12 @@ CDropBox::~CDropBox()
 {
 }
 
-// D3DXVECTOR3(WINSIZEX/2 - 30.5f, WINSIZEY/2 + 99.5f, 0)
 void CDropBox::Initialize()
 {
 	D3DXVECTOR3 position = D3DXVECTOR3(m_vPosition.x - 50 , m_vPosition.y - 320, 0);
 	m_pImageLoader = new CImage_Loader("Resource/choen/Spell_Image/dropBox.png" , position, m_scale);
 	m_pImageLoader->Initialize();
+	
 
 	m_mapSpellList.insert(make_pair("cleanse", new CSpell_("Cleanse", "Resource/choen/Spell_Image/1.Cleanse.png",
 		D3DXVECTOR3(m_pImageLoader->GetPosition().x + 17, m_pImageLoader->GetPosition().y + 169, 0),
@@ -63,17 +64,18 @@ void CDropBox::Initialize()
 		D3DXVECTOR3(1.0f, 1.0f, 0.f), Barrier)));
 
 
-
+	m_pTextMgr->Initialize();
 	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
 	{
 		it->second->Initialize();
 		m_vecSpells.push_back(it->second);
 	}
-	GET_SINGLE(CTextMgr)->Initialize();
+
 }
 
 void CDropBox::Progress()
 {
+
 	if (Checked() == true)
 	{
 		for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
@@ -90,13 +92,7 @@ void CDropBox::Render()
 	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)
 		it->second->Render();
 
-
-
-	/*RECT rt = {1050, 250, 0, 0 };
-	RECT rc = {1050, 220, 0, 0 };*/
-	RECT rt = { m_vPosition.x + 550, m_vPosition.y - 250, 0, 0 };
-	RECT rc = { m_vPosition.x + 550, m_vPosition.y - 280, 0, 0 };
-	GET_SINGLE(CTextMgr)->Render(m_eType);
+	m_pTextMgr->Render(m_eType);
 }
 
 void CDropBox::Release()

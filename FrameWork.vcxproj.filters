@@ -145,14 +145,14 @@
     <Filter Include="소스 파일\02. Object\Objinterface">
       <UniqueIdentifier>{a45ed24e-13f5-4925-9697-0af5741aaf2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02. Object\DynnamicObj">
+      <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ReSoureceSource\02.Buffer\RectTexture">
       <UniqueIdentifier>{215f1167-91c0-46b9-b224-d1df08a2fb18}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Maneger\01. ObjMgr">
       <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maneger\MathMgr">
-      <UniqueIdentifier>{0a34fdea-378c-4417-b608-dbc496eaa7d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Maneger\PipleLine">
       <UniqueIdentifier>{326cc5ed-5f12-4546-b5d9-08a00ae037a7}</UniqueIdentifier>
@@ -217,9 +217,6 @@
     <Filter Include="System\Algorithm">
       <UniqueIdentifier>{9f157568-4791-412a-bf7b-881e51f9a8be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion">
-      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Scene\SceneMediator">
       <UniqueIdentifier>{d248f93a-2aa9-4312-ba93-775e5a0695fa}</UniqueIdentifier>
     </Filter>
@@ -247,8 +244,38 @@
     <Filter Include="소스 파일\02. Object\Champion\Ez">
       <UniqueIdentifier>{17617303-f336-4de8-a36c-1141675f9ccf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\DynamicObj">
-      <UniqueIdentifier>{6537cb7f-c561-4f5d-afb4-d809b30c4713}</UniqueIdentifier>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected">
+      <UniqueIdentifier>{f727c4d2-08eb-4535-98e7-7bc47468edea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Champ">
+      <UniqueIdentifier>{0884f528-bd86-48e1-834d-0ef0f34a9077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Spell">
+      <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower">
+      <UniqueIdentifier>{8d31df44-1cec-4216-a096-980ec4b11066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Turret">
+      <UniqueIdentifier>{4d879ace-44f3-48ba-b077-f48db37b4831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Nexus">
+      <UniqueIdentifier>{7ca32f7a-1fd8-4ca3-94f0-99ffadd665dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\cheon_Tower\Inhibitor">
+      <UniqueIdentifier>{1552e09b-8c02-4660-b6c0-d1eec05d3a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\FrustumMgr">
+      <UniqueIdentifier>{c09a997b-5e74-467e-838a-454a26ce62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Minion">
+      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Champion\Udyr">
+      <UniqueIdentifier>{87c1b07c-b8d5-452f-8be8-bf62ba9f6088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\PickingSphereMgr">
+      <UniqueIdentifier>{78981324-d91b-4450-9971-af4d4f5b9ac0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,16 +403,13 @@
       <Filter>소스 파일\02. Object\Objinterface</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic.h">
-      <Filter>소스 파일\02. Object\DynamicObj</Filter>
+      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
     </ClInclude>
     <ClInclude Include="Rect_Texture.h">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
     </ClInclude>
     <ClInclude Include="ObjMgr.h">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="MathMgr.h">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
     </ClInclude>
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
@@ -460,18 +484,15 @@
       <Filter>System\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="MinionMgr.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="Minion.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="HeightMap.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectedChampion.h">
       <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClInclude>
     <ClInclude Include="SceneMediator.h">
@@ -519,9 +540,6 @@
     <ClInclude Include="Text.h">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="TextMgr.h">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
@@ -533,6 +551,45 @@
     </ClInclude>
     <ClInclude Include="Ezeal_Q.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedSpells.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedPlayer.h">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMgr.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Turret</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Nexus</Filter>
+    </ClInclude>
+    <ClInclude Include="Inhibitor.h">
+      <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeMinion.h">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClInclude>
+    <ClInclude Include="MathMgr.h">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>System\FrustumMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Udyr.h">
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
+    </ClInclude>
+    <ClInclude Include="PickingSphereMgr.h">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -645,16 +702,13 @@
       <Filter>소스 파일\02. Object\Objinterface</Filter>
     </ClCompile>
     <ClCompile Include="Dynamic.cpp">
-      <Filter>소스 파일\02. Object\DynamicObj</Filter>
+      <Filter>소스 파일\02. Object\DynnamicObj</Filter>
     </ClCompile>
     <ClCompile Include="Rect_Texture.cpp">
       <Filter>ReSoureceSource\02.Buffer\RectTexture</Filter>
     </ClCompile>
     <ClCompile Include="ObjMgr.cpp">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="MathMgr.cpp">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
     </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
@@ -720,18 +774,15 @@
       <Filter>System\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="MinionMgr.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="Minion.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="HeightMap.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectedChampion.cpp">
       <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
     </ClCompile>
     <ClCompile Include="SceneMediator.cpp">
@@ -776,9 +827,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>Text</Filter>
     </ClCompile>
-    <ClCompile Include="TextMgr.cpp">
-      <Filter>Text</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
@@ -790,6 +838,45 @@
     </ClCompile>
     <ClCompile Include="Ezeal_Q.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedSpells.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedPlayer.cpp">
+      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMgr.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Nexus</Filter>
+    </ClCompile>
+    <ClCompile Include="Inhibitor.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeMinion.cpp">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClCompile>
+    <ClCompile Include="MathMgr.cpp">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>System\FrustumMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Udyr.cpp">
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
+    </ClCompile>
+    <ClCompile Include="PickingSphereMgr.cpp">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
-#include "Text.h"
+#include <functional>
+
 struct stMeshInfo
 {
 	bool m_bComplete = false;
@@ -8,17 +9,16 @@ struct stMeshInfo
 	string m_FolderPath;
 	string m_FileName;
 	string m_ConsoleText;
-	MESHTYPE m_MeshType;
-	stMeshInfo() {}
-	stMeshInfo(string objName, string folderPath, string fileName, MESHTYPE type)
-		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName), m_MeshType(type) {}
+	stMeshInfo(string objName, string folderPath, string fileName)
+		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName) {}
 };
-
-typedef function<bool(void)> FuncLoadMesh;
+using FuncLoading = function<void(void)>;
 
 class CImage_Loader;
-class CSelectedChampion;
+class CSelectedPlayer;
+class CSelectedSpells;
 class CUI;
+class CTextMgr;
 class CLoadingScene :
 	public CScene
 {
@@ -33,15 +33,20 @@ public:
 	void Release() ;
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {}
 private:
-	// << :: Progress Bar
 	LPD3DXSPRITE				m_pLoadingSprite;
 	LPDIRECT3DTEXTURE9			m_pLoadingTexture;
 	D3DXIMAGE_INFO				m_ImageInfo;
+	CTextMgr*					m_pTextMgr;
 	void Render_Loading();
-	// << :: Progress Bar
 private:
 	CImage_Loader*				m_pBackGround;
-	CSelectedChampion*			m_pChampSelect;
+	CSelectedPlayer*			m_pChampSelect;
+	CSelectedSpells*				m_pSpell_1;
+	CSelectedSpells*				m_pSpell_2;
+
+
+	vector<D3DXVECTOR2>			m_vLinePoint;
+	float						m_fLineLength;
 	// << :: mediate
 	map<string, string>			m_StringInfo;
 public:
@@ -51,12 +56,19 @@ public:
 	enum {BOXCOLLIDER = 0,LOADCHAMP = 1,LOADMAP, INROLLCHAMP, INROLLMAP, ENDSTAGE};
 	int							m_nStage;
 	vector<stMeshInfo*>			m_vpMeshInfo;
-	map<string, stMeshInfo>		m_mapMeshInfo;
-	vector<FuncLoadMesh>		m_queFuncLoadMesh;
+	
+	vector<FuncLoading>			m_vfuncLoading;
+	// 지울 함수들
+	static void LoadingFunc1();
+	static void LoadingFunc2();
+	static void LoadingFunc3();
+	static void LoadingFunc4();
+	static void LoadingFunc5();
+
 	bool LoadResourceByThread();
 	bool RegisterOnObjMgr(stMeshInfo* info);
-	bool LoadMeshByThread(stMeshInfo* info);
-	void SetMeshRegistryInfoThruFile();
+	static bool LoadStaticMeshByThread(stMeshInfo* info);
+	static bool LoadDynamicMeshByThread(stMeshInfo* info);
 	// >> :: thread
 };
 

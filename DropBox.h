@@ -1,6 +1,7 @@
 #pragma once
 class CImage_Loader;
 class CUI;
+class CTextMgr;
 class CDropBox
 {
 public:
@@ -26,5 +27,8 @@ private:
 public:
 	vector<CUI*>	GetVecSpells() { return m_vecSpells; }
 	map<string, CUI*>& GetMap() { return m_mapSpellList; }
+
+private:
+	CTextMgr*						  m_pTextMgr;
 };
 

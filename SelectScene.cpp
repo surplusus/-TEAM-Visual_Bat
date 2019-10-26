@@ -11,7 +11,7 @@
 #include "DropBox.h"
 #include "SceneMediator.h"
 
-static CUI* temp = NULL;
+static CUI* Filnal_Champ = NULL;
 static CUI* SpellRender_1 = NULL;
 static CUI* SpellRender_2 = NULL;
 
@@ -27,6 +27,10 @@ CSelectScene::CSelectScene()
 	, m_pDropBox_2(NULL)
 	, isChecked_1(false)
 	, isChecked_2(false)
+	, m_pTextMgr(NULL)
+	, m_ReddyButton(NULL)
+	, m_Reddy(false)
+	, m_bChampCheck(false)
 {
 
 
@@ -40,10 +44,14 @@ CSelectScene::~CSelectScene()
 
 HRESULT CSelectScene::Initialize()
 {
-	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
-	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0f, 1.0f, 0)));
+	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
+	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
 	
-	
+	m_ReddyButton = new CImage_Loader("Resource/choen/Select/ReddyButton.png", D3DXVECTOR3(610, 470, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
+	m_ReddyButton->Initialize();
+
+	m_pTextMgr = new CTextMgr();
+	m_pTextMgr->Initialize();
 
 	for (int i = 0; i < m_vecBackGround.size(); i++)
 	{
@@ -54,7 +62,7 @@ HRESULT CSelectScene::Initialize()
 	}
 	ChampInitialize();
 	SpellInitialize();
-	GET_SINGLE(CTextMgr)->Initialize();
+	
 	
 	map<string, vector<CUI*>*>::iterator iter = m_mapUI_List.begin();
 	for (iter; iter != m_mapUI_List.end(); ++iter)
@@ -69,47 +77,74 @@ HRESULT CSelectScene::Initialize()
 }
 void CSelectScene::Progress()
 {
-	for (int i = 0; i < m_vecChamp.size(); i++)
+	if (!m_Reddy)
 	{
-		if (m_vecChamp[i]->Progress()) {
-			m_vecChampCircle[i]->Progress();
-			((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
-		}
-	}	
-	
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
-
-		for (int i = 0; i < m_vecChampCircle.size(); i++)
+		for (int i = 0; i < m_vecChamp.size(); i++)
 		{
-			if (m_pChamp)
+			if (m_vecChamp[i]->Progress()) {
+				m_vecChampCircle[i]->Progress();
+				((CChamp*)m_vecChampCircle[i])->SetClicked(((CChamp*)m_vecChamp[i])->GetClicked());
+			}
+		}
+
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_pChamp = GET_SINGLE(C2DMouse)->IsInImage_(m_vecChamp);
+
+			for (int i = 0; i < m_vecChampCircle.size(); i++)
 			{
-				string Sname = m_pChamp->GetName();
-				if (Sname == m_vecChampCircle[i]->GetName())
+				if (m_pChamp)
 				{
-					temp = m_vecChampCircle[i];
-					m_ChampName = Sname;
-					break;
+					string Sname = m_pChamp->GetName();
+					if (Sname == m_vecChampCircle[i]->GetName())
+					{
+						Filnal_Champ = m_vecChampCircle[i];
+						m_ChampName = Sname;
+						m_bChampCheck = true;
+						break;
+					}
 				}
 			}
 		}
+
+
+		if (Filnal_Champ && SpellRender_1 && SpellRender_2)
+		{
+			GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampInfo
+			(
+				new ST_SELECTED_CHAMP_INFO
+				(
+					Filnal_Champ->GetName(),
+					SpellRender_1->GetName(),
+					SpellRender_2->GetName()
+				)
+			);
+		}
+
+		Checked();
+		m_pDropBox_1->Progress();
+		m_pDropBox_2->Progress();
+
+		if (isChecked_1 == true)
+			Selected_1();
+
+		if (isChecked_2 == true)
+			Selected_2();
+
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			if (GET_SINGLE(C2DMouse)->IsClicked_Button(m_ReddyButton))
+			{
+				m_Reddy = true;
+			}
+		}
+		if (m_Reddy)
+		{
+			m_pTextMgr->SetMaxTime(10.0f);
+		}
 	}
-	GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::PROGRESS, this);
 
-	Checked();
-	m_pDropBox_1->Progress();
-	m_pDropBox_2->Progress();
-
-	if (isChecked_1 == true)
-		Selected_1();
-
-	if (isChecked_2 == true)
-		Selected_2();
-
-
-	if (GetAsyncKeyState(VK_ESCAPE))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
-
+	if (GetAsyncKeyState(VK_RIGHT))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
 }
 
 void CSelectScene::Render()
@@ -120,18 +155,30 @@ void CSelectScene::Render()
 	}
 
 	MyDrawFPSByTimeMgr();
-	GET_SINGLE(CTextMgr)->Render_time();
+	
+	m_pTextMgr->Render_time(m_Reddy);
 	ChampRender();
 	SpellRender();
 
 	if (SpellRender_1) SpellRender_1->Render();
 	if (SpellRender_2) SpellRender_2->Render();
 
+	if (m_ReddyButton) m_ReddyButton->Render();
+
+	
 }
 
 void CSelectScene::Release()
 {
-
+	if (m_Reddy)
+	{
+		m_mapSpellList.clear();
+		m_mapSpellList_2.clear();
+		m_mapUI_List.clear();
+		delete  m_pDropBox_1;
+		delete  m_pDropBox_2;
+	}
+	delete m_pTextMgr;
 }
 
 void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -141,19 +188,23 @@ void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
 
 void CSelectScene::ChampInitialize()
 {
-	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
-	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
+	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0F, 1.0F, 1.0F)));
+	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0F, 1.0F, 1.0F)));
 
 	m_mapUI_List.insert(make_pair("Champ", &m_vecChamp));
 
 	D3DXVECTOR3 pick = D3DXVECTOR3(60, 258, 0);
-	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", pick, D3DXVECTOR3(1.0f, 1.0f, 1.0f), UI_CHAMPTYPE_DYNAMIC));
-	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", pick, D3DXVECTOR3(1.0f, 1.0f, 1.0f), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", pick, D3DXVECTOR3(1.0F, 1.0F, 1.0F), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", pick, D3DXVECTOR3(1.0F, 1.0F, 1.0F), UI_CHAMPTYPE_DYNAMIC));
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
 
+	m_VecSelectImage.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Select.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
+	m_VecSelectImage.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Select.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
 
+	for (int i = 0; i < m_VecSelectImage.size(); i++)
+		m_VecSelectImage[i]->Initialize();
 }
 
 void CSelectScene::SpellInitialize()
@@ -161,80 +212,82 @@ void CSelectScene::SpellInitialize()
 	{
 		m_mapSpellList.insert(make_pair("cleanse", new CSpell_("Cleanse", "Resource/choen/Spell_Image/1.Cleanse.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), cleanse)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), cleanse)));
 
 		m_mapSpellList.insert(make_pair("Exhaust", new CSpell_("Exhaust", "Resource/choen/Spell_Image/2.Exhaust.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Exhaust)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Exhaust)));
 
 		m_mapSpellList.insert(make_pair("Flash", new CSpell_("Flash", "Resource/choen/Spell_Image/3.Flash.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Flash)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Flash)));
 
 		m_mapSpellList.insert(make_pair("Ghost", new CSpell_("Ghost", "Resource/choen/Spell_Image/4.Ghost.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Ghost)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Ghost)));
 
 		m_mapSpellList.insert(make_pair("Heal", new CSpell_("Heal", "Resource/choen/Spell_Image/5.Heal.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Heal)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Heal)));
 
 		m_mapSpellList.insert(make_pair("Smite", new CSpell_("Smite", "Resource/choen/Spell_Image/6.Smite.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Smite)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Smite)));
 
 		m_mapSpellList.insert(make_pair("Teleport", new CSpell_("Teleport", "Resource/choen/Spell_Image/7.Teleport.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Teleport)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Teleport)));
 
 		m_mapSpellList.insert(make_pair("Ignite", new CSpell_("Ignite", "Resource/choen/Spell_Image/8.Ignite.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Ignite)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Ignite)));
 
 		m_mapSpellList.insert(make_pair("Barrier", new CSpell_("Barrier", "Resource/choen/Spell_Image/9.Barrier.png",
 			D3DXVECTOR3(463, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Barrier)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Barrier)));
 
 		m_mapSpellList_2.insert(make_pair("cleanse", new CSpell_("Cleanse", "Resource/choen/Spell_Image/1.Cleanse.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), cleanse)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), cleanse)));
 
 		m_mapSpellList_2.insert(make_pair("Exhaust", new CSpell_("Exhaust", "Resource/choen/Spell_Image/2.Exhaust.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Exhaust)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Exhaust)));
 
 		m_mapSpellList_2.insert(make_pair("Flash", new CSpell_("Flash", "Resource/choen/Spell_Image/3.Flash.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Flash)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Flash)));
 
 		m_mapSpellList_2.insert(make_pair("Ghost", new CSpell_("Ghost", "Resource/choen/Spell_Image/4.Ghost.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Ghost)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Ghost)));
 
 		m_mapSpellList_2.insert(make_pair("Heal", new CSpell_("Heal", "Resource/choen/Spell_Image/5.Heal.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Heal)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Heal)));
 
 		m_mapSpellList_2.insert(make_pair("Smite", new CSpell_("Smite", "Resource/choen/Spell_Image/6.Smite.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Smite)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Smite)));
 
 		m_mapSpellList_2.insert(make_pair("Teleport", new CSpell_("Teleport", "Resource/choen/Spell_Image/7.Teleport.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Teleport)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Teleport)));
 
 		m_mapSpellList_2.insert(make_pair("Ignite", new CSpell_("Ignite", "Resource/choen/Spell_Image/8.Ignite.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Ignite)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Ignite)));
 
 		m_mapSpellList_2.insert(make_pair("Barrier", new CSpell_("Barrier", "Resource/choen/Spell_Image/9.Barrier.png",
 			D3DXVECTOR3(513, 500, 0),
-			D3DXVECTOR3(1.0f, 1.0f, 0.f), Barrier)));
+			D3DXVECTOR3(1.2f, 1.2f, 0.f), Barrier)));
 	}
 	
-	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)		it->second->Initialize();
+	for (auto it = m_mapSpellList.begin(); it != m_mapSpellList.end(); it++)		
+		it->second->Initialize();
 
-	for (auto it = m_mapSpellList_2.begin(); it != m_mapSpellList_2.end(); it++)		it->second->Initialize();
+	for (auto it = m_mapSpellList_2.begin(); it != m_mapSpellList_2.end(); it++)		
+		it->second->Initialize();
 
 	SpellRender_1 = m_mapSpellList["Flash"];
 	SpellRender_2 = m_mapSpellList_2["Ignite"];
@@ -254,7 +307,25 @@ void CSelectScene::ChampRender()
 		m_vecChamp[i]->Render();
 	}
 	
-	if (temp) temp->Render();
+	if (Filnal_Champ) Filnal_Champ->Render();
+	if (m_bChampCheck)
+	{
+		for (int i = 0; i < m_VecSelectImage.size(); i++)
+		{
+			if (Filnal_Champ->GetName() == m_VecSelectImage[i]->GetName())
+			{
+				m_VecSelectImage[i]->Render();
+			}
+		}
+	}
+
+	if (m_Reddy)
+	{
+		for (int i = 0; i < m_VecSelectImage.size(); i++)
+		{
+			m_VecSelectImage[i]->Render();
+		}
+	}
 }
 
 void CSelectScene::SpellRender()
@@ -262,13 +333,13 @@ void CSelectScene::SpellRender()
 	if (SpellRender_1)
 	{
 		SpellRender_1->Render();
-		SpellRender_1->Render(D3DXVECTOR3(126, 255, 0), D3DXVECTOR3(0.7f, 0.7f, 0.7f));
+		SpellRender_1->Render(D3DXVECTOR3(127, 257, 0), D3DXVECTOR3(0.8f, 0.8f, 0.8f));
 	}
 
 	if (SpellRender_2)
 	{
 		SpellRender_2->Render();
-		SpellRender_2->Render(D3DXVECTOR3(126, 290, 0), D3DXVECTOR3(0.7f, 0.7f, 0.7f));
+		SpellRender_2->Render(D3DXVECTOR3(127, 290, 0), D3DXVECTOR3(0.8f, 0.8f, 0.8f));
 	}
 
 	if (m_bChecked_1)

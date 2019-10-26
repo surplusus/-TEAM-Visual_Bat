@@ -59,5 +59,6 @@ extern  void GetBoneMatrix(const TCHAR* pMeshKey
 	, const CHAR* pBoneName
 	, D3DXMATRIX* pOut);
 extern LPD3DXMESH GetMesh(const TCHAR* pMeshKey);
+extern class CMesh* GetMeshPointer(const TCHAR* pMeshKey);
 extern  void Resource_Release(void);
 #endif

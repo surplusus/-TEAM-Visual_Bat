@@ -93,7 +93,7 @@ void MyDrawFPSByTimeMgr(void)
 {
 	RECT rt;
 	SetRect(&rt, 0, 5, 0, 0);
-	string time = "FPS : " + std::to_string(GET_SINGLE(CTimeMgr)->GetFPSTime());
+	string time = "FPS : " + to_string(GET_SINGLE(CTimeMgr)->GetFPSTime());
 	Font_Render(time.c_str(), 2, 5, D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 

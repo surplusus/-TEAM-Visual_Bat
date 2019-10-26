@@ -89,3 +89,14 @@ string C2DMouse::IsInImage_Spell(CUI * UI)
 		return string("");
 	}
 }
+
+bool C2DMouse::IsClicked_Button(CImage_Loader * button)
+{
+	GetCursorPos(&m_GetCur);
+	ScreenToClient(g_hWnd, &m_GetCur);
+	if (PtInRect(&button->GetRect(), m_GetCur))
+	{
+		return true;
+	}
+	return false;
+}
