@@ -7,6 +7,7 @@ class CAbilityPage;
 class C2DMouse;
 class CImage_Loader;
 class CDropBox;
+class CTextMgr;
 
 class CSelectScene :
 	public CScene
@@ -54,8 +55,7 @@ private:
 	map<string, CUI*>					m_mapSpellList;
 	map<string, CUI*>					m_mapSpellList_2;
 
-	vector<map<string, CUI*>>			m_vmapSpellList_1;
-	vector<map<string, CUI*>>			m_vmapSpellList_2;
+	vector<CUI*>						m_VecSelectImage;
 
 	void ChampInitialize();
 	void SpellInitialize();
@@ -82,5 +82,12 @@ public:
 	string GetChampName() { return m_ChampName; }
 	string GetSpell_1Name() { return m_Spell_1Name; }
 	string GetSpell_2Name() { return m_Spell_2Name; }
+
+private:
+	CTextMgr*				m_pTextMgr;
+
+	CImage_Loader*			m_ReddyButton;
+	bool					m_Reddy;
+	bool					m_bChampCheck;
 };
 

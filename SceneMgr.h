@@ -1,4 +1,5 @@
 #pragma once
+#include"SceneMediator.h"
 //class CStateObj;
 class CScene;
 class CSceneMediator;
@@ -16,7 +17,8 @@ public:
 	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	
 	HRESULT SetState(CScene* pState);
-	CSceneMediator* GetSceneMediator() { return m_pSceneMediator; }
+
+	CSceneMediator* GetSceneMediator();
 private:
 	CScene *		m_State;
 	CSceneMediator* m_pSceneMediator;

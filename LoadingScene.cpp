@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "LoadingScene.h"
 #include "Image_Loader.h"
-#include "SelectedChampion.h"
+#include "SelectedPlayer.h"
 #include "TextMgr.h"
 #include "SceneMgr.h"
 #include "SelectScene.h"
@@ -12,18 +12,25 @@
 #include "SummonTerrain.h"
 #include "Zealot.h"
 #include "Factory.h"
-#include <fstream>
-#include <sstream>
+#include "SelectedSpells.h"
+#include "GameScene.h"
 
 CLoadingScene::CLoadingScene() 
 	: m_pBackGround(NULL)
 	, m_nStage(0)
+	, m_pTextMgr(NULL)
+	, m_pChampSelect(NULL)
+	, m_pSpell_1(NULL)
+	, m_pSpell_2(NULL)
 {
 }
+
 
 CLoadingScene::~CLoadingScene()
 {
 }
+
+
 
 HRESULT CLoadingScene::Initialize()
 {
@@ -31,11 +38,13 @@ HRESULT CLoadingScene::Initialize()
 	m_pBackGround->Initialize();
 
 
-	m_pChampSelect = new CSelectedChampion(D3DXVECTOR3(255, 0, 0));
+	m_pChampSelect = new CSelectedPlayer(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedChampName());
 	m_pChampSelect->Initialize();
-
-	GET_SINGLE(CTextMgr)->Initialize();
+	
+	m_pTextMgr = new CTextMgr();
+	m_pTextMgr->Initialize();
 	cout << "로딩 됨" << endl;
+	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// Loading Progress Bar
 		if (FAILED(D3DXCreateTextureFromFileExA(GET_DEVICE
@@ -53,22 +62,19 @@ HRESULT CLoadingScene::Initialize()
 		Render();
 		End_Render(g_hWnd);
 		LoadResourceByThread();
-		
-		SetMeshRegistryInfoThruFile();
-		FuncLoadMesh func = [this]() {this->LoadMeshByThread(&this->m_mapMeshInfo["Udyr"]); return true; };
-		m_queFuncLoadMesh.push_back(func);
 	}
 	return S_OK;
 }
 
 void CLoadingScene::Progress()
 {
-	if (GetAsyncKeyState(VK_SPACE))
+	if (GetAsyncKeyState(VK_SPACE)) //GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	if (GetAsyncKeyState(VK_LEFT))
+		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 
 #pragma region 스테이지 시작
 	//// STAGE 1
-
 	//if (!(m_nStage & (1 << BOXCOLLIDER))) {
 	//	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//	{
@@ -117,18 +123,16 @@ void CLoadingScene::Progress()
 	//	return;
 	//}
 #pragma endregion
-	
-	if (m_queFuncLoadMesh.size() != 0)
-	FuncLoadMesh func = *(m_queFuncLoadMesh.rend());
-	//m_queFuncLoadMesh.pop_back(&func);
 
 	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+
+	
 }
 
 void CLoadingScene::Render()
 {
 	m_pBackGround->Render();
-	GET_SINGLE(CTextMgr)->LoadingNoticeRender();
+	m_pTextMgr->LoadingNoticeRender();
 	m_pChampSelect->Render();
 
 	// Loading Progress Bar
@@ -142,6 +146,8 @@ void CLoadingScene::Release()
 
 	delete m_pChampSelect;
 	m_pChampSelect = NULL;
+	delete m_pTextMgr;
+	m_pTextMgr = NULL;
 
 	SAFE_RELEASE(m_pLoadingSprite);
 	SAFE_RELEASE(m_pLoadingTexture);
@@ -171,7 +177,6 @@ void CLoadingScene::Render_Loading()
 	m_pLoadingSprite->SetTransform(&matS);
 	m_pLoadingSprite->Draw(m_pLoadingTexture, &re
 		, &D3DXVECTOR3(0.f, 0.f, 0.f), &position, D3DCOLOR_RGBA(255, 255, 255, 100));
-	
 	m_pLoadingSprite->End();
 }
 
@@ -195,65 +200,38 @@ bool CLoadingScene::RegisterOnObjMgr(stMeshInfo * info)
 	return true;
 }
 
-bool CLoadingScene::LoadMeshByThread(stMeshInfo * info)
+bool CLoadingScene::LoadStaticMeshByThread(stMeshInfo * info)
 {
-	basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
+	/*basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
 	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
 	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
 	const TCHAR* t1 = sTemp1.c_str();
 	const TCHAR* t2 = sTemp2.c_str();
 	const TCHAR* t3 = sTemp3.c_str();
 	
-	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, info->m_MeshType))) {
+	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_STATIC))) {
 		info->m_ConsoleText = info->m_ObjName + " Load Complited";
-		RegisterOnObjMgr(info);
 		return true;
 	}
 
-	//CLoadingScene temp;
-	//  
-	//std::function<bool(stMeshInfo*)> func = [this](stMeshInfo* info) { this-> }
-
-	info->m_ConsoleText = info->m_ObjName + " Load Failed";
+	info->m_ConsoleText = info->m_ObjName + " Load Failed";*/
 	return false;
 }
 
-void CLoadingScene::SetMeshRegistryInfoThruFile()
+bool CLoadingScene::LoadDynamicMeshByThread(stMeshInfo * info)
 {
-	//ofstream file("./Resource/Test/test.dat",fstream::in | fstream::ate);
-	ifstream file("./Resource/Test/test.dat", ifstream::in);
-
-	if (!file.is_open()) {
-		cout << "Error Opening File\n";
-		return;
+	/*basic_string<TCHAR> sTemp1(info->m_FolderPath.begin(), info->m_FolderPath.end());
+	basic_string<TCHAR> sTemp2(info->m_FileName.begin(), info->m_FileName.end());
+	basic_string<TCHAR> sTemp3(info->m_ObjName.begin(), info->m_ObjName.end());
+	string result;
+	const TCHAR* t1 = sTemp1.c_str();
+	const TCHAR* t2 = sTemp2.c_str();
+	const TCHAR* t3 = sTemp3.c_str();
+	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, t3, MESHTYPE_DYNAMIC))) {
+		result = info->m_ObjName + " Load Complited";
+		return true;
 	}
 
-	string name;
-	while (file)
-	{
-		vector<string> token;
-		string s, t;
-		getline(file, s);
-		if (s == "")	break;
-		for (stringstream ss(s); (ss >> t);)
-			token.push_back(t);
-		if (token[0][0] == '-') {
-			name = token[0].substr(1, token[0].size() - 2);
-			m_mapMeshInfo[name];
-		}
-		else if (token[0] == "bComplete")
-			m_mapMeshInfo[name].m_bComplete = (token[1][0] == 't') ? true : false;
-		else if (token[0] == "ObjName")
-			m_mapMeshInfo[name].m_ObjName = token[1];
-		else if (token[0] == "FolderPath")
-			m_mapMeshInfo[name].m_FolderPath = token[1];
-		else if (token[0] == "FileName")
-			m_mapMeshInfo[name].m_FileName = token[1];
-		else if (token[0] == "ConsoleText")
-			for (int i = 1; i < token.size(); ++i)
-				m_mapMeshInfo[name].m_ConsoleText += token[i] + " ";
-		else if (token[0] == "MeshType")
-			m_mapMeshInfo[name].m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
-		if (file.eof())	break;
-	}
+	result = info->m_ObjName + " Load Failed";*/
+	return false;
 }
