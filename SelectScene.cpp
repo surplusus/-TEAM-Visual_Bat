@@ -140,11 +140,11 @@ void CSelectScene::Progress()
 		}
 		if (m_Reddy)
 		{
-			m_pTextMgr->SetMaxTime(10.0f);
+			m_pTextMgr->SetMaxTime(11.0f);
 		}
 	}
 
-	if (GetAsyncKeyState(VK_RIGHT))GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
+	if (m_pTextMgr->GetMaxTime() == 0)	GET_SINGLE(CSceneMgr)->SetState(new CLoadingScene);
 }
 
 void CSelectScene::Render()
