@@ -13,7 +13,7 @@ CMeleeMinion::~CMeleeMinion()
 
 HRESULT CMeleeMinion::Initialize()
 {
-	CloneMesh(GetDevice(), m_sName.c_str(), &m_pAnimationCtrl);
+	HRESULT res = CloneMesh(GetDevice(), m_sName.c_str(), &m_pAnimationCtrl);
 	
 	if (!m_pAnimationCtrl)
 		return S_FALSE;

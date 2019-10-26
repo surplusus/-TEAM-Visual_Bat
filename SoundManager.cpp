@@ -17,7 +17,7 @@ SoundManager::~SoundManager()
 	}
 	m_mapAlarm.clear();
 	for (auto & it : map_pSounds) {
-		SAFE_DELETE(it);
+		SAFE_DELETE(it.second);
 	}
 	map_pSounds.clear();
 	//=========== Unsubscribe Events ==========//

@@ -25,10 +25,10 @@ void CMeshMgr::GetBoneMatrix(const TCHAR * pMeshKey, const CHAR * pBoneName, D3D
 HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const TCHAR * pFileName, const TCHAR * pMeshKey, MESHTYPE MeshType)
 {
 	// Loading 정보 입력 시작
-	basic_string<TCHAR> tmp(pFileName);
-	string sFileName(tmp.begin(), tmp.end());
+	basic_string<TCHAR> tmp(pMeshKey);
+	string sMeshKey(tmp.begin(), tmp.end());
 	//stLoadProcess LP = ;
-	m_mapLoadInfo[sFileName] = { 0,true,sFileName };
+	m_mapLoadInfo[sMeshKey] = { 0, true, sMeshKey };
 
 
 	map<const TCHAR*, CMesh*>::iterator iter = m_MapMesh.find(pMeshKey);
@@ -42,7 +42,7 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 			pMesh = new CStaticMesh;
 			break;
 		case MESHTYPE_DYNAMIC:
-			pMesh = new CSkinnedMesh(sFileName);
+			pMesh = new CSkinnedMesh(sMeshKey);
 			break;
 		}
 		if (FAILED(pMesh->CreateMesh(pDevice, pPath, pFileName)))
@@ -96,9 +96,9 @@ void CMeshMgr::Mesh_Render(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pMeshKey)
 	iter->second->Render(pDevice);
 }
 
-LPD3DXMESH CMeshMgr::GetMesh(const TCHAR * pMeshKey)
+CMesh* CMeshMgr::GetMesh(const TCHAR * pMeshKey)
 {
 	map<const TCHAR*, CMesh*>::iterator	iter = m_MapMesh.find(pMeshKey);
 	if (iter == m_MapMesh.end()) return NULL;
-	return iter->second->GetMesh();
+	return iter->second;
 }

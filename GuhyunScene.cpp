@@ -23,6 +23,9 @@
 #include "LoadingScene.h"
 #include "SceneMediator.h"
 
+#include "Minion.h"
+#include "MeleeMinion.h"
+
 
 GuhyunScene::GuhyunScene()
 {
@@ -48,37 +51,29 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
-	//=========== Add Mesh(Bounding) ===========//
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	{
-		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
-	}
 	#pragma region 이제 스레스 부분으로 갔음
-	//=========== Add Texture ===========//
-	//if (FAILED(InsertTexture(GetDevice()
-	//	, TEXTYPE_CUBE
-	//	, L"./Resource/SkyBox/Berger%d.dds"
-	//	, L"SkyBox", L"Cube", 3)))
+	//=========== Add Mesh(Bounding) ===========//
+	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//{
-	//	ERR_MSG(g_hWnd, L"Texture Create Failed");
-	//	return E_FAIL;
+	//	ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
 	//}
+	//=========== Add Texture ===========//
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	}
-	else
-		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-		
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
-			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	}
-	else
-		ERR_MSG(g_hWnd, L"Udyr Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	//	
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	//=========== Add Shader ===========//
 	
@@ -89,8 +84,18 @@ HRESULT GuhyunScene::Initialize()
 
 	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
-	m_pMinionMgr = new CMinionMgr();
-	m_pMinionMgr->CreateMinions();
+	//m_pMinionMgr = new CMinionMgr();
+	//m_pMinionMgr->CreateMinions();
+	//HRESULT res;
+	//m_pMinion = new CMeleeMinion();
+	//m_pMinion->m_sName = L"Minion";
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_pMinion)))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//	m_pMinion->Initialize();
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 	return S_OK;
 }
 
@@ -125,7 +130,7 @@ void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
 	GET_SINGLE(CFrustum)->DestroyInstance();
-	SAFE_RELEASE(m_pMinionMgr);
+	SAFE_DELETE(m_pMinionMgr);
 	GET_SINGLE(CCameraMgr)->Release();
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }

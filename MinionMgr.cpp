@@ -13,6 +13,7 @@ CMinionMgr::CMinionMgr()
 
 CMinionMgr::~CMinionMgr()
 {
+	Release();
 }
 
 void CMinionMgr::CreateMinions()

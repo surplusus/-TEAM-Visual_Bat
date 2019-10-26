@@ -12,7 +12,7 @@ public:
 	virtual void		Progress() PURE;
 	virtual void		Render() PURE;
 	virtual void		Release() PURE;
-protected:
+public:
 	basic_string<TCHAR>	m_sName;
 	float				m_fSize;
 	SPHERE				m_SphereForPick;

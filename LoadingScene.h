@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include <functional>
 
 struct stMeshInfo
 {
@@ -11,6 +12,7 @@ struct stMeshInfo
 	stMeshInfo(string objName, string folderPath, string fileName)
 		: m_ObjName(objName), m_FolderPath(folderPath), m_FileName(fileName) {}
 };
+using FuncLoading = function<void(void)>;
 
 class CImage_Loader;
 class CSelectedPlayer;
@@ -54,6 +56,15 @@ public:
 	enum {BOXCOLLIDER = 0,LOADCHAMP = 1,LOADMAP, INROLLCHAMP, INROLLMAP, ENDSTAGE};
 	int							m_nStage;
 	vector<stMeshInfo*>			m_vpMeshInfo;
+	
+	vector<FuncLoading>			m_vfuncLoading;
+	// 지울 함수들
+	static void LoadingFunc1();
+	static void LoadingFunc2();
+	static void LoadingFunc3();
+	static void LoadingFunc4();
+	static void LoadingFunc5();
+
 	bool LoadResourceByThread();
 	bool RegisterOnObjMgr(stMeshInfo* info);
 	static bool LoadStaticMeshByThread(stMeshInfo* info);
