@@ -55,16 +55,16 @@ void CDynamicCamera::Move_KeyBoard(void)
 	if (CheckPushKey(DIK_W))
 	{
 		vLook = m_vAt - m_vEye;
-		D3DXVec3Normalize(&vLook, &vLook);
-		m_vEye += vLook * m_fCamSpeed * GetTime();
-		m_vAt += vLook * m_fCamSpeed * GetTime();
+		D3DXVec3Normalize(&vLook, &vLook); 
+		m_vEye += vLook * m_fCamSpeed * g_fDeltaTime;
+		m_vAt += vLook * m_fCamSpeed * g_fDeltaTime;
 	}
 	if (CheckPushKey(DIK_S))
 	{
 		vLook = m_vAt - m_vEye;
 		D3DXVec3Normalize(&vLook, &vLook);
-		m_vEye -= vLook * m_fCamSpeed * GetTime();
-		m_vAt -= vLook * m_fCamSpeed * GetTime();
+		m_vEye -= vLook * m_fCamSpeed * g_fDeltaTime;
+		m_vAt -= vLook * m_fCamSpeed * g_fDeltaTime;
 	}
 
 	if (CheckPushKey(DIK_A))
@@ -74,8 +74,8 @@ void CDynamicCamera::Move_KeyBoard(void)
 		D3DXVec3Cross(&vRight, &m_vUp, &vLook);
 		D3DXVec3Normalize(&vRight, &vRight);
 
-		m_vEye -= vRight * m_fCamSpeed * GetTime();
-		m_vAt -= vRight * m_fCamSpeed * GetTime();
+		m_vEye -= vRight * m_fCamSpeed * g_fDeltaTime;
+		m_vAt -= vRight * m_fCamSpeed * g_fDeltaTime;
 	}
 	if (CheckPushKey(DIK_D))
 	{
@@ -84,8 +84,8 @@ void CDynamicCamera::Move_KeyBoard(void)
 		D3DXVec3Cross(&vRight, &m_vUp, &vLook);
 		D3DXVec3Normalize(&vRight, &vRight);
 
-		m_vEye += vRight * m_fCamSpeed * GetTime();
-		m_vAt += vRight * m_fCamSpeed * GetTime();
+		m_vEye += vRight * m_fCamSpeed * g_fDeltaTime;
+		m_vAt += vRight * m_fCamSpeed * g_fDeltaTime;
 	}
 }
 
