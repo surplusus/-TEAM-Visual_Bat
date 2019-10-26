@@ -188,19 +188,19 @@ void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
 
 void CSelectScene::ChampInitialize()
 {
-	m_vecChamp.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0F, 1.0F, 1.0F)));
+	m_vecChamp.push_back(new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/Udyr_Square.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0F, 1.0F, 1.0F)));
 	m_vecChamp.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0F, 1.0F, 1.0F)));
 
 	m_mapUI_List.insert(make_pair("Champ", &m_vecChamp));
 
 	D3DXVECTOR3 pick = D3DXVECTOR3(60, 258, 0);
-	m_vecChampCircle.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Square_0.png", pick, D3DXVECTOR3(1.0F, 1.0F, 1.0F), UI_CHAMPTYPE_DYNAMIC));
+	m_vecChampCircle.push_back(new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/Udyr_Square.png", pick, D3DXVECTOR3(1.0F, 1.0F, 1.0F), UI_CHAMPTYPE_DYNAMIC));
 	m_vecChampCircle.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Square_0.png", pick, D3DXVECTOR3(1.0F, 1.0F, 1.0F), UI_CHAMPTYPE_DYNAMIC));
 
 	for (int i = 0; i < m_vecChampCircle.size(); i++)
 		m_vecChampCircle[i]->Initialize();
 
-	m_VecSelectImage.push_back(new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/Amumu_Select.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
+	m_VecSelectImage.push_back(new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/Udyr_Select.png", D3DXVECTOR3(220, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
 	m_VecSelectImage.push_back(new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/Ezreal_Select.png", D3DXVECTOR3(290, 150, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f)));
 
 	for (int i = 0; i < m_VecSelectImage.size(); i++)
