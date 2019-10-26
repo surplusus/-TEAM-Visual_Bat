@@ -6,9 +6,9 @@
 #include "ObjMgr.h"
 #include "Ray.h"
 
-D3DXVECTOR3 CTower::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
-std::atomic<bool> CTower::g_bHitFloor = false;
-bool CTower::bPick = false;
+//D3DXVECTOR3 CTower::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
+//std::atomic<bool> CTower::g_bHitFloor = false;
+//bool CTower::bPick = false;
 
 
 CTower::~CTower()
@@ -25,18 +25,4 @@ CTower::~CTower()
 
 void CTower::UpdateWorldMatrix()
 {
-}
-
-void CTower::SetDirectionToMouseHitPoint()
-{
-}
-
-bool CTower::EnqueueMousePickingFunc()
-{
-	return false;
-}
-
-bool CTower::MapCheckThreadLoop(int number, const VTXTEX * vtx)
-{
-	return false;
 }

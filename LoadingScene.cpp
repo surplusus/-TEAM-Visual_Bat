@@ -146,6 +146,8 @@ void CLoadingScene::Release()
 
 	delete m_pChampSelect;
 	m_pChampSelect = NULL;
+	delete m_pTextMgr;
+	m_pTextMgr = NULL;
 
 	SAFE_RELEASE(m_pLoadingSprite);
 	SAFE_RELEASE(m_pLoadingTexture);

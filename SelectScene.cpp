@@ -178,6 +178,7 @@ void CSelectScene::Release()
 		delete  m_pDropBox_1;
 		delete  m_pDropBox_2;
 	}
+	delete m_pTextMgr;
 }
 
 void CSelectScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

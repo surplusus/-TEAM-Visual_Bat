@@ -345,3 +345,34 @@ void CTextMgr::LoadingNoticeRender()
 		DT_CENTER | DT_NOCLIP,
 		D3DCOLOR_XRGB(0, 0, 0));
 }
+
+void CTextMgr::Reelase()
+{
+	delete m_pNotice;
+	delete m_pTime;
+	delete m_pAlarm;
+
+	delete CtSpell_Info.m_pCleanse	;
+	delete CtSpell_Info.m_pExhaust	;
+	delete CtSpell_Info.m_pBarrier	;
+	delete CtSpell_Info.m_pFlash	;
+	delete CtSpell_Info.m_pGhost	;
+	delete CtSpell_Info.m_pHeal		;
+	delete CtSpell_Info.m_pIgnite	;
+	delete CtSpell_Info.m_pSmite	;
+	delete CtSpell_Info.m_pTeleport ;
+
+	m_pNotice					= NULL;
+	m_pTime						= NULL;
+	m_pAlarm					= NULL;
+
+	CtSpell_Info.m_pCleanse		= NULL;
+	CtSpell_Info.m_pExhaust		= NULL;
+	CtSpell_Info.m_pBarrier		= NULL;
+	CtSpell_Info.m_pFlash		= NULL;
+	CtSpell_Info.m_pGhost		= NULL;
+	CtSpell_Info.m_pHeal		= NULL;
+	CtSpell_Info.m_pIgnite		= NULL;
+	CtSpell_Info.m_pSmite		= NULL;
+	CtSpell_Info.m_pTeleport	= NULL;
+}

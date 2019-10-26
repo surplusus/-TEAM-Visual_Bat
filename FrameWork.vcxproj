@@ -62,11 +62,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Image_Loader.h" />
-    <ClInclude Include="Inhibitor.h" />
+    <ClInclude Include="Inhibitor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionMgr.h" />
-    <ClInclude Include="Nexus.h" />
+    <ClInclude Include="Nexus.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="SelectedSpells.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skill.h" />
@@ -134,8 +138,12 @@
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
-    <ClInclude Include="Tower.h" />
-    <ClInclude Include="Turret.h" />
+    <ClInclude Include="Tower.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
@@ -184,11 +192,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp" />
-    <ClCompile Include="Inhibitor.cpp" />
+    <ClCompile Include="Inhibitor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
-    <ClCompile Include="Nexus.cpp" />
+    <ClCompile Include="Nexus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SelectedSpells.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skill.cpp" />
@@ -249,8 +261,12 @@
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
-    <ClCompile Include="Tower.cpp" />
-    <ClCompile Include="Turret.cpp" />
+    <ClCompile Include="Tower.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />

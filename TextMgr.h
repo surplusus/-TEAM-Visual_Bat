@@ -90,6 +90,7 @@ private:
 public:
 	void SetPosition(D3DXVECTOR3 pos) { m_vpos = pos; }
 	void SetMaxTime(float MAXTIME_) { m_MAXTIME = MAXTIME_; }
+	void Reelase();
 	//>> 필요한거 작업
 
 private:
