@@ -45,6 +45,11 @@ void CImage_Loader::Initialize()
 		&m_pTexture
 	))) 
 		ERR_MSG(g_hWnd, L"Failed");
+
+	m_Rect.left = m_vPosition.x;
+	m_Rect.top = m_vPosition.y;
+	m_Rect.right = m_vPosition.x + m_ImageInfo.Width * m_vScale.x;
+	m_Rect.bottom = m_vPosition.y + m_ImageInfo.Height * m_vScale.y;
 }
 
 
@@ -81,7 +86,7 @@ void CImage_Loader::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 
 	D3DXMATRIXA16	matT, matR, matS, matWorld;
 
-	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixScaling(&matS, scale.x, scale.y, scale.z);
 	D3DXMatrixTranslation(&matT, pos.x, pos.y, 0);
 
 	
@@ -102,4 +107,14 @@ void CImage_Loader::Release()
 {
 	delete m_pSprite;
 	delete m_pTexture;
+}
+
+int CImage_Loader::GetWidth()
+{
+	return m_ImageInfo.Width * m_vScale.x;
+}
+
+int CImage_Loader::GetHeight()
+{
+	return m_ImageInfo.Height * m_vScale.y;
 }
