@@ -88,9 +88,7 @@ HRESULT CObjMgr::AddObject(const TCHAR* pObjKey, CObj* pObject)
 DWORD CObjMgr::Hashing(const TCHAR* pObjKey)
 {
 	DWORD dwLength = lstrlen(pObjKey);
-
 	DWORD dwIndex = -1;
-
 	for (DWORD i = 0; i < dwLength; ++i)
 	{
 		dwIndex += pObjKey[i];
@@ -263,6 +261,9 @@ void CObjMgr::Release(void)
 const CObj * CObjMgr::GetObj(const TCHAR * pObjKey, const int & iCnt)
 {
 	DWORD	dwIndex = Hashing(pObjKey);
+	
+	if (m_pObjects[dwIndex] == nullptr)
+		return nullptr;
 
 	for (list<list<PDATA>*>::iterator iter = m_pObjects[dwIndex]->begin();
 		iter != m_pObjects[dwIndex]->end(); ++iter)

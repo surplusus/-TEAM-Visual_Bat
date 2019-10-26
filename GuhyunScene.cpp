@@ -9,17 +9,22 @@
 #include "SceneMgr.h"
 #include "GameScene.h"
 #include "ThreadPool.h"
+#include "Frustum.h"
 #include <sstream>
 
 #include "SoundManager.h"
 #include "Amumu.h"
 #include "Zealot.h"
+#include "Udyr.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"
 #include "HeightMap.h"
 #include "LoadingScene.h"
 #include "SceneMediator.h"
+
+#include "Minion.h"
+#include "MeleeMinion.h"
 
 
 GuhyunScene::GuhyunScene()
@@ -46,50 +51,51 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
-	//=========== Add Mesh(Bounding) ===========//
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	{
-		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
-	}
 	#pragma region 이제 스레스 부분으로 갔음
-	//=========== Add Texture ===========//
-	//if (FAILED(InsertTexture(GetDevice()
-	//	, TEXTYPE_CUBE
-	//	, L"./Resource/SkyBox/Berger%d.dds"
-	//	, L"SkyBox", L"Cube", 3)))
+	//=========== Add Mesh(Bounding) ===========//
+	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//{
-	//	ERR_MSG(g_hWnd, L"Texture Create Failed");
-	//	return E_FAIL;
+	//	ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
 	//}
+	//=========== Add Texture ===========//
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-	//
-	//
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/"
-		, L"Ezreal.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"Zealot Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	//	
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	//=========== Add Shader ===========//
 	
 	//=========== Add Object ===========//	
 
 	//=========== Add Particle ===========//	
-
 	#pragma endregion
-	//m_minion = new MinionMgr();
 
-		// 스레드 돌려서 맵 로딩
-	//LoadResourceByThread();
-	m_pHeightMap = new CHeightMap();
-	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
-	dynamic_cast<CZealot*>(const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot")))->SetHeightMap(m_pHeightMap);
+	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
+	LetObjectKnowHeightMap();
+	//m_pMinionMgr = new CMinionMgr();
+	//m_pMinionMgr->CreateMinions();
+	//HRESULT res;
+	//m_pMinion = new CMeleeMinion();
+	//m_pMinion->m_sName = L"Minion";
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_pMinion)))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//	m_pMinion->Initialize();
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 	return S_OK;
 }
 
@@ -100,19 +106,21 @@ void GuhyunScene::Progress()
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
-	
-	//if (CheckPushKeyOneTime(VK_0))
-	//	GET_SINGLE(EventMgr)->Publish(new ANNOUNCEEVENT());
+
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
+	m_pObjMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
-
-	m_pObjMgr->Progress();
+	GET_SINGLE(CFrustum)->InitFrustum();
 	
 	SoundUpdate();
 }
 
 void GuhyunScene::Render()
 {
+	if (m_pMinionMgr)
+		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
 	//m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
@@ -121,6 +129,9 @@ void GuhyunScene::Render()
 void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
+	GET_SINGLE(CFrustum)->DestroyInstance();
+	SAFE_DELETE(m_pMinionMgr);
+	GET_SINGLE(CCameraMgr)->Release();
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
@@ -166,4 +177,17 @@ void GuhyunScene::SoundUpdate()
 	//	cout << "미니언이 생성되었습니다." << endl;
 	//}
 	GET_SINGLE(SoundManager)->Update();
+}
+
+void GuhyunScene::LetObjectKnowHeightMap()
+{
+	m_pHeightMap = new CHeightMap();
+	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
+	CObj* pObj = nullptr;
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
+	if (pObj != nullptr)
+		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
+	if (pObj != nullptr)
+		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
 }

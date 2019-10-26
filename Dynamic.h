@@ -8,11 +8,13 @@ public:
 	CDynamic();
 	virtual ~CDynamic();
 protected:
+	CAnimationCtrl*		m_pAnimationCtrl;
 	bool				m_bMove;
 	float				m_fHeight;
-	CAnimationCtrl*		m_pAnimationCtrl;
+
 public:
 	bool				Update_vPos_ByDestPoint(const D3DXVECTOR3* pDestPoint, const float&fSpeed);
+
 public:
 
 	virtual HRESULT		Initialize() PURE;

@@ -1,11 +1,12 @@
-
-#include"BaseInclude.h"
+#include "BaseInclude.h"
 #include "ResourceFunc.h"
 #include "BufferMgr.h"
 #include "TextureMgr.h"
 #include "BoundingMgr.h"
 #include "MeshMgr.h"
 #include "AnimationCtrl.h"
+#include "Mesh.h"
+
 //¹öÆÛ »ðÀÔ
 extern  HRESULT Insert_Buffer(LPDIRECT3DDEVICE9 pDevice, const TCHAR* pBufferKey
 	, BUFFERTYPE Type
@@ -110,6 +111,11 @@ extern  void GetBoneMatrix(const TCHAR* pMeshKey
 }
 
 LPD3DXMESH GetMesh(const TCHAR * pMeshKey)
+{
+	return (*(CMeshMgr::GetInstance()))->GetMesh(pMeshKey)->GetMesh();
+}
+
+CMesh * GetMeshPointer(const TCHAR * pMeshKey)
 {
 	return (*(CMeshMgr::GetInstance()))->GetMesh(pMeshKey);
 }

@@ -154,9 +154,6 @@
     <Filter Include="소스 파일\Maneger\01. ObjMgr">
       <UniqueIdentifier>{2d246587-79d8-4ece-b3e7-009a86a10cd4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Maneger\MathMgr">
-      <UniqueIdentifier>{0a34fdea-378c-4417-b608-dbc496eaa7d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Maneger\PipleLine">
       <UniqueIdentifier>{326cc5ed-5f12-4546-b5d9-08a00ae037a7}</UniqueIdentifier>
     </Filter>
@@ -220,9 +217,6 @@
     <Filter Include="System\Algorithm">
       <UniqueIdentifier>{9f157568-4791-412a-bf7b-881e51f9a8be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion">
-      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Scene\SceneMediator">
       <UniqueIdentifier>{d248f93a-2aa9-4312-ba93-775e5a0695fa}</UniqueIdentifier>
     </Filter>
@@ -270,6 +264,18 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\cheon_Tower\Inhibitor">
       <UniqueIdentifier>{1552e09b-8c02-4660-b6c0-d1eec05d3a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\FrustumMgr">
+      <UniqueIdentifier>{c09a997b-5e74-467e-838a-454a26ce62e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Minion">
+      <UniqueIdentifier>{79dcf515-c869-4268-8651-e749a389eb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\Champion\Udyr">
+      <UniqueIdentifier>{87c1b07c-b8d5-452f-8be8-bf62ba9f6088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\PickingSphereMgr">
+      <UniqueIdentifier>{78981324-d91b-4450-9971-af4d4f5b9ac0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -405,9 +411,6 @@
     <ClInclude Include="ObjMgr.h">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClInclude>
-    <ClInclude Include="MathMgr.h">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
-    </ClInclude>
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClInclude>
@@ -443,9 +446,6 @@
     </ClInclude>
     <ClInclude Include="Atrox.h">
       <Filter>소스 파일\02. Object\Champion</Filter>
-    </ClInclude>
-    <ClInclude Include="CFloor.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="GuhyunScene.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -484,10 +484,10 @@
       <Filter>System\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="MinionMgr.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="Minion.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="HeightMap.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -574,7 +574,22 @@
       <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeMinion.h">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClInclude>
+    <ClInclude Include="MathMgr.h">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>System\FrustumMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Udyr.h">
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
+    </ClInclude>
+    <ClInclude Include="PickingSphereMgr.h">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -695,9 +710,6 @@
     <ClCompile Include="ObjMgr.cpp">
       <Filter>소스 파일\Maneger\01. ObjMgr</Filter>
     </ClCompile>
-    <ClCompile Include="MathMgr.cpp">
-      <Filter>소스 파일\Maneger\MathMgr</Filter>
-    </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClCompile>
@@ -731,9 +743,6 @@
     <ClCompile Include="Atrox.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
     </ClCompile>
-    <ClCompile Include="CFloor.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
     <ClCompile Include="GuhyunScene.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
@@ -765,10 +774,10 @@
       <Filter>System\Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="MinionMgr.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="Minion.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Minion</Filter>
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="HeightMap.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
@@ -852,7 +861,22 @@
       <Filter>소스 파일\02. Object\cheon_Tower\Inhibitor</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\02. Object\cheon_Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeMinion.cpp">
+      <Filter>소스 파일\02. Object\Minion</Filter>
+    </ClCompile>
+    <ClCompile Include="MathMgr.cpp">
+      <Filter>System\SystemManager\01.MathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>System\FrustumMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Udyr.cpp">
+      <Filter>소스 파일\02. Object\Champion\Udyr</Filter>
+    </ClCompile>
+    <ClCompile Include="PickingSphereMgr.cpp">
+      <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

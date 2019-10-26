@@ -14,6 +14,7 @@
 #include "Factory.h"
 #include "SelectedSpells.h"
 #include "GameScene.h"
+#include "Udyr.h"
 
 CLoadingScene::CLoadingScene() 
 	: m_pBackGround(NULL)
@@ -62,6 +63,12 @@ HRESULT CLoadingScene::Initialize()
 		Render();
 		End_Render(g_hWnd);
 		LoadResourceByThread();
+		// 임시
+		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc1);
+		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc2);
+		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc3);
+		//m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc4);
+		//m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc5);
 	}
 	return S_OK;
 }
@@ -124,9 +131,17 @@ void CLoadingScene::Progress()
 	//}
 #pragma endregion
 
-	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	static int idx = 0;
 
-	
+	if (idx < m_vfuncLoading.size()) {
+	//if (idx ) {
+		FuncLoading fp = m_vfuncLoading[idx];
+		fp();
+		idx++;
+		return;
+	}
+
+	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }
 
 void CLoadingScene::Render()
@@ -178,6 +193,45 @@ void CLoadingScene::Render_Loading()
 	m_pLoadingSprite->Draw(m_pLoadingTexture, &re
 		, &D3DXVECTOR3(0.f, 0.f, 0.f), &position, D3DCOLOR_RGBA(255, 255, 255, 100));
 	m_pLoadingSprite->End();
+}
+
+void CLoadingScene::LoadingFunc1()
+{
+	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	{
+		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+	}
+	printf("콜라이더 로딩 완료!\n");
+}
+
+void CLoadingScene::LoadingFunc2()
+{
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
+	else
+		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	printf("맵 로딩 완료!\n");
+}
+
+void CLoadingScene::LoadingFunc3()
+{
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
+	else
+		ERR_MSG(g_hWnd, L"Udyr Load Failed");
+	printf("우디르 로딩 완료!\n");
+}
+
+void CLoadingScene::LoadingFunc4()
+{
+}
+
+void CLoadingScene::LoadingFunc5()
+{
 }
 
 bool CLoadingScene::LoadResourceByThread()

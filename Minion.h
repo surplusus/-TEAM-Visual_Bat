@@ -1,18 +1,26 @@
 #pragma once
 #include "Dynamic.h"
-class Minion : public CDynamic
+class CMinion : public CDynamic
 {
 public:
-	Minion();
-	Minion(string name, string filePath);
-	virtual ~Minion();
+	CMinion();
+	virtual ~CMinion();
 
-	virtual HRESULT		Initialize();
-	virtual void		Progress();
-	virtual void		Render();
-	virtual void		Release();
-private:
-	TCHAR* m_sName;
-	int num;
+	bool				SetUp(string sName, string sFolderPath, string sFilePath);
+	void				UpdateWorldMatrix();
+	virtual HRESULT		Initialize() PURE;
+	virtual void		Progress() PURE;
+	virtual void		Render() PURE;
+	virtual void		Release() PURE;
+public:
+	basic_string<TCHAR>	m_sName;
+	float				m_fSize;
+	SPHERE				m_SphereForPick;
+	LPD3DXMESH			m_pMeshSphere;
+protected:
+	bool			SetUpPickingShere(const float r, const D3DXVECTOR3 v);
+	bool			Render_PickingShere();
+public:
+	const TCHAR*	GetName();
 };
 
