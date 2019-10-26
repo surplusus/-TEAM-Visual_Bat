@@ -34,10 +34,8 @@ void cGameHUD::Initialize()
 	cImageLoader * mini_cham = new cImageLoader(
 		L"Resource/jiyun/mini_cham-01.png",
 		D3DXVECTOR3(
-			 (m_mapImage["minimap"]->GetImagePos()->x) + 20 * ((GET_SINGLE(cCubePC)->GetPosition().x)
-			 / m_mapImage["minimap"]->GetImagePos()->x), 
-				 (m_mapImage["minimap"]->GetImageInfo()->Height) + (m_mapImage["minimap"]->GetImagePos()->y) + 20 * ((GET_SINGLE(cCubePC)->GetPosition().z)
-					/ m_mapImage["minimap"]->GetImagePos()->y), 0));
+			850 + 57.0f * (GET_SINGLE(cCubePC))->GetPosition().x,
+			780 + 60.0f * (GET_SINGLE(cCubePC))->GetPosition().z, 0));
 	m_mapImage["mini_cham"] = mini_cham;
 	m_mapImage["mini_cham"]->Initialize();
 
@@ -88,6 +86,11 @@ void cGameHUD::Initialize()
 	m_mapImage["exam"]->Initialize();
 
 	GET_SINGLE(cCubePC)->Initialize();
+
+	Ezreal.m_Skill[0] = cImageLoader(
+		L"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(380, 670, 0));
+	Ezreal.m_Skill[0].Initialize();
 }
 
 void cGameHUD::Progress()
@@ -100,10 +103,10 @@ void cGameHUD::Progress()
 		//(m_mapImage["exam"]->GetImagePos()->x)++;
 
 		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->x) += 0.25f;
+		(m_mapImage["mini_cham"]->GetImagePos()->x) += 2.0f;
 
-		cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
-			<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
+			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
 	}
 
 	if (CheckPushKey(DIK_LEFT))
@@ -111,10 +114,10 @@ void cGameHUD::Progress()
 		//(m_mapImage["exam"]->GetImagePos()->x)--;
 
 		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->x)--;
+		(m_mapImage["mini_cham"]->GetImagePos()->x) -= 2.0f;
 
-		cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
-			<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
+			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
 	}
 
 	if (CheckPushKey(DIK_UP))
@@ -122,10 +125,10 @@ void cGameHUD::Progress()
 		//(m_mapImage["exam"]->GetImagePos()->y)--;
 
 		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->y)--;
+		(m_mapImage["mini_cham"]->GetImagePos()->y) -= 2.0f;
 
-		cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
-			<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
+			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
 	}
 
 	if (CheckPushKey(DIK_DOWN))
@@ -133,10 +136,10 @@ void cGameHUD::Progress()
 		// (m_mapImage["exam"]->GetImagePos()->y)++;
 
 		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->y)++;
+		(m_mapImage["mini_cham"]->GetImagePos()->y) += 2.0f;
 
-		cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
-			<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
+			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
 	}
 
 	GET_SINGLE(cCubePC)->Progress();
@@ -159,6 +162,8 @@ void cGameHUD::Render()
 	m_mapImage["exam"]->Render();
 
 	GET_SINGLE(cCubePC)->Render();
+
+	Ezreal.m_Skill[0].Render();
 }
 
 void cGameHUD::Release()
@@ -168,6 +173,8 @@ void cGameHUD::Release()
 	{
 		it->second->Release();
 	}
+
+	Ezreal.m_Skill[0].Release();
 }
 
 void cGameHUD::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

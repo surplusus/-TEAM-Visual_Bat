@@ -1,7 +1,9 @@
 #pragma once
+#include "ImageLoader.h"
 
-class cImageLoader;
-class cFont;
+struct SkillList {
+	cImageLoader m_Skill[5];
+};
 
 class cGameHUD
 {
@@ -23,8 +25,10 @@ public:
 
 private:
 	map<string, cImageLoader *> m_mapImage;
-	cFont * m_Text;
+	//cFont * m_Text;
 
 	bool m_isLButtonDown;
+
+	SkillList Ezreal;
 };
 
