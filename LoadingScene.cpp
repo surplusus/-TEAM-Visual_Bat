@@ -15,6 +15,7 @@
 #include "SelectedSpells.h"
 #include "GameScene.h"
 #include "Udyr.h"
+#include "InGameScene.h"
 
 CLoadingScene::CLoadingScene() 
 	: m_pBackGround(NULL)
@@ -141,7 +142,7 @@ void CLoadingScene::Progress()
 		return;
 	}
 
-	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 }
 
 void CLoadingScene::Render()
@@ -206,8 +207,8 @@ void CLoadingScene::LoadingFunc1()
 
 void CLoadingScene::LoadingFunc2()
 {
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/howling/", L"howling_Map.x", L"Map", MESHTYPE_STATIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Howling", CFactory<CObj, CSummonTerrain >::CreateObject())))
 			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
 	}
 	else

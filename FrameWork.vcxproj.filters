@@ -277,6 +277,9 @@
     <Filter Include="소스 파일\Maneger\PickingSphereMgr">
       <UniqueIdentifier>{78981324-d91b-4450-9971-af4d4f5b9ac0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene\InGameScene">
+      <UniqueIdentifier>{0b2806c5-0915-4b1a-8462-33e76bb034b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -591,6 +594,9 @@
     <ClInclude Include="PickingSphereMgr.h">
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
     </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>소스 파일\Scene\InGameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -877,6 +883,9 @@
     </ClCompile>
     <ClCompile Include="PickingSphereMgr.cpp">
       <Filter>소스 파일\Maneger\PickingSphereMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
