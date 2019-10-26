@@ -34,8 +34,8 @@ void cGameHUD::Initialize()
 	cImageLoader * mini_cham = new cImageLoader(
 		L"Resource/jiyun/mini_cham-01.png",
 		D3DXVECTOR3(
-			850 + 57.0f * (GET_SINGLE(cCubePC))->GetPosition().x,
-			780 + 60.0f * (GET_SINGLE(cCubePC))->GetPosition().z, 0));
+			(-27) * (GET_SINGLE(cCubePC)->GetPosition().x),
+			(-60) * (GET_SINGLE(cCubePC)->GetPosition().z), 0));
 	m_mapImage["mini_cham"] = mini_cham;
 	m_mapImage["mini_cham"]->Initialize();
 
@@ -79,17 +79,11 @@ void cGameHUD::Initialize()
 	/*m_Text = new cFont;
 	m_Text->Initialize(10, 5, L"±Ã¼­Ã¼");*/
 
-	cImageLoader * exam = new cImageLoader(
-		L"Resource/jiyun/example-01.png",
-		D3DXVECTOR3(WINSIZEX - 424, WINSIZEY - 794, 0));
-	m_mapImage["exam"] = exam;
-	m_mapImage["exam"]->Initialize();
-
 	GET_SINGLE(cCubePC)->Initialize();
 
 	Ezreal.m_Skill[0] = cImageLoader(
 		L"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(380, 670, 0));
+		D3DXVECTOR3(376, 670, 0));
 	Ezreal.m_Skill[0].Initialize();
 }
 
@@ -102,8 +96,8 @@ void cGameHUD::Progress()
 	{
 		//(m_mapImage["exam"]->GetImagePos()->x)++;
 
-		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->x) += 2.0f;
+		(GET_SINGLE(cCubePC)->GetPosition().x)++;
+		(m_mapImage["mini_cham"]->GetImagePos()->x)++;
 
 		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
 			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
@@ -113,8 +107,8 @@ void cGameHUD::Progress()
 	{
 		//(m_mapImage["exam"]->GetImagePos()->x)--;
 
-		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->x) -= 2.0f;
+		(GET_SINGLE(cCubePC)->GetPosition().x)--;
+		(m_mapImage["mini_cham"]->GetImagePos()->x)--;
 
 		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
 			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
@@ -124,8 +118,8 @@ void cGameHUD::Progress()
 	{
 		//(m_mapImage["exam"]->GetImagePos()->y)--;
 
-		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->y) -= 2.0f;
+		(GET_SINGLE(cCubePC)->GetPosition().z)++;
+		(m_mapImage["mini_cham"]->GetImagePos()->y)--;
 
 		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
 			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
@@ -135,8 +129,8 @@ void cGameHUD::Progress()
 	{
 		// (m_mapImage["exam"]->GetImagePos()->y)++;
 
-		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
-		(m_mapImage["mini_cham"]->GetImagePos()->y) += 2.0f;
+		(GET_SINGLE(cCubePC)->GetPosition().z)--;
+		(m_mapImage["mini_cham"]->GetImagePos()->y)++;
 
 		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
 			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
@@ -158,8 +152,6 @@ void cGameHUD::Render()
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
-
-	m_mapImage["exam"]->Render();
 
 	GET_SINGLE(cCubePC)->Render();
 
