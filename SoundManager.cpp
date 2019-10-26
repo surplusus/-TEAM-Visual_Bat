@@ -13,9 +13,13 @@ SoundManager::~SoundManager()
 	m_result = m_pSystem->release();
 	for (size_t i = 0; i < m_mapAlarm.size(); i++)
 	{
-		delete m_mapAlarm[i];
-		m_mapAlarm.erase(i);
+		SAFE_DELETE(m_mapAlarm[i]);
 	}
+	m_mapAlarm.clear();
+	for (auto & it : map_pSounds) {
+		SAFE_DELETE(it);
+	}
+	map_pSounds.clear();
 	//=========== Unsubscribe Events ==========//
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }

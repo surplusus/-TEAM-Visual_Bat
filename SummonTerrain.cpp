@@ -56,7 +56,8 @@ void CSummonTerrain::Render(void)
 
 void CSummonTerrain::Release(void)
 {
-
+	delete[] m_pOriVtx;
+	delete[] m_pConVtx;
 }
 
 void CSummonTerrain::InitVertex()

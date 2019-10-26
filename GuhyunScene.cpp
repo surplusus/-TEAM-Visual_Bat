@@ -102,9 +102,9 @@ void GuhyunScene::Progress()
 		return;
 	}
 
-	m_pObjMgr->Progress();
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
+	m_pObjMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	GET_SINGLE(CFrustum)->InitFrustum();
@@ -114,9 +114,9 @@ void GuhyunScene::Progress()
 
 void GuhyunScene::Render()
 {
-	m_pObjMgr->Render();
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
+	m_pObjMgr->Render();
 	//m_pHeightMap->Render();
 	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
@@ -126,6 +126,7 @@ void GuhyunScene::Release()
 	GET_SINGLE(CObjMgr)->Release();
 	GET_SINGLE(CFrustum)->DestroyInstance();
 	SAFE_RELEASE(m_pMinionMgr);
+	GET_SINGLE(CCameraMgr)->Release();
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 

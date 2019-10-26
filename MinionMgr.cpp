@@ -34,7 +34,7 @@ void CMinionMgr::CreateMinions()
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion");
 	
-	GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
+	//GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
 	
 	this->Initialize();
 }
