@@ -24,11 +24,11 @@ void CSelectedPlayer::Initialize()
 	m_pLoadingBoarder_blue->Initialize();
 	m_pLoadingBoarder_red->Initialize();
 
-	m_mapChampList.insert(make_pair(("Friendly_Amumu"), new CChamp("Amumu", "Resource/choen/ChampImage/Amumu/AmumuLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
+	m_mapChampList.insert(make_pair(("Friendly_Amumu"), new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/UdyrLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 	m_mapChampList.insert(make_pair(("Friendly_Ezreal"), new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 
-	m_mapChampList.insert(make_pair(("Enemy_Amumu"), new CChamp("Amumu", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
-	m_mapChampList.insert(make_pair(("Enemy_Ezreal"), new CChamp("Ezreal", "Resource/choen/ChampImage/Amumu/AmumuLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
+	m_mapChampList.insert(make_pair(("Enemy_Ezreal"), new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/UdyrLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
+	m_mapChampList.insert(make_pair(("Enemy_Amumu"), new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 
 
 	for (auto it = m_mapChampList.begin(); it != m_mapChampList.end(); it++)
