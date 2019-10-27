@@ -1,0 +1,29 @@
+# '#' 표시는 주석이다
+# 숫자는 T_SOUND 를 참고 할 것
+# 아나운서
+1 ./Resource/Sound/welcome.wav
+2 ./Resource/Sound/left30sec.wav
+3 ./Resource/Sound/createminion.wav
+4 
+# Udyr
+5 ./Resource/Sound/Udyr1.mp3
+6 ./Resource/Sound/Udyr2.mp3
+7 ./Resource/Sound/Udyr3.mp3
+8 ./Resource/Sound/Udyr4.mp3
+9 ./Resource/Sound/Udyr5.mp3
+10 ./Resource/Sound/Udyr6.mp3
+11 ./Resource/Sound/Udyr7.mp3
+12
+# Ezreal
+13 
+14 
+15 
+16 
+17 
+18 
+19 
+20 
+21 
+22
+23
+24

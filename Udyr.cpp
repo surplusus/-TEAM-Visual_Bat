@@ -91,7 +91,7 @@ void CUdyr::MouseControl()
 void CUdyr::QWERControl()
 {
 	static int iAniIndex = 0;
-	if (CheckPushKeyOneTime(VK_1)) {	// 애니메이션 정보 콘솔 출력
+	if (CheckPushKeyOneTime(VK_0)) {	// 애니메이션 정보 콘솔 출력
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
 	//if (CheckPushKeyOneTime(VK_Q)) {
@@ -110,6 +110,22 @@ void CUdyr::QWERControl()
 	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
 	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr4");
 	//}
+	// sound check
+	if (CheckPushKeyOneTime(VK_1))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
+	if (CheckPushKeyOneTime(VK_2))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Idle);
+	if (CheckPushKeyOneTime(VK_3))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Search);
+	if (CheckPushKeyOneTime(VK_4))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Run);
+	if (CheckPushKeyOneTime(VK_5))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Taunt);
+	if (CheckPushKeyOneTime(VK_6))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Dance);
+	if (CheckPushKeyOneTime(VK_7))
+		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Death);
+
 }
 
 bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)

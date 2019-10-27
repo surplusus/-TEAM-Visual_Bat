@@ -1,30 +1,18 @@
 #include "BaseInclude.h"
 #include "GuhyunScene.h"
-#include "XFileUtil.h"
 #include "ResourceFunc.h"
 #include "CameraMgr.h"
-#include "Factory.h"
 #include "ObjMgr.h"
-#include "SkyBox.h"
 #include "SceneMgr.h"
-#include "GameScene.h"
 #include "ThreadPool.h"
 #include "Frustum.h"
-#include <sstream>
-
 #include "SoundManager.h"
-#include "Amumu.h"
-#include "Zealot.h"
-#include "Udyr.h"
-#include "SummonTerrain.h"
 #include "EventMgr.h"
-#include "MinionMgr.h"
 #include "HeightMap.h"
-#include "LoadingScene.h"
-#include "SceneMediator.h"
-
-#include "Minion.h"
-#include "MeleeMinion.h"
+#include "GameHUD.h"
+#include "Udyr.h"
+#include "Ezreal.h"
+#include "MinionMgr.h"
 
 
 GuhyunScene::GuhyunScene()
