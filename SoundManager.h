@@ -1,12 +1,27 @@
 #pragma once
 enum T_SOUND
 {
-	gun,
-	get_coin,
-	bgm,
-	left30sec,
+	welcome = 1,
+	left30sec = 2,
 	createminion,
-	welcome,
+	Udyr_Attack_Left,
+	Udyr_Idle,
+	Udyr_Search,
+	Udyr_Run,
+	Udyr_Taunt,
+	Udyr_Dance,
+	Udyr_Death,
+	Ezreal_Idle1,
+	Ezreal_Idle2,
+	Ezreal_Idel3,
+	Ezreal_Attack1,
+	Ezreal_Attack2,
+	Ezreal_Spell1,
+	Ezreal_Spell2,
+	Ezreal_Spell3,
+	Ezreal_Spell4,
+	Ezreal_Run,
+	Ezreal_Death,
 	END
 };
 
@@ -42,7 +57,7 @@ private:
 	FMOD::Channel*					m_pEffectChannel = nullptr;
 	FMOD::Channel*					m_pBGMChannel = nullptr;
 	FMOD::Channel*					m_pAnnouncerChannel = nullptr;
-	unordered_map<string, FMOD::Sound*>   map_pSounds;
+	unordered_map<int, FMOD::Sound*>   m_mappSounds;
 	float							m_fVolume = 1.f;
 	bool							m_bDirty = false;
 	float							m_fPlayGap = 0.3f;
@@ -52,8 +67,11 @@ private:
 	unordered_map<int, MyAlarm*>	m_mapAlarm;
 	float							m_cumulativeTime = 0.f;
 	int								m_bitFlag = 0;
+	map<int, string>				m_mapPathInfo;
 private:
+	void PlaySoundRegistered(T_SOUND type);
 	void OnNoticeTestSoundEvent(ANNOUNCEEVENT* evt);
+	void ParseSoundPathListFile(string sFilePath);
 };
 
 #define GET_SOUNDMGR SoundManager::GetInstance()

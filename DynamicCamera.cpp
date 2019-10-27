@@ -51,7 +51,7 @@ void CDynamicCamera::Rotation_Mouse(void)
 void CDynamicCamera::Move_KeyBoard(void)
 {
 	D3DXVECTOR3		vLook, vRight, vUp;
-
+	
 	if (CheckPushKey(DIK_W))
 	{
 		vLook = m_vAt - m_vEye;

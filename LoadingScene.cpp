@@ -16,10 +16,11 @@
 #include "GameScene.h"
 #include "Udyr.h"
 #include "InGameScene.h"
+#include <fstream>
+#include <sstream>
 
 CLoadingScene::CLoadingScene() 
 	: m_pBackGround(NULL)
-	, m_nStage(0)
 	, m_pTextMgr(NULL)
 	, m_pChampSelect(NULL)
 	, m_pSpell_1(NULL)
@@ -50,7 +51,7 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// Loading Progress Bar
 		if (FAILED(D3DXCreateTextureFromFileExA(GET_DEVICE
-			, "./Resource/choen/Loading/loading_circle.png"
+			, "./Resource/choen/Loading/Loading_Green.png"
 			, D3DX_DEFAULT_NONPOW2, D3DX_DEFAULT_NONPOW2
 			, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8
 			, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_DEFAULT
@@ -64,12 +65,8 @@ HRESULT CLoadingScene::Initialize()
 		Render();
 		End_Render(g_hWnd);
 		LoadResourceByThread();
-		// 임시
-		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc1);
-		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc2);
-		m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc3);
-		//m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc4);
-		//m_vfuncLoading.push_back(&CLoadingScene::LoadingFunc5);
+
+		SetFuncLoading(); // 쓰레드 대신 써본다(callable vector)
 	}
 	return S_OK;
 }
@@ -82,54 +79,7 @@ void CLoadingScene::Progress()
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 
 #pragma region 스테이지 시작
-	//// STAGE 1
-	//if (!(m_nStage & (1 << BOXCOLLIDER))) {
-	//	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	//	{
-	//		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
-	//	}
-	//	m_nStage ^= (1 << BOXCOLLIDER);
-	//	return;
-	//}
-	//// STAGE 2
-	//if (!(m_nStage & (1 << LOADCHAMP))) {
-	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Zealot"
-	//		, "./Resource/Test/", "Udyr.x"));
-	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADCHAMP
-	//		, LoadDynamicMeshByThread, m_vpMeshInfo[0]).get()) {
-	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADCHAMP);
-	//		m_vpMeshInfo[0]->m_bComplete = true;
-	//	}
-	//	m_nStage ^= (1 << LOADCHAMP);
-	//	return;
-	//}
-	//// STAGE 3
-	//if (!(m_nStage & (1 << LOADMAP))) {
-	//	// Load Map
-	//	m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-	//		, "./Resource/MapSummon/", "Floor.x"));
-	//	//m_vpMeshInfo.emplace_back(new stMeshInfo("Map"
-	//	//	, "./Resource/MapSummon/", "SummonMap.x"));
-	//	if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP
-	//		, LoadStaticMeshByThread, m_vpMeshInfo[1]).get()) {
-	//		GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-	//		m_vpMeshInfo[1]->m_bComplete = true;
-	//	}
-	//	m_nStage ^= (1 << LOADMAP);
-	//	return;
-	//}
-	//// STAGE 4
-	//if (!(m_nStage & (1 << INROLLCHAMP))) {
-	//	RegisterOnObjMgr(m_vpMeshInfo[0]);
-	//	m_nStage ^= (1 << INROLLCHAMP);
-	//	return;
-	//}
-	//// STAGE 5
-	//if (!(m_nStage & (1 << INROLLMAP))) {
-	//	//RegisterOnObjMgr(m_vpMeshInfo[1]);
-	//	m_nStage ^= (1 << INROLLMAP);
-	//	return;
-	//}
+
 #pragma endregion
 
 	static int idx = 0;
@@ -142,7 +92,7 @@ void CLoadingScene::Progress()
 		return;
 	}
 
-	GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }
 
 void CLoadingScene::Render()
@@ -168,9 +118,7 @@ void CLoadingScene::Release()
 	SAFE_RELEASE(m_pLoadingSprite);
 	SAFE_RELEASE(m_pLoadingTexture);
 
-	for (auto& it : m_vpMeshInfo)
-		delete it;
-	m_vpMeshInfo.clear();
+	m_mapMeshInfo.clear();
 }
 
 void CLoadingScene::Render_Loading()
@@ -196,18 +144,19 @@ void CLoadingScene::Render_Loading()
 	m_pLoadingSprite->End();
 }
 
-void CLoadingScene::LoadingFunc1()
+void CLoadingScene::FuncLoadBound()
 {
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	{
 		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
 	}
-	printf("콜라이더 로딩 완료!\n");
+	printf("BoundingBox On!\n");
 }
 
-void CLoadingScene::LoadingFunc2()
+void CLoadingScene::FuncLoadMap()
 {
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/howling/", L"howling_Map.x", L"Map", MESHTYPE_STATIC))) {
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC))) {
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/Map/", L"MapSummon.x", L"Map", MESHTYPE_STATIC))) {
 		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Howling", CFactory<CObj, CSummonTerrain >::CreateObject())))
 			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
 	}
@@ -216,7 +165,7 @@ void CLoadingScene::LoadingFunc2()
 	printf("맵 로딩 완료!\n");
 }
 
-void CLoadingScene::LoadingFunc3()
+void CLoadingScene::FuncLoadChamp()
 {
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
 		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
@@ -227,12 +176,54 @@ void CLoadingScene::LoadingFunc3()
 	printf("우디르 로딩 완료!\n");
 }
 
-void CLoadingScene::LoadingFunc4()
+void CLoadingScene::SetFuncLoading()
 {
+	//function<void(const CLoadingScene&)> fp = &CLoadingScene::FuncLoadBound;
+	m_vfuncLoading.push_back([this]() {this->SetMeshInfoThruFile(); });
+	m_vfuncLoading.push_back([this]() {this->FuncLoadBound(); });
+	m_vfuncLoading.push_back([this]() {this->FuncLoadMap(); });
+	m_vfuncLoading.push_back([this]() {this->FuncLoadChamp(); });
+
 }
 
-void CLoadingScene::LoadingFunc5()
+void CLoadingScene::SetMeshInfoThruFile()
 {
+	ifstream file("./Resource/Test/test.dat", ifstream::in);
+
+	if (!file.is_open()) {
+		cout << "Error Opening File\n";
+		return;
+	}
+
+	string name;
+	while (file)
+	{
+		vector<string> token;
+		string s, t;
+		getline(file, s);
+		if (s == "")	break;
+		for (stringstream ss(s); (ss >> t);)
+			token.push_back(t);
+		if (token[0][0] == '-') {
+			name = token[0].substr(1, token[0].size() - 2);
+			m_mapMeshInfo[name];
+		}
+		else if (token[0] == "bComplete")
+			m_mapMeshInfo[name].m_bComplete = (token[1][0] == 't') ? true : false;
+		else if (token[0] == "ObjName")
+			m_mapMeshInfo[name].m_ObjName = token[1];
+		else if (token[0] == "FolderPath")
+			m_mapMeshInfo[name].m_FolderPath = token[1];
+		else if (token[0] == "FileName")
+			m_mapMeshInfo[name].m_FileName = token[1];
+		else if (token[0] == "ConsoleText")
+			for (int i = 1; i < token.size(); ++i)
+				m_mapMeshInfo[name].m_ConsoleText += token[i] + " ";
+		else if (token[0] == "MeshType")
+			m_mapMeshInfo[name].m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
+		if (file.eof())	break;
+	}
+	file.close();
 }
 
 bool CLoadingScene::LoadResourceByThread()

@@ -37,9 +37,6 @@ public:
 	void SetSceneMember(CScene* member);
 	void MediateInfo(MEDIATETYPE type, CScene* member);
 
-	void InsertStringInfo(string key, string info);
-	void CopyStringInfo(OUT map<string, string>* info);
-
 	//cheon
 
 private:

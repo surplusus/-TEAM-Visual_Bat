@@ -115,7 +115,7 @@ void CInGameScene::SoundUpdate()
 void CInGameScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
-	m_pHeightMap->LoadData("./Resource/howling/howling_HeightMap.x");
+	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr)
