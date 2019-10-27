@@ -41,39 +41,19 @@ void SoundManager::SetUp()
 	m_result = m_pSystem->init(1, FMOD_INIT_NORMAL, 0);	ErrCheck(m_result);
 	m_result = m_pSystem->setStreamBufferSize(64 * 1024, FMOD_TIMEUNIT_RAWBYTES); ErrCheck(m_result);
 
-	ParseSoundPathListFile("./Resource/Sound/SoundPathList.dat");
+	ParseSoundPathListFile("./Resource/SoundPathList.dat");
 
 	Sound* sound;
-	for (size_t i = 0; i < T_SOUND::END; i++)
+	for (int i = 0; i < (int)(T_SOUND::Ezreal_END); i++)
 	{
-		//if (m_mapPathInfo.find(i) != m_mapPathInfo.end())
+		auto ps = m_mapPathInfo.find(i);
+		if (ps == m_mapPathInfo.end())
+			continue;
+		m_result = m_pSystem->createSound(m_mapPathInfo[i].c_str(), FMOD_DEFAULT, 0, &sound);
+		m_mappSounds.insert(make_pair(i, sound));
 
 	}
-	//{	// 아나운서
-	//m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound);  
-	//ErrCheck(m_result);		m_mappSounds["left30sec"] = sound;
-	//m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound);  
-	//ErrCheck(m_result);		m_mappSounds["createminion"] = sound;
-	//m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound);  
-	//ErrCheck(m_result);		m_mappSounds["welcome"] = sound;
-	//}
-	//{	// 우디르
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr1.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr1"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr2.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr2"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr3.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr3"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr4.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr4"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr5.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr5"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr6.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr6"] = sound;
-	//	m_result = m_pSystem->createSound("./Resource/Sound/Udyr7.mp3", FMOD_DEFAULT, 0, &sound);
-	//	ErrCheck(m_result);		m_mappSounds["Udyr7"] = sound;
-	//
-	//}
+
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
 	//=========== Subscribe Events ==========//
@@ -164,7 +144,7 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 
 bool SoundManager::PlayUdyrSound(T_SOUND type)
 {
-	if (T_SOUND::ANNOUNCE_END > type || T_SOUND::Udyr_END <= type)
+	if (T_SOUND::ANNOUNCER_END > type || T_SOUND::Udyr_END <= type)
 		return false;
 	return PlaySoundRegistered(type, m_pUdyrChannel);
 }
@@ -178,9 +158,9 @@ bool SoundManager::PlayEzrealSound(T_SOUND type)
 
 bool SoundManager::PlayAnnouncerMention(T_SOUND type)
 {
-	if (type >= T_SOUND::ANNOUNCE_END)
-		return false
-		return PlaySoundRegistered(type, m_pAnnouncerChannel);
+	if (type >= T_SOUND::ANNOUNCER_END)
+		return false;
+	return PlaySoundRegistered(type, m_pAnnouncerChannel);
 }
 
 bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
@@ -192,7 +172,7 @@ bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
 		m_pEzrealChannel->isPlaying(&playing);
 		if (playing)
 			m_pUdyrChannel->stop();
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, pSound->second, false, channel); 
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, pSound->second, false, &channel); 
 		ErrCheck(m_result);
 
 		//m_pSystem->update();
@@ -206,7 +186,7 @@ bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
 void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 {
 	// 이벤트 안쓸듯
-	PlayAnnouncerMention("left30sec");
+	PlayAnnouncerMention(ANNOUNCER_Createminion);
 }
 
 void SoundManager::ParseSoundPathListFile(string sFilePath)

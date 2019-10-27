@@ -48,8 +48,8 @@ private:
 	CSelectedSpells*			m_pSpell_1;
 	CSelectedSpells*			m_pSpell_2;
 
-	vector<D3DXVECTOR2>			m_vLinePoint;
-	float						m_fLineLength;
+	int							m_iMeshInfoSize;
+	int							m_iProgressBar;
 	// << :: mediate
 	//map<string, string>			m_StringInfo;
 public:
@@ -59,12 +59,10 @@ public:
 	map<string, stMeshInfo>		m_mapMeshInfo;
 	vector<FuncLoading>			m_vfuncLoading;
 	void SetMeshInfoThruFile();
-	bool LoadResourceByThread();
-	bool RegisterOnObjMgr(stMeshInfo* info);
-	static bool LoadStaticMeshByThread(stMeshInfo* info);
-	static bool LoadDynamicMeshByThread(stMeshInfo* info);
+	bool OperateFuncAddMeshByKey(string key);
+	void OperateFuncAddObjectByKey(string key);
 	// 로딩 함수들(vecter에 넣고 하나씩 꺼낸다)
-	void FuncLoadBound();
+	void FuncDefaultMgrSetUp();
 	void FuncLoadMap();
 	void FuncLoadChamp();
 	void SetFuncLoading();

@@ -22,8 +22,8 @@ void CSceneMgr::Initialize()
 {
 	m_pSceneMediator = new CSceneMediator();
 	//m_State = new CSelectScene;
-	//m_State = new CLoadingScene();
-	m_State = new GuhyunScene();
+	m_State = new CLoadingScene();
+	//m_State = new GuhyunScene();
 	//m_State = new CInGameScene();
 	m_pSceneMediator->SetSceneMember(m_State);
 	if (m_State != NULL)

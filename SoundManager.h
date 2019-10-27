@@ -1,7 +1,7 @@
 #pragma once
 enum T_SOUND
 {
-	welcome = 1,	left30sec,	createminion, ANNOUNCE_END = 4,
+	ANNOUNCER_Welcome = 1,	ANNOUNCER_Left30sec,	ANNOUNCER_Createminion, ANNOUNCER_END = 4,
 	Udyr_Attack_Left,	Udyr_Idle,	Udyr_Search,	Udyr_Run,
 	Udyr_Taunt,	Udyr_Dance,	Udyr_Death, Udyr_END = 12,
 	Ezreal_Idle1,	Ezreal_Idle2,	Ezreal_Idel3,

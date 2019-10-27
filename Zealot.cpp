@@ -89,14 +89,14 @@ void CZealot::QWERControl()
 	if (CheckPushKeyOneTime(VK_1)) {
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
-	if (CheckPushKeyOneTime(VK_2)) {
-		m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
-	}
-	if (CheckPushKeyOneTime(VK_3)) {
-		m_pAnimationCtrl->BlendAnimationSet("Spell3");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
-	}
+	//if (CheckPushKeyOneTime(VK_2)) {
+	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
+	//}
+	//if (CheckPushKeyOneTime(VK_3)) {
+	//	m_pAnimationCtrl->BlendAnimationSet("Spell3");
+	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+	//}
 	/*if (CheckPushKeyOneTime(VK_4)) {
 		m_pAnimationCtrl->BlendAnimationSet("Search");
 		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
