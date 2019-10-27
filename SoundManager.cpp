@@ -87,73 +87,13 @@ void SoundManager::Update()
 		m_cumulativeTime += g_fDeltaTime;
 }
 
-void SoundManager::PlayEffectSound(string name)
-{
-	//float startTime = GetTime();
-	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
-	//	return;
-	//m_fPrevPlayTime = startTime;
-
-	if (m_mappSounds.find(name) != m_mappSounds.end())
-	{
-		bool playing;
-		m_pBGMChannel->isPlaying(&playing);
-		if (playing)
-			m_pEffectChannel->stop();
-		/*Sound* sound;
-		if (m_mappSounds.find(static_cast<int>()))*/
-
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, m_mappSounds[name], false, &m_pEffectChannel);  ErrCheck(m_result);
-		//FMOD_System_Update(m_pSystem);
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pEffectChannel is playing" << endl;
-	}
-	
-}
-
-void SoundManager::PlayBGMSound(string name)
-{
-	bool playing;
-	m_pBGMChannel->isPlaying(&playing);
-	if (playing)
-		return;
-
-	if (m_mappSounds.find(name) != m_mappSounds.end())
-	{
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, m_mappSounds[name], false, &m_pBGMChannel); ErrCheck(m_result);
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pBGMChannel is playing" << endl;
-	}
-}
-
-void SoundManager::PlayAnnouncerMention(string name)
-{
-	if (m_mappSounds.find(name) != m_mappSounds.end())
-	{
-		bool playing;
-		m_pBGMChannel->isPlaying(&playing);
-		if (playing)
-			m_pEffectChannel->stop();
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, m_mappSounds[name], false, &m_pAnnouncerChannel); ErrCheck(m_result);
-		
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pAnnouncerChannel is playing" << endl;
-	}
-}
-
 void SoundManager::StopBGM()
 {
 	bool isPlaying;
-	m_pBGMChannel->isPlaying(&isPlaying);
+	m_pEzrealChannel->isPlaying(&isPlaying);
 	
 	if (isPlaying)
-		m_pBGMChannel->stop();
+		m_pEzrealChannel->stop();
 }
 
 void SoundManager::VolumeUp()
@@ -166,8 +106,8 @@ void SoundManager::VolumeUp()
 	{
 		m_fVolume = 1.f;
 	}
-	m_pBGMChannel->setVolume(m_fVolume);
-	m_pEffectChannel->setVolume(m_fVolume);
+	m_pEzrealChannel->setVolume(m_fVolume);
+	m_pUdyrChannel->setVolume(m_fVolume);
 	m_pAnnouncerChannel->setVolume(m_fVolume);
 	//FMOD_Channel_SetVolume(m_pBGMChannel, m_fVolume);
 
@@ -184,8 +124,8 @@ void SoundManager::VolumeDown()
 	{
 		m_fVolume = 0.f;
 	}
-	m_pBGMChannel->setVolume(m_fVolume);
-	m_pEffectChannel->setVolume(m_fVolume);
+	m_pEzrealChannel->setVolume(m_fVolume);
+	m_pUdyrChannel->setVolume(m_fVolume);
 	m_pAnnouncerChannel->setVolume(m_fVolume);
 
 	m_bDirty = true;
@@ -222,26 +162,50 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 	return ringing;
 }
 
-void SoundManager::PlaySoundRegistered(T_SOUND type, )
+bool SoundManager::PlayUdyrSound(T_SOUND type)
 {
-	Sound* sound = m_mappSounds.find(static_cast<int>(type));
-	if (sound != m_mappSounds.end())
+	if (T_SOUND::ANNOUNCE_END > type || T_SOUND::Udyr_END <= type)
+		return false;
+	return PlaySoundRegistered(type, m_pUdyrChannel);
+}
+
+bool SoundManager::PlayEzrealSound(T_SOUND type)
+{
+	if (T_SOUND::Udyr_END > type || T_SOUND::Ezreal_END <= type)
+		return false;
+	return PlaySoundRegistered(type, m_pEzrealChannel);
+}
+
+bool SoundManager::PlayAnnouncerMention(T_SOUND type)
+{
+	if (type >= T_SOUND::ANNOUNCE_END)
+		return false
+		return PlaySoundRegistered(type, m_pAnnouncerChannel);
+}
+
+bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
+{
+	auto pSound = m_mappSounds.find(static_cast<int>(type));
+	if (pSound != m_mappSounds.end())
 	{
 		bool playing;
-		m_pBGMChannel->isPlaying(&playing);
+		m_pEzrealChannel->isPlaying(&playing);
 		if (playing)
-			m_pEffectChannel->stop();
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, m_mappSounds[name], false, &m_pAnnouncerChannel); ErrCheck(m_result);
+			m_pUdyrChannel->stop();
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, pSound->second, false, channel); 
+		ErrCheck(m_result);
 
-		m_pSystem->update();
+		//m_pSystem->update();
 		int nChannelPlayingNow = 0;
 		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pAnnouncerChannel is playing" << endl;
+		return true;
 	}
+	return false;
 }
 
 void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 {
+	// 이벤트 안쓸듯
 	PlayAnnouncerMention("left30sec");
 }
 
