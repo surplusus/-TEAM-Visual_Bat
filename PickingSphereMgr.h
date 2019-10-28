@@ -9,6 +9,6 @@ private:
 	unordered_map<CObj*, SPHERE*> m_vPickingSpheres;
 public:
 	bool AddSphere(CObj* hash, SPHERE* sphere);
-	bool GetSpherePicked(CObj* me, OUT SPHERE* sphere);
+	bool GetSpherePicked(CObj* me, OUT SPHERE** sphere);
 };
 

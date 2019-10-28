@@ -21,7 +21,7 @@ protected:
 	D3DXVECTOR3			m_vNextPoint;
 protected:
 	void				UpdateWorldMatrix();
-	bool				SetUpPickingShere(const float r = 1.f, const D3DXVECTOR3* v = nullptr);
+	bool				SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
 	bool				Render_PickingShere();
 	void				SetDirectionToNextPoint();
 public:

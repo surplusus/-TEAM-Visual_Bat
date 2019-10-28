@@ -20,13 +20,13 @@ bool CPickingSphereMgr::AddSphere(CObj * hash, SPHERE * sphere)
 	return true;
 }
 
-bool CPickingSphereMgr::GetSpherePicked(CObj* me, OUT SPHERE* sphere)
+bool CPickingSphereMgr::GetSpherePicked(CObj* me, OUT SPHERE** sphere)
 {
 	for (auto & it : m_vPickingSpheres) {
 		if (it.first == me)
 			continue;
 		if (CheckPickingOnSphere(it.second)) {
-			sphere = it.second;
+			*sphere = it.second;
 			return true;
 		}
 	}

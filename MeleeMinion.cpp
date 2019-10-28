@@ -30,7 +30,7 @@ HRESULT CMeleeMinion::Initialize()
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 	
 	UpdateWorldMatrix();
-	SetUpPickingShere(10.f);
+	SetUpPickingShere(1.f);
 	return S_OK;
 }
 
@@ -38,7 +38,6 @@ void CMeleeMinion::Progress()
 {
 	float speed = 0.1f;
 	m_Info.vPos.x -= speed * g_fDeltaTime;
-	m_Info.vPos.y -= speed * g_fDeltaTime;
 	UpdateWorldMatrix();
 }
 
@@ -46,6 +45,7 @@ void CMeleeMinion::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Minion");
+	Render_PickingShere();
 }
 
 void CMeleeMinion::Release()

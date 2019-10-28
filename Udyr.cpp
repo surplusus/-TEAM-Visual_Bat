@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "Udyr.h"
 #include "SoundManager.h"
+#include "PickingSphereMgr.h"
 
 CUdyr::CUdyr()
 	: m_bRunning(false)
@@ -71,23 +72,33 @@ void CUdyr::ChangeAniSetByState()
 
 void CUdyr::MouseControl()
 {
-	if (MyGetMouseState().rgbButtons[0]) {
-		m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
-	}
+	{	// 방향전환
+		if (MyGetMouseState().rgbButtons[0]) {
+			m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
+		}
 
-	if (m_bPicked) {
-		m_bPicked = false;
-		m_bRunning = true;
-		m_bDirty = true;
-	}
-
-	if (m_bRunning)
-	{
-		float speed = 2.5f;
-		m_bTurning = TurnSlowly(&m_MouseHitPoint);
-		m_bRunning = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
-		if (!m_bRunning)
+		if (m_bPicked) {
+			m_bPicked = false;
+			m_bRunning = true;
 			m_bDirty = true;
+		}
+
+		if (m_bRunning)
+		{
+			float speed = 2.5f;
+			m_bTurning = TurnSlowly(&m_MouseHitPoint);
+			m_bRunning = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
+			if (!m_bRunning)
+				m_bDirty = true;
+		}
+	}
+	{	// Sphere 픽킹
+		if (MyGetMouseState().rgbButtons[1]) {
+			SPHERE* spherePicked = nullptr;
+			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
+			if (bPickSphere)
+				spherePicked->isPicked = !spherePicked->isPicked;
+		}
 	}
 }
 
