@@ -47,7 +47,7 @@ void CMousePicker::TransformRay(RAY * ray, D3DXMATRIXA16 * matT)
 	D3DXVec3Normalize(&ray->direction, &ray->direction);
 }
 
-bool CMousePicker::CheckIntersectWithSphere(SPHERE sphere)
+bool CMousePicker::CheckIntersectWithSphere(SPHERE* sphere)
 {
 	// 마우스 좌표를 월드로 적용시키는 과정
 	POINT mouse;
@@ -66,10 +66,10 @@ bool CMousePicker::CheckIntersectWithSphere(SPHERE sphere)
 	TransformRay(m_stRay, &matInv);
 
 	// 매개변수로 받은 구와 ray 판별 과정
-	D3DXVECTOR3 vSphere = m_stRay->origin - sphere.vCenter;
+	D3DXVECTOR3 vSphere = m_stRay->origin - *(sphere->vpCenter);
 
 	float b = 2.f * D3DXVec3Dot(&m_stRay->direction, &vSphere);
-	float r = sphere.fRadius;
+	float r = sphere->fRadius;
 	float c = D3DXVec3Dot(&vSphere, &vSphere) - (r * r);
 
 	float discriminant = (b * b) - (4.f * c);

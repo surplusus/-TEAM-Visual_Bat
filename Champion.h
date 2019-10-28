@@ -19,7 +19,7 @@ protected:
 protected:
 	void		UpdateWorldMatrix();
 	void		SetDirectionToMouseHitPoint();
-	bool		SetUpPickingShere(const float r, const D3DXVECTOR3 v);
+	bool		SetUpPickingShere(const float r = 1.f, const D3DXVECTOR3* v = nullptr);
 	bool		Render_PickingShere();
 	bool		SearchPickingPointInHeightMap(int number, const VTXTEX* vtx);
 	const VTXTEX*		GetVertexInHeightMap();

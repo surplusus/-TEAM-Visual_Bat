@@ -14,3 +14,10 @@ FolderPath ./Resource/Map/HowlingAbyss/
 FileName howling_Map.x
 ConsoleText "HowlingAbyss File Loaded"
 MeshType 0
+-Minion-
+bComplete false
+ObjName Minion
+FolderPath ./Resource/Minion/
+FileName Minion_Melee_Blue.x
+ConsoleText "Minion File Loaded"
+MeshType 1

@@ -1,29 +1,19 @@
 #include "BaseInclude.h"
 #include "Minion.h"
-#include "ObjMgr.h"
-#include "Factory.h"
+#include "MinionMgr.h"
+#include "PickingSphereMgr.h"
 
 CMinion::CMinion()
+	: m_pMinionMgr(nullptr)
+	, m_pHeightMap(nullptr)
+	, m_fSize(1.f)
+	, m_SphereForPick(1.f, &m_Info.vPos)
+	, m_pMeshSphere(nullptr)
 {
-	m_sName = L"None";
 }
 
 CMinion::~CMinion()
 {
-}
-
-bool CMinion::SetUp(string sName, string sFolderPath, string sFilePath)
-{
-	basic_string<TCHAR> szFolder(sFolderPath.begin(), sFolderPath.end());
-	basic_string<TCHAR> szFile(sFilePath.begin(), sFilePath.end());
-	//basic_string<TCHAR> szName(sName.begin(), sName.end());
-	m_sName = basic_string<TCHAR>(sName.begin(), sName.end());
-	
-	if (FAILED(AddMesh(GetDevice(), szFolder.c_str(), szFile.c_str(), m_sName.c_str(), MESHTYPE_DYNAMIC))) {
-		ERR_MSG(g_hWnd, L"Minion Load Failed");
-		return false;
-	}
-	return true;
 }
 
 void CMinion::UpdateWorldMatrix()
@@ -38,16 +28,15 @@ void CMinion::UpdateWorldMatrix()
 	m_Info.matWorld = matScale * matRot * matTrans;
 }
 
-bool CMinion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
+bool CMinion::SetUpPickingShere(const float r, const D3DXVECTOR3* v)
 {
-	m_SphereForPick.fRadius = r;
-	m_SphereForPick.vCenter.x = v.x;
-	m_SphereForPick.vCenter.y = v.y;
-	m_SphereForPick.vCenter.z = v.z;
-	// 관리자에게 등록??????
-	m_SphereForPick = SPHERE(r, v);
+	if (v == nullptr) {
+		m_SphereForPick.fRadius = r;
+		m_SphereForPick.vpCenter = const_cast<D3DXVECTOR3*>(v);
+	}
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_SphereForPick);
 	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
-	return false;
+	return true;
 }
 
 bool CMinion::Render_PickingShere()
@@ -59,7 +48,9 @@ bool CMinion::Render_PickingShere()
 	return false;
 }
 
-const TCHAR * CMinion::GetName()
+void CMinion::SetDirectionToNextPoint()
 {
-	return m_sName.c_str();
+	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
+	m_Info.vDir = m_Info.vPos - m_vNextPoint;
+	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
 }

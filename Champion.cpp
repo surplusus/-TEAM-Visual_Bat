@@ -7,6 +7,7 @@
 #include "Ray.h"
 #include "MathMgr.h"
 #include "HeightMap.h"
+#include "PickingSphereMgr.h"
 
 CChampion::CChampion()
 	: m_ObjMgr(nullptr)
@@ -14,10 +15,9 @@ CChampion::CChampion()
 	, m_fSize(1.f)
 	, m_MouseHitPoint(0.f,0.f,0.f)
 	, m_bPicked(false)
+	, m_SphereForPick(1.f, &m_Info.vPos)
 	, m_pMeshSphere(nullptr)
 {
-	m_SphereForPick = SPHERE(1.f, D3DXVECTOR3(0.f, 0.f, 0.f));
-
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 	
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
@@ -60,16 +60,15 @@ void CChampion::SetDirectionToMouseHitPoint()
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
 }
 
-bool CChampion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
+bool CChampion::SetUpPickingShere(const float r, const D3DXVECTOR3* v)
 {
-	m_SphereForPick.fRadius = r;
-	m_SphereForPick.vCenter.x = v.x;
-	m_SphereForPick.vCenter.y = v.y;
-	m_SphereForPick.vCenter.z = v.z;
-	// 관리자에게 등록??????
-	m_SphereForPick = SPHERE(r, v);
+	if (v == nullptr) {
+		m_SphereForPick.fRadius = r;
+		m_SphereForPick.vpCenter = const_cast<D3DXVECTOR3*>(v);
+	}
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_SphereForPick);
 	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
-	return false;
+	return true;
 }
 
 bool CChampion::Render_PickingShere()

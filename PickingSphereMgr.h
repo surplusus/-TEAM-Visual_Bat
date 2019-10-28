@@ -6,9 +6,9 @@ private:
 	CPickingSphereMgr();
 	~CPickingSphereMgr();
 private:
-	unordered_map<string, SPHERE*> m_vPickingSpheres;
+	unordered_map<CObj*, SPHERE*> m_vPickingSpheres;
 public:
-	bool AddSphere(string hash, SPHERE* sphere);
-	
+	bool AddSphere(CObj* hash, SPHERE* sphere);
+	bool GetSpherePicked(CObj* me, OUT SPHERE* sphere);
 };
 

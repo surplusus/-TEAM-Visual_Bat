@@ -28,7 +28,7 @@ HRESULT CUdyr::Initialize()
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 
-	SetUpPickingShere(10.f, m_Info.vPos);
+	SetUpPickingShere(1.f);
 	return S_OK;
 }
 
@@ -45,10 +45,13 @@ void CUdyr::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Udyr");
+	Render_PickingShere();
 }
 
 void CUdyr::Release()
 {
+	SAFE_RELEASE(m_pMeshSphere);
+	SAFE_RELEASE(m_pAnimationCtrl);
 }
 
 void CUdyr::ChangeAniSetByState()
