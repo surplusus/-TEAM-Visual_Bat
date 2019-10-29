@@ -280,6 +280,9 @@
     <Filter Include="소스 파일\Scene\InGameScene">
       <UniqueIdentifier>{0b2806c5-0915-4b1a-8462-33e76bb034b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Behavior">
+      <UniqueIdentifier>{c210d7f9-e2aa-4d03-bf3e-265fc9bcea41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -597,6 +600,12 @@
     <ClInclude Include="InGameScene.h">
       <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClInclude>
+    <ClInclude Include="ICondition.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -886,6 +895,12 @@
     </ClCompile>
     <ClCompile Include="InGameScene.cpp">
       <Filter>소스 파일\Scene\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ICondition.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>System\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

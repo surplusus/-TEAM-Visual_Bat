@@ -1,12 +1,14 @@
 #include "BaseInclude.h"
 #include "SoundManager.h"
 #include "EventMgr.h"
+#include <sstream>
+#include <fstream>
 
 using namespace FMOD;
 
 SoundManager::~SoundManager()
 {
-	for (auto it = map_pSounds.begin(); it != map_pSounds.end(); it++)
+	for (auto it = m_mappSounds.begin(); it != m_mappSounds.end(); it++)
 		m_result = it->second->release();
 		//FMOD_Sound_Release(it->second);
 	m_result = m_pSystem->close();
@@ -16,10 +18,10 @@ SoundManager::~SoundManager()
 		SAFE_DELETE(m_mapAlarm[i]);
 	}
 	m_mapAlarm.clear();
-	for (auto & it : map_pSounds) {
+	for (auto & it : m_mappSounds) {
 		SAFE_DELETE(it.second);
 	}
-	map_pSounds.clear();
+	m_mappSounds.clear();
 	//=========== Unsubscribe Events ==========//
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundManager::OnNoticeTestSoundEvent);
 }
@@ -39,32 +41,19 @@ void SoundManager::SetUp()
 	m_result = m_pSystem->init(1, FMOD_INIT_NORMAL, 0);	ErrCheck(m_result);
 	m_result = m_pSystem->setStreamBufferSize(64 * 1024, FMOD_TIMEUNIT_RAWBYTES); ErrCheck(m_result);
 
+	ParseSoundPathListFile("./Resource/SoundPathList.dat");
+
 	Sound* sound;
-	{	// 아나운서
-	m_result = m_pSystem->createSound("./Resource/Sound/left30sec.wav", FMOD_DEFAULT, 0, &sound);  
-	ErrCheck(m_result);		map_pSounds["left30sec"] = sound;
-	m_result = m_pSystem->createSound("./Resource/Sound/createminion.wav", FMOD_DEFAULT, 0, &sound);  
-	ErrCheck(m_result);		map_pSounds["createminion"] = sound;
-	m_result = m_pSystem->createSound("./Resource/Sound/welcome.wav", FMOD_DEFAULT, 0, &sound);  
-	ErrCheck(m_result);		map_pSounds["welcome"] = sound;
-	}
-	{	// 우디르
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr1.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr1"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr2.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr2"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr3.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr3"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr4.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr4"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr5.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr5"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr6.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr6"] = sound;
-		m_result = m_pSystem->createSound("./Resource/Sound/Udyr7.mp3", FMOD_DEFAULT, 0, &sound);
-		ErrCheck(m_result);		map_pSounds["Udyr7"] = sound;
+	for (int i = 0; i < (int)(T_SOUND::Ezreal_END); i++)
+	{
+		auto ps = m_mapPathInfo.find(i);
+		if (ps == m_mapPathInfo.end())
+			continue;
+		m_result = m_pSystem->createSound(m_mapPathInfo[i].c_str(), FMOD_DEFAULT, 0, &sound);
+		m_mappSounds.insert(make_pair(i, sound));
 
 	}
+
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
 	//=========== Subscribe Events ==========//
@@ -78,71 +67,13 @@ void SoundManager::Update()
 		m_cumulativeTime += g_fDeltaTime;
 }
 
-void SoundManager::PlayEffectSound(string name)
-{
-	//float startTime = GetTime();
-	//if (startTime - m_fPrevPlayTime < m_fPlayGap)
-	//	return;
-	//m_fPrevPlayTime = startTime;
-
-	if (map_pSounds.find(name) != map_pSounds.end())
-	{
-		bool playing;
-		m_pBGMChannel->isPlaying(&playing);
-		if (playing)
-			m_pEffectChannel->stop();
-		//FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, map_pSounds[name], 0, &m_pEffectChannel);
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pEffectChannel);  ErrCheck(m_result);
-		//FMOD_System_Update(m_pSystem);
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pEffectChannel is playing" << endl;
-	}
-	
-}
-
-void SoundManager::PlayBGMSound(string name)
-{
-	bool playing;
-	m_pBGMChannel->isPlaying(&playing);
-	if (playing)
-		return;
-
-	if (map_pSounds.find(name) != map_pSounds.end())
-	{
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pBGMChannel); ErrCheck(m_result);
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pBGMChannel is playing" << endl;
-	}
-}
-
-void SoundManager::PlayAnnouncerMention(string name)
-{
-	if (map_pSounds.find(name) != map_pSounds.end())
-	{
-		bool playing;
-		m_pBGMChannel->isPlaying(&playing);
-		if (playing)
-			m_pEffectChannel->stop();
-		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, map_pSounds[name], false, &m_pAnnouncerChannel); ErrCheck(m_result);
-		
-		m_pSystem->update();
-		int nChannelPlayingNow = 0;
-		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
-		cout << "m_pAnnouncerChannel is playing" << endl;
-	}
-}
-
 void SoundManager::StopBGM()
 {
 	bool isPlaying;
-	m_pBGMChannel->isPlaying(&isPlaying);
+	m_pEzrealChannel->isPlaying(&isPlaying);
 	
 	if (isPlaying)
-		m_pBGMChannel->stop();
+		m_pEzrealChannel->stop();
 }
 
 void SoundManager::VolumeUp()
@@ -155,8 +86,8 @@ void SoundManager::VolumeUp()
 	{
 		m_fVolume = 1.f;
 	}
-	m_pBGMChannel->setVolume(m_fVolume);
-	m_pEffectChannel->setVolume(m_fVolume);
+	m_pEzrealChannel->setVolume(m_fVolume);
+	m_pUdyrChannel->setVolume(m_fVolume);
 	m_pAnnouncerChannel->setVolume(m_fVolume);
 	//FMOD_Channel_SetVolume(m_pBGMChannel, m_fVolume);
 
@@ -173,8 +104,8 @@ void SoundManager::VolumeDown()
 	{
 		m_fVolume = 0.f;
 	}
-	m_pBGMChannel->setVolume(m_fVolume);
-	m_pEffectChannel->setVolume(m_fVolume);
+	m_pEzrealChannel->setVolume(m_fVolume);
+	m_pUdyrChannel->setVolume(m_fVolume);
 	m_pAnnouncerChannel->setVolume(m_fVolume);
 
 	m_bDirty = true;
@@ -211,11 +142,81 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 	return ringing;
 }
 
-void SoundManager::PlayBySoundType(T_SOUND sound)
+bool SoundManager::PlayUdyrSound(T_SOUND type)
 {
+	if (T_SOUND::ANNOUNCER_END > type || T_SOUND::Udyr_END <= type)
+		return false;
+	return PlaySoundRegistered(type, m_pUdyrChannel);
+}
+
+bool SoundManager::PlayEzrealSound(T_SOUND type)
+{
+	if (T_SOUND::Udyr_END > type || T_SOUND::Ezreal_END <= type)
+		return false;
+	return PlaySoundRegistered(type, m_pEzrealChannel);
+}
+
+bool SoundManager::PlayAnnouncerMention(T_SOUND type)
+{
+	if (type >= T_SOUND::ANNOUNCER_END)
+		return false;
+	return PlaySoundRegistered(type, m_pAnnouncerChannel);
+}
+
+bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
+{
+	auto pSound = m_mappSounds.find(static_cast<int>(type));
+	if (pSound != m_mappSounds.end())
+	{
+		bool playing;
+		m_pEzrealChannel->isPlaying(&playing);
+		if (playing)
+			m_pUdyrChannel->stop();
+		m_result = m_pSystem->playSound(FMOD_CHANNEL_FREE, pSound->second, false, &channel); 
+		ErrCheck(m_result);
+
+		//m_pSystem->update();
+		int nChannelPlayingNow = 0;
+		m_pSystem->getChannelsPlaying(&nChannelPlayingNow);
+		return true;
+	}
+	return false;
 }
 
 void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 {
-	PlayAnnouncerMention("left30sec");
+	// 이벤트 안쓸듯
+	PlayAnnouncerMention(ANNOUNCER_Createminion);
+}
+
+void SoundManager::ParseSoundPathListFile(string sFilePath)
+{
+	ifstream file(sFilePath.c_str(), ifstream::in);
+
+	if (!file.is_open()) {
+		cout << "Error Opening SoundPathList File\n";
+		return;
+	}
+
+	string str;
+	while (file)
+	{
+		vector<string> token;
+		string s, t;
+		getline(file, s);
+		if (s[0] == ' ' || s[0] == '#' || s[0] == '\n')
+			continue;
+		for (stringstream ss(s); (ss >> t);)
+			token.push_back(t);
+		
+		if (token.size() >= 2)
+			m_mapPathInfo.insert(make_pair(stoi(token[0]),token[1]));
+
+		if (file.eof())
+			break;
+	}
+
+	file.close();
+	for (auto & it : m_mapPathInfo)
+		cout << "파일 주소 : " << it.first << " " << it.second << '\n';
 }

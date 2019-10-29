@@ -137,12 +137,12 @@ bool CFrustum::SphereInFrustum(float fRadius, const D3DXVECTOR3* pPoint)
 	return true;
 }
 
-bool CFrustum::SphereInFrustum(const SPHERE * pSphere)
+bool CFrustum::SphereInFrustum(SPHERE * pSphere)
 {
 	float		fDistance;
 	for (int i = 0; i < 6; ++i)
 	{
-		fDistance = D3DXPlaneDotCoord(&m_Plane[i], &pSphere->vCenter);
+		fDistance = D3DXPlaneDotCoord(&m_Plane[i], pSphere->vpCenter);
 		if (fDistance > pSphere->fRadius)
 			return false;
 	}

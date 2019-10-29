@@ -35,7 +35,7 @@ extern  bool		CheckUpKey(BYTE byKey);
 extern  DIMOUSESTATE MyGetMouseState(void);
 
 //=============== MousePicking===============//
-extern bool			CheckPickingOnSphere(SPHERE sphere);
+extern bool			CheckPickingOnSphere(SPHERE* sphere);
 extern bool			CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVECTOR3 * p1, IN const D3DXVECTOR3 * p2, OUT D3DXVECTOR3 * hitpoint);
 
 //=============== System Relase ======================//
