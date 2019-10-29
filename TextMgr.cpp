@@ -127,13 +127,13 @@ void CTextMgr::Initialize()
 	RECT rc;
 	SetRect(&rc, 500, 0, 500, 10);
 	
-	m_pSec = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 5, L"Dejavu Sans", rc, m_InGameSec);
+	m_pSec = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 5, L"Dejavu Sans", rc, string(""));
 	
-	/*m_pMin = new CText(*m_pSec);
-	m_pMin->m_sInfo = m_InGameMin;
+	m_pMin = new CText(*m_pSec);
+	m_pMin->m_Rect = RECT{ 480, 0, 480, 10 };
 
-	m_TimeDivide = new CText(*m_pSec);
-	m_TimeDivide->m_sInfo = string(" : ");*/
+	//m_TimeDivide = new CText(*m_pSec);
+	//m_TimeDivide->m_sInfo = string(" : ");
 }
 
 void CTextMgr::Render() // << ³ª¸ÓÁö
@@ -402,7 +402,7 @@ void CTextMgr::Progress()
 void CTextMgr::IngameTimer()
 {
 	m_pSec->m_sInfo = to_string((int)m_fSec);
-	m_InGameMin = to_string((int)m_fMin);
+	m_pMin->m_sInfo = to_string((int)m_fMin);
 
 	m_pSec->m_pFont->DrawTextA(
 		NULL,
@@ -420,7 +420,7 @@ void CTextMgr::IngameTimer()
 		&m_TimeDivide->m_Rect,
 		DT_CENTER | DT_NOCLIP,
 		D3DCOLOR_XRGB(255, 255, 255)
-	);
+	);*/
 
 	m_pMin->m_pFont->DrawTextA(
 		NULL,
@@ -429,5 +429,5 @@ void CTextMgr::IngameTimer()
 		&m_pMin->m_Rect,
 		DT_CENTER | DT_NOCLIP,
 		D3DCOLOR_XRGB(255, 255, 255)
-	);*/
+	);
 }

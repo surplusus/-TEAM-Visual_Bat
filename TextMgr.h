@@ -98,8 +98,6 @@ public:
 	void Progress();
 	void IngameTimer();
 private:
-	string		m_InGameSec;
-	string		m_InGameMin;
 	float		m_fSec;
 	float		m_fMin;
 
