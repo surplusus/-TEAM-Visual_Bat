@@ -74,8 +74,8 @@ void CChampion::UpdateWorldMatrix()
 	D3DXMATRIX matRotX, matRotY, matRotZ;
 	D3DXMATRIX matScale, matRot, matTrans;
 	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-	if (_isnan(m_fAngle[ANGLE_Y]))	
-		TurnSlowly(&m_MouseHitPoint);
+	if (_isnan(m_fAngle[ANGLE_Y]))
+		m_fAngle[ANGLE_Y] = 0.f;
 	D3DXMatrixRotationY(&matRot, m_fAngle[ANGLE_Y]);
 	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);

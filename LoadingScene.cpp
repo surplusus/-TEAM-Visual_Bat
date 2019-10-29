@@ -65,29 +65,27 @@ HRESULT CLoadingScene::Initialize()
 
 void CLoadingScene::Progress()
 {
-	if (GetAsyncKeyState(VK_SPACE)) //GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 
 	static int idx = 0;
-	static bool isEmpty = true;
+	
 	if (idx < m_vfuncLoading.size()) {
-		if (isEmpty == false)
-			return;
 		FuncLoading fp = m_vfuncLoading[idx];
-		if (GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, fp).get()) {
-			GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);
-			idx++;
-			isEmpty = true;
+		if (!m_vbLoadingComplete[idx]) {
+			m_vbLoadingComplete[idx] = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, fp).get();
 			return;
 		}
-		isEmpty = false;
-		//fp();
-		return;
+		else {
+			GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);
+			m_vbLoadingComplete[idx] = true;
+			idx++;
+			return;
+		}
 	}
 
-	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 }
 
 void CLoadingScene::Render()
@@ -142,7 +140,10 @@ void CLoadingScene::Render_ProgressBar()
 
 	static int cnt = 0;
 	cnt++;
-	if (cnt == 100) m_iProgressBar++;
+	if (cnt >= 100) {
+		m_iProgressBar++;
+		cnt = 0;
+	}
 	m_iProgressBar %= 24;
 
 	int startCoord = 128 * m_iProgressBar;
@@ -211,6 +212,8 @@ void CLoadingScene::SetFuncLoading()
 	m_vfuncLoading.push_back([this]() {return this->FuncLoadMap(); });
 	m_vfuncLoading.push_back([this]() {return this->FuncLoadChamp(); });
 	m_vfuncLoading.push_back([this]() {return this->FuncLoadMinion(); });
+
+	m_vbLoadingComplete.resize(m_vfuncLoading.size(), false);
 }
 
 bool CLoadingScene::SetMeshInfoThruFile()

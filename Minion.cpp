@@ -73,3 +73,10 @@ void CMinion::SetDirectionToNextPoint()
 	m_Info.vDir = m_Info.vPos - m_vNextPoint;
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
 }
+
+void CMinion::SetPosition(const D3DXVECTOR3 * pos)
+{
+	m_Info.vPos.x = pos->x;
+	m_Info.vPos.y = pos->y;
+	m_Info.vPos.z = pos->z;
+}

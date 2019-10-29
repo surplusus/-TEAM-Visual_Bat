@@ -60,6 +60,7 @@ public:
 	// << :: thread
 	map<string, stMeshInfo>		m_mapMeshInfo;
 	vector<FuncLoading>			m_vfuncLoading;
+	vector<bool>				m_vbLoadingComplete;
 	bool OperateFuncAddMeshByKey(string key);
 	void OperateFuncAddObjectByKey(string key);
 	// 로딩 함수들(vecter에 넣고 하나씩 꺼낸다)
