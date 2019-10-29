@@ -2,17 +2,26 @@
 #include "Ezreal.h"
 #include "ThreadPool.h"
 #include "BaseInclude.h"
-#include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
-#include "Ray.h"
-#include"Ezeal_Q.h"
-
+#include "Ray.h""
+#include"ParticleMgr.h"
+#include"EzealQ_Particle.h"
+#include"MathMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
 {
+	m_fAngle[ANGLE_X] = 0;
+	m_fAngle[ANGLE_Y] = 0;
+	m_fAngle[ANGLE_Z] = 0;
+	m_Champ_State.resize(CHAMPION_STATETYPE_END_ANIMSTATE);
+	for (int i = 0; i <CHAMPION_STATETYPE_END_ANIMSTATE; i++)
+	{
+		m_Champ_State[i] = false;
+	}
+	m_strAnimationState = "IDLE1";
 
 }
 
@@ -33,13 +42,13 @@ void CEzreal::SetContantTable()
 void CEzreal::WorldSetting()
 {
 	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans, matScale;
-	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
-	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
-	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
+	D3DXMatrixRotationX(&matRotX, D3DXToRadian(m_fAngle[ANGLE_X]));
+	D3DXMatrixRotationY(&matRotY, D3DXToRadian(m_fAngle[ANGLE_Y]));
+	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(m_fAngle[ANGLE_Z]));
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
 	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
-	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
+//	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 }
 
 bool CEzreal::MouseCheck()
@@ -70,7 +79,7 @@ bool CEzreal::Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
 	float fDistance = D3DXVec3Length(&vDirection);
 
 	D3DXVec3Normalize(&vDirection, &vDirection);
-	m_Info.vPos += vDirection * fSpeed*GetTime();
+	m_Info.vPos += vDirection * g_fDeltaTime*fSpeed;
 	if (fDistance < 0.1f)
 		return false;
 	return false;
@@ -104,8 +113,8 @@ HRESULT CEzreal::Initialize()
 {
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
-	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(-10.f, 16.0f, -10.f);
+	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 1.f);
+	m_Info.vPos = D3DXVECTOR3(0, 0, 0);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
@@ -118,37 +127,52 @@ HRESULT CEzreal::Initialize()
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();
+	
+	m_pMesh = GetMesh(L"Ezreal");
+
 	return S_OK;
 }
 
 void CEzreal::Progress()
 {
 	WorldSetting();
-	//KeyCheck();
-	if (GetAsyncKeyState(VK_LBUTTON)) {
-
-		if (MouseCheck())
+	KeyCheck();
+	SettingAnimationSort();
+	SettingFrameAnimation();
+	//	if (GetAsyncKeyState(VK_LBUTTON)) {
+	//
+	//		if (MouseCheck())
+	//		{
+	//			SetAngleFromPostion();
+	//			RoationObject();
+	//		}
+	//	}
+	//	if (g_bMouseHitPoint) {
+	//		g_bMouseHitPoint = false;
+	//	}
+	//	if (CheckPushKeyOneTime(VK_Q))
+	//	{
+	//		AddSkill_Q();
+	//	}
+	//	Move_Chase(&g_MouseHitPoint, 5.0f);
+		for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
 		{
-			SetAngleFromPostion();
-
+			(*iter)->Progress();
 		}
-	}
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
-	}
-	if (CheckPushKeyOneTime(VK_Q))
-	{
-		AddSkill_Q();
-	}
-	Move_Chase(&g_MouseHitPoint, 10.0f);
-
+		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
+	
 }
 void CEzreal::AddSkill_Q()
-{
-	
-	m_ListQSkill.push_back(new CEzeal_Q(m_Info));
-
-
+{	
+	D3DXMATRIX matWorld;
+	D3DXVECTOR3 vPos;
+	GetBoneMatrix(L"Ezreal", "Armature_L_hand", &matWorld);
+	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
+	INFO tInfo = m_Info;
+	tInfo.vPos = vPos;
+	CParticle * p = new CEzealQ_Particle(tInfo,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
+	p->Initalize();
+	GET_SINGLE(CParticleMgr)->AddParticle(L"Ez", p);
 }
 
 void CEzreal::Render()
@@ -156,9 +180,10 @@ void CEzreal::Render()
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
 
-	m_pAnimationCtrl->SetAnimationSet("Left_Attack2");
-	m_pAnimationCtrl->FrameMove(L"Ezreal", GetTime()/30);
+	m_pAnimationCtrl->BlendAnimationSet(m_strAnimationState);
+
 	Mesh_Render(GetDevice(), L"Ezreal");
+
 
 
 }
@@ -167,6 +192,150 @@ void CEzreal::Release()
 {
 
 }
+
+void CEzreal::RoationObject()
+{
+	D3DXVECTOR3 Pre_Position	=	 m_Info.vPos;
+	D3DXVECTOR3 After_Position	=	 g_MouseHitPoint;
+	D3DXVECTOR3 vCurDirection	=	 m_Info.vLook * -1.f;
+
+	
+	D3DXVECTOR3 vDirection = After_Position-Pre_Position;
+
+	float fDistance = D3DXVec3Length(&vDirection);
+
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	D3DXVec3Normalize(&vCurDirection, &vCurDirection);
+
+	float Dot = 0;	float Radian = 0;
+	Dot = D3DXVec3Dot(&vDirection, &vCurDirection);
+	Radian = (float)acos(Dot);
+	D3DXVECTOR3 Right_Dir;
+	D3DXVec3Cross(&Right_Dir, &vDirection, &D3DXVECTOR3(0, 0, -1));
+	if(Right_Dir.y < 0)
+	{
+		m_fAngle[ANGLE_Y] =	D3DXToDegree(Radian);
+		CMathMgr::Rotation_Y(&m_Info.vDir, &m_Info.vDir, D3DXToRadian(m_fAngle[ANGLE_Y]));
+	}
+	else
+	{
+		m_fAngle[ANGLE_Y] = 360- D3DXToDegree (Radian);
+		CMathMgr::Rotation_Y(&m_Info.vDir, &m_Info.vDir, D3DXToRadian(m_fAngle[ANGLE_Y]));
+	}	
+}
+
+void CEzreal::ChangeAniSetByState()
+{
+
+}
+
+void CEzreal::SettingFrameAnimation()
+{
+	CHAMPION_STATETYPE eState;
+	if (m_AnimationQueue.empty()) {
+		eState = CHAMPION_STATETYPE_IDLE1;
+	}
+	else	eState = m_AnimationQueue.front();
+	switch (eState)
+	{
+	case CHAMPION_STATETYPE_IDLE1:
+		m_strAnimationState = "IDLE1"; break;
+	case CHAMPION_STATETYPE_IDLE2:			
+		m_strAnimationState = "IDLE2"; break;
+	case CHAMPION_STATETYPE_IDLE3:
+		m_strAnimationState = "IDLE3"; break;
+	case CHAMPION_STATETYPE_ATTACK1:
+		m_strAnimationState = "Attack1"; break;
+	case CHAMPION_STATETYPE_ATTACK2:
+		m_strAnimationState = "Attack2"; break;
+	case CHAMPION_STATETYPE_SPELL1:	
+		m_strAnimationState = "Spell1"; break;
+	case CHAMPION_STATETYPE_SPELL2: 		
+		m_strAnimationState = "Spell2"; break;
+	case CHAMPION_STATETYPE_SPELL3: 
+		m_strAnimationState = "Spell3"; break;
+	case CHAMPION_STATETYPE_SPELL4:
+		m_strAnimationState = "Spell4"; break;
+	case CHAMPION_STATETYPE_RUN:	
+		m_strAnimationState = "Run"; break;
+	case CHAMPION_STATETYPE_DEATH:
+		m_strAnimationState = "Death"; break;
+	case CHAMPION_STATETYPE_DEFAULT_ACTION:
+		m_strAnimationState = "Default_Action"; break;
+	default:
+		break;
+	}
+	if(!m_AnimationQueue.empty())	m_AnimationQueue.pop();
+}
+
+void CEzreal::KeyCheck()
+{
+	if (GetAsyncKeyState(VK_LBUTTON)) {
+
+		if (MouseCheck())
+		{
+			m_Champ_State[CHAMPION_STATETYPE_RUN]	  = true;
+			m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+			SetAngleFromPostion();
+			RoationObject();
+		}
+	}
+	if (g_bMouseHitPoint) {
+		g_bMouseHitPoint = false;
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+
+	}
+	if (CheckPushKeyOneTime(VK_Q))
+	{
+		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
+		AddSkill_Q();
+	}
+	Move_Chase(&g_MouseHitPoint, 5.0f);
+	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
+	{
+		(*iter)->Progress();
+	}
+}
+
+void CEzreal::SettingAnimationSort()
+{
+	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1])
+	{
+		if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
+		{
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+			m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
+
+		}
+		else if (m_Champ_State[CHAMPION_STATETYPE_RUN])
+		{
+
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+			m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
+		}
+	}
+	else
+	{
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+		m_AnimationQueue.push(CHAMPION_STATETYPE_IDLE1);
+		InitAnimationState();
+	}
+
+
+	
+}
+
+void CEzreal::InitAnimationState()
+{
+	for (int i = 0; i > m_Champ_State.size(); i++)
+	{
+		m_Champ_State[i] = false;
+	}
+	m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+}
+
 
 
 
