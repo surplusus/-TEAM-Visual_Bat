@@ -1,6 +1,7 @@
 #pragma once
 
-class cImageLoader;
+class CImage_Loader;
+class CTextMgr;
 class cFont;
 
 class cGameHUD
@@ -22,8 +23,10 @@ public:
 	void Render_Text();
 
 private:
-	map<string, cImageLoader *> m_mapImage;
+	map<string, CImage_Loader *> m_mapImage;
 	cFont * m_Text;
+
+	CTextMgr*					m_TextMgr;
 
 	bool m_isLButtonDown;
 };

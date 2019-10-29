@@ -94,8 +94,17 @@ public:
 	int GetMaxTime() { return (int)m_MAXTIME; }
 	//>> 필요한거 작업
 
-private:
-
 public:
+	void Progress();
+	void IngameTimer();
+private:
+	string		m_InGameSec;
+	string		m_InGameMin;
+	float		m_fSec;
+	float		m_fMin;
+
+	CText*		m_pSec;
+	CText*		m_pMin;
+	CText*		m_TimeDivide;
 };
 
