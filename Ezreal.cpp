@@ -40,6 +40,10 @@ void CEzreal::SetContantTable()
 	D3DXMATRIX		matView, matProj;
 	GetTransform(D3DTS_VIEW, &matView);
 	GetTransform(D3DTS_PROJECTION, &matProj);
+	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1] && m_fStartTime ==1) {
+		AddSkill_Q();
+	}
+
 }
 
 void CEzreal::WorldSetting()
@@ -51,27 +55,16 @@ void CEzreal::WorldSetting()
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
 	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
-//	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
+	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 }
 
 bool CEzreal::MouseCheck()
 {
-	if (m_ObjMgr == NULL) return false;
-	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
-	int number = m_ObjMgr->GetVtxNumber(L"Map");
-
-	/*if (vtx == NULL) return false;
-	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())
-	{
-		GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);		return true;
-	}
-*/
+	// 방향전환
 	if (MyGetMouseState().rgbButtons[0]) {
 		m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
-	}
-
-
-	return false;
+	}	
+	return m_bPicked;
 }
 
 void CEzreal::SetAngleFromPostion()
@@ -81,18 +74,6 @@ void CEzreal::SetAngleFromPostion()
 	D3DXVec3Normalize(&vDirection, &vDirection);
 }
 
-bool CEzreal::Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
-{
-	D3DXVECTOR3 vDirection = *pDestPoint - m_Info.vPos;
-	float fDistance = D3DXVec3Length(&vDirection);
-
-	D3DXVec3Normalize(&vDirection, &vDirection);
-	m_Info.vPos += vDirection * g_fDeltaTime*fSpeed;
-	if (fDistance < 0.1f)
-		return false;
-
-	return true;
-}
 
 bool CEzreal::MapChecktThreadLoop(int number, const VTXTEX * vtx)
 {
@@ -121,13 +102,14 @@ bool CEzreal::MapChecktThreadLoop(int number, const VTXTEX * vtx)
 HRESULT CEzreal::Initialize()
 {
 	m_SortID = SORTID_LAST;
-	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
-	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 1.f);
+	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
+	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_Info.vPos = D3DXVECTOR3(0, 0, 0);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
 
+	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMeseh, NULL);
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
 	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
@@ -144,15 +126,17 @@ HRESULT CEzreal::Initialize()
 
 void CEzreal::Progress()
 {
-	WorldSetting();
 	KeyCheck();
 	SettingAnimationSort();
 	SettingFrameAnimation();
+	UpdateWorldMatrix();
+	SetContantTable();
 	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
 	{
 		(*iter)->Progress();
 	}
 	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
+
 	
 }
 void CEzreal::AddSkill_Q()
@@ -177,8 +161,11 @@ void CEzreal::Render()
 		m_bDirty = false;
 	}
 	Mesh_Render(GetDevice(), L"Ezreal");
+	SetTexture(0,NULL);
+	SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-
+	CollisionBoxRender();
+	SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 }
 
@@ -187,37 +174,6 @@ void CEzreal::Release()
 
 }
 
-void CEzreal::RoationObject()
-{
-	D3DXVECTOR3 Pre_Position	=	 m_Info.vPos;
-	D3DXVECTOR3 After_Position	=	 g_MouseHitPoint;
-	D3DXVECTOR3 vCurDirection	=	 m_Info.vLook * -1.f;
-
-	
-	D3DXVECTOR3 vDirection = After_Position-Pre_Position;
-
-	float fDistance = D3DXVec3Length(&vDirection);
-
-
-	D3DXVec3Normalize(&vDirection, &vDirection);
-	D3DXVec3Normalize(&vCurDirection, &vCurDirection);
-
-	float Dot = 0;	float Radian = 0;
-	Dot = D3DXVec3Dot(&vDirection, &vCurDirection);
-	Radian = (float)acos(Dot);
-	D3DXVECTOR3 Right_Dir;
-	D3DXVec3Cross(&Right_Dir, &vDirection, &D3DXVECTOR3(0, 0, -1));
-	if(Right_Dir.y < 0)
-	{
-		m_fAngle[ANGLE_Y] =	D3DXToDegree(Radian);
-		CMathMgr::Rotation_Y(&m_Info.vDir, &m_Info.vDir, D3DXToRadian(m_fAngle[ANGLE_Y]));
-	}
-	else
-	{
-		m_fAngle[ANGLE_Y] = 360- D3DXToDegree (Radian);
-		CMathMgr::Rotation_Y(&m_Info.vDir, &m_Info.vDir, D3DXToRadian(m_fAngle[ANGLE_Y]));
-	}	
-}
 
 void CEzreal::ChangeAniSetByState()
 {
@@ -265,7 +221,7 @@ void CEzreal::SettingFrameAnimation()
 
 void CEzreal::KeyCheck()
 {
-	if (GetAsyncKeyState(VK_LBUTTON)) {
+	if (GetAsyncKeyState(VK_LBUTTON) && 0x8001) {
 
 		if (MouseCheck())
 		{
@@ -274,7 +230,6 @@ void CEzreal::KeyCheck()
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_bDirty = true;
 			SetAngleFromPostion();
-			RoationObject();
 		}
 	}
 	if (g_bMouseHitPoint) {
@@ -286,15 +241,7 @@ void CEzreal::KeyCheck()
 	{
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-		AddSkill_Q();
 		m_fEndTime = 25;
-		m_bDirty = true;
-	}
-	else if (!Move_Chase(&g_MouseHitPoint, 5.0f) 
-		&& !m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
-		)
-	{
-		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
 		m_bDirty = true;
 	}
 	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
@@ -311,6 +258,8 @@ void CEzreal::SettingAnimationSort()
 		{
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_ChangeMotion = false;
+			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
+
 			if (m_fStartTime >= m_fEndTime) {
 				m_Champ_State[CHAMPION_STATETYPE_SPELL1] = false;
 				m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
@@ -325,18 +274,33 @@ void CEzreal::SettingAnimationSort()
 
 			}
 		}
-		else if (m_Champ_State[CHAMPION_STATETYPE_RUN])
+		else if (m_Champ_State[CHAMPION_STATETYPE_RUN])//달리는 상태일때
 		{
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
+			
+			m_ChangeMotion = false;
 		}
+		if (m_Champ_State[CHAMPION_STATETYPE_RUN] && !m_ChangeMotion) {
+			TurnSlowly(&m_MouseHitPoint);
+			bool bRun = Update_vPos_ByDestPoint(&m_MouseHitPoint, 5.0f);
+			if (!bRun)
+			{
+				m_ChangeMotion = true;
+				m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
+				m_AnimationQueue.pop();
+
+			}
+		}
+		
 	}
-	else
+	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
+		)
 	{
-		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
-		m_AnimationQueue.push(CHAMPION_STATETYPE_IDLE1);
 		InitAnimationState();
-	}	
+		m_AnimationQueue.push(CHAMPION_STATETYPE_IDLE1);
+		m_bDirty = true;
+	}
 }
 
 void CEzreal::InitAnimationState()
@@ -346,6 +310,11 @@ void CEzreal::InitAnimationState()
 		m_Champ_State[i] = false;
 	}
 	m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+}
+
+void CEzreal::CollisionBoxRender()
+{
+	m_BoxMeseh->DrawSubset(0);
 }
 
 

@@ -68,5 +68,9 @@ private:
 	void KeyCheck();
 	void SettingAnimationSort();//상태에 따른 애니메이션 순서를 정해준다.
 	void InitAnimationState();
+private:
+	LPD3DXMESH m_BoxMeseh;
+	void CollisionBoxRender();
+
 };
 

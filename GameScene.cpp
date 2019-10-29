@@ -49,16 +49,6 @@ HRESULT CGameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-	
-	//CObj* ez = new CEzreal("SPELL1",true);
-	//ez->Initialize();
-
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal", ez)))
-	//	return E_FAIL;
-	//ez = new CEzreal("SPELL2",false);
-	//ez->Initialize();
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal", ez)))
-	//	return E_FAIL;
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
