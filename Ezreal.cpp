@@ -12,17 +12,20 @@ D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
+	:m_bDirty(true)
 {
 	m_fAngle[ANGLE_X] = 0;
 	m_fAngle[ANGLE_Y] = 0;
 	m_fAngle[ANGLE_Z] = 0;
+	m_fStartTime = 0.f;
+	m_fEndTime = 0.f;
 	m_Champ_State.resize(CHAMPION_STATETYPE_END_ANIMSTATE);
 	for (int i = 0; i <CHAMPION_STATETYPE_END_ANIMSTATE; i++)
 	{
 		m_Champ_State[i] = false;
 	}
 	m_strAnimationState = "IDLE1";
-
+	m_ChangeMotion = true;
 }
 
 
@@ -57,12 +60,17 @@ bool CEzreal::MouseCheck()
 	const VTXTEX* vtx = m_ObjMgr->GetVtxInfo(L"Map");
 	int number = m_ObjMgr->GetVtxNumber(L"Map");
 
-	if (vtx == NULL) return false;
+	/*if (vtx == NULL) return false;
 	if (GET_THREADPOOL->EnqueueFunc(THREAD_MOUSE, MapChecktThreadLoop, number, vtx).get())
 	{
-		GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);
-		return true;
+		GET_THREADPOOL->Thread_Stop(THREAD_MOUSE);		return true;
 	}
+*/
+	if (MyGetMouseState().rgbButtons[0]) {
+		m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
+	}
+
+
 	return false;
 }
 
@@ -82,7 +90,8 @@ bool CEzreal::Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
 	m_Info.vPos += vDirection * g_fDeltaTime*fSpeed;
 	if (fDistance < 0.1f)
 		return false;
-	return false;
+
+	return true;
 }
 
 bool CEzreal::MapChecktThreadLoop(int number, const VTXTEX * vtx)
@@ -139,27 +148,11 @@ void CEzreal::Progress()
 	KeyCheck();
 	SettingAnimationSort();
 	SettingFrameAnimation();
-	//	if (GetAsyncKeyState(VK_LBUTTON)) {
-	//
-	//		if (MouseCheck())
-	//		{
-	//			SetAngleFromPostion();
-	//			RoationObject();
-	//		}
-	//	}
-	//	if (g_bMouseHitPoint) {
-	//		g_bMouseHitPoint = false;
-	//	}
-	//	if (CheckPushKeyOneTime(VK_Q))
-	//	{
-	//		AddSkill_Q();
-	//	}
-	//	Move_Chase(&g_MouseHitPoint, 5.0f);
-		for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
-		{
-			(*iter)->Progress();
-		}
-		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
+	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
+	{
+		(*iter)->Progress();
+	}
+	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
 	
 }
 void CEzreal::AddSkill_Q()
@@ -179,9 +172,10 @@ void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
-
-	m_pAnimationCtrl->BlendAnimationSet(m_strAnimationState);
-
+	if (m_bDirty) {
+		m_pAnimationCtrl->SetAnimationSet(m_strAnimationState);
+		m_bDirty = false;
+	}
 	Mesh_Render(GetDevice(), L"Ezreal");
 
 
@@ -278,21 +272,31 @@ void CEzreal::KeyCheck()
 			m_Champ_State[CHAMPION_STATETYPE_RUN]	  = true;
 			m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+			m_bDirty = true;
 			SetAngleFromPostion();
 			RoationObject();
 		}
 	}
 	if (g_bMouseHitPoint) {
 		g_bMouseHitPoint = false;
-		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 
 	}
 	if (CheckPushKeyOneTime(VK_Q))
 	{
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 		AddSkill_Q();
+		m_fEndTime = 25;
+		m_bDirty = true;
 	}
-	Move_Chase(&g_MouseHitPoint, 5.0f);
+	else if (!Move_Chase(&g_MouseHitPoint, 5.0f) 
+		&& !m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
+		)
+	{
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+		m_bDirty = true;
+	}
 	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
 	{
 		(*iter)->Progress();
@@ -306,12 +310,23 @@ void CEzreal::SettingAnimationSort()
 		if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
 		{
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-			m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
+			m_ChangeMotion = false;
+			if (m_fStartTime >= m_fEndTime) {
+				m_Champ_State[CHAMPION_STATETYPE_SPELL1] = false;
+				m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+				m_ChangeMotion = true;
+				m_fStartTime = 0;
+				m_bDirty = true;
+			}
+			else
+			{
+				m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
+				m_fStartTime += 1;
 
+			}
 		}
 		else if (m_Champ_State[CHAMPION_STATETYPE_RUN])
 		{
-
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
 		}
@@ -321,10 +336,7 @@ void CEzreal::SettingAnimationSort()
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
 		m_AnimationQueue.push(CHAMPION_STATETYPE_IDLE1);
 		InitAnimationState();
-	}
-
-
-	
+	}	
 }
 
 void CEzreal::InitAnimationState()

@@ -24,7 +24,7 @@ public:
 	~CEzreal();
 private:
 	LPD3DXMESH m_pMesh;
-	
+	bool m_bDirty;
 public:
 	virtual void	SetContantTable();
 #pragma region Function
@@ -58,6 +58,9 @@ public:
 private:
 	vector<bool>				m_Champ_State;
 	queue<CHAMPION_STATETYPE>	m_AnimationQueue;
+	bool m_ChangeMotion;
+	float m_fStartTime;
+	float m_fEndTime;
 	string m_strAnimationState;
 	bool m_bProgress = true;
 
