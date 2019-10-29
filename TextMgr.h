@@ -94,7 +94,7 @@ public:
 	int GetMaxTime() { return (int)m_MAXTIME; }
 	//>> 필요한거 작업
 
-public:
+public://InGame Timer
 	void Progress();
 	void IngameTimer();
 private:
@@ -104,5 +104,21 @@ private:
 	CText*		m_pSec;
 	CText*		m_pMin;
 	CText*		m_TimeDivide;
+
+public://InGame CS
+	void CS_Count();
+	int			m_nCount;
+	CText*		m_CS;
+
+public://InGame KDA
+	void KDA_Count(int K, int D, int A);
+private:
+	int			m_nKill;
+	int			m_nDeath;
+	int			m_nAsist;
+	CText*		m_Kill;
+	CText*		m_Death;
+	CText*		m_Asist;
+
 };
 

@@ -25,6 +25,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
+    <ClInclude Include="ChampGague.h" />
     <ClInclude Include="Cheon.h" />
     <ClInclude Include="CubePC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -52,6 +53,7 @@
     <ClInclude Include="GameHUD.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="HUDScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -68,6 +70,7 @@
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MeleeMinion.h" />
     <ClInclude Include="Minion.h" />
+    <ClInclude Include="MinionGauge.h" />
     <ClInclude Include="MinionMgr.h" />
     <ClInclude Include="Nexus.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -175,6 +178,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="Champ.cpp" />
+    <ClCompile Include="ChampGague.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="CubePC.cpp">
@@ -189,6 +193,7 @@
     <ClCompile Include="GameHUD.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="HUDScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -205,6 +210,7 @@
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MeleeMinion.cpp" />
     <ClCompile Include="Minion.cpp" />
+    <ClCompile Include="MinionGauge.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
     <ClCompile Include="Nexus.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
