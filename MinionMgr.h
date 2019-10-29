@@ -1,16 +1,19 @@
 #pragma once
-class Minion;
+class CMinion;
 
-class MinionMgr
+class CMinionMgr
 {
+	enum{T_MELEE, T_RANGE, T_CANNON, T_SUPER};
 public:
-	MinionMgr();
-	~MinionMgr();
+	CMinionMgr();
+	~CMinionMgr();
 private:
-	vector<Minion*> m_vMinion;
+	vector<CMinion*> m_vMinion;
 public:
+	void CreateMinions();
 	void Initialize();
 	void Progress();
 	void Render();
+	void Release();
 };
 

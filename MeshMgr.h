@@ -26,7 +26,6 @@ public:
 		, CAnimationCtrl** ppAniCtrl);
 
 	void Mesh_Render(LPDIRECT3DDEVICE9 pDevice, const TCHAR* pMeshKey);
-	LPD3DXMESH GetMesh(const TCHAR* pMeshKey);
+	CMesh* GetMesh(const TCHAR* pMeshKey);
 	void Release();
 };
-

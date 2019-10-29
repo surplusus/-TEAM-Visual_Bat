@@ -1,0 +1,23 @@
+# '#'은 주석
+# '-'은 stMeshInfo를 찾을 키
+-Udyr-
+bComplete false
+ObjName Udyr
+FolderPath ./Resource/Champion/
+FileName Udyr.x
+ConsoleText "Udyr File Loaded"
+MeshType 1
+-Map-
+bComplete false
+ObjName Map
+FolderPath ./Resource/Test/
+FileName TestFloor.x
+ConsoleText "Floor File Load Start"
+MeshType 0
+-Minion-
+bComplete false
+ObjName Minion
+FolderPath ./Resource/Minion/
+FileName Minion_Melee_Blue.x
+ConsoleText "Minion File Loaded"
+MeshType 1

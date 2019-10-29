@@ -26,17 +26,6 @@ void CSceneMediator::SetSceneMember(CScene * member)
 	m_pGuhyunScene = dynamic_cast<GuhyunScene*>(member);
 }
 
-void CSceneMediator::InsertStringInfo(string key, string info)
-{
-	m_mapStringInfo.insert(make_pair(key, info));
-}
-
-void CSceneMediator::CopyStringInfo(OUT map<string, string>* info)
-{
-	if (info)
-		info->insert(m_mapStringInfo.begin(), m_mapStringInfo.end());
-}
-
 void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 {
 	switch (type)
@@ -47,7 +36,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 				
 			}
 			else if (member == m_pLoadingScene) {
-				CopyStringInfo(m_pLoadingScene->GetStringInfo());
+				SetSelectedChampInfo(m_stInFo);
 			}
 			else if (member == m_pGameScene) {
 
@@ -59,12 +48,10 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 	case PROGRESS:
 		{
 			if (member == m_pSelectScene) {
-				SetChampName(m_pSelectScene->GetChampName());
-				SetSpell_1Name(m_pSelectScene->GetSpell_1Name());
-				SetSpell_2Name(m_pSelectScene->GetSpell_2Name());
+				
 			}
 			else if (member == m_pLoadingScene) {
-
+				
 			}
 			else if (member == m_pGameScene) {
 

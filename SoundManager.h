@@ -1,13 +1,12 @@
 #pragma once
 enum T_SOUND
 {
-	gun,
-	get_coin,
-	bgm,
-	left30sec,
-	createminion,
-	welcome,
-	END
+	ANNOUNCER_Welcome = 1,	ANNOUNCER_Left30sec,	ANNOUNCER_Createminion, ANNOUNCER_END = 4,
+	Udyr_Attack_Left,	Udyr_Idle,	Udyr_Search,	Udyr_Run,
+	Udyr_Taunt,	Udyr_Dance,	Udyr_Death, Udyr_END = 12,
+	Ezreal_Idle1,	Ezreal_Idle2,	Ezreal_Idel3,
+	Ezreal_Attack1,	Ezreal_Attack2, Ezreal_Run, Ezreal_Death,
+	Ezreal_Spell1,	Ezreal_Spell2,	Ezreal_Spell3,	Ezreal_Spell4,	Ezreal_END = 24
 };
 
 struct MyAlarm
@@ -26,9 +25,9 @@ private:
 public:
 	void SetUp();
 	void Update();
-	void PlayEffectSound(string name);
-	void PlayBGMSound(string name);
-	void PlayAnnouncerMention(string name);
+	bool PlayUdyrSound(T_SOUND type);
+	bool PlayEzrealSound(T_SOUND type);
+	bool PlayAnnouncerMention(T_SOUND type);
 	void StopBGM();
 	void VolumeUp();
 	void VolumeDown();
@@ -36,13 +35,11 @@ public:
 
 	bool PlayOnTime(float endsec, int idx);
 private:
-	void PlayBySoundType(T_SOUND sound); // ¸¸µé¾î¾ßµÊ
-private:
 	FMOD::System*					m_pSystem = nullptr;
-	FMOD::Channel*					m_pEffectChannel = nullptr;
-	FMOD::Channel*					m_pBGMChannel = nullptr;
+	FMOD::Channel*					m_pUdyrChannel = nullptr;
+	FMOD::Channel*					m_pEzrealChannel = nullptr;
 	FMOD::Channel*					m_pAnnouncerChannel = nullptr;
-	unordered_map<string, FMOD::Sound*>   map_pSounds;
+	unordered_map<int, FMOD::Sound*>   m_mappSounds;
 	float							m_fVolume = 1.f;
 	bool							m_bDirty = false;
 	float							m_fPlayGap = 0.3f;
@@ -52,8 +49,11 @@ private:
 	unordered_map<int, MyAlarm*>	m_mapAlarm;
 	float							m_cumulativeTime = 0.f;
 	int								m_bitFlag = 0;
+	map<int, string>				m_mapPathInfo;
 private:
+	bool PlaySoundRegistered(T_SOUND type, FMOD::Channel* channel);
 	void OnNoticeTestSoundEvent(ANNOUNCEEVENT* evt);
+	void ParseSoundPathListFile(string sFilePath);
 };
 
 #define GET_SOUNDMGR SoundManager::GetInstance()

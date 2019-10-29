@@ -150,6 +150,44 @@ void CAnimationCtrl::BlendAnimationSet(string aniName)
 	SAFE_RELEASE(pNextAnimSet);
 }
 
+void CAnimationCtrl::BlendAnimationSet(int aniIdx)
+{
+	m_bIsBlending = true;
+	m_fTimeDuringBlending = 0.f;
+
+	UINT iAniCount = m_pAniCtrl->GetNumAnimationSets();
+	aniIdx %= static_cast<int>(iAniCount);
+
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAniCtrl->GetTrackDesc(0, &stTrackDesc);
+	m_pAniCtrl->GetTrackAnimationSet(0, &pPrevAnimSet);
+	
+	m_dPeriodCurAnimSet = pPrevAnimSet->GetPeriod();
+	string sPrevName = pPrevAnimSet->GetName();
+	m_pAniCtrl->GetAnimationSet(aniIdx, &pNextAnimSet);
+	string sNextName = pNextAnimSet->GetName();
+	if (sPrevName == sNextName) {
+		SAFE_RELEASE(pPrevAnimSet);
+		SAFE_RELEASE(pNextAnimSet);
+		return;
+	}
+
+	m_pAniCtrl->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAniCtrl->SetTrackDesc(1, &stTrackDesc);
+
+	m_pAniCtrl->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAniCtrl->SetTrackPosition(0, 0.0f);
+
+	m_pAniCtrl->SetTrackWeight(0, 0.0f);
+	m_pAniCtrl->SetTrackWeight(1, 1.0f);
+
+	SAFE_RELEASE(pPrevAnimSet);
+	SAFE_RELEASE(pNextAnimSet);
+}
+
 void CAnimationCtrl::FrameMove(const TCHAR * pMeshKey, float fTime)
 {
 	if (m_bIsBlending)

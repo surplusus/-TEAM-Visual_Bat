@@ -128,14 +128,13 @@ typedef struct tagRay
 
 typedef struct tagSphere
 {
-	float		fRadius;
-	D3DXVECTOR3 vCenter;
-	bool		isPicked = false;
+	float			fRadius;
+	D3DXVECTOR3*	vpCenter;
+	bool			isPicked = false;
 
-	tagSphere() : fRadius(0.0f), vCenter(0, 0, 0) {}
-	tagSphere(const float r, const D3DXVECTOR3 v) : fRadius(r), vCenter(v.x,v.y,v.z) {}
-	tagSphere(const tagSphere& sph) 
-		: fRadius(sph.fRadius), vCenter(sph.vCenter.x, sph.vCenter.y, sph.vCenter.z) {}
+	tagSphere() : fRadius(0.0f), vpCenter(nullptr) {}
+	tagSphere(const float r, D3DXVECTOR3* v) : fRadius(r), vpCenter(v) {}
+	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter) {}
 }SPHERE;
 
 

@@ -3,7 +3,7 @@
 #include "CameraMgr.h"
 
 #include "ImageLoader.h"
-#include "Font.h"
+//#include "Font.h"
 #include "CubePC.h"
 
 cGameHUD::cGameHUD()
@@ -33,7 +33,11 @@ void cGameHUD::Initialize()
 
 	cImageLoader * mini_cham = new cImageLoader(
 		L"Resource/jiyun/mini_cham-01.png",
-		D3DXVECTOR3(WINSIZEX - 169, WINSIZEY - 80, 0));
+		D3DXVECTOR3(
+			 (m_mapImage["minimap"]->GetImagePos()->x) + 20 * ((GET_SINGLE(cCubePC)->GetPosition().x)
+			 / m_mapImage["minimap"]->GetImagePos()->x), 
+				 (m_mapImage["minimap"]->GetImageInfo()->Height) + (m_mapImage["minimap"]->GetImagePos()->y) + 20 * ((GET_SINGLE(cCubePC)->GetPosition().z)
+					/ m_mapImage["minimap"]->GetImagePos()->y), 0));
 	m_mapImage["mini_cham"] = mini_cham;
 	m_mapImage["mini_cham"]->Initialize();
 
@@ -73,8 +77,9 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(WINSIZEX - 334, 0, 0));
 	m_mapImage["time"] = time;
 	m_mapImage["time"]->Initialize();
-	m_Text = new cFont;
-	m_Text->Initialize(10, 5, L"±Ã¼­Ã¼");
+
+	/*m_Text = new cFont;
+	m_Text->Initialize(10, 5, L"±Ã¼­Ã¼");*/
 
 	cImageLoader * exam = new cImageLoader(
 		L"Resource/jiyun/example-01.png",
@@ -87,34 +92,52 @@ void cGameHUD::Initialize()
 
 void cGameHUD::Progress()
 {
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
+	//RECT rc;
+	//GetClientRect(g_hWnd, &rc);
 
-	if (CheckPushKey(DIK_RIGHT))
-	{
-		//(m_mapImage["exam"]->GetImagePos()->x)++;
-		(GET_SINGLE(cCubePC)->GetPosition().x)++;
-		(m_mapImage["mini_cham"]->GetImagePos()->x)++;
-	}
+	//if (CheckPushKey(DIK_RIGHT))
+	//{
+	//	//(m_mapImage["exam"]->GetImagePos()->x)++;
 
-	if (CheckPushKey(DIK_LEFT))
-	{
-		//(m_mapImage["exam"]->GetImagePos()->x)--;
-		(GET_SINGLE(cCubePC)->GetPosition().x)--;
-		(m_mapImage["mini_cham"]->GetImagePos()->x)--;
-	}
+	//	(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
+	//	(m_mapImage["mini_cham"]->GetImagePos()->x) += 0.25f;
 
-	if (CheckPushKey(DIK_UP))
-	{
-		(m_mapImage["exam"]->GetImagePos()->y)--;
-		(m_mapImage["mini_cham"]->GetImagePos()->y) -= 0.01f;
-	}
+	//	cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
+	//		<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+	//}
 
-	if (CheckPushKey(DIK_DOWN))
-	{
-		(m_mapImage["exam"]->GetImagePos()->y)++;
-		(m_mapImage["mini_cham"]->GetImagePos()->y) += 0.01f;
-	}
+	//if (CheckPushKey(DIK_LEFT))
+	//{
+	//	//(m_mapImage["exam"]->GetImagePos()->x)--;
+
+	//	(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
+	//	(m_mapImage["mini_cham"]->GetImagePos()->x)--;
+
+	//	cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
+	//		<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+	//}
+
+	//if (CheckPushKey(DIK_UP))
+	//{
+	//	//(m_mapImage["exam"]->GetImagePos()->y)--;
+
+	//	(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
+	//	(m_mapImage["mini_cham"]->GetImagePos()->y)--;
+
+	//	cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
+	//		<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+	//}
+
+	//if (CheckPushKey(DIK_DOWN))
+	//{
+	//	// (m_mapImage["exam"]->GetImagePos()->y)++;
+
+	//	(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
+	//	(m_mapImage["mini_cham"]->GetImagePos()->y)++;
+
+	//	cout << GET_SINGLE(cCubePC)->GetPosition().x << " "
+	//		<< GET_SINGLE(cCubePC)->GetPosition().y << " " << GET_SINGLE(cCubePC)->GetPosition().z << endl;
+	//}
 
 	GET_SINGLE(cCubePC)->Progress();
 }
@@ -132,10 +155,6 @@ void cGameHUD::Render()
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
-
-	m_Text->Render("abcd");
-
-	m_mapImage["exam"]->Render();
 
 	GET_SINGLE(cCubePC)->Render();
 }
@@ -160,6 +179,7 @@ void cGameHUD::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		m_isLButtonDown = true;
 		//cout << m_mapImage["coin"]->GetX() << endl;
+
 	}
 		break;
 		
@@ -169,4 +189,9 @@ void cGameHUD::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 		break;
 	}
+}
+
+void cGameHUD::Render_Text()
+{
+	/*m_Text->Render("abcd");*/
 }

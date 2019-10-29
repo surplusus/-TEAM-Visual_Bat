@@ -1,61 +1,74 @@
 #include "BaseInclude.h"
 #include "Minion.h"
-#include "ObjMgr.h"
-#include "Factory.h"
-#include <random>
+#include "MinionMgr.h"
+#include "PickingSphereMgr.h"
 
-Minion::Minion()
+CMinion::CMinion()
+	: m_pMinionMgr(nullptr)
+	, m_pHeightMap(nullptr)
+	, m_fSize(1.f)
+	, m_SphereForPick(1.f, &m_Info.vPos)
+	, m_pMeshSphere(nullptr)
 {
 }
 
-
-Minion::Minion(string name, string filePath)
-{
-	basic_string<TCHAR> convertedFile(filePath.begin(), filePath.end());
-	basic_string<TCHAR> convertedName(name.begin(), name.end());
-	m_sName = &convertedName[0];
-
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Mesh/Dynamic/Minion/"
-			, convertedFile.c_str(), L"Minion", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(convertedName.c_str(), CFactory<CObj, Minion>::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"Minion Load Failed");
-}
-
-Minion::~Minion()
+CMinion::~CMinion()
 {
 }
 
-HRESULT Minion::Initialize()
+void CMinion::UpdateWorldMatrix()
 {
-	random_device random_device;
-	uniform_int_distribution<int> dist(0, 10);
-	num = dist(random_device);
-	return S_OK;
+	D3DXMATRIX matScale, matRot, matTrans;
+	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
+	D3DXQUATERNION quat; D3DXQuaternionIdentity(&quat);
+	D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.f, 1.f, 0.f), m_fAngle[ANGLE_Y]);
+	D3DXMatrixRotationQuaternion(&matRot, &quat);
+	D3DXVec3TransformNormal(&m_Info.vDir, &D3DXVECTOR3(0.f, 0.f, -1.f), &matRot);
+	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
+	m_Info.matWorld = matScale * matRot * matTrans;
 }
 
-void Minion::Progress()
+bool CMinion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 {
-	m_fAngle[ANGLE_Y] = D3DXToRadian(60);
-	m_Info.vPos += D3DXVECTOR3(0.f, 0.f, 0.01f);
-	{
-		D3DXMATRIX matScale, matRot, matTrans;
-		D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
-		D3DXQUATERNION quat; D3DXQuaternionIdentity(&quat);
-		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.f, 1.f, 0.f), m_fAngle[ANGLE_Y]);
-		D3DXMatrixRotationQuaternion(&matRot, &quat);
-		D3DXVec3TransformNormal(&m_Info.vDir, &D3DXVECTOR3(0.f, 0.f, -1.f), &matRot);
-		D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-		m_Info.matWorld = matScale * matRot * matTrans;
+	m_SphereForPick.fRadius = r;
+	if (v == nullptr) {
+		m_SphereForPick.vpCenter = &m_Info.vPos;
 	}
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_SphereForPick);
+	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
+	return true;
 }
 
-void Minion::Render()
+bool CMinion::Render_PickingShere()
 {
-	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	Mesh_Render(GetDevice(), m_sName);
+	if (m_pMeshSphere != nullptr) {
+		D3DMATERIAL9 mtrl;
+		ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+		if (m_SphereForPick.isPicked) {
+			mtrl.Diffuse.r = mtrl.Ambient.r = 1.f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = 0.f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = 0.f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = 1.f;
+		}
+		else
+		{
+			mtrl.Diffuse.r = mtrl.Ambient.r = 1.f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = 1.f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = 1.f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = 1.f;
+		}
+		GET_DEVICE->SetMaterial(&mtrl);
+		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pMeshSphere->DrawSubset(0);
+		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		return true;
+	}
+	return false;
 }
 
-void Minion::Release()
+void CMinion::SetDirectionToNextPoint()
 {
+	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
+	m_Info.vDir = m_Info.vPos - m_vNextPoint;
+	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
 }

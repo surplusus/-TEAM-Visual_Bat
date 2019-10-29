@@ -71,7 +71,7 @@ void CInput::Release(void)
 		m_pInput->Release();
 }
 
-bool CInput::CheckPickingOnSphere(SPHERE sphere)
+bool CInput::CheckPickingOnSphere(SPHERE* sphere)
 {
 	if (!m_MousePicker)
 		m_MousePicker = new CMousePicker();

@@ -22,15 +22,17 @@
     <ClInclude Include="AbilityPage.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
     <ClInclude Include="Cheon.h" />
     <ClInclude Include="CubePC.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DropBox.h" />
-    <ClInclude Include="EzealQ_Particle.h" />
+    <ClInclude Include="Ezeal_Q.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
     <ClInclude Include="AnimationCtrl.h" />
@@ -45,32 +47,43 @@
     <ClInclude Include="BufferMgr.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
-    <ClInclude Include="CFloor.h" />
     <ClInclude Include="Champion.h" />
     <ClInclude Include="CombatAlgorithm.h" />
     <ClInclude Include="EventFunctionHandler.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameHUD.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="HUDScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ICondition.h" />
     <ClInclude Include="ImageLoader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Image_Loader.h" />
+    <ClInclude Include="InGameScene.h" />
+    <ClInclude Include="Inhibitor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="MeleeMinion.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionMgr.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleMgr.h" />
+    <ClInclude Include="Nexus.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PickingSphereMgr.h" />
+    <ClInclude Include="SelectedSpells.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneMediator.h" />
-    <ClInclude Include="SelectedChampion.h" />
+    <ClInclude Include="SelectedPlayer.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -84,7 +97,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Grid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="GuhyunScene.h" />
     <ClInclude Include="HEADER\Defines.h" />
     <ClInclude Include="HEADER\Enum.h" />
@@ -107,7 +122,9 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="PipeLine.h" />
-    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="Pyramid.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Rect_Texture.h" />
     <ClInclude Include="ResourceFunc.h" />
     <ClInclude Include="Scene.h" />
@@ -125,12 +142,18 @@
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="SystemFunc.h" />
     <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TextList.h" />
     <ClInclude Include="TextMgr.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
+    <ClInclude Include="Tower.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Turret.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Udyr.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="XFileUtil.h" />
@@ -148,6 +171,7 @@
     <ClCompile Include="BaseInclude.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingMgr.cpp" />
@@ -156,38 +180,50 @@
     <ClCompile Include="C2DMouse.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
-    <ClCompile Include="CFloor.cpp" />
     <ClCompile Include="Champ.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="CubePC.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DropBox.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
-    <ClCompile Include="EzealQ_Particle.cpp" />
+    <ClCompile Include="Ezeal_Q.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameHUD.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="HUDScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ICondition.cpp" />
     <ClCompile Include="ImageLoader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp" />
+    <ClCompile Include="InGameScene.cpp" />
+    <ClCompile Include="Inhibitor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="MeleeMinion.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleMgr.cpp" />
+    <ClCompile Include="Nexus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PickingSphereMgr.cpp" />
+    <ClCompile Include="SelectedSpells.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneMediator.cpp" />
-    <ClCompile Include="SelectedChampion.cpp" />
+    <ClCompile Include="SelectedPlayer.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
@@ -200,7 +236,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="Grid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GuhyunScene.cpp" />
     <ClCompile Include="HierachyLoader.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -217,7 +255,9 @@
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="PipeLine.cpp" />
-    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="Pyramid.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -240,6 +280,13 @@
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
+    <ClCompile Include="Tower.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Udyr.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="XFileUtil.cpp" />

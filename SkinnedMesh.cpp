@@ -1,8 +1,9 @@
-#include"BaseInclude.h"
+#include "BaseInclude.h"
 #include "SkinnedMesh.h"
 #include "AnimationCtrl.h"
+#include "MeshMgr.h"
 
-CSkinnedMesh::CSkinnedMesh(void)
+CSkinnedMesh::CSkinnedMesh()
 {
 }
 
@@ -31,14 +32,22 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 	D3DXMatrixIdentity(&matrix);
 
 	UpdateMatrix((BONE*)m_pRootBone, &matrix);
+	LPD3DXANIMATIONCONTROLLER* ani = m_pAniCtrl->GetAniCtrl();
+	
+	g_iTotalSubSet = static_cast<int>((*ani)->GetNumAnimationSets());
+	g_iLoadingSubSet = 0;
+	
 	SetUpBoneMatrixPointer((BONE*)m_pRootBone);
 	ID3DXBuffer* adjBuffer;
 	
+	//CMeshMgr::g_iLoadingSubSet = -1;
 	return S_OK;
 }
 
 void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 {
+	g_iLoadingSubSet++;
+
 	if (pBone->pMeshContainer)
 	{
 		BONEMESH*		pBoneMesh = (BONEMESH*)pBone->pMeshContainer;
@@ -46,12 +55,12 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 		if (pBoneMesh->pSkinInfo)
 		{
 			int		iNumBone = pBoneMesh->pSkinInfo->GetNumBones();
-
 			pBoneMesh->ppBoneMatrix = new D3DXMATRIX*[iNumBone];
+
+			g_iTotalSubSet = iNumBone;
 
 			for (int i = 0; i < iNumBone; ++i)
 			{
-				cout << "Ã¨ÇÇ¾ð »À ±¸¼º ¼ö : " << i << '\n';
 				BONE*		pLinkedBone = (BONE*)D3DXFrameFind(m_pRootBone
 					, pBoneMesh->pSkinInfo->GetBoneName(i));
 
@@ -66,15 +75,10 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 	}
 
 	if (pBone->pFrameSibling)
-	{
 		SetUpBoneMatrixPointer((BONE*)pBone->pFrameSibling);
-	}
 
 	if (pBone->pFrameFirstChild)
-	{
 		SetUpBoneMatrixPointer((BONE*)pBone->pFrameFirstChild);
-	}
-
 
 }
 

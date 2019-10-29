@@ -5,6 +5,9 @@ class CSkinnedMesh
 	: public CDynamicMesh
 {
 public:
+	CSkinnedMesh();
+	~CSkinnedMesh(void);
+public:
 	HRESULT CreateMesh(LPDIRECT3DDEVICE9 pDevice
 		, const TCHAR* pPathName, const TCHAR* pFileName);
 
@@ -15,8 +18,4 @@ private:
 public:
 	virtual void Render(LPDIRECT3DDEVICE9 pDevice, const BONE* pBone = NULL);
 	void Release(void);
-
-public:
-	CSkinnedMesh(void);
-	~CSkinnedMesh(void);
 };

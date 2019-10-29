@@ -6,16 +6,20 @@ class CText
 public:
 	CText() {}
 	~CText();
-	explicit CText(LPCSTR root, int height, int width, LPCTSTR fontname, RECT rc);
+	explicit CText(const CText& text);
+	explicit CText(LPCSTR root, int height, int width, LPCTSTR fontname, RECT rc, string sInfo);
 
-private:
+public:
 	LPD3DXFONT							m_pFont;
 
 public:
 	RECT								m_Rect;
-
-
+	
 public:
 	string								m_sInfo;
+
+public:
+	int									m_iHeight;
+	int									m_iWidth;
 };
 
