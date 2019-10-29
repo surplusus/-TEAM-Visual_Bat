@@ -20,20 +20,17 @@ void CMinionMgr::CreateMinions()
 {
 	HRESULT res;
 	m_vMinion.push_back(new CMeleeMinion());
-	m_vMinion[0]->SetUp("Minion1", "./Resource/Test/", "Minion_Melee_Blue.x");
-	res = GET_SINGLE(CObjMgr)->AddObject(m_vMinion[0]->GetName(), m_vMinion[0]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[0]);
 	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion");
+		ERR_MSG(g_hWnd, L"Fail : Register On Minion0");
 	m_vMinion.push_back(new CMeleeMinion());
-	m_vMinion[1]->SetUp("Minion2", "./Resource/Test/", "Minion_Melee_Blue.x"); 
-	res = GET_SINGLE(CObjMgr)->AddObject(m_vMinion[1]->GetName(), m_vMinion[1]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[1]);
 	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion");
+		ERR_MSG(g_hWnd, L"Fail : Register On Minion1");
 	m_vMinion.push_back(new CMeleeMinion());
-	m_vMinion[2]->SetUp("Minion3", "./Resource/Test/", "Minion_Melee_Blue.x");
-	res = GET_SINGLE(CObjMgr)->AddObject(m_vMinion[2]->GetName(), m_vMinion[2]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[2]);
 	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion");
+		ERR_MSG(g_hWnd, L"Fail : Register On Minion2");
 	
 	//GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
 	
@@ -43,6 +40,7 @@ void CMinionMgr::CreateMinions()
 void CMinionMgr::Initialize()
 {
 	for (auto & it : m_vMinion) {
+		it->SetMinionMgr(this);
 		if (FAILED(it->Initialize())) {
 			ERR_MSG(g_hWnd, L"Fail : Minion Initialize");
 		}

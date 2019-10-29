@@ -152,7 +152,7 @@ extern  DIMOUSESTATE MyGetMouseState(void)
 
 }
 
-extern bool CheckPickingOnSphere(SPHERE sphere)
+extern bool CheckPickingOnSphere(SPHERE* sphere)
 {
 	return (*(CInput::GetInstance()))->CheckPickingOnSphere(sphere);
 }

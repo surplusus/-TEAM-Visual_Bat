@@ -7,6 +7,7 @@
 #include "Ray.h"
 #include "MathMgr.h"
 #include "HeightMap.h"
+#include "PickingSphereMgr.h"
 
 CChampion::CChampion()
 	: m_ObjMgr(nullptr)
@@ -16,8 +17,6 @@ CChampion::CChampion()
 	, m_bPicked(false)
 	, m_pMeshSphere(nullptr)
 {
-	m_SphereForPick = SPHERE(1.f, D3DXVECTOR3(0.f, 0.f, 0.f));
-
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 	
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
@@ -45,7 +44,7 @@ void CChampion::UpdateWorldMatrix()
 	D3DXMATRIX matRotX, matRotY, matRotZ;
 	D3DXMATRIX matScale, matRot, matTrans;
 	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-	if (_isnan(m_fAngle[ANGLE_Y]))	m_fAngle[ANGLE_Y] = 0.f;
+	//if (_isnan(m_fAngle[ANGLE_Y]))	m_fAngle[ANGLE_Y] = 0.f;
 	D3DXMatrixRotationY(&matRot, m_fAngle[ANGLE_Y]);
 	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
@@ -60,16 +59,15 @@ void CChampion::SetDirectionToMouseHitPoint()
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
 }
 
-bool CChampion::SetUpPickingShere(const float r, const D3DXVECTOR3 v)
+bool CChampion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 {
 	m_SphereForPick.fRadius = r;
-	m_SphereForPick.vCenter.x = v.x;
-	m_SphereForPick.vCenter.y = v.y;
-	m_SphereForPick.vCenter.z = v.z;
-	// 관리자에게 등록??????
-	m_SphereForPick = SPHERE(r, v);
+	if (v == nullptr) {
+		m_SphereForPick.vpCenter = &m_Info.vPos;
+	}
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_SphereForPick);
 	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
-	return false;
+	return true;
 }
 
 bool CChampion::Render_PickingShere()

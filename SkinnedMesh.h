@@ -5,9 +5,8 @@ class CSkinnedMesh
 	: public CDynamicMesh
 {
 public:
-	CSkinnedMesh(string name);
+	CSkinnedMesh();
 	~CSkinnedMesh(void);
-	string m_MeshName;		// StaticMesh와 같은 이름형이 필요해서 만듦(LoadingScene에서 사용)
 public:
 	HRESULT CreateMesh(LPDIRECT3DDEVICE9 pDevice
 		, const TCHAR* pPathName, const TCHAR* pFileName);

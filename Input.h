@@ -28,7 +28,7 @@ public:
 
 	void Release(void);
 	// << : Picker
-	bool CheckPickingOnSphere(SPHERE sphere);
+	bool CheckPickingOnSphere(SPHERE* sphere);
 	bool CheckPiningOnTriangle(const D3DXVECTOR3* p0, const D3DXVECTOR3* p1, const D3DXVECTOR3* p2);
 	bool CheckPiningOnTriangleAndGetPosition(IN const D3DXVECTOR3 * p0, IN const D3DXVECTOR3 * p1, IN const D3DXVECTOR3 * p2, D3DXVECTOR3 * hitpoint);
 

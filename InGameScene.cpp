@@ -3,7 +3,6 @@
 #include "ResourceFunc.h"
 #include "CameraMgr.h"
 #include "ObjMgr.h"
-#include "Factory.h"
 #include "SceneMgr.h"
 #include "ThreadPool.h"
 #include "Frustum.h"
@@ -11,8 +10,8 @@
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
-#include "SummonTerrain.h"
 #include "Udyr.h"
+#include "Ezreal.h"
 #include "MinionMgr.h"
 #include "MeleeMinion.h"
 
@@ -102,11 +101,11 @@ void CInGameScene::SoundUpdate()
 	m_fSceneTime += GetTime();
 	float time[3] = { 0.2f, 4.f, 5.f };
 	if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Welcome);
 		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	}
 	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
+		GET_SINGLE(SoundManager)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Left30sec);
 		cout << "미니언 생성까지 30초 남았습니다." << endl;
 	}
 	GET_SINGLE(SoundManager)->Update();
@@ -115,12 +114,16 @@ void CInGameScene::SoundUpdate()
 void CInGameScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
-	m_pHeightMap->LoadData("./Resource/howling/howling_HeightMap.x");
+	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
-	if (pObj != nullptr)
+	if (pObj != nullptr) {
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
-	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
-	if (pObj != nullptr)
-		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+		return;
+	}
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
+	if (pObj != nullptr) {
+		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+		return;
+	}
 }
