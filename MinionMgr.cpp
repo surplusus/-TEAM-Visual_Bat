@@ -41,6 +41,8 @@ void CMinionMgr::Initialize()
 {
 	for (auto & it : m_vMinion) {
 		it->SetMinionMgr(this);
+		int Pos = rand() % 10;
+		it->SetPosition(&D3DXVECTOR3((float)Pos, 0.f, 0.f));
 		if (FAILED(it->Initialize())) {
 			ERR_MSG(g_hWnd, L"Fail : Minion Initialize");
 		}

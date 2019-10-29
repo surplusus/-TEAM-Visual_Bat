@@ -46,7 +46,7 @@ void CUdyr::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Udyr");
-	Render_PickingShere();
+	//Render_PickingShere();
 }
 
 void CUdyr::Release()
@@ -93,11 +93,12 @@ void CUdyr::MouseControl()
 		}
 	}
 	{	// Sphere ÇÈÅ·
-		if (MyGetMouseState().rgbButtons[1]) {
+		if (MyGetMouseState().rgbButtons[2]) {
 			SPHERE* spherePicked = nullptr;
 			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
 			if (bPickSphere)
 				spherePicked->isPicked = !spherePicked->isPicked;
+			int a = 6;
 		}
 	}
 }
@@ -142,31 +143,31 @@ void CUdyr::QWERControl()
 
 }
 
-bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)
-{
-	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
-	D3DXVECTOR3 vMouseNor;
-	D3DXVec3Normalize(&vMouseNor, &vMousePos);
-	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
-	float fRadian = acosf(fDot);
-	float fDirLerped = fRadian / 7.f;
-
-	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
-		return false;
-	}
-
-	D3DXVECTOR3 vLeft;
-	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
-	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
-		m_fAngle[ANGLE_Y] -= fDirLerped;
-		if (m_fAngle[ANGLE_Y] <= D3DX_PI)
-			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
-	}
-	else {
-		m_fAngle[ANGLE_Y] += fDirLerped;
-		if (m_fAngle[ANGLE_Y] >= D3DX_PI)
-			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
-	}
-
-	return false;
-}
+//bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)
+//{
+//	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
+//	D3DXVECTOR3 vMouseNor;
+//	D3DXVec3Normalize(&vMouseNor, &vMousePos);
+//	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
+//	float fRadian = acosf(fDot);
+//	float fDirLerped = fRadian / 7.f;
+//
+//	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+//		return false;
+//	}
+//
+//	D3DXVECTOR3 vLeft;
+//	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
+//	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
+//		m_fAngle[ANGLE_Y] -= fDirLerped;
+//		if (m_fAngle[ANGLE_Y] <= D3DX_PI)
+//			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+//	}
+//	else {
+//		m_fAngle[ANGLE_Y] += fDirLerped;
+//		if (m_fAngle[ANGLE_Y] >= D3DX_PI)
+//			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+//	}
+//
+//	return false;
+//}
