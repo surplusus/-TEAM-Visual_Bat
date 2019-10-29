@@ -11,7 +11,7 @@ CEzealQ_Particle::CEzealQ_Particle()
 }
 
 CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle)
-	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(0.1f), m_fLength(1.0f)
+	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(0.5f), m_fLength(1.0f)
 {
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
@@ -53,7 +53,7 @@ void CEzealQ_Particle::SetUp_Particle()
 	D3DXMATRIXA16 matR, matWorld,matTrans,matScale;
 	D3DXVECTOR3 vScale = { 10,10,10 };
 
-	D3DXQUATERNION quatR(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_X], 1.f);
+	D3DXQUATERNION quatR(D3DXToRadian(m_fAngle[ANGLE_X]), D3DXToRadian(m_fAngle[ANGLE_Y]), D3DXToRadian(m_fAngle[ANGLE_X]), 1.f);
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixRotationQuaternion(&matR, &quatR);
@@ -107,6 +107,7 @@ void CEzealQ_Particle::Render_Particle()
 		return;
 	D3DXMATRIX matWorld;
 	D3DXMatrixIdentity(&matWorld);
+	
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	{
 		//Stage1
@@ -276,6 +277,7 @@ void CEzealQ_Particle::InitRenderState()
 
 }
 
+
 bool CEzealQ_Particle::AddTail()
 {
 	D3DXVECTOR3 vDirection = m_VerTexInfo.p - m_Info.vPos;
@@ -286,19 +288,17 @@ bool CEzealQ_Particle::AddTail()
 		if (m_vecVertexParticle.empty())
 			return false;
 		m_vecVertexParticle.erase(m_vecVertexParticle.begin());
-		m_fSize -= 0.1f;
-
-	
+		m_fSize -= 0.1f;	
 	}
 	else 
 	{
 		int i = 0;
 		for (i = 0; i < m_vecVertexParticle.size(); i++) {
-			m_vecVertexParticle[i].p += m_Info.vDir*GetTime()*(m_fSpeed*m_fLength);
+			m_vecVertexParticle[i].p += (m_Info.vDir*GetTime()*(m_fSpeed));
 		}
 		m_fLength -= 0.1f;
-		m_VerTexInfo.p = m_vecVertexParticle[i-1].p+m_Info.vDir * GetTime()* (m_fSpeed*m_fLength);
-		m_vecVertexParticle.push_back(m_VerTexInfo);	
+		m_VerTexInfo.p = m_vecVertexParticle[i-1].p+ (m_Info.vDir * GetTime()* (m_fSpeed));
+		m_vecVertexParticle.push_back(m_VerTexInfo);
 	}
 	if (m_vecVertexParticle.empty())
 		return false;

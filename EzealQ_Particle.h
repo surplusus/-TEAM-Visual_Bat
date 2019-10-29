@@ -25,6 +25,7 @@ private:
 	virtual void Render_Particle() override;
 	virtual void RenderEnd_Particle() override;
 	virtual void InitRenderState() override;
+
 	bool AddTail();
 
 };

@@ -25,6 +25,7 @@ private:
 	static bool MapChecktThreadLoop(int number, const VTXTEX * vtx);
 	static D3DXVECTOR3			g_MouseHitPoint;
 	static std::atomic<bool>	g_bMouseHitPoint;
+
 #pragma endregion
 //test
 private:
@@ -36,6 +37,7 @@ public:
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 public:
+	void RoationObject();
 	// DeleteSkill();
 };
 

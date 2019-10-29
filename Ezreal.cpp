@@ -8,6 +8,7 @@
 #include "Ray.h""
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
+#include"MathMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
@@ -36,13 +37,13 @@ void CEzreal::SetContantTable()
 void CEzreal::WorldSetting()
 {
 	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans, matScale;
-	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
-	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
-	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
+	D3DXMatrixRotationX(&matRotX, D3DXToRadian(m_fAngle[ANGLE_X]));
+	D3DXMatrixRotationY(&matRotY, D3DXToRadian(m_fAngle[ANGLE_Y]));
+	D3DXMatrixRotationZ(&matRotZ, D3DXToRadian(m_fAngle[ANGLE_Z]));
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
 	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
-	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
+//	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 }
 
 bool CEzreal::MouseCheck()
@@ -107,7 +108,7 @@ HRESULT CEzreal::Initialize()
 {
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.0f);
-	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
+	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 1.f);
 	m_Info.vPos = D3DXVECTOR3(0, 0, 0);
 
 	m_pOriVtx = new VTXTEX[4];
@@ -122,7 +123,7 @@ HRESULT CEzreal::Initialize()
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();
 	
-
+	m_pMesh = GetMesh(L"Ezreal");
 
 	return S_OK;
 }
@@ -136,7 +137,7 @@ void CEzreal::Progress()
 		if (MouseCheck())
 		{
 			SetAngleFromPostion();
-
+			RoationObject();
 		}
 	}
 	if (g_bMouseHitPoint) {
@@ -146,7 +147,7 @@ void CEzreal::Progress()
 	{
 		AddSkill_Q();
 	}
-	Move_Chase(&g_MouseHitPoint, 10.0f);
+	//Move_Chase(&g_MouseHitPoint, 10.0f);
 	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
 	{
 		(*iter)->Progress();
@@ -178,6 +179,37 @@ void CEzreal::Render()
 void CEzreal::Release()
 {
 
+}
+
+void CEzreal::RoationObject()
+{
+	D3DXVECTOR3 Pre_Position	=	 m_Info.vPos;
+	D3DXVECTOR3 After_Position	=	 g_MouseHitPoint;
+	D3DXVECTOR3 vCurDirection	=	 m_Info.vLook * -1.f;
+
+	cout << After_Position.x << " " << After_Position.y << " " << After_Position.z << '\n';
+
+	D3DXVECTOR3 vDirection = After_Position-Pre_Position;
+	float fDistance = D3DXVec3Length(&vDirection);
+
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	D3DXVec3Normalize(&vCurDirection, &vCurDirection);
+
+	float Dot = 0;	float Radian = 0;
+	Dot = D3DXVec3Dot(&vDirection, &vCurDirection);
+	Radian = (float)acos(Dot);
+	D3DXVECTOR3 Right_Dir;
+	D3DXVec3Cross(&Right_Dir, &vDirection, &D3DXVECTOR3(0, 0, -1));
+	if(Right_Dir.y < 0)
+	{
+		m_fAngle[ANGLE_Y] =	D3DXToDegree(Radian);
+	}
+	else
+	{
+		m_fAngle[ANGLE_Y] = 360- D3DXToDegree (Radian);
+	}
+	m_Info.vDir = vDirection;
 }
 
 
