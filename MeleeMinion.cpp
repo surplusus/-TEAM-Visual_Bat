@@ -45,7 +45,7 @@ void CMeleeMinion::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Minion");
-	Render_PickingShere();
+	//Render_PickingShere();
 }
 
 void CMeleeMinion::Release()

@@ -19,6 +19,6 @@ public:
 private:
 	void MouseControl();
 	void QWERControl();
-	bool TurnSlowly(const D3DXVECTOR3* destPos);
+	//bool TurnSlowly(const D3DXVECTOR3* destPos);
 };
 

@@ -39,7 +39,7 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
-	#pragma region 이제 스레스 부분으로 갔음
+	#pragma region 이제 LoadingScene 부분으로 갔음
 	//=========== Add Mesh(Bounding) ===========//
 	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//{
