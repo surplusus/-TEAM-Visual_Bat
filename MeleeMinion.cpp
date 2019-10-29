@@ -21,9 +21,9 @@ HRESULT CMeleeMinion::Initialize()
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 	
 	m_SortID = SORTID_LAST;
-	int Pos = rand() % 10;
-	m_Info.vPos = D3DXVECTOR3((float)Pos, 0.f, 0.f);
-	//m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
+	//int Pos = rand() % 10;
+	//m_Info.vPos = D3DXVECTOR3((float)Pos, 0.f, 0.f);
+	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_fSize = 1.f;
@@ -45,7 +45,7 @@ void CMeleeMinion::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Minion");
-	Render_PickingShere();
+	//Render_PickingShere();
 }
 
 void CMeleeMinion::Release()
