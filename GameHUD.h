@@ -1,7 +1,6 @@
 #pragma once
 #include"Image_Loader.h"
 
-
 struct SkillList {
 	CImage_Loader m_Skill[5];
 };
@@ -29,5 +28,7 @@ private:
 
 	SkillList Ezreal;
 	SkillList Ezreal_copy;
+
+	float m_StartTime;
 };
 

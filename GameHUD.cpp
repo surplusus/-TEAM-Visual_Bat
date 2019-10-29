@@ -10,6 +10,7 @@
 cGameHUD::cGameHUD()
 {
 	m_isLButtonDown = false;
+	m_StartTime = g_fDeltaTime;
 }
 
 
@@ -98,9 +99,9 @@ void cGameHUD::Initialize()
 
 	Ezreal_copy.m_Skill[0] = CImage_Loader(
 		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(376, 650, 0),
+		D3DXVECTOR3(376, 660, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-
+	Ezreal_copy.m_Skill[0].Initialize();
 }
 
 void cGameHUD::Progress()
@@ -123,7 +124,7 @@ void cGameHUD::Progress()
 		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.22f;
 		(m_mapImage["mini_cham"]->Get_Position().x)--;
 	}
-
+	
 	if (CheckPushKey(DIK_UP))
 	{
 		//(m_mapImage["exam"]->GetImagePos()->y)--;
@@ -142,19 +143,19 @@ void cGameHUD::Progress()
 
 	GET_SINGLE(cCubePC)->Progress();
 
-	if (GetAsyncKeyState(VK_LBUTTON))
+	/*if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		if (GET_SINGLE(C2DMouse)->IsClicked_inImage(&Ezreal.m_Skill[0]))
 		{
 			m_isLButtonDown = true;
-
 			cout << "clicked\n";
 		}
 	}
 	if (m_isLButtonDown)
 	{
-		Ezreal_copy.m_Skill[0].Initialize();
-	}
+	}*/
+
+	float m_CurrentTime = g_fDeltaTime;
 }
 
 void cGameHUD::Render()
@@ -174,6 +175,7 @@ void cGameHUD::Render()
 	GET_SINGLE(cCubePC)->Render();
 
 	Ezreal.m_Skill[0].Render();
+	Ezreal_copy.m_Skill[0].Render();
 }
 
 void cGameHUD::Release()
@@ -185,6 +187,7 @@ void cGameHUD::Release()
 	}
 
 	Ezreal.m_Skill[0].Release();
+	Ezreal_copy.m_Skill[0].Release();
 }
 
 void cGameHUD::Render_Text()

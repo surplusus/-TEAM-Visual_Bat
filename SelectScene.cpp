@@ -50,9 +50,6 @@ HRESULT CSelectScene::Initialize()
 	m_ReddyButton = new CImage_Loader("Resource/choen/Select/ReddyButton.png", D3DXVECTOR3(610, 470, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
 	m_ReddyButton->Initialize();
 
-	m_pTextMgr = new CTextMgr();
-	m_pTextMgr->Initialize();
-
 	for (int i = 0; i < m_vecBackGround.size(); i++)
 	{
 		if (m_vecBackGround[i])
