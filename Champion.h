@@ -14,6 +14,7 @@ protected:
 	float					m_fSize;
 	D3DXVECTOR3				m_MouseHitPoint;
 	bool					m_bPicked;
+	
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
