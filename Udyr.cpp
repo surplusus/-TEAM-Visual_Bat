@@ -73,7 +73,7 @@ void CUdyr::ChangeAniSetByState()
 void CUdyr::MouseControl()
 {
 	{	// 방향전환
-		if (MyGetMouseState().rgbButtons[0]) {
+		if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
 			m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
 		}
 
@@ -93,12 +93,16 @@ void CUdyr::MouseControl()
 		}
 	}
 	{	// Sphere 픽킹
-		if (MyGetMouseState().rgbButtons[2]) {
+		if (CheckMouseButtonDownOneTime(MOUSEBUTTON2)) {
 			SPHERE* spherePicked = nullptr;
 			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
-			if (bPickSphere)
+			if (bPickSphere) {
 				spherePicked->isPicked = !spherePicked->isPicked;
-			int a = 6;
+				m_bRunning = true;
+				m_MouseHitPoint = D3DXVECTOR3(*spherePicked->vpCenter);
+				int a = 6;
+			}
+
 		}
 	}
 }

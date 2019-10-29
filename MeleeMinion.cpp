@@ -36,8 +36,9 @@ HRESULT CMeleeMinion::Initialize()
 
 void CMeleeMinion::Progress()
 {
-	float speed = 0.1f;
-	m_Info.vPos.x -= speed * g_fDeltaTime;
+	float speed = 0.01f;
+	m_Info.vPos += m_Info.vDir * speed;
+	m_fAngle[ANGLE_Y] += D3DXToRadian(rand() % 10);
 	UpdateWorldMatrix();
 }
 
