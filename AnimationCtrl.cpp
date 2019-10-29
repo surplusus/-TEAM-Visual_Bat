@@ -145,7 +145,7 @@ void CAnimationCtrl::BlendAnimationSet(string aniName)
 
 	m_pAniCtrl->SetTrackWeight(0, 0.0f);
 	m_pAniCtrl->SetTrackWeight(1, 1.0f);
-
+	
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
 }

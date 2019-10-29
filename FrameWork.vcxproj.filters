@@ -450,9 +450,6 @@
     <ClInclude Include="SummonTerrain.h">
       <Filter>소스 파일\02. Object\SommonTerrain</Filter>
     </ClInclude>
-    <ClInclude Include="Atrox.h">
-      <Filter>소스 파일\02. Object\Champion</Filter>
-    </ClInclude>
     <ClInclude Include="GuhyunScene.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
@@ -546,17 +543,8 @@
     <ClInclude Include="Text.h">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="Ezreal.h">
       <Filter>소스 파일\02. Object\Champion\Ez</Filter>
-    </ClInclude>
-    <ClInclude Include="Ezeal_Q.h">
-      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
     <ClInclude Include="SelectedSpells.h">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
@@ -605,6 +593,15 @@
     </ClInclude>
     <ClInclude Include="Behavior.h">
       <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleMgr.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="EzealQ_Particle.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -755,9 +752,6 @@
     <ClCompile Include="SummonTerrain.cpp">
       <Filter>소스 파일\02. Object\SommonTerrain</Filter>
     </ClCompile>
-    <ClCompile Include="Atrox.cpp">
-      <Filter>소스 파일\02. Object\Champion</Filter>
-    </ClCompile>
     <ClCompile Include="GuhyunScene.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
@@ -842,17 +836,8 @@
     <ClCompile Include="Text.cpp">
       <Filter>Text</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="Ezreal.cpp">
       <Filter>소스 파일\02. Object\Champion\Ez</Filter>
-    </ClCompile>
-    <ClCompile Include="Ezeal_Q.cpp">
-      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
     <ClCompile Include="SelectedSpells.cpp">
       <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
@@ -901,6 +886,15 @@
     </ClCompile>
     <ClCompile Include="Behavior.cpp">
       <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleMgr.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="EzealQ_Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
