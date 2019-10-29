@@ -61,5 +61,4 @@ void cHUDScene::Release()
 
 void cHUDScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	GET_SINGLE(cGameHUD)->WndProc(hwnd, message, wParam, lParam);
 }

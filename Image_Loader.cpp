@@ -105,8 +105,8 @@ void CImage_Loader::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 
 void CImage_Loader::Release()
 {
-	delete m_pSprite;
-	delete m_pTexture;
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pTexture);
 }
 
 int CImage_Loader::GetWidth()

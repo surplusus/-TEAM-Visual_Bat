@@ -1,8 +1,9 @@
 #pragma once
-#include "ImageLoader.h"
+#include"Image_Loader.h"
+
 
 struct SkillList {
-	cImageLoader m_Skill[5];
+	CImage_Loader m_Skill[5];
 };
 
 class cGameHUD
@@ -18,17 +19,15 @@ public:
 	void Render();
 	void Release();
 
-	void WndProc(HWND hwnd, UINT message,
-		WPARAM wParam, LPARAM lParam);
-
 	void Render_Text();
 
 private:
-	map<string, cImageLoader *> m_mapImage;
+	map<string, CImage_Loader *> m_mapImage;
 	//cFont * m_Text;
 
 	bool m_isLButtonDown;
 
 	SkillList Ezreal;
+	SkillList Ezreal_copy;
 };
 

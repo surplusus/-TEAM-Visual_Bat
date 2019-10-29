@@ -2,9 +2,10 @@
 #include "GameHUD.h"
 #include "CameraMgr.h"
 
-#include "ImageLoader.h"
+#include "Image_Loader.h"
 //#include "Font.h"
 #include "CubePC.h"
+#include "C2DMouse.h"
 
 cGameHUD::cGameHUD()
 {
@@ -19,60 +20,68 @@ cGameHUD::~cGameHUD()
 void cGameHUD::Initialize()
 {
 	// ¹Ì´Ï¸Ê
-	cImageLoader * minimap = new cImageLoader(
-		L"Resource/jiyun/minimap-01.png",
-		D3DXVECTOR3(WINSIZEX - 178, WINSIZEY - 179, 0));
+	CImage_Loader * minimap = new CImage_Loader(
+		"Resource/jiyun/minimap-01.png",
+		D3DXVECTOR3(WINSIZEX - 178, WINSIZEY - 179, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["minimap"] = minimap;
 	m_mapImage["minimap"]->Initialize();
 
-	cImageLoader * minimap_frame = new cImageLoader(
-		L"Resource/jiyun/minimap_frame-01.png",
-		D3DXVECTOR3(WINSIZEX - 187, WINSIZEY - 188, 0));
+	CImage_Loader * minimap_frame = new CImage_Loader(
+		"Resource/jiyun/minimap_frame-01.png",
+		D3DXVECTOR3(WINSIZEX - 187, WINSIZEY - 188, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["minimap_frame"] = minimap_frame;
 	m_mapImage["minimap_frame"]->Initialize();
 
-	cImageLoader * mini_cham = new cImageLoader(
-		L"Resource/jiyun/mini_cham-01.png",
+	CImage_Loader * mini_cham = new CImage_Loader(
+		"Resource/jiyun/mini_cham-01.png",
 		D3DXVECTOR3(
-			(-27) * (GET_SINGLE(cCubePC)->GetPosition().x),
-			(-60) * (GET_SINGLE(cCubePC)->GetPosition().z), 0));
+			(-57) * (GET_SINGLE(cCubePC)->GetPosition().x),
+			(-60) * (GET_SINGLE(cCubePC)->GetPosition().z), 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["mini_cham"] = mini_cham;
 	m_mapImage["mini_cham"]->Initialize();
 
 	// Áß¾Ó
-	cImageLoader * spell = new cImageLoader(
-		L"Resource/jiyun/spell-01.png",
-		D3DXVECTOR3(WINSIZEX - 724, WINSIZEY - 104, 0));
+	CImage_Loader * spell = new CImage_Loader(
+		"Resource/jiyun/spell-01.png",
+		D3DXVECTOR3(WINSIZEX - 724, WINSIZEY - 104, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["spell"] = spell;
 	m_mapImage["spell"]->Initialize();
 
-	cImageLoader * item = new cImageLoader(
-		L"Resource/jiyun/item-01.png",
-		D3DXVECTOR3(WINSIZEX - 391, WINSIZEY - 104, 0));
+	CImage_Loader * item = new CImage_Loader(
+		"Resource/jiyun/item-01.png",
+		D3DXVECTOR3(WINSIZEX - 391, WINSIZEY - 104, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["item"] = item;
 	m_mapImage["item"]->Initialize();
 
-	/*cImageLoader * garen = new cImageLoader(
+	/*CImage_Loader * garen = new CImage_Loader(
 		L"Resource/jiyun/Garen_Circle.dds",
 		D3DXVECTOR3(410, 1190, 0));
 	m_mapImage["garen"] = garen;
 	m_mapImage["garen"]->Initialize();*/
 
-	cImageLoader * champion = new cImageLoader(
-		L"Resource/jiyun/champion-01.png",
-		D3DXVECTOR3(WINSIZEX - 784, WINSIZEY - 98, 0));
+	CImage_Loader * champion = new CImage_Loader(
+		"Resource/jiyun/champion-01.png",
+		D3DXVECTOR3(WINSIZEX - 784, WINSIZEY - 98, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["champion"] = champion;
 	m_mapImage["champion"]->Initialize();
 
-	cImageLoader * coin = new cImageLoader(
-		L"Resource/jiyun/coin-01.png",
-		D3DXVECTOR3(WINSIZEX - 381, WINSIZEY - 21, 0));
+	CImage_Loader * coin = new CImage_Loader(
+		"Resource/jiyun/coin-01.png",
+		D3DXVECTOR3(WINSIZEX - 381, WINSIZEY - 21, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["coin"] = coin;
 	m_mapImage["coin"]->Initialize();
 
-	cImageLoader * time = new cImageLoader(
-		L"Resource/jiyun/time-01.png",
-		D3DXVECTOR3(WINSIZEX - 334, 0, 0));
+	CImage_Loader * time = new CImage_Loader(
+		"Resource/jiyun/time-01.png",
+		D3DXVECTOR3(WINSIZEX - 334, 0, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["time"] = time;
 	m_mapImage["time"]->Initialize();
 
@@ -81,10 +90,17 @@ void cGameHUD::Initialize()
 
 	GET_SINGLE(cCubePC)->Initialize();
 
-	Ezreal.m_Skill[0] = cImageLoader(
-		L"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(376, 670, 0));
+	Ezreal.m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(376, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	Ezreal.m_Skill[0].Initialize();
+
+	Ezreal_copy.m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(376, 650, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
 }
 
 void cGameHUD::Progress()
@@ -96,47 +112,49 @@ void cGameHUD::Progress()
 	{
 		//(m_mapImage["exam"]->GetImagePos()->x)++;
 
-		(GET_SINGLE(cCubePC)->GetPosition().x)++;
-		(m_mapImage["mini_cham"]->GetImagePos()->x)++;
-
-		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
-			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
+		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().x)++;
 	}
 
 	if (CheckPushKey(DIK_LEFT))
 	{
 		//(m_mapImage["exam"]->GetImagePos()->x)--;
 
-		(GET_SINGLE(cCubePC)->GetPosition().x)--;
-		(m_mapImage["mini_cham"]->GetImagePos()->x)--;
-
-		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
-			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
+		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().x)--;
 	}
 
 	if (CheckPushKey(DIK_UP))
 	{
 		//(m_mapImage["exam"]->GetImagePos()->y)--;
 
-		(GET_SINGLE(cCubePC)->GetPosition().z)++;
-		(m_mapImage["mini_cham"]->GetImagePos()->y)--;
-
-		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
-			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
+		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().y)--;
 	}
 
 	if (CheckPushKey(DIK_DOWN))
 	{
 		// (m_mapImage["exam"]->GetImagePos()->y)++;
 
-		(GET_SINGLE(cCubePC)->GetPosition().z)--;
-		(m_mapImage["mini_cham"]->GetImagePos()->y)++;
-
-		cout << m_mapImage["mini_cham"]->GetImagePos()->x << " "
-			<< m_mapImage["mini_cham"]->GetImagePos()->y << endl;
+		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().y)++;
 	}
 
 	GET_SINGLE(cCubePC)->Progress();
+
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		if (GET_SINGLE(C2DMouse)->IsClicked_inImage(&Ezreal.m_Skill[0]))
+		{
+			m_isLButtonDown = true;
+
+			cout << "clicked\n";
+		}
+	}
+	if (m_isLButtonDown)
+	{
+		Ezreal_copy.m_Skill[0].Initialize();
+	}
 }
 
 void cGameHUD::Render()
@@ -167,29 +185,6 @@ void cGameHUD::Release()
 	}
 
 	Ezreal.m_Skill[0].Release();
-}
-
-void cGameHUD::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	float x = LOWORD(lParam);
-	float y = HIWORD(lParam);
-
-	switch (message)
-	{
-	case WM_LBUTTONDOWN:
-	{
-		m_isLButtonDown = true;
-		//cout << m_mapImage["coin"]->GetX() << endl;
-
-	}
-		break;
-		
-	case WM_LBUTTONUP:
-	{
-		m_isLButtonDown = false;
-	}
-		break;
-	}
 }
 
 void cGameHUD::Render_Text()
