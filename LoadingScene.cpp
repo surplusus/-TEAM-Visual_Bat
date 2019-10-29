@@ -19,6 +19,7 @@
 #include "InGameScene.h"
 #include "SoundManager.h"
 #include "MeshMgr.h"
+#include "MeleeMinion.h"
 #include <fstream>
 #include <sstream>
 
@@ -154,21 +155,31 @@ void CLoadingScene::FuncDefaultMgrSetUp()
 void CLoadingScene::FuncLoadMap()
 {
 	if (!OperateFuncAddMeshByKey("Map")) {
-		printf("맵 로딩 실패\n");
+		printf("맵 매쉬 로딩 실패\n");
 		return;
 	}
 	OperateFuncAddObjectByKey("Map");
-	printf("맵 로딩 완료!\n");
+	printf("맵 매쉬 로딩 완료!\n");
 }
 
 void CLoadingScene::FuncLoadChamp()
 {
 	if (!OperateFuncAddMeshByKey("Udyr")) {
-		printf("맵 로딩 실패\n");
+		printf("우디르 매쉬 로딩 실패\n");
 		return;
 	}
 	OperateFuncAddObjectByKey("Udyr");
-	printf("우디르 로딩 완료!\n");
+	printf("우디르 매쉬 로딩 완료!\n");
+}
+
+void CLoadingScene::FuncLoadMinion()
+{
+	if (!OperateFuncAddMeshByKey("Minion")) {
+		printf("미니언 매쉬 로딩 실패\n");
+		return;
+	}
+	OperateFuncAddObjectByKey("Minion");
+	printf("미니언 매쉬 로딩 완료!\n");
 }
 
 void CLoadingScene::SetFuncLoading()
@@ -178,11 +189,13 @@ void CLoadingScene::SetFuncLoading()
 	m_vfuncLoading.push_back([this]() {this->FuncDefaultMgrSetUp(); });
 	m_vfuncLoading.push_back([this]() {this->FuncLoadMap(); });
 	m_vfuncLoading.push_back([this]() {this->FuncLoadChamp(); });
+	m_vfuncLoading.push_back([this]() {this->FuncLoadMinion(); });
 }
 
 void CLoadingScene::SetMeshInfoThruFile()
 {
-	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	//ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {
 		cout << "Error Opening File\n";
@@ -255,6 +268,12 @@ bool CLoadingScene::OperateFuncAddMeshByKey(string key)
 			return true;
 		}
 	}
+	else if (key == "Minion") {
+		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"Minion", info.m_MeshType))) {
+			printf("%s\n", info.m_ConsoleText.c_str());
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -273,6 +292,8 @@ void CLoadingScene::OperateFuncAddObjectByKey(string key)
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
 	else if (key == "Udyr")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
+	else if (key == "Minion")
+		re = GET_SINGLE(CObjMgr)->AddObject(L"Minion", CFactory<CObj, CMeleeMinion>::CreateObject());
 	// 추상클래스를 인스턴스화할수없습니다(?)
 	//else if (key == "Ezreal")
 	//	re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());

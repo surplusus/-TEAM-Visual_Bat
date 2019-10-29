@@ -72,11 +72,10 @@ HRESULT GuhyunScene::Initialize()
 
 	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
-	//m_pMinionMgr = new CMinionMgr();
-	//m_pMinionMgr->CreateMinions();
+	m_pMinionMgr = new CMinionMgr();
+	m_pMinionMgr->CreateMinions();
 	//HRESULT res;
 	//m_pMinion = new CMeleeMinion();
-	//m_pMinion->m_sName = L"Minion";
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
 	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_pMinion)))
 	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
@@ -170,11 +169,18 @@ void GuhyunScene::SoundUpdate()
 void GuhyunScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
-	m_pHeightMap->LoadData("./Resource/Test/MapHeight.x");
+	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
-	if (pObj != nullptr)
+	if (pObj != nullptr) {
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+		return;
+	}
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
+	if (pObj != nullptr) {
+		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+		return;
+	}
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
 	if (pObj != nullptr)
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);

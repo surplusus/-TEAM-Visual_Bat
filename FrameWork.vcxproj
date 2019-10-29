@@ -22,6 +22,7 @@
     <ClInclude Include="AbilityPage.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
     <ClInclude Include="Cheon.h" />
@@ -58,6 +59,7 @@
     <ClInclude Include="HUDScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ICondition.h" />
     <ClInclude Include="ImageLoader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -169,6 +171,7 @@
     <ClCompile Include="BaseInclude.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingMgr.cpp" />
@@ -196,6 +199,7 @@
     <ClCompile Include="HUDScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ICondition.cpp" />
     <ClCompile Include="ImageLoader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

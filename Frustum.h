@@ -13,7 +13,7 @@ public:
 	int Culling(VTXTEX* pVtxTex, INDEX* pIndex);
 	bool VertexInFrustum(const D3DXVECTOR3* pPoint);
 	bool SphereInFrustum(float fRadius, const D3DXVECTOR3* pPoint);
-	bool SphereInFrustum(const SPHERE* pSphere);
+	bool SphereInFrustum(SPHERE* pSphere);
 private:
 	CFrustum(void);
 public:

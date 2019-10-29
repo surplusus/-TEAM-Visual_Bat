@@ -65,6 +65,7 @@ public:
 	void FuncDefaultMgrSetUp();
 	void FuncLoadMap();
 	void FuncLoadChamp();
+	void FuncLoadMinion();
 	void SetFuncLoading();
 	// >> :: thread
 };
