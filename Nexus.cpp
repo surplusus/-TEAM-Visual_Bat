@@ -17,7 +17,7 @@ CNexus::~CNexus()
 
 HRESULT CNexus::Initialize()
 {
-	CloneMesh(GetDevice(), L"Zealot", &m_pAnimationCtrl);
+	CloneMesh(GetDevice(), L"Udyr", &m_pAnimationCtrl);
 	if (!m_pAnimationCtrl) return S_FALSE;
 
 	UpdateWorldMatrix();
@@ -45,14 +45,6 @@ void CNexus::Render()
 
 void CNexus::Release()
 {
-}
-
-
-void CNexus::SetHeightMap(CHeightMap * pHeightMap)
-{
-}
-
-float CNexus::lerp(float p1, float p2, float d)
-{
-	return 0.0f;
+	SAFE_RELEASE(m_pMeshSphere);
+	SAFE_RELEASE(m_pAnimationCtrl);
 }

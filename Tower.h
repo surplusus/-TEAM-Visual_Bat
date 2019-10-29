@@ -38,8 +38,6 @@ public:
 	virtual void		Progress()		 = 0;
 	virtual void		Render()		 = 0;
 	virtual void		Release()		 = 0;
-public:		// 챔피언이면 만들어야 되는 함수들
-	virtual void		ChangeAniSetByState()	 = 0;
 	void				SetHeightMap(CHeightMap* pHeightMap);
 };
 

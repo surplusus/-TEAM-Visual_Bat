@@ -16,10 +16,6 @@ public:
 	virtual void	Progress()   override;
 	virtual void	Render()     override;
 	virtual void	Release()    override;
-private:
-	//void UpdateWorldMatrix(); Champion 클래스에 있음
-public:
-	void SetHeightMap(CHeightMap* pHeightMap);
-	float lerp(float p1, float p2, float d);
+
 };
 

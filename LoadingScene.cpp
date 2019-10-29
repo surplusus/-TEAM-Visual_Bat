@@ -88,7 +88,7 @@ void CLoadingScene::Progress()
 		return;
 	}
 
-	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+	GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 }
 
 void CLoadingScene::Render()
@@ -194,8 +194,8 @@ void CLoadingScene::SetFuncLoading()
 
 void CLoadingScene::SetMeshInfoThruFile()
 {
-	//ifstream file("./Resource/MeshPathList.dat", ifstream::in);
-	ifstream file("./Resource/Test/test.dat", ifstream::in);
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	//ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {
 		cout << "Error Opening File\n";
