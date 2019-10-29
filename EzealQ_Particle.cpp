@@ -11,7 +11,7 @@ CEzealQ_Particle::CEzealQ_Particle()
 }
 
 CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle)
-	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(0.5f), m_fLength(1.0f)
+	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f)
 {
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
@@ -281,8 +281,8 @@ void CEzealQ_Particle::InitRenderState()
 bool CEzealQ_Particle::AddTail()
 {
 	D3DXVECTOR3 vDirection = m_VerTexInfo.p - m_Info.vPos;
-
 	float fDistance =D3DXVec3Length(&vDirection);
+
 	if (fDistance > m_fMaxDistance)
 	{
 		if (m_vecVertexParticle.empty())
@@ -292,13 +292,15 @@ bool CEzealQ_Particle::AddTail()
 	}
 	else 
 	{
-		int i = 0;
-		for (i = 0; i < m_vecVertexParticle.size(); i++) {
-			m_vecVertexParticle[i].p += (m_Info.vDir*GetTime()*(m_fSpeed));
-		}
+		int size = m_vecVertexParticle.size();
 		m_fLength -= 0.1f;
-		m_VerTexInfo.p = m_vecVertexParticle[i-1].p+ (m_Info.vDir * GetTime()* (m_fSpeed));
+		for (int i = 0; i < size; i++)
+		{
+			m_vecVertexParticle[i].p += (m_Info.vLook*-1 * g_fDeltaTime* (m_fSpeed));
+		}
+		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook*-1 * g_fDeltaTime* (m_fSpeed));
 		m_vecVertexParticle.push_back(m_VerTexInfo);
+
 	}
 	if (m_vecVertexParticle.empty())
 		return false;
