@@ -25,7 +25,9 @@ public:
 protected:
 	void SetBillBoard(D3DXMATRIXA16 * Matrix);
 
-	vector<VTXTEX>									m_vecMultiVertex;
+	vector<VTXTEX>											m_vecMultiVertex;
 
 	void SetLight();
+
+	float													m_fDmg;
 };

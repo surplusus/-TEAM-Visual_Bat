@@ -68,25 +68,25 @@ public:
 	void LoadingNoticeRender();
 private:
 	//cheon
-	string				m_sTime;
-	SPELL_LIST			Spell_list;
-	SPELL_NAME			Spell_name;
-	CTEXT_INFO			CtSpell_Info;
-	CTEXT_NAME			CtSpell_Name;
+	string											m_sTime;
+	SPELL_LIST										Spell_list;
+	SPELL_NAME										Spell_name;
+	CTEXT_INFO										CtSpell_Info;
+	CTEXT_NAME										CtSpell_Name;
 
-	CText*				m_pNotice;
-	CText*				m_pTime;
-	CText*				m_pAlarm;
+	CText*											m_pNotice;
+	CText*											m_pTime;
+	CText*											m_pAlarm;
 
-	vector<string>		m_vecNotice;
-	string				m_sNotice;
+	vector<string>									m_vecNotice;
+	string											m_sNotice;
 
-	float				m_MAXTIME;
+	float											m_MAXTIME;
 
-	D3DXVECTOR3			m_vpos;
+	D3DXVECTOR3										m_vpos;
 
-	RECT				m_rcName;
-	RECT				m_rcInfo;
+	RECT											m_rcName;
+	RECT											m_rcInfo;
 public:
 	void SetPosition(D3DXVECTOR3 pos) { m_vpos = pos; }
 	void SetMaxTime(float MAXTIME_) { m_MAXTIME = MAXTIME_; }
@@ -98,27 +98,27 @@ public://InGame Timer
 	void Progress();
 	void IngameTimer();
 private:
-	float		m_fSec;
-	float		m_fMin;
+	float											m_fSec;
+	float											m_fMin;
 
-	CText*		m_pSec;
-	CText*		m_pMin;
-	CText*		m_TimeDivide;
+	CText*											m_pSec;
+	CText*											m_pMin;
+	CText*											m_TimeDivide;
 
 public://InGame CS
 	void CS_Count();
-	int			m_nCount;
-	CText*		m_CS;
+	int												m_nCount;
+	CText*											m_CS;
 
 public://InGame KDA
 	void KDA_Count(int K, int D, int A);
 private:
-	int			m_nKill;
-	int			m_nDeath;
-	int			m_nAsist;
-	CText*		m_Kill;
-	CText*		m_Death;
-	CText*		m_Asist;
+	int												m_nKill;
+	int												m_nDeath;
+	int												m_nAsist;
+	CText*											m_Kill;
+	CText*											m_Death;
+	CText*											m_Asist;
 
 };
 

@@ -5,6 +5,7 @@
 
 CChampGauge::CChampGauge()
 {
+	m_fDmg = 1.0f;
 }
 
 
@@ -14,7 +15,7 @@ CChampGauge::~CChampGauge()
 
 void CChampGauge::Initialize()
 {
-	CGauge::SetLight();
+	SetLight();
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
 	m_vPosition = D3DXVECTOR3(0, 0, 0);
@@ -57,14 +58,22 @@ void CChampGauge::Progress()
 {	
 	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Udyr")->vPos;
 	SetPosition(pos);
-	
+	if (GetAsyncKeyState(VK_SPACE))
+	{
+		m_fDmg -= 0.01f;
+		if (m_fDmg < 0.1f)
+			m_fDmg = 0.1f;
+	}
+	if (GetAsyncKeyState(VK_RETURN))
+		m_fDmg = 1.0f;
 }
 
 void CChampGauge::Render()
 {
-	D3DXMATRIXA16 matWorld;
-	SetBillBoard(&matWorld);
-	D3DXMatrixTranslation(&matWorld, m_vPosition.x, m_vPosition.y + 2.0f, m_vPosition.z);
+	D3DXMATRIXA16 matWorld, matT, matS;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 2.0f, m_vPosition.z);
+	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
+	matWorld = matT * matS;
 	
 	SetTransform(D3DTS_WORLD, &matWorld);
 	D3DMATERIAL9 mtrl;
