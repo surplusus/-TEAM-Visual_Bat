@@ -11,14 +11,12 @@ public:
 	CUdyr();
 	virtual ~CUdyr();
 private:
-	bool				m_bRunning;
-	bool				m_bTurning;
-	bool				m_bDirty;
-
 	int 				m_iStateFlag;
 	void				ControlFlag();
+	vector<bool>		m_vStateFlag;
 	vector<FUNCSTATE>	m_vStateFunc;
 	queue<FUNCSTATE>	m_queStateFunc;
+	CObj*				m_pTargetObj;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -26,6 +24,7 @@ public:
 	virtual void	Release()    override;
 
 	virtual void	ChangeAniSetByState() override {}
+	void			OnFindPickingSphere(PICKSPHERE* evt);
 private:
 	void			MouseControl();
 	void			QWERControl();

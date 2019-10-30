@@ -153,7 +153,6 @@
     <ClInclude Include="Udyr.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
-    <ClInclude Include="XFileUtil.h" />
     <ClInclude Include="Zealot.h" />
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +282,6 @@
     <ClCompile Include="Udyr.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
-    <ClCompile Include="XFileUtil.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="Zealot.cpp" />
   </ItemGroup>

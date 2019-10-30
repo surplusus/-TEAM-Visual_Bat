@@ -29,3 +29,10 @@ typedef struct _tagRegisterObj : EVENT
 		: m_result(result) {}
 	std::string* m_result;
 } REGISTEREVENT;
+
+typedef struct _tagPickingSphere : EVENT
+{
+	_tagPickingSphere(CObj* picked)
+		: m_pObj(picked) {}
+	CObj * m_pObj;
+}PICKSPHERE;

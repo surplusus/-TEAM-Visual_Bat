@@ -34,9 +34,6 @@
     <Filter Include="ReSoureceSource">
       <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource\XFileUtil">
-      <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{c65a738a-4e2f-4a34-9c12-2e30ce739940}</UniqueIdentifier>
     </Filter>
@@ -323,9 +320,6 @@
     </ClInclude>
     <ClInclude Include="SceneMgr.h">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="XFileUtil.h">
-      <Filter>ReSoureceSource\XFileUtil</Filter>
     </ClInclude>
     <ClInclude Include="TimeMgr.h">
       <Filter>System\SystemManager\00.TimeMgr</Filter>
@@ -628,9 +622,6 @@
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="XFileUtil.cpp">
-      <Filter>ReSoureceSource\XFileUtil</Filter>
     </ClCompile>
     <ClCompile Include="TimeMgr.cpp">
       <Filter>System\SystemManager\00.TimeMgr</Filter>

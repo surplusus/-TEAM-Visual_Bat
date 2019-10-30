@@ -187,6 +187,8 @@ void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 {
 	// 이벤트 안쓸듯
 	PlayAnnouncerMention(ANNOUNCER_Createminion);
+	
+	delete evt;
 }
 
 void SoundManager::ParseSoundPathListFile(string sFilePath)

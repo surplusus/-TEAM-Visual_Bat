@@ -139,10 +139,6 @@ HRESULT GuhyunScene::Setup()
 		GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 		SetRenderState(D3DRS_LIGHTING, true);
 	}
-	{	// Set InGame Sound
-		GET_SINGLE(SoundManager)->SetUp();
-	}
-
 	return S_OK;
 }
 
