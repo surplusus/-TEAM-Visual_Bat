@@ -15,6 +15,20 @@ CUdyr::~CUdyr()
 	Release();
 }
 
+void CUdyr::ControlFlag()
+{
+	int num, idx;
+	// 비트 값 확인
+	bool r1 = ((num & (1 << idx)) != 0);
+	// 비트 값만 채워넣기
+	int r2 = (num | (1 << idx));
+	// 비트 값만 삭제하기
+	int r3 = (num & ~(1 << idx));
+	// 비트 값만 켜고 나머지 전부 삭제하기
+	int f4 = (1 << idx);
+	 
+}
+
 HRESULT CUdyr::Initialize()
 {
 	CloneMesh(GetDevice(), L"Udyr", &m_pAnimationCtrl);
@@ -30,6 +44,15 @@ HRESULT CUdyr::Initialize()
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 
 	SetUpPickingShere(1.f);
+	{	// Push_back StateFunc
+		m_vStateFunc.push_back([this]() {return this->Func1_IDLE(); });
+		m_vStateFunc.push_back([this]() {return this->Func2_ATTACK(); });
+		m_vStateFunc.push_back([this]() {return this->Func3_RUN(); });
+		m_vStateFunc.push_back([this]() {return this->Func4_AGRESSIVE(); });
+
+		m_bStateFlag = new bool[STATETYPE_END + 1];
+		fill(m_bStateFlag[0], m_bStateFlag[STATETYPE_END], false);
+	}
 	return S_OK;
 }
 
@@ -37,8 +60,9 @@ void CUdyr::Progress()
 {
 	MouseControl();
 	QWERControl();
+	ProgressStateFunc();
+	//ChangeAniSetByState();
 	CChampion::UpdateWorldMatrix();
-	ChangeAniSetByState();
 	m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
 }
 
@@ -55,42 +79,36 @@ void CUdyr::Release()
 	SAFE_RELEASE(m_pAnimationCtrl);
 }
 
-void CUdyr::ChangeAniSetByState()
-{
-	if (m_bDirty)
-	{
-		if (m_bRunning) {
-			m_pAnimationCtrl->BlendAnimationSet("Run");
-			m_bDirty = false;
-			return;
-		}
-
-		m_pAnimationCtrl->BlendAnimationSet("Idle");
-		m_bDirty = false;
-	}
-}
-
 void CUdyr::MouseControl()
 {
 	{	// 방향전환
+		bool bPicked = false;
 		if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
-			m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
+			bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
 		}
 
-		if (m_bPicked) {
-			m_bPicked = false;
-			m_bRunning = true;
-			m_bDirty = true;
+		if (bPicked) {
+			
+			m_vStateFlag[STATETYPE_IDLE] = false;
+			m_vStateFlag[STATETYPE_RUN] = true;
+			m_vStateFlag[STATETYPE_TURNING] = true;
+			//m_queStateFunc.push(m_vStateFunc[STATETYPE_RUN]);
 		}
 
-		if (m_bRunning)
-		{
-			float speed = 2.5f;
-			m_bTurning = TurnSlowly(&m_MouseHitPoint);
-			m_bRunning = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
-			if (!m_bRunning)
-				m_bDirty = true;
-		}
+		//if (m_bPicked) {
+		//	m_bPicked = false;
+		//	m_bRunning = true;
+		//	m_bDirty = true;
+		//}
+
+		//if (m_vStateFlag[STATETYPE_RUN])
+		//{
+		//	float speed = 2.5f;
+		//	m_vStateFlag[STATETYPE_TURNING] = TurnSlowly(&m_MouseHitPoint);
+		//	m_vStateFlag[STATETYPE_RUN] = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
+		//	if (!m_bRunning)
+		//		m_bDirty = true;
+		//}
 	}
 	{	// Sphere 픽킹
 		if (CheckMouseButtonDownOneTime(MOUSEBUTTON2)) {
@@ -118,6 +136,8 @@ void CUdyr::QWERControl()
 		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
 	}
 	if (CheckPushKeyOneTime(VK_W)) {
+		m_vStateFlag.resize(STATETYPE_END, false);
+		m_vStateFlag[STATETYPE_IDLE] = true;
 		m_pAnimationCtrl->BlendAnimationSet("Idle");
 		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
 	}
@@ -147,24 +167,53 @@ void CUdyr::QWERControl()
 
 }
 
-bool CUdyr::Func_IDLE()
+bool CUdyr::Func1_IDLE()
+{
+	m_pAnimationCtrl->BlendAnimationSet("Idle");
+	
+	return true;
+}
+
+bool CUdyr::Func2_ATTACK()
 {
 	return false;
 }
 
-bool CUdyr::Func_ATTACK()
+bool CUdyr::Func3_RUN()
+{
+	m_pAnimationCtrl->BlendAnimationSet("Run");
+	
+	float speed = 2.5f;
+	if (m_vStateFlag[STATETYPE_TURNING])
+		m_vStateFlag[STATETYPE_TURNING] = TurnSlowly(&m_MouseHitPoint);
+	m_vStateFlag[STATETYPE_RUN] = Update_vPos_ByDestPoint(&m_MouseHitPoint, speed);
+	if (!m_vStateFlag[STATETYPE_RUN])
+		m_vStateFlag[STATETYPE_IDLE] = true;
+	return false;
+}
+
+bool CUdyr::Func4_AGRESSIVE()
 {
 	return false;
 }
 
-bool CUdyr::Func_RUN()
+void CUdyr::ProgressStateFunc()
 {
-	return false;
-}
-
-bool CUdyr::Func_AGRESSIVE()
-{
-	return false;
+	// EnqueueStateFunc
+	for (size_t i = 0; i < m_vStateFlag.size(); i++)
+	{
+		if (i >= m_vStateFunc.size())
+			break;
+		if (m_vStateFlag[i] == true)
+			m_queStateFunc.push(m_vStateFunc[i]);
+	}
+	// Play StateFunc Enqueued
+	FUNCSTATE func;
+	while (!m_queStateFunc.empty()) {
+		func = m_queStateFunc.front();
+		m_queStateFunc.pop();
+		bool result = func();
+	}
 }
 
 //bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)

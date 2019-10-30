@@ -20,15 +20,15 @@ void CMinionMgr::CreateMinions()
 {
 	HRESULT res;
 	m_vMinion.push_back(new CMeleeMinion());
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[0]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion0", m_vMinion[0]);
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion0");
 	m_vMinion.push_back(new CMeleeMinion());
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[1]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion1", m_vMinion[1]);
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion1");
 	m_vMinion.push_back(new CMeleeMinion());
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_vMinion[2]);
+	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion2", m_vMinion[2]);
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion2");
 	
