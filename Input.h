@@ -13,6 +13,7 @@ private:
 private:
 	LPDIRECTINPUTDEVICE8	m_pMouse;
 	DIMOUSESTATE			m_MouseState;
+	DIMOUSESTATE			m_MouseDefaultState;
 	// << : Picker
 	CMousePicker*			m_MousePicker;
 	D3DXVECTOR3*			m_PickingPoint;
@@ -21,6 +22,9 @@ public:
 	void SetInputState(void);
 	DIMOUSESTATE MyGetMouseState(void) {
 		return m_MouseState;
+	}
+	DIMOUSESTATE MyGetMouseDefaultState(void) {
+		return m_MouseDefaultState;
 	}
 	BYTE MyGetKeyState(BYTE byKey) {
 		return m_KeyState[byKey];

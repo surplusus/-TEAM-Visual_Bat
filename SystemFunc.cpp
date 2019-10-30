@@ -152,6 +152,21 @@ extern  DIMOUSESTATE MyGetMouseState(void)
 
 }
 
+bool CheckMouseButtonDown(int mousebutton)
+{
+	return ((*(CInput::GetInstance()))->MyGetMouseState().rgbButtons[mousebutton] & 0x80) ? true : false;
+}
+
+bool CheckMouseButtonDownOneTime(int mousebutton)
+{
+	DIMOUSESTATE curMouse = (*(CInput::GetInstance()))->MyGetMouseState();
+	DIMOUSESTATE defaultMouse = (*(CInput::GetInstance()))->MyGetMouseDefaultState();
+	if ((curMouse.rgbButtons[mousebutton] & 0x80) && (curMouse.rgbButtons[mousebutton] != defaultMouse.rgbButtons[mousebutton]))
+		return true;
+	else
+		return false;
+}
+
 extern bool CheckPickingOnSphere(SPHERE* sphere)
 {
 	return (*(CInput::GetInstance()))->CheckPickingOnSphere(sphere);

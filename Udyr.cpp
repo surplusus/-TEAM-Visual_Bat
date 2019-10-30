@@ -73,7 +73,7 @@ void CUdyr::ChangeAniSetByState()
 void CUdyr::MouseControl()
 {
 	{	// 방향전환
-		if (MyGetMouseState().rgbButtons[0]) {
+		if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
 			m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
 		}
 
@@ -93,12 +93,16 @@ void CUdyr::MouseControl()
 		}
 	}
 	{	// Sphere 픽킹
-		if (MyGetMouseState().rgbButtons[2]) {
+		if (CheckMouseButtonDownOneTime(MOUSEBUTTON2)) {
 			SPHERE* spherePicked = nullptr;
 			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
-			if (bPickSphere)
+			if (bPickSphere) {
 				spherePicked->isPicked = !spherePicked->isPicked;
-			int a = 6;
+				m_bRunning = true;
+				m_MouseHitPoint = D3DXVECTOR3(*spherePicked->vpCenter);
+				int a = 6;
+			}
+
 		}
 	}
 }
@@ -109,14 +113,14 @@ void CUdyr::QWERControl()
 	if (CheckPushKeyOneTime(VK_0)) {	// 애니메이션 정보 콘솔 출력
 		m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 	}
-	//if (CheckPushKeyOneTime(VK_Q)) {
-	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
-	//}
-	//if (CheckPushKeyOneTime(VK_W)) {
-	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
-	//}
+	if (CheckPushKeyOneTime(VK_Q)) {
+		m_pAnimationCtrl->BlendAnimationSet("Attack_Left");
+		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
+	}
+	if (CheckPushKeyOneTime(VK_W)) {
+		m_pAnimationCtrl->BlendAnimationSet("Idle");
+		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+	}
 	//if (CheckPushKeyOneTime(VK_E)) {
 	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
 	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
@@ -141,6 +145,26 @@ void CUdyr::QWERControl()
 	if (CheckPushKeyOneTime(VK_7))
 		GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Death);
 
+}
+
+bool CUdyr::Func_IDLE()
+{
+	return false;
+}
+
+bool CUdyr::Func_ATTACK()
+{
+	return false;
+}
+
+bool CUdyr::Func_RUN()
+{
+	return false;
+}
+
+bool CUdyr::Func_AGRESSIVE()
+{
+	return false;
 }
 
 //bool CUdyr::TurnSlowly(const D3DXVECTOR3 * destPos)
