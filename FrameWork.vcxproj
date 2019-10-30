@@ -25,7 +25,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
-    <ClInclude Include="ChampGague.h" />
+    <ClInclude Include="ChampGauge.h" />
     <ClInclude Include="Cheon.h" />
     <ClInclude Include="CubePC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -178,7 +178,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="Champ.cpp" />
-    <ClCompile Include="ChampGague.cpp" />
+    <ClCompile Include="ChampGauge.cpp" />
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="CubePC.cpp">

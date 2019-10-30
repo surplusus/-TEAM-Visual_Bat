@@ -1,11 +1,12 @@
 #pragma once
 #include "Gauge.h"
-class CChampGague :
+
+class CChampGauge :
 	public CGauge
 {
 public:
-	CChampGague();
-	~CChampGague();
+	CChampGauge();
+	~CChampGauge();
 public:
 	virtual void Initialize() override;
 	virtual void Progress() override;

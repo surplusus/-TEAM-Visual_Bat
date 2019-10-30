@@ -7,6 +7,9 @@
 #include "CubePC.h"
 #include "Image_Loader.h"
 #include "TextMgr.h"
+#include "ObjMgr.h"
+
+#include "ChampGauge.h"
 
 cGameHUD::cGameHUD()
 	:m_TextMgr(NULL)
@@ -89,12 +92,19 @@ void cGameHUD::Initialize()
 	m_TextMgr = new CTextMgr();
 	m_TextMgr->Initialize();
 	GET_SINGLE(cCubePC)->Initialize();
+
+
+	m_Gauge = new CChampGauge;
+	m_Gauge->Initialize();
 }
 
 void cGameHUD::Progress()
 {
 	m_TextMgr->Progress();
 	GET_SINGLE(cCubePC)->Progress();
+
+	
+	m_Gauge->Progress();
 }
 
 void cGameHUD::Render()
@@ -118,7 +128,9 @@ void cGameHUD::Render()
 	/*m_TextMgr->CS_Count();
 	m_TextMgr->KDA_Count(1, 1, 1);*/
 #pragma endregion
-	GET_SINGLE(cCubePC)->Render();
+	//GET_SINGLE(cCubePC)->Render();
+
+	m_Gauge->Render();
 }
 
 void cGameHUD::Release()

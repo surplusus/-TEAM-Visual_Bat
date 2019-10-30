@@ -12,8 +12,20 @@ public:
 	virtual void Release()	  = 0;
 
 protected:
-	int				m_HP;
-	int				m_MP;
-	D3DXVECTOR3		m_vPosition;
-	CImage_Loader*	m_Loader;
+	float													m_MAXHP;
+	float													m_MAXMP;
+	D3DXVECTOR3												m_vPosition;
+	
+	LPDIRECT3DTEXTURE9										m_pBlank;
+	LPDIRECT3DTEXTURE9										m_pCell;
+
+public:
+	void SetPosition(D3DXVECTOR3 position) { m_vPosition = position; }
+
+protected:
+	void SetBillBoard(D3DXMATRIXA16 * Matrix);
+
+	vector<VTXTEX>									m_vecMultiVertex;
+
+	void SetLight();
 };

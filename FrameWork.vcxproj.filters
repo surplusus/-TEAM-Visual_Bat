@@ -615,11 +615,11 @@
     <ClInclude Include="Gauge.h">
       <Filter>cheon_Gauge</Filter>
     </ClInclude>
-    <ClInclude Include="ChampGague.h">
-      <Filter>cheon_Gauge\Champ_Gauge</Filter>
-    </ClInclude>
     <ClInclude Include="MinionGauge.h">
       <Filter>cheon_Gauge\Minion_Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="ChampGauge.h">
+      <Filter>cheon_Gauge\Champ_Gauge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -917,11 +917,11 @@
     <ClCompile Include="Gauge.cpp">
       <Filter>cheon_Gauge</Filter>
     </ClCompile>
-    <ClCompile Include="ChampGague.cpp">
-      <Filter>cheon_Gauge\Champ_Gauge</Filter>
-    </ClCompile>
     <ClCompile Include="MinionGauge.cpp">
       <Filter>cheon_Gauge\Minion_Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="ChampGauge.cpp">
+      <Filter>cheon_Gauge\Champ_Gauge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

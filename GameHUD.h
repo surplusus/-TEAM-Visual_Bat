@@ -2,6 +2,7 @@
 
 class CImage_Loader;
 class CTextMgr;
+class CGauge;
 class cFont;
 
 class cGameHUD
@@ -29,5 +30,7 @@ private:
 	CTextMgr*					m_TextMgr;
 
 	bool m_isLButtonDown;
+
+	CGauge*						m_Gauge;
 };
 
