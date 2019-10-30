@@ -32,15 +32,14 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 	D3DXMatrixIdentity(&matrix);
 
 	UpdateMatrix((BONE*)m_pRootBone, &matrix);
+
 	LPD3DXANIMATIONCONTROLLER* ani = m_pAniCtrl->GetAniCtrl();
 	
 	g_iTotalSubSet = static_cast<int>((*ani)->GetNumAnimationSets());
 	g_iLoadingSubSet = 0;
 	
 	SetUpBoneMatrixPointer((BONE*)m_pRootBone);
-	ID3DXBuffer* adjBuffer;
 	
-	//CMeshMgr::g_iLoadingSubSet = -1;
 	return S_OK;
 }
 
@@ -178,6 +177,7 @@ void CSkinnedMesh::Release(void)
 	}
 
 }
+
 
 void CSkinnedMesh::InvalidateMesh(D3DXMATRIX* pMatWorld)
 {

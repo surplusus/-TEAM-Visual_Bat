@@ -18,9 +18,10 @@ void CParticle::Initalize()
 	InitRenderState();
 }
 
-void CParticle::Progress()
+bool CParticle::Progress()
 {
 	Update_Particle();
+	return true;
 }
 
 void CParticle::Render()

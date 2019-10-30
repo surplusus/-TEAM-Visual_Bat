@@ -283,6 +283,12 @@
     <Filter Include="System\Behavior">
       <UniqueIdentifier>{c210d7f9-e2aa-4d03-bf3e-265fc9bcea41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\ColisionMgr">
+      <UniqueIdentifier>{fb250251-d52d-4e20-8782-1b89d2c6f2e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColisionMgr\Colider">
+      <UniqueIdentifier>{06c9d03d-9c8c-4e03-be00-0308221637b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -603,6 +609,12 @@
     <ClInclude Include="EzealQ_Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="ColiderComponent.h">
+      <Filter>소스 파일\Maneger\ColisionMgr\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="ColitionMgr.h">
+      <Filter>소스 파일\Maneger\ColisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -895,6 +907,12 @@
     </ClCompile>
     <ClCompile Include="EzealQ_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="ColiderComponent.cpp">
+      <Filter>소스 파일\Maneger\ColisionMgr\Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="ColitionMgr.cpp">
+      <Filter>소스 파일\Maneger\ColisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

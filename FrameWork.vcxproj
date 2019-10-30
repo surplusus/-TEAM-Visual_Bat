@@ -26,6 +26,8 @@
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="Champ.h" />
     <ClInclude Include="Cheon.h" />
+    <ClInclude Include="ColiderComponent.h" />
+    <ClInclude Include="ColitionMgr.h" />
     <ClInclude Include="CubePC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -176,6 +178,8 @@
     <ClCompile Include="CameraMgr.cpp" />
     <ClCompile Include="Champ.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="ColiderComponent.cpp" />
+    <ClCompile Include="ColitionMgr.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="CubePC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

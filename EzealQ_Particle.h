@@ -1,5 +1,6 @@
 #pragma once
 #include"Particle.h"
+class ColiderComponent;
 class CEzealQ_Particle : public CParticle
 {
 public:
@@ -14,9 +15,13 @@ private:
 	float m_fSpeed;
 	float m_fLength;
 	CUSTOMVERTEX m_VerTexInfo;
+	ColiderComponent * m_pColider;
+	D3DXVECTOR3 m_vMin;
+	D3DXVECTOR3 m_vMax;
+
 public:
 	virtual void Initalize()override;
-	virtual void Progress()	override;
+	virtual bool Progress()	override;
 	virtual void Render()	override;
 	virtual void Release()	override;
 private:
@@ -25,11 +30,10 @@ private:
 	virtual void Render_Particle() override;
 	virtual void RenderEnd_Particle() override;
 	virtual void InitRenderState() override;
-
 	bool AddTail();
 private:
 	LPD3DXMESH m_BoxMesh;
-	void Colistionbox();
-
+public:
+	ColiderComponent* GetColider() { return m_pColider; }
 };
 

@@ -12,6 +12,7 @@
 #include"EzealQ_Particle.h"
 #include"ParticleMgr.h"
 #include"HeightMap.h"
+#include"ColitionMgr.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -49,9 +50,15 @@ HRESULT CGameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
+	CObj *ez = new CEzreal("IDLE1", false);
+	ez->Initialize();
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal",ez)))
+		return E_FAIL;
 
+	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
+
 	LetObjectKnowHeightMap();
 }
 
@@ -60,12 +67,14 @@ void CGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
+	GET_SINGLE(CColitionMgr)->Progress();
 }
 
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
 	GET_SINGLE(CParticleMgr)->Render();
+	GET_SINGLE(CColitionMgr)->Render();
 }
 
 void CGameScene::Release()

@@ -17,7 +17,7 @@ protected:
 	vector<DWORD> m_vecRenderInitData;
 public:
 	virtual void Initalize();
-	virtual void Progress();
+	virtual bool Progress();
 	virtual void Render();
 	virtual void Release();
 

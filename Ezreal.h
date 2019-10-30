@@ -8,7 +8,7 @@ class CParticle;
 //IDLE1 -> 기본 가만히
 //IDLE2,IDLE3 -> 가만히 있을때 변화되는 IDLE 시간변화에 따라 실행
 
-
+class ColiderComponent;
 class CEzreal :
 	public CChampion
 {
@@ -24,6 +24,8 @@ public:
 	~CEzreal();
 private:
 	LPD3DXMESH m_pMesh;
+	LPD3DXMESH m_pBoxMesh;
+	ColiderComponent*  m_pColider;
 	bool m_bDirty;
 public:
 	virtual void	SetContantTable();
@@ -32,7 +34,6 @@ private:
 	void WorldSetting();
 	bool MouseCheck();
 	void SetAngleFromPostion();
-	bool Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed);
 #pragma endregion
 
 #pragma region StaticValue
@@ -52,7 +53,6 @@ public:
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 public:
-	void RoationObject();
 	virtual void		ChangeAniSetByState();
 	//test
 private:
@@ -68,9 +68,6 @@ private:
 	void KeyCheck();
 	void SettingAnimationSort();//상태에 따른 애니메이션 순서를 정해준다.
 	void InitAnimationState();
-private:
-	LPD3DXMESH m_BoxMeseh;
-	void CollisionBoxRender();
-
+	
 };
 

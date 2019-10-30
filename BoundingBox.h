@@ -8,6 +8,6 @@ public:
 	virtual ~CBoundingBox();
 public:
 	virtual HRESULT	 InitMesh(LPDIRECT3DDEVICE9 pDevice);
-
+		
 };
 
