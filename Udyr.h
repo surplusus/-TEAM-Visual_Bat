@@ -2,6 +2,8 @@
 #include "Champion.h"
 class CUdyr : public CChampion
 {
+	using FUNCSTATE = function<bool(void)>;
+	enum {};
 public:
 	CUdyr();
 	virtual ~CUdyr();
@@ -9,6 +11,9 @@ private:
 	bool				m_bRunning;
 	bool				m_bTurning;
 	bool				m_bDirty;
+
+	vector<bool>		m_vStateFlag;
+	vector<FUNCSTATE>	m_vStateFunc;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -17,8 +22,12 @@ public:
 
 	virtual void	ChangeAniSetByState() override;
 private:
-	void MouseControl();
-	void QWERControl();
-	//bool TurnSlowly(const D3DXVECTOR3* destPos);
+	void			MouseControl();
+	void			QWERControl();
+private:	// StateFunc
+	bool			Func_IDLE();
+	bool			Func_ATTACK();
+	bool			Func_RUN();
+	bool			Func_AGRESSIVE();
 };
 
