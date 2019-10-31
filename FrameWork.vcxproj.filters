@@ -289,6 +289,12 @@
     <Filter Include="소스 파일\Maneger\ColisionMgr\Colider">
       <UniqueIdentifier>{06c9d03d-9c8c-4e03-be00-0308221637b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\ColisionMgr\PaticleColision">
+      <UniqueIdentifier>{3e716cc9-554b-4d9f-bd32-03798ec7b6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColisionMgr\ObjectColider">
+      <UniqueIdentifier>{f1d0b98e-8428-4800-83a9-487402798839}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -615,6 +621,15 @@
     <ClInclude Include="ColitionMgr.h">
       <Filter>소스 파일\Maneger\ColisionMgr</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleColider.h">
+      <Filter>소스 파일\Maneger\ColisionMgr\PaticleColision</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectColider.h">
+      <Filter>소스 파일\Maneger\ColisionMgr\ObjectColider</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleObj.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -913,6 +928,15 @@
     </ClCompile>
     <ClCompile Include="ColitionMgr.cpp">
       <Filter>소스 파일\Maneger\ColisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleColider.cpp">
+      <Filter>소스 파일\Maneger\ColisionMgr\PaticleColision</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectColider.cpp">
+      <Filter>소스 파일\Maneger\ColisionMgr\ObjectColider</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleObj.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

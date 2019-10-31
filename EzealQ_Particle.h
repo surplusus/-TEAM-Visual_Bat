@@ -1,7 +1,7 @@
 #pragma once
-#include"Particle.h"
+#include"ParticleObj.h"
 class ColiderComponent;
-class CEzealQ_Particle : public CParticle
+class CEzealQ_Particle : public CParticleObj
 {
 public:
 	CEzealQ_Particle();
@@ -15,9 +15,9 @@ private:
 	float m_fSpeed;
 	float m_fLength;
 	CUSTOMVERTEX m_VerTexInfo;
-	ColiderComponent * m_pColider;
 	D3DXVECTOR3 m_vMin;
 	D3DXVECTOR3 m_vMax;
+	D3DXMATRIX m_matWorld;
 
 public:
 	virtual void Initalize()override;

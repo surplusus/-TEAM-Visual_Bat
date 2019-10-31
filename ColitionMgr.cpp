@@ -11,32 +11,24 @@ CColitionMgr::~CColitionMgr()
 {
 }
 
-void CColitionMgr::InsertColistion(CObj * pObj, ColiderComponent * pComponent)
+void CColitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
 {
 	map<CObj*, list<ColiderComponent*>*>::iterator iter = m_ColMap.find(pObj);
 	if (iter == m_ColMap.end())
 	{
-		list<ColiderComponent*>* List = new list<ColiderComponent*>;
-		List->push_back(pComponent);
+		list<ColiderComponent*>* List = pList;
 		m_ColMap.insert(make_pair(pObj, List));
 	}
 	else
 	{
-		iter->second->push_back(pComponent);
+		iter->second = pList;
 	}
 }
 
 void CColitionMgr::Progress()
 {
-	RemoveColiderComponent();
-	map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
-	for (iter1; iter1 != m_ColMap.end(); ++iter1)
-	{
-		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
-		for (ListIter1; ListIter1 != m_ColMap[iter1->first]->end(); ListIter1++) {
-			
-		}
-	}
+	UpdateColistion();
+	
 }
 
 void CColitionMgr::Render()
@@ -45,47 +37,49 @@ void CColitionMgr::Render()
 	for (iter1; iter1 != m_ColMap.end(); ++iter1)
 	{
 		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
-		for(ListIter1; ListIter1 != m_ColMap[iter1->first]->end(); ListIter1++) {
-			if ((*ListIter1)->GetObj() == NULL)
-				(*ListIter1)->Render();
+		for(ListIter1; ListIter1 != m_ColMap[iter1->first]->end(); ListIter1++) {			
+			(*ListIter1)->Render();
 		}
 	}
 }
 
-void CColitionMgr::RemoveColiderComponent()
-{
-	map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
-	for (iter1; iter1 != m_ColMap.end(); ++iter1)
-	{
-		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
-		if (*ListIter1 == NULL) {
-			m_ColMap[iter1->first]->erase(ListIter1);
-		}
-	}
 
-}
 
 void CColitionMgr::UpdateColistion()
 {
-	//리스트안에는 자신이 다른 오브젝트에게 충돌시킬 물체에 대한 정보들이 있음
-	map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
-	//충돌처리할 대상
-	map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin();
-
-	for (iter1; iter1 != m_ColMap.end(); ++iter1)
+	
+	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
+		iter1 != m_ColMap.end(); ++iter1)
 	{
-		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
-		for (iter2; iter2 != m_ColMap.end(); ++iter2)
+		list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
+		
+		for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin();
+			iter2 != m_ColMap.end(); ++iter2) 
 		{
-			if (iter1 == iter2) break;
-			list<ColiderComponent*>::iterator ListIter2 = m_ColMap[iter1->first]->begin();
-			if ((*ListIter2)->GetObj() != NULL)
+			if (iter1->first == iter2->first)		
+				continue;		
+
+			for (pOrigin; pOrigin != m_ColMap[iter1->first]->end();)
 			{
-				if ((*ListIter1)->CheckColision((*ListIter2)))
+				bool bCol = false;
+				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
+					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
-					//충돌했다	
+
+					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
+					{
+						if ((*pOrigin)->CheckColision(*pTarget))
+						{
+							(*pTarget)->SetStateCol(true);
+							pOrigin = m_ColMap[iter1->first]->erase(pOrigin);
+							bCol = true;
+						}
+					}
 				}
+				if (!bCol)	pOrigin++;
 			}
 		}
 	}
+
+
 }

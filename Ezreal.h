@@ -24,9 +24,9 @@ public:
 	~CEzreal();
 private:
 	LPD3DXMESH m_pMesh;
-	LPD3DXMESH m_pBoxMesh;
 	ColiderComponent*  m_pColider;
 	bool m_bDirty;
+	list<ColiderComponent*> m_ColiderList;
 public:
 	virtual void	SetContantTable();
 #pragma region Function
@@ -45,7 +45,6 @@ private:
 #pragma endregion
 //test
 private:
-	list<CParticle*> m_ListQSkill;
 	void AddSkill_Q();
 public:
 	virtual HRESULT Initialize() override;
@@ -58,6 +57,7 @@ public:
 private:
 	vector<bool>				m_Champ_State;
 	queue<CHAMPION_STATETYPE>	m_AnimationQueue;
+	
 	bool m_ChangeMotion;
 	float m_fStartTime;
 	float m_fEndTime;
@@ -69,5 +69,6 @@ private:
 	void SettingAnimationSort();//상태에 따른 애니메이션 순서를 정해준다.
 	void InitAnimationState();
 	
+	void InitUpdate();
 };
 

@@ -7,7 +7,7 @@
 #include "Ray.h""
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
-#include"ColiderComponent.h"
+#include"ObjectColider.h"
 #include"MathMgr.h"
 #include"ColitionMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
@@ -123,12 +123,15 @@ HRESULT CEzreal::Initialize()
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();
 
-	m_pColider = new ColiderComponent(this);
+	m_pColider = new CObjectColider(this);
 	//>> 콜라이더 생성
-	m_pColider->SetUp(m_Info.vPos, 2.0f, BonMatrix);
+	m_pColider->SetUp(m_Info, 2.0f, BonMatrix);
 	m_pColider->InitColider();
 	m_pColider->SetCollison(m_vMin, m_vMax);
-	GET_SINGLE(CColitionMgr)->InsertColistion(this,m_pColider);
+	m_ColiderList.push_back(m_pColider);
+	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
+	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+
 	return S_OK;
 }
 
@@ -140,15 +143,8 @@ void CEzreal::Progress()
 		SettingFrameAnimation();
 		UpdateWorldMatrix();
 		SetContantTable();
-		for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end();)
-		{
-			if (!(*iter)->Progress())
-			{
-				iter =m_ListQSkill.erase(iter);
-			}
-			else iter++;
-		}
 		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
+		m_pColider->Update(m_Info.vPos);
 	}
 }
 void CEzreal::AddSkill_Q()
@@ -159,10 +155,12 @@ void CEzreal::AddSkill_Q()
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
+
 	CParticle * p = new CEzealQ_Particle(tInfo,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
 	p->Initalize();
-	GET_SINGLE(CParticleMgr)->AddParticle(L"Ez", p);
-	GET_SINGLE(CColitionMgr)->InsertColistion(this,	dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
+	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
+	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 }
 
 void CEzreal::Render()
@@ -252,10 +250,7 @@ void CEzreal::KeyCheck()
 		m_fEndTime = 25;
 		m_bDirty = true;
 	}
-	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
-	{
-		(*iter)->Progress();
-	}
+	
 }
 
 void CEzreal::SettingAnimationSort()
@@ -318,6 +313,19 @@ void CEzreal::InitAnimationState()
 		m_Champ_State[i] = false;
 	}
 	m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+}
+
+void CEzreal::InitUpdate()
+{
+	list<ColiderComponent*>::iterator iter = m_ColiderList.begin();
+	for (iter; iter != m_ColiderList.end();)
+	{
+		if (*iter == NULL)
+		{
+			iter = m_ColiderList.erase(iter);
+		}
+		else iter++;
+	}
 }
 
 

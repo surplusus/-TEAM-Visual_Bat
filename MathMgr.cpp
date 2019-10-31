@@ -10,30 +10,6 @@ CMathMgr::CMathMgr()
 CMathMgr::~CMathMgr()
 {
 }
-float CMathMgr::GetHeight(const VTXTEX* pVtxTex, const D3DXVECTOR3* pPosition)
-{
-	int iIndex = ((int(pPosition->z) / GAP) * VTXCNTX + int(pPosition->x) / GAP);
-
-	float fRatioX = (pPosition->x - pVtxTex[iIndex + VTXCNTX].vPosition.x) / GAP;
-	float fRatioZ = (pVtxTex[iIndex + VTXCNTX].vPosition.z - pPosition->z) / GAP;
-
-	float	fHeight[4] = { pVtxTex[iIndex + VTXCNTX].vPosition.y
-		, pVtxTex[iIndex + VTXCNTX + 1].vPosition.y
-		, pVtxTex[iIndex + 1].vPosition.y
-		, pVtxTex[iIndex].vPosition.y };
-
-	// ¿ì»ó
-	if (fRatioX > fRatioZ)
-	{
-		return fHeight[0] + (fHeight[1] - fHeight[0]) * fRatioX + (fHeight[2] - fHeight[1]) * fRatioZ;
-	}
-
-	// ÁÂÇÏ
-	else
-	{
-		return fHeight[0] + (fHeight[2] - fHeight[3]) * fRatioX + (fHeight[3] - fHeight[0]) * fRatioZ;
-	}
-}
 
 void CMathMgr::Rotation_X(D3DXVECTOR3* pOut
 	, const D3DXVECTOR3* pVector, const float& fAngle)

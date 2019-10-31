@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "ParticleMgr.h"
-#include"Particle.h"
-
+#include"ParticleObj.h"
+#include"ColiderComponent.h"
 CParticleMgr::CParticleMgr()
 {
 
@@ -12,7 +12,7 @@ CParticleMgr::~CParticleMgr()
 {
 }
 
-void CParticleMgr::AddParticle(const TCHAR * pObjectName, CParticle * pParticle)
+void CParticleMgr::AddParticle(CObj* pObjectName, CParticle * pParticle)
 {
 	if (m_MapParticle.empty())
 	{
@@ -21,7 +21,7 @@ void CParticleMgr::AddParticle(const TCHAR * pObjectName, CParticle * pParticle)
 		m_MapParticle.insert(make_pair(pObjectName, List));
 		return;
 	}
-	map<const TCHAR*, list<CParticle*>*>::iterator iter = m_MapParticle.find(pObjectName);	
+	map<CObj*, list<CParticle*>*>::iterator iter = m_MapParticle.find(pObjectName);
 	if (iter != m_MapParticle.end())
 	{
 		m_MapParticle[pObjectName]->push_back(pParticle);
@@ -34,9 +34,24 @@ void CParticleMgr::AddParticle(const TCHAR * pObjectName, CParticle * pParticle)
 	}
 }
 
+void CParticleMgr::InsertColList(CObj* pObj,list<ColiderComponent*>* pColList)
+{
+	
+	map<CObj*, list<ColiderComponent*>*>::iterator iter = m_pColiderMap.find(pObj);
+	if (iter != m_pColiderMap.end())
+	{
+		m_pColiderMap.insert(make_pair(pObj,pColList));
+	}
+	else
+	{
+		m_pColiderMap[pObj] = pColList;
+	}
+
+}
+
 void CParticleMgr::Initalize()
 {
-	map<const TCHAR*, list<CParticle*>*>::iterator iter = m_MapParticle.begin();
+	map<CObj*, list<CParticle*>*>::iterator iter = m_MapParticle.begin();
 	for (iter; iter != m_MapParticle.end(); ++iter)
 	{
 		list<CParticle*>::iterator iter2 = iter->second->begin();
@@ -53,7 +68,7 @@ void CParticleMgr::Release()
 
 void CParticleMgr::Render()
 {
-	map<const TCHAR*, list<CParticle*>*>::iterator iter = m_MapParticle.begin();
+	map<CObj*, list<CParticle*>*>::iterator iter = m_MapParticle.begin();
 	for (iter; iter != m_MapParticle.end(); ++iter)
 	{
 		list<CParticle*>::iterator iter2 = iter->second->begin();
@@ -66,13 +81,29 @@ void CParticleMgr::Render()
 
 void CParticleMgr::Progress()
 {
-	map<const TCHAR*, list<CParticle*>*>::iterator iter =  m_MapParticle.begin();
+	map<CObj*, list<CParticle*>*>::iterator iter =  m_MapParticle.begin();
 	for (iter; iter != m_MapParticle.end(); ++iter)
 	{
-		list<CParticle*>::iterator iter2 = iter->second->begin();
-		for (iter2; iter2 != iter->second->end(); iter2++)
+		list<CParticle*>::iterator iter2 = m_MapParticle[iter->first]->begin();
+		for (iter2; iter2 != iter->second->end(); )
 		{
-			(*iter2)->Progress();
+			if (!(*iter2)->Progress())
+			{	
+				list<ColiderComponent*>::iterator ColList = m_pColiderMap[iter->first]->begin();
+				for (ColList; ColList != m_pColiderMap[iter->first]->end(); ) {
+
+					if ((*ColList) == dynamic_cast<CParticleObj*>(*iter2)->GetColider())
+					{
+						SAFE_DELETE((*ColList));
+						ColList =m_pColiderMap[iter->first]->erase(ColList);
+						break;
+					}
+					else ColList++;
+				}
+				iter2 = m_MapParticle[iter->first]->erase(iter2);
+
+			}
+			else iter2++;
 		}
 	}
 }

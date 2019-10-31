@@ -66,15 +66,17 @@ void CGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
-	GET_SINGLE(CParticleMgr)->Progress();
+
 	GET_SINGLE(CColitionMgr)->Progress();
+	GET_SINGLE(CParticleMgr)->Progress();
 }
 
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
-	GET_SINGLE(CParticleMgr)->Render();
+
 	GET_SINGLE(CColitionMgr)->Render();
+	GET_SINGLE(CParticleMgr)->Render();
 }
 
 void CGameScene::Release()

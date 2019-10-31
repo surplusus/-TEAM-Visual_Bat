@@ -74,10 +74,13 @@
     <ClInclude Include="Nexus.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ObjectColider.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleColider.h" />
     <ClInclude Include="ParticleMgr.h" />
     <ClInclude Include="PickingSphereMgr.h" />
     <ClInclude Include="SelectedSpells.h" />
+    <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
@@ -213,10 +216,13 @@
     <ClCompile Include="Nexus.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ObjectColider.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleColider.cpp" />
     <ClCompile Include="ParticleMgr.cpp" />
     <ClCompile Include="PickingSphereMgr.cpp" />
     <ClCompile Include="SelectedSpells.cpp" />
+    <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
