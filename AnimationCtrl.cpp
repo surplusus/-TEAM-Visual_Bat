@@ -119,9 +119,6 @@ void CAnimationCtrl::SetAnimationSet(string aniName)
 
 void CAnimationCtrl::BlendAnimationSet(string aniName)
 {
-	m_bIsBlending = true;
-	m_fTimeDuringBlending = 0.f;
-
 	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
 	LPD3DXANIMATIONSET pNextAnimSet = NULL;
 
@@ -131,10 +128,14 @@ void CAnimationCtrl::BlendAnimationSet(string aniName)
 
 	m_dPeriodCurAnimSet = pPrevAnimSet->GetPeriod();
 	string sCompName = pPrevAnimSet->GetName();
+	
 	if (aniName == sCompName) {
 		SAFE_RELEASE(pPrevAnimSet);
 		return;
 	}
+
+	m_bIsBlending = true;
+	m_fTimeDuringBlending = 0.f;
 
 	m_pAniCtrl->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAniCtrl->SetTrackDesc(1, &stTrackDesc);
@@ -145,7 +146,7 @@ void CAnimationCtrl::BlendAnimationSet(string aniName)
 
 	m_pAniCtrl->SetTrackWeight(0, 0.0f);
 	m_pAniCtrl->SetTrackWeight(1, 1.0f);
-
+	
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
 }
@@ -234,6 +235,9 @@ void CAnimationCtrl::DisplayAniSetNameOnConsole()
 		cout << m_vAllAnimationName[i] << " \n";
 	}
 }
+
+
+
 
 CAnimationCtrl * CAnimationCtrl::Clone()
 {

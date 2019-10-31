@@ -1,10 +1,9 @@
 #pragma once
 #include"Scene.h"
-class CObj;
-class CShader;
-//class CCamera;
-//class CXFileUtil;
+
+class CParticle;
 class CObjMgr;
+class CHeightMap;
 class CGameScene: public CScene
 {
 public:
@@ -24,8 +23,10 @@ private:
 	HRESULT InitAsset();
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-	CObj* pShader;
-	CShader* TestShader;
+	CParticle* TestParticle;
+private:;
+	CHeightMap*			m_pHeightMap ;
+public:
+	void LetObjectKnowHeightMap();
 };
 

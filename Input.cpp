@@ -5,6 +5,9 @@
 CInput::CInput(void)
 	:m_pInput(NULL), m_pKeyBoard(NULL), m_pMouse(NULL), m_MousePicker(NULL)
 {
+	ZeroMemory(m_KeyState, sizeof(BYTE) * 256);
+	ZeroMemory(&m_MouseState, sizeof(DIMOUSESTATE));
+	ZeroMemory(&m_MouseDefaultState, sizeof(DIMOUSESTATE));
 }
 
 CInput::~CInput(void)
@@ -14,9 +17,6 @@ CInput::~CInput(void)
 
 HRESULT CInput::InitInputDevice(HINSTANCE hInst, HWND hWnd)
 {
-	ZeroMemory(m_KeyState, sizeof(BYTE) * 256);
-	ZeroMemory(&m_MouseState, sizeof(DIMOUSESTATE));
-
 	if (FAILED(DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8
 		, (void**)&m_pInput, NULL)))
 		return E_FAIL;
@@ -54,9 +54,9 @@ HRESULT CInput::InitInputDevice(HINSTANCE hInst, HWND hWnd)
 
 void CInput::SetInputState(void)
 {
-
 	m_pKeyBoard->GetDeviceState(sizeof(m_KeyState), m_KeyState);
-	m_pMouse->GetDeviceState(sizeof(m_MouseState), &m_MouseState);
+	memcpy(&m_MouseDefaultState, &m_MouseState, sizeof(DIMOUSESTATE));
+	m_pMouse->GetDeviceState(sizeof(DIMOUSESTATE), &m_MouseState);
 }
 
 void CInput::Release(void)

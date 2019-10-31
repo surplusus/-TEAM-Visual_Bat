@@ -44,19 +44,20 @@ bool CMinion::Render_PickingShere()
 	if (m_pMeshSphere != nullptr) {
 		D3DMATERIAL9 mtrl;
 		ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-		if (m_SphereForPick.isPicked) {
-			mtrl.Diffuse.r = mtrl.Ambient.r = 1.f;
-			mtrl.Diffuse.g = mtrl.Ambient.g = 0.f;
-			mtrl.Diffuse.b = mtrl.Ambient.b = 0.f;
-			mtrl.Diffuse.a = mtrl.Ambient.a = 1.f;
+		/*if (m_SphereForPick.isPicked) */{
+			mtrl.Diffuse.r = mtrl.Ambient.r = mtrl.Specular.r = 1.f;
+			mtrl.Diffuse.g = mtrl.Ambient.g = mtrl.Specular.g = 0.f;
+			mtrl.Diffuse.b = mtrl.Ambient.b = mtrl.Specular.b = 0.f;
+			mtrl.Diffuse.a = mtrl.Ambient.a = mtrl.Specular.a = 1.f;
 		}
-		else
+		/*else
 		{
 			mtrl.Diffuse.r = mtrl.Ambient.r = 1.f;
 			mtrl.Diffuse.g = mtrl.Ambient.g = 1.f;
 			mtrl.Diffuse.b = mtrl.Ambient.b = 1.f;
 			mtrl.Diffuse.a = mtrl.Ambient.a = 1.f;
-		}
+		}*/
+		GET_DEVICE->SetTexture(0,NULL);
 		GET_DEVICE->SetMaterial(&mtrl);
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pMeshSphere->DrawSubset(0);
@@ -71,4 +72,11 @@ void CMinion::SetDirectionToNextPoint()
 	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
 	m_Info.vDir = m_Info.vPos - m_vNextPoint;
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
+}
+
+void CMinion::SetPosition(const D3DXVECTOR3 * pos)
+{
+	m_Info.vPos.x = pos->x;
+	m_Info.vPos.y = pos->y;
+	m_Info.vPos.z = pos->z;
 }

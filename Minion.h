@@ -25,6 +25,7 @@ protected:
 	bool				Render_PickingShere();
 	void				SetDirectionToNextPoint();
 public:
+	void				SetPosition(const D3DXVECTOR3* pos);
 	void				SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
 };
 

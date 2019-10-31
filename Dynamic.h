@@ -21,6 +21,7 @@ public:
 	virtual void		Progress()	 PURE;
 	virtual void		Render()	 PURE;
 	virtual void		Release()	 PURE;
-
+public:
+	
 };
 

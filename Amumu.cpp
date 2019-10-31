@@ -1,7 +1,6 @@
 #include "BaseInclude.h"
 #include "Amumu.h"
 #include "ThreadPool.h"
-#include "Atrox.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
 #include "Ray.h"
