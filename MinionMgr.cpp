@@ -1,7 +1,7 @@
 #include "BaseInclude.h"
 #include "MinionMgr.h"
 #include "Minion.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "MeleeMinion.h"
 #include "ObjMgr.h"
 
@@ -32,7 +32,7 @@ void CMinionMgr::CreateMinions()
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion2");
 	
-	//GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
+	//GET_SINGLE(SoundMgr)->PlayAnnouncerMention("createminion");
 	
 	this->Initialize();
 }

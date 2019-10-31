@@ -11,7 +11,7 @@
 #include "ThreadPool.h"
 #include <sstream>
 
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "Amumu.h"
 #include "Zealot.h"
 #include "SummonTerrain.h"

@@ -14,7 +14,7 @@ CMeleeMinion::~CMeleeMinion()
 
 HRESULT CMeleeMinion::Initialize()
 {
-	HRESULT res = CloneMesh(GetDevice(), L"Minion", &m_pAnimationCtrl);
+	HRESULT res = CloneMesh(GetDevice(), L"MeleeMinion", &m_pAnimationCtrl);
 	
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
@@ -45,7 +45,7 @@ void CMeleeMinion::Progress()
 void CMeleeMinion::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	Mesh_Render(GetDevice(), L"Minion");
+	Mesh_Render(GetDevice(), L"MeleeMinion");
 	Render_PickingShere();
 }
 

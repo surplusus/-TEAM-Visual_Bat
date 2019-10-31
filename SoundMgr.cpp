@@ -1,12 +1,12 @@
 #include "BaseInclude.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "EventMgr.h"
 #include <sstream>
 #include <fstream>
 
 using namespace FMOD;
 
-SoundManager::~SoundManager()
+SoundMgr::~SoundMgr()
 {
 	for (auto it = m_mappSounds.begin(); it != m_mappSounds.end(); it++)
 		m_result = it->second->release();
@@ -23,10 +23,10 @@ SoundManager::~SoundManager()
 	}
 	m_mappSounds.clear();
 	//=========== Unsubscribe Events ==========//
-	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundManager::OnNoticeTestSoundEvent);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &SoundMgr::OnNoticeTestSoundEvent);
 }
 
-void SoundManager::SetUp()
+void SoundMgr::SetUp()
 {
 	unsigned int version;
 	//FMOD_System_Create(&m_pSystem);
@@ -57,17 +57,17 @@ void SoundManager::SetUp()
 	//FMOD_System_CreateSound(m_pSystem, "Resource/Sound/welcome.wav", FMOD_LOOP_NORMAL, 0, &sound); ErrCheck(m_result);
 	
 	//=========== Subscribe Events ==========//
-	GET_SINGLE(EventMgr)->Subscribe(this, &SoundManager::OnNoticeTestSoundEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this, &SoundMgr::OnNoticeTestSoundEvent);
 }
 
-void SoundManager::Update()
+void SoundMgr::Update()
 {
 	m_pSystem->update();
 	if (m_mapAlarm.size() != 0)
 		m_cumulativeTime += g_fDeltaTime;
 }
 
-void SoundManager::StopBGM()
+void SoundMgr::StopBGM()
 {
 	bool isPlaying;
 	m_pEzrealChannel->isPlaying(&isPlaying);
@@ -76,7 +76,7 @@ void SoundManager::StopBGM()
 		m_pEzrealChannel->stop();
 }
 
-void SoundManager::VolumeUp()
+void SoundMgr::VolumeUp()
 {
 	if (m_fVolume <= 1.f)
 	{
@@ -94,7 +94,7 @@ void SoundManager::VolumeUp()
 	m_bDirty = true;
 }
 
-void SoundManager::VolumeDown()
+void SoundMgr::VolumeDown()
 {
 	if (m_fVolume >= 0.f)
 	{
@@ -111,7 +111,7 @@ void SoundManager::VolumeDown()
 	m_bDirty = true;
 }
 
-void SoundManager::ErrCheck(FMOD_RESULT result)
+void SoundMgr::ErrCheck(FMOD_RESULT result)
 {
 	string strText;
 	if (result != FMOD_OK)
@@ -121,7 +121,7 @@ void SoundManager::ErrCheck(FMOD_RESULT result)
 	}
 }
 
-bool SoundManager::PlayOnTime(float endsec, int idx)
+bool SoundMgr::PlayOnTime(float endsec, int idx)
 {
 	bool ringing = false;
 	if (m_mapAlarm.find(idx) == m_mapAlarm.end()) {
@@ -142,28 +142,28 @@ bool SoundManager::PlayOnTime(float endsec, int idx)
 	return ringing;
 }
 
-bool SoundManager::PlayUdyrSound(T_SOUND type)
+bool SoundMgr::PlayUdyrSound(T_SOUND type)
 {
 	if (T_SOUND::ANNOUNCER_END > type || T_SOUND::Udyr_END <= type)
 		return false;
 	return PlaySoundRegistered(type, m_pUdyrChannel);
 }
 
-bool SoundManager::PlayEzrealSound(T_SOUND type)
+bool SoundMgr::PlayEzrealSound(T_SOUND type)
 {
 	if (T_SOUND::Udyr_END > type || T_SOUND::Ezreal_END <= type)
 		return false;
 	return PlaySoundRegistered(type, m_pEzrealChannel);
 }
 
-bool SoundManager::PlayAnnouncerMention(T_SOUND type)
+bool SoundMgr::PlayAnnouncerMention(T_SOUND type)
 {
 	if (type >= T_SOUND::ANNOUNCER_END)
 		return false;
 	return PlaySoundRegistered(type, m_pAnnouncerChannel);
 }
 
-bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
+bool SoundMgr::PlaySoundRegistered(T_SOUND type, Channel* channel)
 {
 	auto pSound = m_mappSounds.find(static_cast<int>(type));
 	if (pSound != m_mappSounds.end())
@@ -183,7 +183,7 @@ bool SoundManager::PlaySoundRegistered(T_SOUND type, Channel* channel)
 	return false;
 }
 
-void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
+void SoundMgr::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 {
 	// 이벤트 안쓸듯
 	PlayAnnouncerMention(ANNOUNCER_Createminion);
@@ -191,7 +191,7 @@ void SoundManager::OnNoticeTestSoundEvent(ANNOUNCEEVENT * evt)
 	delete evt;
 }
 
-void SoundManager::ParseSoundPathListFile(string sFilePath)
+void SoundMgr::ParseSoundPathListFile(string sFilePath)
 {
 	ifstream file(sFilePath.c_str(), ifstream::in);
 

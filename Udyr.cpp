@@ -1,6 +1,6 @@
 #include "BaseInclude.h"
 #include "Udyr.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
 
@@ -119,28 +119,28 @@ void CUdyr::QWERControl()
 	if (CheckPushKeyOneTime(VK_Q)) {
 		m_iStateFlag = (1 << STATETYPE_IDLE);
 		//m_pAnimationCtrl->BlendAnimationSet("Attack_Left");
-		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
+		//GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr1");
 	}
 	if (CheckPushKeyOneTime(VK_W)) {
 		//m_pAnimationCtrl->BlendAnimationSet("Idle");
-		//GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+		//GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr2");
 	}
 
 	// sound check
 	//if (CheckPushKeyOneTime(VK_1))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
 	//if (CheckPushKeyOneTime(VK_2))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Idle);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Idle);
 	//if (CheckPushKeyOneTime(VK_3))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Search);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Search);
 	//if (CheckPushKeyOneTime(VK_4))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Run);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Run);
 	//if (CheckPushKeyOneTime(VK_5))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Taunt);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Taunt);
 	//if (CheckPushKeyOneTime(VK_6))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Dance);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Dance);
 	//if (CheckPushKeyOneTime(VK_7))
-	//	GET_SINGLE(SoundManager)->PlayUdyrSound(T_SOUND::Udyr_Death);
+	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Death);
 }
 
 bool CUdyr::Func1_IDLE()
@@ -166,11 +166,11 @@ bool CUdyr::Func3_RUN()
 	//if (!m_vStateFlag[STATETYPE_RUN])
 	//	m_vStateFlag[STATETYPE_IDLE] = true;
 	if ((m_iStateFlag & (1 << STATETYPE_TURNING)) != 0)
-	//	m_iStateFlag = (Update_vPos_ByDestPoint(&m_MouseHitPoint, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
-		m_iStateFlag = (TurnSlowly(&m_pTargetObj->GetInfo()->vPos)) ? (m_iStateFlag |= (1 << STATETYPE_TURNING)) : (m_iStateFlag &= ~(1 << STATETYPE_TURNING));
+		m_iStateFlag = (Update_vPos_ByDestPoint(&m_MouseHitPoint, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
+		//m_iStateFlag = (TurnSlowly(&m_pTargetObj->GetInfo()->vPos)) ? (m_iStateFlag |= (1 << STATETYPE_TURNING)) : (m_iStateFlag &= ~(1 << STATETYPE_TURNING));
 
-	//m_iStateFlag = (Update_vPos_ByDestPoint(&m_MouseHitPoint, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
-	m_iStateFlag = (Update_vPos_ByDestPoint(&m_pTargetObj->GetInfo()->vPos, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
+	m_iStateFlag = (Update_vPos_ByDestPoint(&m_MouseHitPoint, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
+	//m_iStateFlag = (Update_vPos_ByDestPoint(&m_pTargetObj->GetInfo()->vPos, speed)) ? (m_iStateFlag |= (1 << STATETYPE_RUN)) : (m_iStateFlag &= ~(1 << STATETYPE_RUN));
 	if (!(m_iStateFlag & (1 << STATETYPE_RUN)))
 		m_iStateFlag = 1 << STATETYPE_IDLE;
 	return true;
