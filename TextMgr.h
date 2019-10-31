@@ -52,6 +52,19 @@ struct  CTEXT_NAME
 	CText*				m_pBarrier_name;
 };
 
+// jiyun
+struct ST_STATE_BOX {
+	CText * m_pA;
+	CText * m_pB;
+	CText * m_pC;
+};
+
+struct ST_STATE_STRING {
+	string m_sA;
+	string m_sB;
+	string m_sC;
+};
+
 class CTextMgr
 {
 public:
@@ -59,8 +72,6 @@ public:
 	~CTextMgr();
 public:
 	void Initialize();
-
-	void Render();
 
 	void Render(UI_SPELLTYPE type = SPELLTYPE_End);
 	void Render_time(bool Reddy);
@@ -92,10 +103,17 @@ public:
 	void SetMaxTime(float MAXTIME_) { m_MAXTIME = MAXTIME_; }
 	void Reelase();
 	int GetMaxTime() { return (int)m_MAXTIME; }
+	
 	//>> 필요한거 작업
-
+	
 private:
+	CText * m_StateBox;
+	string m_sState;
 
 public:
+	float value;
+
+	void Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom);
+	void Render_Text();
 };
 

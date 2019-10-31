@@ -6,11 +6,11 @@
 //#include "Font.h"
 #include "CubePC.h"
 #include "C2DMouse.h"
+#include "TextMgr.h"
 
 cGameHUD::cGameHUD()
 {
 	m_isLButtonDown = false;
-	m_StartTime = g_fDeltaTime;
 }
 
 
@@ -65,6 +65,13 @@ void cGameHUD::Initialize()
 	m_mapImage["garen"] = garen;
 	m_mapImage["garen"]->Initialize();*/
 
+	CImage_Loader * character_state = new CImage_Loader(
+		"Resource/jiyun/state.png",
+		D3DXVECTOR3(WINSIZEX - 905, WINSIZEY - 101, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	m_mapImage["character_state"] = character_state;
+	m_mapImage["character_state"]->Initialize();
+
 	CImage_Loader * champion = new CImage_Loader(
 		"Resource/jiyun/champion-01.png",
 		D3DXVECTOR3(WINSIZEX - 784, WINSIZEY - 98, 0),
@@ -91,7 +98,7 @@ void cGameHUD::Initialize()
 
 	GET_SINGLE(cCubePC)->Initialize();
 
-	Ezreal.m_Skill[0] = CImage_Loader(
+	/*Ezreal.m_Skill[0] = CImage_Loader(
 		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
 		D3DXVECTOR3(376, 713, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
@@ -101,7 +108,20 @@ void cGameHUD::Initialize()
 		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
 		D3DXVECTOR3(376, 660, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal_copy.m_Skill[0].Initialize();
+	Ezreal_copy.m_Skill[0].Initialize();*/
+
+	CTextMgr * TextA = new CTextMgr();
+	m_mapTextMgr["TextA"] = TextA;
+	m_mapTextMgr["TextA"]->Initialize_Text(
+		40,
+		m_mapImage["character_state"]->GetPosition().x + 120, 
+		
+		m_mapImage["character_state"]->GetPosition().y + 15, 
+		
+		m_mapImage["character_state"]->GetPosition().x,
+		
+		m_mapImage["character_state"]->GetImageInfo().Height
+	+ m_mapImage["character_state"]->GetPosition().y);
 }
 
 void cGameHUD::Progress()
@@ -109,37 +129,7 @@ void cGameHUD::Progress()
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 
-	if (CheckPushKey(DIK_RIGHT))
-	{
-		//(m_mapImage["exam"]->GetImagePos()->x)++;
-
-		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().x)++;
-	}
-
-	if (CheckPushKey(DIK_LEFT))
-	{
-		//(m_mapImage["exam"]->GetImagePos()->x)--;
-
-		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().x)--;
-	}
-	
-	if (CheckPushKey(DIK_UP))
-	{
-		//(m_mapImage["exam"]->GetImagePos()->y)--;
-
-		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().y)--;
-	}
-
-	if (CheckPushKey(DIK_DOWN))
-	{
-		// (m_mapImage["exam"]->GetImagePos()->y)++;
-
-		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().y)++;
-	}
+	Progress_Minimap();
 
 	GET_SINGLE(cCubePC)->Progress();
 
@@ -154,8 +144,6 @@ void cGameHUD::Progress()
 	if (m_isLButtonDown)
 	{
 	}*/
-
-	float m_CurrentTime = g_fDeltaTime;
 }
 
 void cGameHUD::Render()
@@ -168,14 +156,18 @@ void cGameHUD::Render()
 	m_mapImage["spell"]->Render();
 	m_mapImage["item"]->Render();
 	//m_mapImage["garen"]->Render();
+
+	m_mapImage["character_state"]->Render();
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
 
 	GET_SINGLE(cCubePC)->Render();
 
-	Ezreal.m_Skill[0].Render();
-	Ezreal_copy.m_Skill[0].Render();
+	/*Ezreal.m_Skill[0].Render();
+	Ezreal_copy.m_Skill[0].Render();*/
+
+	m_mapTextMgr["TextA"]->Render_Text();
 }
 
 void cGameHUD::Release()
@@ -188,9 +180,33 @@ void cGameHUD::Release()
 
 	Ezreal.m_Skill[0].Release();
 	Ezreal_copy.m_Skill[0].Release();
+
+	m_mapTextMgr["TextA"]->Reelase();
 }
 
-void cGameHUD::Render_Text()
+void cGameHUD::Progress_Minimap()
 {
-	/*m_Text->Render("abcd");*/
+	if (CheckPushKey(DIK_RIGHT))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().x)++;
+	}
+
+	if (CheckPushKey(DIK_LEFT))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().x)--;
+	}
+
+	if (CheckPushKey(DIK_UP))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().y)--;
+	}
+
+	if (CheckPushKey(DIK_DOWN))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.22f;
+		(m_mapImage["mini_cham"]->Get_Position().y)++;
+	}
 }

@@ -125,9 +125,42 @@ void CTextMgr::Initialize()
 	m_pNotice->m_sInfo = m_sNotice;
 }
 
-void CTextMgr::Render() // << 나머지
+// >> jiyun's code
+
+// Initialize_Text(값, Rect 왼쪽, Rect 위, Rect 오른쪽, Rect 아래)
+void CTextMgr::Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom)
 {
+	// jiyun
+	RECT box;
+	SetRect(&box, xLeft, yTop, xRight, yBottom);
+
+	m_StateBox = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 11, 6, L"DejavuSans", box, m_sState);
+	m_StateBox->m_Rect = box;
+	
+	value = val;
+
+	char buffer[126];
+	ZeroMemory(&buffer, sizeof(char*) * 126);
+	sprintf(&buffer[0],"%0.f\n", value);
+
+	m_sState.insert(126, buffer);
+	
+	m_StateBox->m_sInfo = m_sState;
 }
+
+// Render() 로 하면 오류나서 지우고 새로 Render_Text()라는 함수를 만듦
+void CTextMgr::Render_Text()
+{
+	m_StateBox->m_pFont->DrawTextA(
+		NULL,
+		m_StateBox->m_sInfo.c_str(),
+		m_StateBox->m_sInfo.length(),
+		&m_StateBox->m_Rect,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 0)
+	);
+}
+//<<
 
 void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 {
@@ -375,4 +408,7 @@ void CTextMgr::Reelase()
 	CtSpell_Info.m_pIgnite		= NULL;
 	CtSpell_Info.m_pSmite		= NULL;
 	CtSpell_Info.m_pTeleport	= NULL;
+
+	//jiyun
+	SAFE_DELETE(m_StateBox);
 }

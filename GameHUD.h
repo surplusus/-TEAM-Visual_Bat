@@ -1,6 +1,8 @@
 #pragma once
 #include"Image_Loader.h"
 
+class CTextMgr;
+
 struct SkillList {
 	CImage_Loader m_Skill[5];
 };
@@ -18,7 +20,7 @@ public:
 	void Render();
 	void Release();
 
-	void Render_Text();
+	void Progress_Minimap();
 
 private:
 	map<string, CImage_Loader *> m_mapImage;
@@ -29,6 +31,6 @@ private:
 	SkillList Ezreal;
 	SkillList Ezreal_copy;
 
-	float m_StartTime;
+	map<string, CTextMgr *> m_mapTextMgr;
 };
 

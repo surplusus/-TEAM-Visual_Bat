@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class cGameHUD;
+class CTextMgr;
 
 class cHUDScene
 	: public CScene
