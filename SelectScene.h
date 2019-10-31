@@ -89,5 +89,7 @@ private:
 	CImage_Loader*			m_ReddyButton;
 	bool					m_Reddy;
 	bool					m_bChampCheck;
+	CImage_Loader*			m_ReddyState;
+	CImage_Loader*			m_TimerImage;
 };
 

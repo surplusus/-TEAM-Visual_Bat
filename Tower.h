@@ -13,6 +13,7 @@ struct ST_ABILITY
 };
 
 class CObjMgr;
+class CHeightMap;
 class CTower
 	: public CDynamic
 {
@@ -22,18 +23,21 @@ public:
 	virtual ~CTower();
 protected:
 	CObjMgr*				m_ObjMgr;
-	float					m_fSize = 1.f;
+	CHeightMap*				m_pHeightMap;
+	float					m_fSize;
+	D3DXVECTOR3				m_MouseHitPoint;
+	bool					m_bPicked;
+	SPHERE					m_SphereForPick;
+	LPD3DXMESH				m_pMeshSphere;
 protected:
-	// Update
 	void		UpdateWorldMatrix();
-// Thread or 지금은 작은 맵이라 그냥 개별 챔피언이 부름
-	static bool	MapCheckThreadLoop(int number, const VTXTEX* vtx);
-protected:
-	ST_ABILITY			m_stAbil;
+	const VTXTEX*		GetVertexInHeightMap();
+	DWORD&				GetVertexNumInHeightMap();
 public:
-	virtual	HRESULT		Initialize()	= 0;
-	virtual void		Progress()		= 0;
-	virtual void		Render()		= 0;
-	virtual void		Release()		= 0;
+	virtual	HRESULT		Initialize()	 = 0;
+	virtual void		Progress()		 = 0;
+	virtual void		Render()		 = 0;
+	virtual void		Release()		 = 0;
+	void				SetHeightMap(CHeightMap* pHeightMap);
 };
 
