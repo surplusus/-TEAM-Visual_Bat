@@ -5,7 +5,7 @@ public:
 	CBound();
 	virtual ~CBound();
 protected:
-	LPD3DXMESH m_pMesh;
+	LPD3DXMESH  m_pMesh;
 	D3DXVECTOR3 m_vMin, m_vMax;
 	D3DXVECTOR3 m_vCenter;
 	float		m_fRadius;

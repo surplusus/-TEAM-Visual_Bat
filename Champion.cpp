@@ -66,7 +66,7 @@ bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos)
 			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
 	}
 
-	return false;
+	return true;
 }
 
 void CChampion::UpdateWorldMatrix()

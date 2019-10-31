@@ -3,7 +3,7 @@
 #include <string>
 std::string;
 class CObj;
-class SoundManager;
+class SoundMgr;
 class GuhyunScene;
 
 typedef struct _tagEvent
@@ -29,3 +29,10 @@ typedef struct _tagRegisterObj : EVENT
 		: m_result(result) {}
 	std::string* m_result;
 } REGISTEREVENT;
+
+typedef struct _tagPickingSphere : EVENT
+{
+	_tagPickingSphere(CObj* picked)
+		: m_pObj(picked) {}
+	CObj * m_pObj;
+}PICKSPHERE;

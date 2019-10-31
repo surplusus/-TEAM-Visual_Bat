@@ -3,7 +3,7 @@
 #include "Ray.h"
 #include "ObjMgr.h"
 #include "HeightMap.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 
 CNexus::CNexus()
 {

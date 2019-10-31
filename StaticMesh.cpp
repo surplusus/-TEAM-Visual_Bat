@@ -78,5 +78,6 @@ void CStaticMesh::Render(LPDIRECT3DDEVICE9 pDevice, const BONE * pRootBone)
 	{
 		pDevice->SetTexture(0, m_pTextures[i]);
 		m_pMesh->DrawSubset(i);
+		pDevice->SetTexture(0, NULL);
 	}
 }
