@@ -31,6 +31,8 @@ CSelectScene::CSelectScene()
 	, m_ReddyButton(NULL)
 	, m_Reddy(false)
 	, m_bChampCheck(false)
+	, m_ReddyState(NULL)
+	, m_TimerImage(NULL)
 {
 
 
@@ -46,9 +48,15 @@ HRESULT CSelectScene::Initialize()
 {
 	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/BackGround_.jpg", D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
 	m_vecBackGround.push_back(new CImage_Loader("Resource/choen/Select/Pick.png", D3DXVECTOR3(0, 250, 0), D3DXVECTOR3(1.0F, 1.0F, 0)));
-	
+
+
 	m_ReddyButton = new CImage_Loader("Resource/choen/Select/ReddyButton.png", D3DXVECTOR3(610, 470, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
+	m_ReddyState = new CImage_Loader("Resource/choen/Select/ReddyButton_.png", D3DXVECTOR3(610, 470, 0), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_ReddyButton->Initialize();
+	m_ReddyState->Initialize();
+
+	m_TimerImage = new CImage_Loader("Resource/choen/Select/Time.png", D3DXVECTOR3(191, 38, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
+	m_TimerImage->Initialize();
 
 	for (int i = 0; i < m_vecBackGround.size(); i++)
 	{
@@ -150,6 +158,7 @@ void CSelectScene::Render()
 	{
 		if (m_vecBackGround[i]) m_vecBackGround[i]->Render();
 	}
+	if(m_Reddy)	m_TimerImage->Render();
 
 	MyDrawFPSByTimeMgr();
 	
@@ -162,7 +171,7 @@ void CSelectScene::Render()
 
 	if (m_ReddyButton) m_ReddyButton->Render();
 
-	
+	if(m_Reddy)	m_ReddyState->Render();
 }
 
 void CSelectScene::Release()

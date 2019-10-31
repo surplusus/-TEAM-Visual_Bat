@@ -14,10 +14,10 @@ FolderPath ./Resource/Test/
 FileName TestFloor.x
 ConsoleText "Floor File Load Start"
 MeshType 0
--Minion-
+-MeleeMinion-
 bComplete false
-ObjName Minion
+ObjName MeleeMinion
 FolderPath ./Resource/Minion/
 FileName Minion_Melee_Blue.x
-ConsoleText "Minion File Loaded"
+ConsoleText "MeleeMinion File Loaded"
 MeshType 1

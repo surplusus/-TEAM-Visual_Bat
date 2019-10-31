@@ -14,7 +14,16 @@ Render() <- 파라메터 있는건 스펠용이라 없는거 만들어 놓음
 */
 
 
-CTextMgr::CTextMgr() : m_vpos(0, 0, 0), m_MAXTIME(80.0f)
+CTextMgr::CTextMgr()
+	: m_vpos(0, 0, 0)
+	, m_MAXTIME(80.0f)
+	, m_fSec(0.0f)
+	, m_fMin(0.0f)
+	, m_nCount(0)
+	, m_CS(NULL)
+	, m_nKill(0)
+	, m_nDeath(0)
+	, m_nAsist(0)
 {
 	{
 		Spell_list.m_cleanse = "챔피언에 걸린 모든 이동 불가와(제압 및 공중\n으로 띄우는 효과 제외) 소환사 주문에 의한 해\n로운 효과를 제거하고 새로 적용되는 이동 불가\n 효과들의 지속시간을 3초가 65 % 감소시킵니\n다.\n기본 재사용 대기 시간:210초";
@@ -123,6 +132,18 @@ void CTextMgr::Initialize()
 	m_pTime->m_Rect = time;
 	m_pNotice = new CText(*m_pAlarm);
 	m_pNotice->m_sInfo = m_sNotice;
+
+	RECT rc;
+	SetRect(&rc, 1000, 5, 1000, 10);
+	
+	m_pSec = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 5, L"Dejavu Sans", rc, string(""));
+	
+	m_pMin = new CText(*m_pSec);
+	m_pMin->m_Rect = RECT{ m_pSec->m_Rect.left - 20, m_pSec->m_Rect.top, m_pSec->m_Rect.right - 20, m_pSec->m_Rect.bottom };
+
+	m_TimeDivide = new CText(*m_pSec);
+	m_TimeDivide->m_sInfo = string(" : ");
+	m_TimeDivide->m_Rect = RECT{ m_pMin->m_Rect.left + 10, m_pMin->m_Rect.top, m_pMin->m_Rect.right + 10, m_pSec->m_Rect.bottom };
 }
 
 // >> jiyun's code
@@ -332,8 +353,6 @@ void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
 	default:
 		break;
 	}
-	Rectangle(GetDC(g_hWnd), CtSpell_Name.m_pCleanse_name->m_Rect.left, CtSpell_Name.m_pCleanse_name->m_Rect.top, CtSpell_Name.m_pCleanse_name->m_Rect.right, CtSpell_Name.m_pCleanse_name->m_Rect.bottom);
-	Rectangle(GetDC(g_hWnd), CtSpell_Info.m_pCleanse->m_Rect.left, CtSpell_Info.m_pCleanse->m_Rect.top, CtSpell_Info.m_pCleanse->m_Rect.right, CtSpell_Info.m_pCleanse->m_Rect.bottom);
 }
 
 void CTextMgr::Render_time(bool Reddy)
@@ -411,4 +430,91 @@ void CTextMgr::Reelase()
 
 	//jiyun
 	SAFE_DELETE(m_StateBox);
+}
+
+void CTextMgr::Progress()
+{
+	//DeltaTime = 1/60 초
+	m_fSec += g_fDeltaTime;
+	if (m_fSec >= 60)
+	{
+		m_fSec = 0;
+		m_fMin++;
+	}
+}
+
+void CTextMgr::IngameTimer()
+{
+	m_pSec->m_sInfo = to_string((int)m_fSec);
+	m_pMin->m_sInfo = to_string((int)m_fMin);
+
+	m_pSec->m_pFont->DrawTextA(
+		NULL,
+		m_pSec->m_sInfo.c_str(),
+		m_pSec->m_sInfo.length(),
+		&m_pSec->m_Rect,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+
+	m_TimeDivide->m_pFont->DrawTextA(
+		NULL,
+		m_TimeDivide->m_sInfo.c_str(),
+		m_TimeDivide->m_sInfo.length(),
+		&m_TimeDivide->m_Rect,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+
+	m_pMin->m_pFont->DrawTextA(
+		NULL,
+		m_pMin->m_sInfo.c_str(),
+		m_pMin->m_sInfo.length(),
+		&m_pMin->m_Rect,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+}
+
+void CTextMgr::CS_Count()
+{
+	////m_nCount += count;
+	//string sCount = to_string(m_nCount);
+
+	//RECT rc;
+	//SetRect(&rc, 950, 5, 950, 10);
+	//m_CS = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 5, L"Dejavu Sans", rc, sCount);
+	//m_CS->m_pFont->DrawTextA(
+	//	NULL,
+	//	m_CS->m_sInfo.c_str(),
+	//	m_CS->m_sInfo.length(),
+	//	&m_CS->m_Rect,
+	//	DT_CENTER | DT_NOCLIP,
+	//	D3DCOLOR_XRGB(255, 255, 255)
+	//);
+}
+
+void CTextMgr::KDA_Count(int K, int D, int A)
+{
+	string sKill = to_string(m_nKill);
+	string sDeath = to_string(m_nDeath);
+	string sAsist = to_string(m_nAsist);
+	RECT rc;
+	SetRect(&rc, 900, 5, 900, 10);
+	m_Kill = new CText("Resource/choen/Fonts/DejaVuSans.ttf", 20, 5, L"Dejavu Sans", rc, sKill);
+	
+	m_Death = new CText(*m_Kill);
+	m_Death->m_sInfo = sDeath;
+
+	m_Asist = new CText(*m_Kill);
+	m_Asist->m_sInfo = sAsist;
+
+	m_Kill->m_pFont->DrawTextA(
+		NULL,
+		m_Kill->m_sInfo.c_str(),
+		m_Kill->m_sInfo.length(),
+		&m_Kill->m_Rect,
+		DT_CENTER | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
 }

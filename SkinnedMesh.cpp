@@ -145,8 +145,8 @@ void CSkinnedMesh::Render(LPDIRECT3DDEVICE9 pDevice, const BONE* pBone)
 
 				pDevice->SetMaterial(&pBoneMesh->vecMtrl[mtrl]);
 				pDevice->SetTexture(0, pBoneMesh->vecTexture[mtrl]);
-
 				pBoneMesh->MeshData.pMesh->DrawSubset(i);
+				pDevice->SetTexture(0, NULL);
 			}
 		}
 	}
