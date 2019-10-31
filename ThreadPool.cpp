@@ -44,7 +44,13 @@ ThreadPool::~ThreadPool() {
 	}
 }
 
+bool ThreadPool::PollThreadEnd(THREADMENU state)
+{
+	if (m_mapbComplete.find(state) == m_mapbComplete.end())
+		m_mapbComplete.insert(make_pair(state, false));
 
-
-
-// namespace ThreadPool
+	if (m_jobs_.empty())
+		m_mapbComplete[state] = true;
+	
+	return m_mapbComplete[state];
+}

@@ -1,6 +1,6 @@
 #include "BaseInclude.h"
 #include "PickingSphereMgr.h"
-
+#include "EventMgr.h"
 
 CPickingSphereMgr::CPickingSphereMgr()
 {
@@ -27,6 +27,7 @@ bool CPickingSphereMgr::GetSpherePicked(CObj* me, OUT SPHERE** sphere)
 			continue;
 		if (CheckPickingOnSphere(it.second)) {
 			*sphere = it.second;
+			GET_SINGLE(EventMgr)->Publish(new PICKSPHERE(it.first));
 			return true;
 		}
 	}

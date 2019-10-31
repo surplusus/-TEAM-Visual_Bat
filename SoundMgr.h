@@ -16,12 +16,12 @@ struct MyAlarm
 	bool isDead = false;
 };
 
-class SoundManager
+class SoundMgr
 {
-	DECLARE_SINGLETON(SoundManager);
+	DECLARE_SINGLETON(SoundMgr);
 private:
-	SoundManager() {}
-	~SoundManager();
+	SoundMgr() {}
+	~SoundMgr();
 public:
 	void SetUp();
 	void Update();
@@ -56,4 +56,4 @@ private:
 	void ParseSoundPathListFile(string sFilePath);
 };
 
-#define GET_SOUNDMGR SoundManager::GetInstance()
+#define GET_SOUNDMGR SoundMgr::GetInstance()

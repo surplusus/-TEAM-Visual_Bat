@@ -3,7 +3,7 @@
 #include "Ray.h"
 #include "ObjMgr.h"
 #include "HeightMap.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 
 CZealot::CZealot()
 	: m_bRunning(false)
@@ -91,31 +91,31 @@ void CZealot::QWERControl()
 	}
 	//if (CheckPushKeyOneTime(VK_2)) {
 	//	m_pAnimationCtrl->BlendAnimationSet(iAniIndex++);
-	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr1");
+	//	GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr1");
 	//}
 	//if (CheckPushKeyOneTime(VK_3)) {
 	//	m_pAnimationCtrl->BlendAnimationSet("Spell3");
-	//	GET_SINGLE(SoundManager)->PlayEffectSound("Udyr2");
+	//	GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr2");
 	//}
 	/*if (CheckPushKeyOneTime(VK_4)) {
 		m_pAnimationCtrl->BlendAnimationSet("Search");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr3");
+		GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr3");
 	}
 	if (CheckPushKeyOneTime(VK_5)) {
 		m_pAnimationCtrl->BlendAnimationSet("Run");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr4");
+		GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr4");
 	}
 	if (CheckPushKeyOneTime(VK_6)) {
 		m_pAnimationCtrl->BlendAnimationSet("Taunt");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr5");
+		GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr5");
 	}
 	if (CheckPushKeyOneTime(VK_7)) {
 		m_pAnimationCtrl->BlendAnimationSet("Dance");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr6");
+		GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr6");
 	}
 	if (CheckPushKeyOneTime(VK_8)) {
 		m_pAnimationCtrl->BlendAnimationSet("Death");
-		GET_SINGLE(SoundManager)->PlayEffectSound("Udyr7");
+		GET_SINGLE(SoundMgr)->PlayEffectSound("Udyr7");
 	}*/
 }
 

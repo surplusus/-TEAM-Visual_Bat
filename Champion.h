@@ -14,14 +14,16 @@ protected:
 	float					m_fSize;
 	D3DXVECTOR3				m_MouseHitPoint;
 	bool					m_bPicked;
+	
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
-	void		UpdateWorldMatrix();
-	void		SetDirectionToMouseHitPoint();
-	bool		SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
-	bool		Render_PickingShere();
-	bool		SearchPickingPointInHeightMap(int number, const VTXTEX* vtx);
+	bool				TurnSlowly(const D3DXVECTOR3* destPos);
+	void				UpdateWorldMatrix();
+	void				SetDirectionToMouseHitPoint();
+	bool				SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
+	bool				Render_PickingShere();
+	bool				SearchPickingPointInHeightMap(int number, const VTXTEX* vtx);
 	const VTXTEX*		GetVertexInHeightMap();
 	DWORD&				GetVertexNumInHeightMap();
 public:

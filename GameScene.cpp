@@ -11,9 +11,11 @@
 #include"Ezreal.h"
 #include"EzealQ_Particle.h"
 #include"ParticleMgr.h"
+#include"HeightMap.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
+	m_pHeightMap = NULL;
 }
 
 
@@ -40,27 +42,17 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-	
-	//CObj* ez = new CEzreal("SPELL1",true);
-	//ez->Initialize();
-
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal", ez)))
-	//	return E_FAIL;
-	//ez = new CEzreal("SPELL2",false);
-	//ez->Initialize();
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal", ez)))
-	//	return E_FAIL;
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-
+	LetObjectKnowHeightMap();
 }
 
 void CGameScene::Progress()
@@ -112,3 +104,15 @@ void CGameScene::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 }
 
+
+void CGameScene::LetObjectKnowHeightMap()
+{
+	m_pHeightMap = new CHeightMap();
+	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
+	CObj* pObj = nullptr;
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
+	if (pObj != nullptr) {
+		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+		return;
+	}
+}

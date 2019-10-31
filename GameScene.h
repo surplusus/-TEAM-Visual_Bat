@@ -3,6 +3,7 @@
 
 class CParticle;
 class CObjMgr;
+class CHeightMap;
 class CGameScene: public CScene
 {
 public:
@@ -23,5 +24,9 @@ private:
 public:
 	virtual void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	CParticle* TestParticle;
+private:;
+	CHeightMap*			m_pHeightMap ;
+public:
+	void LetObjectKnowHeightMap();
 };
 

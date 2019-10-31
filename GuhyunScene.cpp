@@ -6,7 +6,7 @@
 #include "SceneMgr.h"
 #include "ThreadPool.h"
 #include "Frustum.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
@@ -38,7 +38,7 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
-	#pragma region 이제 스레스 부분으로 갔음
+	#pragma region 이제 LoadingScene 부분으로 갔음
 	//=========== Add Mesh(Bounding) ===========//
 	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 	//{
@@ -139,10 +139,6 @@ HRESULT GuhyunScene::Setup()
 		GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 		SetRenderState(D3DRS_LIGHTING, true);
 	}
-	{	// Set InGame Sound
-		GET_SINGLE(SoundManager)->SetUp();
-	}
-
 	return S_OK;
 }
 
@@ -150,20 +146,20 @@ void GuhyunScene::SoundUpdate()
 {
 	m_fSceneTime += GetTime();
 	float time[3] = { 0.2f, 4.f, 5.f };
-	//if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
-	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("welcome");
+	//if (GET_SINGLE(SoundMgr)->PlayOnTime(1.f, 1)) {
+	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("welcome");
 	//	cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	//}
-	//if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
-	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("left30sec");
+	//if (GET_SINGLE(SoundMgr)->PlayOnTime(10.f, 2)) {
+	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("left30sec");
 	//	cout << "미니언 생성까지 30초 남았습니다." << endl;
 	//}
 	//
-	//if (GET_SINGLE(SoundManager)->PlayOnTime(40.f, 3)) {
-	//	GET_SINGLE(SoundManager)->PlayAnnouncerMention("createminion");
+	//if (GET_SINGLE(SoundMgr)->PlayOnTime(40.f, 3)) {
+	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("createminion");
 	//	cout << "미니언이 생성되었습니다." << endl;
 	//}
-	GET_SINGLE(SoundManager)->Update();
+	GET_SINGLE(SoundMgr)->Update();
 }
 
 void GuhyunScene::LetObjectKnowHeightMap()

@@ -29,6 +29,7 @@ void CEzealQ_Particle::Initalize()
 	Setup_MultiTexture();
 	SetUp_Particle();
 	InitRenderState();
+	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMesh, NULL);
 }
 
 void CEzealQ_Particle::Progress()
@@ -40,6 +41,8 @@ void CEzealQ_Particle::Progress()
 void CEzealQ_Particle::Render()
 {
 	Render_Particle();
+	Colistionbox();
+
 }
 
 void CEzealQ_Particle::Release()
@@ -53,7 +56,7 @@ void CEzealQ_Particle::SetUp_Particle()
 	D3DXMATRIXA16 matR, matWorld,matTrans,matScale;
 	D3DXVECTOR3 vScale = { 10,10,10 };
 
-	D3DXQUATERNION quatR(D3DXToRadian(m_fAngle[ANGLE_X]), D3DXToRadian(m_fAngle[ANGLE_Y]), D3DXToRadian(m_fAngle[ANGLE_X]), 1.f);
+	D3DXQUATERNION quatR(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_X], 1.f);
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixRotationQuaternion(&matR, &quatR);
@@ -106,7 +109,6 @@ void CEzealQ_Particle::Render_Particle()
 	if (m_vecVertexParticle.empty()) 
 		return;
 	D3DXMATRIX matWorld;
-	D3DXMatrixIdentity(&matWorld);
 	
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	{
@@ -175,10 +177,9 @@ void CEzealQ_Particle::Render_Particle()
 		m_vecVertexParticle.size(),
 		&m_vecVertexParticle[0],
 		sizeof(CUSTOMVERTEX));
-
 	RenderEnd_Particle();
 	SetTexture(0, NULL);	SetTexture(1, NULL);	SetTexture(2, NULL);
-
+	
 	
 }
 
@@ -296,9 +297,9 @@ bool CEzealQ_Particle::AddTail()
 		m_fLength -= 0.1f;
 		for (int i = 0; i < size; i++)
 		{
-			m_vecVertexParticle[i].p += (m_Info.vLook*-1 * g_fDeltaTime* (m_fSpeed));
+			m_vecVertexParticle[i].p += (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		}
-		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook*-1 * g_fDeltaTime* (m_fSpeed));
+		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_vecVertexParticle.push_back(m_VerTexInfo);
 
 	}
@@ -307,5 +308,16 @@ bool CEzealQ_Particle::AddTail()
 
 
 	
+}
+
+void CEzealQ_Particle::Colistionbox()
+{
+
+	if (!m_vecVertexParticle.empty()) {
+		SetTransform(D3DTS_WORLD, &m_Info.matWorld);
+		SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		GetDevice()->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertexParticle.size(), &m_vecVertexParticle[0], sizeof(CUSTOMVERTEX));
+		SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
 }
 

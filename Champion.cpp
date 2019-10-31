@@ -39,14 +39,45 @@ CChampion::~CChampion()
 
 }
 
+bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos)
+{
+	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
+	D3DXVECTOR3 vMouseNor;
+	D3DXVec3Normalize(&vMouseNor, &vMousePos);
+	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vMouseNor.y;
+	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
+	float fRadian = acosf(fDot);
+	float fDirLerped = fRadian / 7.f;
+
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+		return false;
+	}
+
+	D3DXVECTOR3 vLeft;
+	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
+	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+	}
+	else {
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+	}
+
+	return true;
+}
+
 void CChampion::UpdateWorldMatrix()
 {
 	D3DXMATRIX matRotX, matRotY, matRotZ;
 	D3DXMATRIX matScale, matRot, matTrans;
 	D3DXMatrixScaling(&matScale, m_fSize, m_fSize, m_fSize);
-	//if (_isnan(m_fAngle[ANGLE_Y]))	m_fAngle[ANGLE_Y] = 0.f;
+	if (_isnan(m_fAngle[ANGLE_Y]))
+		m_fAngle[ANGLE_Y] = 0.f;
 	D3DXMatrixRotationY(&matRot, m_fAngle[ANGLE_Y]);
-	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);
+	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matRot);	
 	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixIdentity(&m_Info.matWorld);
 	m_Info.matWorld = matScale * matRot * matTrans;
@@ -72,6 +103,15 @@ bool CChampion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 
 bool CChampion::Render_PickingShere()
 {
+	D3DMATERIAL9 mtrl;
+	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
+		mtrl.Diffuse.r = mtrl.Ambient.r = mtrl.Specular.r = 1.f;
+		mtrl.Diffuse.g = mtrl.Ambient.g = mtrl.Specular.g = 0.f;
+		mtrl.Diffuse.b = mtrl.Ambient.b = mtrl.Specular.b = 0.f;
+		mtrl.Diffuse.a = mtrl.Ambient.a = mtrl.Specular.a = 1.f;
+
+	GET_DEVICE->SetTexture(0, NULL);
+	GET_DEVICE->SetMaterial(&mtrl);
 	if (m_pMeshSphere != NULL) {
 		m_pMeshSphere->DrawSubset(0);
 		return true;

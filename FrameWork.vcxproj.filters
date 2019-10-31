@@ -34,9 +34,6 @@
     <Filter Include="ReSoureceSource">
       <UniqueIdentifier>{ab62e79c-c56e-49c3-ad18-ea3961785422}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReSoureceSource\XFileUtil">
-      <UniqueIdentifier>{07b045cc-c7d4-412b-a696-485775b7bbe6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{c65a738a-4e2f-4a34-9c12-2e30ce739940}</UniqueIdentifier>
     </Filter>
@@ -226,14 +223,8 @@
     <Filter Include="소스 파일\Scene\cheon">
       <UniqueIdentifier>{5d37e9f5-137b-49a6-b45b-031ffc5836c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\cheon\SelectScene">
-      <UniqueIdentifier>{6a6f6239-b3c0-4581-9e67-34133055009e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Scene\cheon\cheon_etc">
       <UniqueIdentifier>{238c40c2-f8fb-442a-b10b-42b4f69e5a1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\cheon\LoadScene">
-      <UniqueIdentifier>{33f92d37-a589-4285-a86c-780327d64234}</UniqueIdentifier>
     </Filter>
     <Filter Include="Text">
       <UniqueIdentifier>{10073328-25ec-4495-8f0a-5918ef383fe8}</UniqueIdentifier>
@@ -243,15 +234,6 @@
     </Filter>
     <Filter Include="소스 파일\02. Object\Champion\Ez">
       <UniqueIdentifier>{17617303-f336-4de8-a36c-1141675f9ccf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected">
-      <UniqueIdentifier>{f727c4d2-08eb-4535-98e7-7bc47468edea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Champ">
-      <UniqueIdentifier>{0884f528-bd86-48e1-834d-0ef0f34a9077}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Scene\cheon\LoadScene\Selected\Spell">
-      <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\02. Object\cheon_Tower">
       <UniqueIdentifier>{8d31df44-1cec-4216-a096-980ec4b11066}</UniqueIdentifier>
@@ -283,14 +265,23 @@
     <Filter Include="System\Behavior">
       <UniqueIdentifier>{c210d7f9-e2aa-4d03-bf3e-265fc9bcea41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cheon_Gauge">
-      <UniqueIdentifier>{2e6abe46-01c0-4df3-870c-b6039dd85aa4}</UniqueIdentifier>
+    <Filter Include="소스 파일\Scene\LoadScene">
+      <UniqueIdentifier>{33f92d37-a589-4285-a86c-780327d64234}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cheon_Gauge\Champ_Gauge">
-      <UniqueIdentifier>{7dc735e7-25fe-4f66-9900-178be901a6aa}</UniqueIdentifier>
+    <Filter Include="소스 파일\Scene\LoadScene\Selected">
+      <UniqueIdentifier>{f727c4d2-08eb-4535-98e7-7bc47468edea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cheon_Gauge\Minion_Gauge">
-      <UniqueIdentifier>{d83c423b-d6ff-43f1-b24a-d15396fe29cc}</UniqueIdentifier>
+    <Filter Include="소스 파일\Scene\LoadScene\Selected\Champ">
+      <UniqueIdentifier>{0884f528-bd86-48e1-834d-0ef0f34a9077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\LoadScene\Selected\Spell">
+      <UniqueIdentifier>{6c64dff7-39ec-4302-bba8-9389b9716a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\SelectScene">
+      <UniqueIdentifier>{6a6f6239-b3c0-4581-9e67-34133055009e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\LoadScene\LoadingFunctor">
+      <UniqueIdentifier>{13f703a8-2795-4bde-a84e-a080d5b2e636}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +323,6 @@
     </ClInclude>
     <ClInclude Include="SceneMgr.h">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="XFileUtil.h">
-      <Filter>ReSoureceSource\XFileUtil</Filter>
     </ClInclude>
     <ClInclude Include="TimeMgr.h">
       <Filter>System\SystemManager\00.TimeMgr</Filter>
@@ -474,9 +462,6 @@
     <ClInclude Include="Ray.h">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>System\SystemManager\SoundMgr</Filter>
-    </ClInclude>
     <ClInclude Include="Zealot.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
@@ -505,7 +490,7 @@
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClInclude>
     <ClInclude Include="SceneMediator.h">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
@@ -523,22 +508,22 @@
       <Filter>Jiyun</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="Spell_.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="SelectScene.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="DropBox.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="Champ.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="AbilityPage.h">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClInclude>
     <ClInclude Include="Image_Loader.h">
       <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
@@ -556,10 +541,10 @@
       <Filter>소스 파일\02. Object\Champion\Ez</Filter>
     </ClInclude>
     <ClInclude Include="SelectedSpells.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+      <Filter>소스 파일\Scene\LoadScene\Selected\Spell</Filter>
     </ClInclude>
     <ClInclude Include="SelectedPlayer.h">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+      <Filter>소스 파일\Scene\LoadScene\Selected\Champ</Filter>
     </ClInclude>
     <ClInclude Include="TextMgr.h">
       <Filter>Text</Filter>
@@ -612,14 +597,14 @@
     <ClInclude Include="EzealQ_Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="Gauge.h">
-      <Filter>cheon_Gauge</Filter>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>System\SystemManager\SoundMgr</Filter>
     </ClInclude>
-    <ClInclude Include="MinionGauge.h">
-      <Filter>cheon_Gauge\Minion_Gauge</Filter>
+    <ClInclude Include="CannonMinion.h">
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
-    <ClInclude Include="ChampGauge.h">
-      <Filter>cheon_Gauge\Champ_Gauge</Filter>
+    <ClInclude Include="LoadingFunctor.h">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -646,9 +631,6 @@
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
       <Filter>소스 파일\Maneger\00. SceneMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="XFileUtil.cpp">
-      <Filter>ReSoureceSource\XFileUtil</Filter>
     </ClCompile>
     <ClCompile Include="TimeMgr.cpp">
       <Filter>System\SystemManager\00.TimeMgr</Filter>
@@ -785,9 +767,6 @@
     <ClCompile Include="Ray.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>System\SystemManager\SoundMgr</Filter>
-    </ClCompile>
     <ClCompile Include="Zealot.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
@@ -810,7 +789,7 @@
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene</Filter>
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClCompile>
     <ClCompile Include="SceneMediator.cpp">
       <Filter>소스 파일\Scene\SceneMediator</Filter>
@@ -828,22 +807,22 @@
       <Filter>Jiyun</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="Spell_.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="SelectScene.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="DropBox.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="Champ.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="AbilityPage.cpp">
-      <Filter>소스 파일\Scene\cheon\SelectScene</Filter>
+      <Filter>소스 파일\Scene\SelectScene</Filter>
     </ClCompile>
     <ClCompile Include="Image_Loader.cpp">
       <Filter>소스 파일\Scene\cheon\cheon_etc</Filter>
@@ -858,10 +837,10 @@
       <Filter>소스 파일\02. Object\Champion\Ez</Filter>
     </ClCompile>
     <ClCompile Include="SelectedSpells.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Spell</Filter>
+      <Filter>소스 파일\Scene\LoadScene\Selected\Spell</Filter>
     </ClCompile>
     <ClCompile Include="SelectedPlayer.cpp">
-      <Filter>소스 파일\Scene\cheon\LoadScene\Selected\Champ</Filter>
+      <Filter>소스 파일\Scene\LoadScene\Selected\Champ</Filter>
     </ClCompile>
     <ClCompile Include="TextMgr.cpp">
       <Filter>Text</Filter>
@@ -914,14 +893,14 @@
     <ClCompile Include="EzealQ_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="Gauge.cpp">
-      <Filter>cheon_Gauge</Filter>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>System\SystemManager\SoundMgr</Filter>
     </ClCompile>
-    <ClCompile Include="MinionGauge.cpp">
-      <Filter>cheon_Gauge\Minion_Gauge</Filter>
+    <ClCompile Include="CannonMinion.cpp">
+      <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
-    <ClCompile Include="ChampGauge.cpp">
-      <Filter>cheon_Gauge\Champ_Gauge</Filter>
+    <ClCompile Include="LoadingFunctor.cpp">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
