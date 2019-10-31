@@ -283,6 +283,9 @@
     <Filter Include="소스 파일\Scene\LoadScene\LoadingFunctor">
       <UniqueIdentifier>{13f703a8-2795-4bde-a84e-a080d5b2e636}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gauge">
+      <UniqueIdentifier>{229d029e-7408-4063-81f4-1bc0682cb57f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -606,6 +609,15 @@
     <ClInclude Include="LoadingFunctor.h">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClInclude>
+    <ClInclude Include="ChampGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -901,6 +913,15 @@
     </ClCompile>
     <ClCompile Include="LoadingFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="ChampGauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="Gauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionGauge.cpp">
+      <Filter>Gauge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
