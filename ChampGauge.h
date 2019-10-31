@@ -12,5 +12,13 @@ public:
 	virtual void Progress() override;
 	virtual void Render() override;
 	virtual void Release() override;
+
+
+private:
+	void SetBlankGauge();
+	void SetGaugeCell();
+
+	void RenderBlankGauge();
+	void RenderCellGauge();
 };
 

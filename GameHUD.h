@@ -32,5 +32,6 @@ private:
 	bool m_isLButtonDown;
 
 	CGauge*						m_Gauge;
+	CGauge*						m_Minion;
 };
 

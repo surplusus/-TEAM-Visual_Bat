@@ -5,6 +5,7 @@
 
 CChampGauge::CChampGauge()
 {
+	m_MAXHP = 1.0f;
 	m_fDmg = 1.0f;
 }
 
@@ -16,9 +17,9 @@ CChampGauge::~CChampGauge()
 void CChampGauge::Initialize()
 {
 	SetLight();
-	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
-	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
-	m_vPosition = D3DXVECTOR3(0, 0, 0);
+	
+	SetBlankGauge();
+	SetGaugeCell();
 	//¾Æ·§ÂÊ »ï°¢Çü
 	VTXTEX v;
 	v.vPosition = D3DXVECTOR3(m_vPosition.x - 0.5f, m_vPosition.y + 1.0f, m_vPosition.z);
@@ -61,31 +62,51 @@ void CChampGauge::Progress()
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		m_fDmg -= 0.01f;
-		if (m_fDmg < 0.1f)
-			m_fDmg = 0.1f;
+		if (m_fDmg < 0.0f)
+			m_fDmg = 0.0f;
 	}
 	if (GetAsyncKeyState(VK_RETURN))
-		m_fDmg = 1.0f;
+	{
+		m_fDmg += 0.01f;
+		if (m_fDmg > 1.0f)
+			m_fDmg = 1.0f;
+	}
 }
 
 void CChampGauge::Render()
 {
-	D3DXMATRIXA16 matWorld, matT, matS;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 2.0f, m_vPosition.z);
-	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
-	matWorld = matT * matS;
-	
+	RenderBlankGauge();
+	RenderCellGauge();
+}
+
+void CChampGauge::Release()
+{
+	SAFE_RELEASE(m_pBlank);
+	SAFE_RELEASE(m_pCell);
+}
+
+void CChampGauge::SetBlankGauge()
+{
+	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
+}
+
+void CChampGauge::SetGaugeCell()
+{
+	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
+}
+
+void CChampGauge::RenderBlankGauge()
+{
+	D3DXMATRIXA16 matWorld, matT;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
+
+	matWorld = matT;
+
 	SetTransform(D3DTS_WORLD, &matWorld);
-	D3DMATERIAL9 mtrl;
-	ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
-	mtrl.Ambient.r = mtrl.Diffuse.r = mtrl.Specular.r = 1;
-	mtrl.Ambient.g = mtrl.Diffuse.g = mtrl.Specular.g = 1;
-	mtrl.Ambient.b = mtrl.Diffuse.b = mtrl.Specular.b = 1;
 
-	SetTexture(1, m_pBlank);
-	SetTexture(0, m_pCell);
 
-	GET_DEVICE->SetMaterial(&mtrl);
+	SetTexture(0, m_pBlank);
+
 	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
 
 	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
@@ -95,11 +116,28 @@ void CChampGauge::Render()
 		sizeof(VTXTEX)
 	);
 	SetTexture(0, NULL);
-	SetTexture(1, NULL);
 }
 
-void CChampGauge::Release()
+void CChampGauge::RenderCellGauge()
 {
-	SAFE_RELEASE(m_pBlank);
-	SAFE_RELEASE(m_pCell);
+	D3DXMATRIXA16 matWorld, matT, matS;
+	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
+	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
+	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 2.0f, m_vPosition.z);
+	matWorld = matS * matT;
+
+	SetTransform(D3DTS_WORLD, &matWorld);
+
+
+	SetTexture(0, m_pCell);
+
+	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
+
+	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		m_vecMultiVertex.size() / 3,
+		&m_vecMultiVertex[0],
+		sizeof(VTXTEX)
+	);
+	SetTexture(0, NULL);
 }
