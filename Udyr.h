@@ -1,6 +1,8 @@
 #pragma once
 #include "Champion.h"
 #include "BehaviorUdyr.h"
+namespace BT = BehaviorTree;
+
 class CUdyr : public CChampion
 {
 	using FUNCSTATE = function<bool(void)>;
@@ -19,7 +21,7 @@ private:
 	queue<FUNCSTATE>	m_queStateFunc;
 	CObj*				m_pTargetObj;
 	// << : Behavior
-	
+	BT::BehaviorTree*	m_pBehavior;
 	// >> : Behavior
 public:
 	virtual HRESULT Initialize() override;

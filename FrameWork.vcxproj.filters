@@ -298,6 +298,9 @@
     <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider">
       <UniqueIdentifier>{a4103b60-bfc6-43f2-acf3-738080443578}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
+      <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -645,6 +648,9 @@
     <ClInclude Include="BehaviorUdyr.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -964,6 +970,9 @@
     </ClCompile>
     <ClCompile Include="BehaviorUdyr.cpp">
       <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -74,6 +74,6 @@ private:
 	
 	void InitUpdate();
 public:
-	void TestCollisionEvent(COLLISIONEVENT* Evt);
+	void PaticleCollisionEvent(COLLISIONEVENT* Evt);
 };
 
