@@ -68,7 +68,7 @@ void CUdyr::Release()
 	SAFE_RELEASE(m_pAnimationCtrl);
 }
 
-void CUdyr::OnFindPickingSphere(PICKSPHERE * evt)
+void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
 	m_pTargetObj = evt->m_pObj;
 	delete evt;

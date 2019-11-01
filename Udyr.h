@@ -24,7 +24,7 @@ public:
 	virtual void	Release()    override;
 
 	virtual void	ChangeAniSetByState() override {}
-	void			OnFindPickingSphere(PICKSPHERE* evt);
+	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
 private:
 	void			MouseControl();
 	void			QWERControl();

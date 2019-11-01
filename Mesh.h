@@ -27,7 +27,7 @@ public:
 
 	virtual void			Render(LPDIRECT3DDEVICE9 pDevice, const BONE* pRootBone = NULL) PURE;
 	virtual void			Release();
-	LPD3DXMESH				GetMesh() { return m_pMesh; }
+	LPD3DXMESH		GetMesh() { return m_pMesh; }
 
 
 
