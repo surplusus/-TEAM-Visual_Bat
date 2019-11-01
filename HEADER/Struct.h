@@ -91,6 +91,7 @@ typedef struct tagVertexTexture
 
 	// 현재 버텍스가 참조해야할 텍스쳐 상의 비율좌표
 	D3DXVECTOR2		vTexture;
+
 }VTXTEX;
 
 const DWORD	VTXFVF_VTXTEX = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;

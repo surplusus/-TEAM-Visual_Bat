@@ -3,6 +3,7 @@
 
 
 CParticle::CParticle(void)
+	:m_bCol(false), m_pTex0(NULL), m_pTex1(NULL), m_pTex2(NULL)
 {
 }
 
@@ -18,9 +19,10 @@ void CParticle::Initalize()
 	InitRenderState();
 }
 
-void CParticle::Progress()
+bool CParticle::Progress()
 {
 	Update_Particle();
+	return true;
 }
 
 void CParticle::Render()
@@ -30,9 +32,9 @@ void CParticle::Render()
 
 void CParticle::Release()
 {
-	m_pTex0->Release();	m_pTex0 = NULL;
-	m_pTex1->Release();	m_pTex1 = NULL;
-	m_pTex2->Release();	m_pTex2 = NULL;
+	if (m_pTex0) { m_pTex0->Release();	m_pTex0 = NULL; }
+	if (m_pTex1) { m_pTex1->Release();	m_pTex1 = NULL; }
+	if (m_pTex2) { m_pTex2->Release();	m_pTex2 = NULL; }
 	m_vecRenderInitData.clear();
 }
 

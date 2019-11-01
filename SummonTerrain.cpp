@@ -77,8 +77,7 @@ void CSummonTerrain::InitVertex()
 			VTXTEX* pVertex = NULL;
 			DWORD* pIndex = NULL;
 			pVB->Lock(0, sizeof(VTXTEX)*m_pMesh->GetNumVertices(), (void**)&pVertex, 0);
-			m_pOriVtx = (VTXTEX*)pVertex;
-			
+			m_pOriVtx = (VTXTEX*)pVertex;		
 		}
 	}
 	pVB->Unlock();      pVB->Release();

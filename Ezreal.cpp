@@ -7,12 +7,16 @@
 #include "Ray.h""
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
+#include"ObjectColider.h"
 #include"MathMgr.h"
+#include"BoundingBox.h"
+#include"ColitionMgr.h"
+#include"EventMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
-	:m_bDirty(true)
+	:m_bDirty(true),m_pMesh(NULL)
 {
 	m_fAngle[ANGLE_X] = 0;
 	m_fAngle[ANGLE_Y] = 0;
@@ -108,36 +112,42 @@ HRESULT CEzreal::Initialize()
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
-
-	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMeseh, NULL);
+	m_ObjName = "Ezreal";
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
 	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
-
+	D3DXMATRIX BonMatrix;
+	GetBoneMatrix(L"Ezreal", "Armature_root", &BonMatrix);
+	m_pAnimationCtrl->GetAniCtrl();
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
+	
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();
-	
-	m_pMesh = GetMesh(L"Ezreal");
 
+	m_pColider = new CObjectColider(this);
+	//>> 콜라이더 생성
+	INFO pInfo = m_Info;	
+	m_pColider->SetUp(m_Info, 2.0f,new CBoundingBox);
+	m_ColiderList.push_back(m_pColider);
+	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
+	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::TestCollisionEvent);
 	return S_OK;
 }
 
 void CEzreal::Progress()
 {
-	KeyCheck();
-	SettingAnimationSort();
-	SettingFrameAnimation();
-	UpdateWorldMatrix();
-	SetContantTable();
-	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
-	{
-		(*iter)->Progress();
+	if (m_bProgress) {
+		KeyCheck();
+		SettingAnimationSort();
+		SettingFrameAnimation();
+		UpdateWorldMatrix();
+		SetContantTable();
+		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
 	}
-	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
+	m_pColider->Update(m_Info.vPos);
 
-	
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -147,9 +157,12 @@ void CEzreal::AddSkill_Q()
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
+
 	CParticle * p = new CEzealQ_Particle(tInfo,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
 	p->Initalize();
-	GET_SINGLE(CParticleMgr)->AddParticle(L"Ez", p);
+	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
+	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 }
 
 void CEzreal::Render()
@@ -161,17 +174,13 @@ void CEzreal::Render()
 		m_bDirty = false;
 	}
 	Mesh_Render(GetDevice(), L"Ezreal");
-	SetTexture(0,NULL);
-	SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-	CollisionBoxRender();
-	SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	SetTexture(0,NULL);	
 
 }
 
 void CEzreal::Release()
 {
-
+	SAFE_DELETE(m_pColider);
 }
 
 
@@ -244,10 +253,7 @@ void CEzreal::KeyCheck()
 		m_fEndTime = 25;
 		m_bDirty = true;
 	}
-	for (list<CParticle*>::iterator iter = m_ListQSkill.begin(); iter != m_ListQSkill.end(); ++iter)
-	{
-		(*iter)->Progress();
-	}
+	
 }
 
 void CEzreal::SettingAnimationSort()
@@ -312,10 +318,24 @@ void CEzreal::InitAnimationState()
 	m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
 }
 
-void CEzreal::CollisionBoxRender()
+void CEzreal::InitUpdate()
 {
-	m_BoxMeseh->DrawSubset(0);
+	list<ColiderComponent*>::iterator iter = m_ColiderList.begin();
+	for (iter; iter != m_ColiderList.end();)
+	{
+		if (*iter == NULL)
+		{
+			iter = m_ColiderList.erase(iter);
+		}
+		else iter++;
+	}
 }
+
+void CEzreal::TestCollisionEvent(COLLISIONEVENT* Evt)
+{
+	cout << "함수 실행";	
+}
+
 
 
 

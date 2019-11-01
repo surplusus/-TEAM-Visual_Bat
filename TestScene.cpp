@@ -10,7 +10,6 @@
 #include "GameScene.h"
 #include "ThreadPool.h"
 #include <sstream>
-
 #include "SoundMgr.h"
 #include "Amumu.h"
 #include "Zealot.h"
@@ -64,9 +63,9 @@ HRESULT CTestScene::Initialize()
 
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
 		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Zealot", CFactory<CObj, CZealot>::CreateObject());
+		GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CZealot>::CreateObject());
 	else
-		ERR_MSG(g_hWnd, L"Zealot Load Failed");
+		ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	return S_OK;
 }

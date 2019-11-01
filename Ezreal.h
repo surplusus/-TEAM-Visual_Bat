@@ -8,7 +8,7 @@ class CParticle;
 //IDLE1 -> 기본 가만히
 //IDLE2,IDLE3 -> 가만히 있을때 변화되는 IDLE 시간변화에 따라 실행
 
-
+class ColiderComponent;
 class CEzreal :
 	public CChampion
 {
@@ -22,9 +22,14 @@ public:
 		m_strAnimationState = AnimationState; 
 	}
 	~CEzreal();
+//지울것
+public:
+	string m_ObjName;
 private:
 	LPD3DXMESH m_pMesh;
+	ColiderComponent*  m_pColider;
 	bool m_bDirty;
+	list<ColiderComponent*> m_ColiderList;
 public:
 	virtual void	SetContantTable();
 #pragma region Function
@@ -32,7 +37,6 @@ private:
 	void WorldSetting();
 	bool MouseCheck();
 	void SetAngleFromPostion();
-	bool Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed);
 #pragma endregion
 
 #pragma region StaticValue
@@ -44,7 +48,6 @@ private:
 #pragma endregion
 //test
 private:
-	list<CParticle*> m_ListQSkill;
 	void AddSkill_Q();
 public:
 	virtual HRESULT Initialize() override;
@@ -52,12 +55,12 @@ public:
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 public:
-	void RoationObject();
 	virtual void		ChangeAniSetByState();
 	//test
 private:
 	vector<bool>				m_Champ_State;
 	queue<CHAMPION_STATETYPE>	m_AnimationQueue;
+	
 	bool m_ChangeMotion;
 	float m_fStartTime;
 	float m_fEndTime;
@@ -68,9 +71,9 @@ private:
 	void KeyCheck();
 	void SettingAnimationSort();//상태에 따른 애니메이션 순서를 정해준다.
 	void InitAnimationState();
-private:
-	LPD3DXMESH m_BoxMeseh;
-	void CollisionBoxRender();
-
+	
+	void InitUpdate();
+public:
+	void TestCollisionEvent(COLLISIONEVENT* Evt);
 };
 

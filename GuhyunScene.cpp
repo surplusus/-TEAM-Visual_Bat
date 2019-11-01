@@ -14,7 +14,6 @@
 #include "Ezreal.h"
 #include "MinionMgr.h"
 
-
 GuhyunScene::GuhyunScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -83,6 +82,7 @@ HRESULT GuhyunScene::Initialize()
 	//}
 	//else
 	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
+
 	return S_OK;
 }
 
