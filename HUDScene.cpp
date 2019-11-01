@@ -35,7 +35,6 @@ HRESULT cHUDScene::Initialize()
 	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 			return E_FAIL;
 
-
 	GET_SINGLE(cGameHUD)->Initialize();
 	return S_OK;
 }
@@ -43,14 +42,12 @@ HRESULT cHUDScene::Initialize()
 void cHUDScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
-	//GET_SINGLE(CObjMgr)->Progress();
 
 	GET_SINGLE(cGameHUD)->Progress();
 }
 
 void cHUDScene::Render()
 {
-	//GET_SINGLE(CObjMgr)->Render();
 	GET_SINGLE(cGameHUD)->Render();
 }
 

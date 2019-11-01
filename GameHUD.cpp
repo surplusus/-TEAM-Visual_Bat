@@ -110,13 +110,15 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	Ezreal_copy.m_Skill[0].Initialize();*/
 
+	float fA = 40;
+
 	CTextMgr * TextA = new CTextMgr();
 	m_mapTextMgr["TextA"] = TextA;
 	m_mapTextMgr["TextA"]->Initialize_Text(
-		40,
-		m_mapImage["character_state"]->GetPosition().x + 120, 
+		fA,
+		m_mapImage["character_state"]->GetPosition().x + 90, 
 		
-		m_mapImage["character_state"]->GetPosition().y + 15, 
+		m_mapImage["character_state"]->GetPosition().y + 14, 
 		
 		m_mapImage["character_state"]->GetPosition().x,
 		

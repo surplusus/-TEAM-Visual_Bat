@@ -111,7 +111,7 @@ private:
 	string m_sState;
 
 public:
-	float value;
+	int value;
 
 	void Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom);
 	void Render_Text();
