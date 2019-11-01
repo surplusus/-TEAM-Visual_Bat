@@ -80,12 +80,6 @@ void CUdyr::Render()
 	Render_PickingShere();
 }
 
-void CUdyr::Release()
-{
-	SAFE_RELEASE(m_pMeshSphere);
-	SAFE_RELEASE(m_pAnimationCtrl);
-}
-
 void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
 	m_pTargetObj = evt->m_pObj;
