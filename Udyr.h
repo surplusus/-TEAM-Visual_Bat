@@ -1,5 +1,6 @@
 #pragma once
 #include "Champion.h"
+#include "BehaviorUdyr.h"
 class CUdyr : public CChampion
 {
 	using FUNCSTATE = function<bool(void)>;
@@ -17,6 +18,9 @@ private:
 	vector<FUNCSTATE>	m_vStateFunc;
 	queue<FUNCSTATE>	m_queStateFunc;
 	CObj*				m_pTargetObj;
+	// << : Behavior
+	
+	// >> : Behavior
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -24,7 +28,7 @@ public:
 	virtual void	Release()    override;
 
 	virtual void	ChangeAniSetByState() override {}
-	void			OnFindPickingSphere(PICKSPHERE* evt);
+	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
 private:
 	void			MouseControl();
 	void			QWERControl();

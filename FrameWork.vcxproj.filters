@@ -582,12 +582,6 @@
     <ClInclude Include="InGameScene.h">
       <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClInclude>
-    <ClInclude Include="ICondition.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
@@ -605,6 +599,12 @@
     </ClInclude>
     <ClInclude Include="LoadingFunctor.h">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorUdyr.h">
+      <Filter>System\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -878,12 +878,6 @@
     <ClCompile Include="InGameScene.cpp">
       <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClCompile>
-    <ClCompile Include="ICondition.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Behavior.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
@@ -901,6 +895,12 @@
     </ClCompile>
     <ClCompile Include="LoadingFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorUdyr.cpp">
+      <Filter>System\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

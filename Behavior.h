@@ -14,50 +14,94 @@ namespace BehaviorTree
 		RUNNING
 	};
 
-	class Node
-	{
+	class Node {
 	public:
-		virtual Task* Init() = 0;
+		virtual bool Run() = 0;
 		virtual void Release() = 0;
-		virtual ~Node() {}
 	};
 
-	class Task
+	using ManyNodes = vector<Node*>;
+	class Composite : public Node
 	{
 	public:
-		Task(Node& node)
-			: m_pNode(&node) {}
-		virtual ~Task() {}
-		virtual Status Progress() = 0;
-		virtual void OnInit() {}
-		virtual void OnRelease(Status) {}
+		ManyNodes GetComposites() const{ return m_Nodes; }
+		void AddNode(Node* node) { m_Nodes.emplace_back(node); }
+		//void AddManyNodes(initializer_list<Node*>&& nodes) {
+		//	for (Node* it : nodes)	AddNode(it);
+		//}
+		ManyNodes GetCompositesShuffled() const {
+			ManyNodes tmp = m_Nodes;
+			random_shuffle(tmp.begin(),tmp.end());
+			return tmp;
+		}
+		template<typename CONTAINER>
+		void AddManyNodes(const CONTAINER& nodes) {
+			for (Node* it : nodes)	AddNode(it);
+		}
 	protected:
-		Node* m_pNode;
+		ManyNodes m_Nodes;
 	};
 
-	class Behavior
+	class Selctor : public Composite
 	{
-	protected:
-		Task* m_pTask;
-		Node* m_pNode;
-		Status m_eStatus;
+	public :
+		virtual bool Run() override {
+			for (Node* it : GetComposites())
+				if (it->Run())	return true;
+			return false;
+		}
+		virtual void Release() override {
+			for (auto & it : m_Nodes)
+				if (it != nullptr) delete it;
+			m_Nodes.clear();
+		}
+	};
+
+	class RandomSelector : public Composite
+	{
+	public :
+		virtual bool Run() override {
+			for (Node* it : GetCompositesShuffled())
+				if (it->Run())	return true;
+			return false;
+		}
+		virtual void Release() override {
+			for (auto & it : m_Nodes)
+				if (it != nullptr) delete it;
+			m_Nodes.clear();
+		}
+	};
+
+	class Sequence : public Composite
+	{
 	public:
-		Behavior()
-			: m_pTask(nullptr)
-			, m_pNode(nullptr)
-			, m_eStatus(INVALID) {}
-		Behavior(Node& node)
-			: m_pTask(nullptr)
-			, m_pNode(nullptr)
-			, m_eStatus(INVALID) {
-			SetUp(node);
+		virtual bool Run() override {
+			for (Node* it : GetComposites())
+				if (!it->Run())	return false;
+			return true;
 		}
-		~Behavior() {
-			m_eStatus = INVALID;
-			Release();
+		virtual void Release() override {
+			for (auto & it : m_Nodes)
+				if (it != nullptr) delete it;
+			m_Nodes.clear();
 		}
-		void SetUp(Node& node);
-		void Release();
-		Status Tick();
+	};
+
+	class BehaviorTree
+	{
+	private:
+		Node* m_Root = nullptr;
+		BehaviorTree() {
+			m_Root = new Sequence;
+		}
+		~BehaviorTree() {
+			m_Root->Release();
+			m_Root = nullptr;
+		}
+		bool Run() const { return m_Root->Run(); }
+		void Release() {
+			m_Root->Release();
+			delete m_Root;
+		}
 	};
 }
