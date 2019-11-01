@@ -81,7 +81,10 @@ void CGameScene::Render()
 
 void CGameScene::Release()
 {
-
+	m_pObjMgr->DestroyInstance();
+	GET_SINGLE(CColitionMgr)->DestroyInstance();
+	GET_SINGLE(CParticleMgr)->DestroyInstance();
+	GET_SINGLE(CCameraMgr)->DestroyInstance();
 }
 
 HRESULT CGameScene::Setup()

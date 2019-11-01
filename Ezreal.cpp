@@ -333,7 +333,7 @@ void CEzreal::InitUpdate()
 
 void CEzreal::TestCollisionEvent(COLLISIONEVENT* Evt)
 {
-	cout << "함수 실행";	
+
 }
 
 
