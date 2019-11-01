@@ -20,3 +20,10 @@ enum UI_SPELLTYPE
 	Ignite,
 	Barrier
 };
+
+typedef struct ST_PT_VERTEX
+{
+	D3DXVECTOR3 p; //position
+	D3DXVECTOR2 t; //uv position
+	enum {FVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL};
+};

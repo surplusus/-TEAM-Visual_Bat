@@ -24,6 +24,8 @@ public:
 			m_worker_threads_[eState].detach();
 	}
 
+	bool PollThreadEnd(THREADMENU state);
+
 private:
 	// 총 Worker 쓰레드의 개수.
 	std::size_t m_num_threads_;
@@ -34,7 +36,8 @@ private:
 	// 위의 job 큐를 위한 cv 와 m.
 	std::condition_variable m_cv_job_q_;
 	std::mutex m_job_q_;
-
+	// deque에 실행할 함수가 없음을 알림
+	std::map<THREADMENU, bool> m_mapbComplete;
 	// 모든 쓰레드 종료
 	bool m_stop_all;
 	void StopThraed(THREADMENU eState);

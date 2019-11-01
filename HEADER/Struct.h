@@ -132,7 +132,7 @@ typedef struct tagSphere
 	float			fRadius;
 	D3DXVECTOR3*	vpCenter;
 	bool			isPicked = false;
-
+	LPD3DXMESH		pMesh = nullptr;
 	tagSphere() : fRadius(0.0f), vpCenter(nullptr) {}
 	tagSphere(const float r, D3DXVECTOR3* v) : fRadius(r), vpCenter(v) {}
 	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter) {}

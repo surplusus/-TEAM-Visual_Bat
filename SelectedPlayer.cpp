@@ -24,11 +24,11 @@ void CSelectedPlayer::Initialize()
 	m_pLoadingBoarder_blue->Initialize();
 	m_pLoadingBoarder_red->Initialize();
 
-	m_mapChampList.insert(make_pair(("Friendly_Amumu"), new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/UdyrLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
+	m_mapChampList.insert(make_pair(("Friendly_Udyr"), new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/UdyrLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 	m_mapChampList.insert(make_pair(("Friendly_Ezreal"), new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 5, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 
 	m_mapChampList.insert(make_pair(("Enemy_Ezreal"), new CChamp("Udyr", "Resource/choen/ChampImage/Udyr/UdyrLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
-	m_mapChampList.insert(make_pair(("Enemy_Amumu"), new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
+	m_mapChampList.insert(make_pair(("Enemy_Udyr"), new CChamp("Ezreal", "Resource/choen/ChampImage/Ezreal/EzrealLoadScreen.dds", D3DXVECTOR3(410, 415, 0), D3DXVECTOR3(0.55f, 0.5f, 1.0f))));
 
 
 	for (auto it = m_mapChampList.begin(); it != m_mapChampList.end(); it++)
@@ -36,7 +36,10 @@ void CSelectedPlayer::Initialize()
 		it->second->Initialize();
 	}
 	m_pSpell_1 = new CSelectedSpells(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedSpell_1Name(), 
-		D3DXVECTOR3(m_pLoadingBoarder_blue->GetPosition().x + m_pLoadingBoarder_blue->GetWidth() / 3 + 8 , m_pLoadingBoarder_blue->GetPosition().y + m_pLoadingBoarder_blue->GetHeight() * 0.8f + 26, 0));
+		D3DXVECTOR3(
+			m_pLoadingBoarder_blue->GetPosition().x + m_pLoadingBoarder_blue->GetWidth() / 3 + 8 , 
+			m_pLoadingBoarder_blue->GetPosition().y + m_pLoadingBoarder_blue->GetHeight() * 0.8f + 26, 
+			0));
 	m_pSpell_1->Initialize();
 	
 	m_pSpell_2 = new CSelectedSpells(GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetSelectedSpell_2Name(), 
@@ -45,7 +48,7 @@ void CSelectedPlayer::Initialize()
 	m_pSpell_2->Initialize();
 
 	vector<CUI*> vecChamp;
-	vecChamp.push_back(m_mapChampList["Enemy_Amumu"]);
+	vecChamp.push_back(m_mapChampList["Enemy_Udyr"]);
 	vecChamp.push_back(m_mapChampList["Enemy_Ezreal"]);
 	m_pEnemy = vecChamp[rand() % vecChamp.size()];
 }

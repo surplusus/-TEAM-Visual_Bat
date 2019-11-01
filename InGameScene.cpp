@@ -6,7 +6,7 @@
 #include "SceneMgr.h"
 #include "ThreadPool.h"
 #include "Frustum.h"
-#include "SoundManager.h"
+#include "SoundMgr.h"
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
@@ -27,7 +27,7 @@ CInGameScene::~CInGameScene()
 HRESULT CInGameScene::Initialize()
 {
 	// Set InGame Sound
-	GET_SINGLE(SoundManager)->SetUp();
+	GET_SINGLE(SoundMgr)->SetUp();
 	// 절두체 Setup
 	GET_SINGLE(CFrustum)->InitFrustum();
 	// Make Light
@@ -100,15 +100,15 @@ void CInGameScene::SoundUpdate()
 {
 	m_fSceneTime += GetTime();
 	float time[3] = { 0.2f, 4.f, 5.f };
-	if (GET_SINGLE(SoundManager)->PlayOnTime(1.f, 1)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Welcome);
+	if (GET_SINGLE(SoundMgr)->PlayOnTime(1.f, 1)) {
+		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Welcome);
 		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	}
-	if (GET_SINGLE(SoundManager)->PlayOnTime(10.f, 2)) {
-		GET_SINGLE(SoundManager)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Left30sec);
+	if (GET_SINGLE(SoundMgr)->PlayOnTime(10.f, 2)) {
+		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Left30sec);
 		cout << "미니언 생성까지 30초 남았습니다." << endl;
 	}
-	GET_SINGLE(SoundManager)->Update();
+	GET_SINGLE(SoundMgr)->Update();
 }
 
 void CInGameScene::LetObjectKnowHeightMap()

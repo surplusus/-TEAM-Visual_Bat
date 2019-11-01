@@ -33,6 +33,8 @@ extern  void		SetInputState(void);
 extern  bool		CheckPushKey(BYTE byKey);
 extern  bool		CheckUpKey(BYTE byKey);
 extern  DIMOUSESTATE MyGetMouseState(void);
+extern  bool		CheckMouseButtonDown(int mousebutton);
+extern  bool		CheckMouseButtonDownOneTime(int mousebutton);
 
 //=============== MousePicking===============//
 extern bool			CheckPickingOnSphere(SPHERE* sphere);

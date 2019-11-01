@@ -12,6 +12,9 @@ extern int nVertex1;
 extern int nVertex2;
 
 // WinAPI에서 부족한 키 보충
+#define MOUSEBUTTON0 0X00
+#define MOUSEBUTTON1 0X01
+#define MOUSEBUTTON2 0X02
 #define VK_0 0x30
 #define VK_1 0x31
 #define VK_2 0x32

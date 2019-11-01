@@ -57,16 +57,16 @@ bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos)
 	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
 	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
 		m_fAngle[ANGLE_Y] -= fDirLerped;
-		if (m_fAngle[ANGLE_Y] <= D3DX_PI)
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
 			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
 	}
 	else {
 		m_fAngle[ANGLE_Y] += fDirLerped;
-		if (m_fAngle[ANGLE_Y] >= D3DX_PI)
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
 			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
 	}
 
-	return false;
+	return true;
 }
 
 void CChampion::UpdateWorldMatrix()
