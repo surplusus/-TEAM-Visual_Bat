@@ -16,9 +16,11 @@ class CLoadingFunctor
 {
 public:
 	CLoadingFunctor();
+	CLoadingFunctor(const CLoadingFunctor& rhv);
 	~CLoadingFunctor();
 	bool operator() ();
-	static bool						g_bComplete;
+public:
+	string							m_SelectedChamp;
 public:
 	int								m_iFuncSize;
 	int								m_iFuncIdx;
