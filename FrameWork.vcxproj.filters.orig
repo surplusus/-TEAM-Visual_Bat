@@ -615,6 +615,13 @@
     <ClInclude Include="LoadingFunctor.h">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Behavior.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorUdyr.h">
+      <Filter>System\Behavior</Filter>
+=======
     <ClInclude Include="ChampGauge.h">
       <Filter>Gauge</Filter>
     </ClInclude>
@@ -638,12 +645,7 @@
     </ClInclude>
     <ClInclude Include="ParticleObj.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorUdyr.h">
-      <Filter>System\Behavior</Filter>
+>>>>>>> origin/master
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -935,6 +937,13 @@
     <ClCompile Include="LoadingFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Behavior.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorUdyr.cpp">
+      <Filter>System\Behavior</Filter>
+=======
     <ClCompile Include="ChampGauge.cpp">
       <Filter>Gauge</Filter>
     </ClCompile>
@@ -958,12 +967,7 @@
     </ClCompile>
     <ClCompile Include="ParticleObj.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="Behavior.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviorUdyr.cpp">
-      <Filter>System\Behavior</Filter>
+>>>>>>> origin/master
     </ClCompile>
   </ItemGroup>
 </Project>
