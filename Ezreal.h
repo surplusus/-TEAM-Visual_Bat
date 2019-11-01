@@ -22,6 +22,9 @@ public:
 		m_strAnimationState = AnimationState; 
 	}
 	~CEzreal();
+//Áö¿ï°Í
+public:
+	string m_ObjName;
 private:
 	LPD3DXMESH m_pMesh;
 	ColiderComponent*  m_pColider;
@@ -70,5 +73,7 @@ private:
 	void InitAnimationState();
 	
 	void InitUpdate();
+public:
+	void TestCollisionEvent(COLLISIONEVENT* Evt);
 };
 

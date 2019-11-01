@@ -1,6 +1,6 @@
 #include "BaseInclude.h"
 #include "ParticleColider.h"
-
+#include"BoundingBox.h"
 
 
 CParticleColider::CParticleColider(CParticle * pParticle)
@@ -16,16 +16,20 @@ CParticleColider::~CParticleColider()
 
 void CParticleColider::Update(D3DXVECTOR3 vPos)
 {
-	
 	m_Info.matWorld._41 = vPos.x;
 	m_Info.matWorld._42 = vPos.y;
 	m_Info.matWorld._43 = vPos.z;
-	m_Info.matWorld = m_Info.matWorld*m_matWorld;
-		
-		
-	m_Info.vPos.x=		m_Info.matWorld._41;
-	m_Info.vPos.y=		m_Info.matWorld._42;
-	m_Info.vPos.z=		m_Info.matWorld._43;
+
+	D3DMATRIX matWorld = m_Info.matWorld * m_matWorld;
+
+	m_Info.vPos = { matWorld._41,matWorld._42,matWorld._43 };
 }
+
+bool CParticleColider::CheckColision(ColiderComponent* pEnemy)
+{
+	return ColiderComponent::CheckColision(pEnemy);
+}
+
+
 
 

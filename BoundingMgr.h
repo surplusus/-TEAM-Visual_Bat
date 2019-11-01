@@ -14,5 +14,6 @@ public:
 	void Release();
 	const D3DXVECTOR3* GetMin(BOUNDTYPE Type);
 	const D3DXVECTOR3* GetMax(BOUNDTYPE Type);
+
 };
 

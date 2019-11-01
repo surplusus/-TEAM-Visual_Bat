@@ -9,7 +9,9 @@
 #include"EzealQ_Particle.h"
 #include"ObjectColider.h"
 #include"MathMgr.h"
+#include"BoundingBox.h"
 #include"ColitionMgr.h"
+#include"EventMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
@@ -110,7 +112,7 @@ HRESULT CEzreal::Initialize()
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
-
+	m_ObjName = "Ezreal";
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
 	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
@@ -125,13 +127,12 @@ HRESULT CEzreal::Initialize()
 
 	m_pColider = new CObjectColider(this);
 	//>> 콜라이더 생성
-	m_pColider->SetUp(m_Info, 2.0f, BonMatrix);
-	m_pColider->InitColider();
-	m_pColider->SetCollison(m_vMin, m_vMax);
+	INFO pInfo = m_Info;	
+	m_pColider->SetUp(m_Info, 2.0f,new CBoundingBox);
 	m_ColiderList.push_back(m_pColider);
 	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
 	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
-
+	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::TestCollisionEvent);
 	return S_OK;
 }
 
@@ -144,8 +145,9 @@ void CEzreal::Progress()
 		UpdateWorldMatrix();
 		SetContantTable();
 		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
-		m_pColider->Update(m_Info.vPos);
 	}
+	m_pColider->Update(m_Info.vPos);
+
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -173,6 +175,7 @@ void CEzreal::Render()
 	}
 	Mesh_Render(GetDevice(), L"Ezreal");
 	SetTexture(0,NULL);	
+
 }
 
 void CEzreal::Release()
@@ -326,6 +329,11 @@ void CEzreal::InitUpdate()
 		}
 		else iter++;
 	}
+}
+
+void CEzreal::TestCollisionEvent(COLLISIONEVENT* Evt)
+{
+	cout << "함수 실행";	
 }
 
 

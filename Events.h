@@ -29,3 +29,13 @@ typedef struct _tagRegisterObj : EVENT
 		: m_result(result) {}
 	std::string* m_result;
 } REGISTEREVENT;
+
+
+typedef struct _tagCollisionEvent : EVENT
+{
+	_tagCollisionEvent(CObj* pOri, CObj* pTarget)
+		: m_pOri(pOri), m_pTarget(pTarget){}
+	CObj* m_pOri;
+	CObj* m_pTarget;
+} COLLISIONEVENT;
+

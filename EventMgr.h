@@ -24,6 +24,8 @@ public:
 		for (auto& it : *funcList)
 			if (it != nullptr)
 				it->Execute(evt);
+
+		delete it;
 	}
 	template<typename T, typename EventType>
 	void Subscribe(T* instance, void (T::*memberFunction)(EventType*)) {
@@ -41,5 +43,6 @@ public:
 		if (funcList == nullptr)	return;
 		funcList->clear();
 	}
+
 };
 

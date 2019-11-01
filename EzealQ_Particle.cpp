@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "EzealQ_Particle.h"
 #include"ParticleColider.h"
+#include"BoundingBox.h"
 CEzealQ_Particle::CEzealQ_Particle()
 	:m_fRadius(0), m_fSize(0)
 {
@@ -37,10 +38,8 @@ void CEzealQ_Particle::Initalize()
 	
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
-	m_pColider->SetUp(m_Info, 2.0f, m_Info.matWorld);
-	m_pColider->InitColider();
-	m_pColider->SetCollison(m_vMax, m_vMin);
-
+	m_pColider->SetUp(m_Info, 0.5f,new CBoundingBox);
+	
 }
 
 bool CEzealQ_Particle::Progress()
@@ -314,7 +313,7 @@ bool CEzealQ_Particle::AddTail()
 		}
 		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
-		if (m_pColider != NULL)	m_pColider->Update(m_Info.vPos);
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 
 		m_vecVertexParticle.push_back(m_VerTexInfo);
 

@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "ColitionMgr.h"
 #include"ColiderComponent.h"
+#include"EventMgr.h"
 #include"Obj.h"
 CColitionMgr::CColitionMgr()
 {
@@ -47,14 +48,14 @@ void CColitionMgr::Render()
 
 void CColitionMgr::UpdateColistion()
 {
-	
+	int count =0 ;
 	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 		iter1 != m_ColMap.end(); ++iter1)
 	{
 		list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
-		
-		for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin();
-			iter2 != m_ColMap.end(); ++iter2) 
+
+		for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin()
+			;iter2 != m_ColMap.end(); ++iter2)
 		{
 			if (iter1->first == iter2->first)		
 				continue;		
@@ -65,20 +66,24 @@ void CColitionMgr::UpdateColistion()
 				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
 					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
-
+					if ((*pOrigin) == (*pTarget))
+						continue;
 					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
 					{
 						if ((*pOrigin)->CheckColision(*pTarget))
 						{
-							(*pTarget)->SetStateCol(true);
-							pOrigin = m_ColMap[iter1->first]->erase(pOrigin);
+							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT(iter1->first, iter2->first));
+							//(*pTarget)->SetStateCol(true);
+							//pOrigin = m_ColMap[iter1->first]->erase(pOrigin);
 							bCol = true;
+							pOrigin++;
 						}
 					}
 				}
 				if (!bCol)	pOrigin++;
 			}
 		}
+		count++;
 	}
 
 

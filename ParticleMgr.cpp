@@ -95,8 +95,7 @@ void CParticleMgr::Progress()
 					if ((*ColList) == dynamic_cast<CParticleObj*>(*iter2)->GetColider())
 					{
 						SAFE_DELETE((*ColList));
-						ColList =m_pColiderMap[iter->first]->erase(ColList);
-						break;
+						ColList =m_pColiderMap[iter->first]->erase(ColList);						
 					}
 					else ColList++;
 				}

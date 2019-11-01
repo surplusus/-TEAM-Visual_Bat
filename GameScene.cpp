@@ -52,7 +52,7 @@ HRESULT CGameScene::Initialize()
 		return E_FAIL;
 	CObj *ez = new CEzreal("IDLE1", false);
 	ez->Initialize();
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal",ez)))
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2",ez)))
 		return E_FAIL;
 
 	
