@@ -83,9 +83,9 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleColider.h" />
     <ClInclude Include="ParticleMgr.h" />
+    <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="PickingSphereMgr.h" />
     <ClInclude Include="SelectedSpells.h" />
-    <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
@@ -160,7 +160,9 @@
     <ClInclude Include="Turret.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Udyr.h" />
+    <ClInclude Include="Udyr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="Zealot.h" />
@@ -229,9 +231,9 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleColider.cpp" />
     <ClCompile Include="ParticleMgr.cpp" />
+    <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="PickingSphereMgr.cpp" />
     <ClCompile Include="SelectedSpells.cpp" />
-    <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -299,7 +301,9 @@
     <ClCompile Include="Turret.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Udyr.cpp" />
+    <ClCompile Include="Udyr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="Obj.cpp" />

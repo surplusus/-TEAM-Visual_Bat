@@ -265,19 +265,6 @@
     <Filter Include="System\Behavior">
       <UniqueIdentifier>{c210d7f9-e2aa-4d03-bf3e-265fc9bcea41}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
-    <Filter Include="소스 파일\Maneger\ColisionMgr">
-      <UniqueIdentifier>{fb250251-d52d-4e20-8782-1b89d2c6f2e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maneger\ColisionMgr\Colider">
-      <UniqueIdentifier>{06c9d03d-9c8c-4e03-be00-0308221637b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maneger\ColisionMgr\PaticleColision">
-      <UniqueIdentifier>{3e716cc9-554b-4d9f-bd32-03798ec7b6bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Maneger\ColisionMgr\ObjectColider">
-      <UniqueIdentifier>{f1d0b98e-8428-4800-83a9-487402798839}</UniqueIdentifier>
-=======
     <Filter Include="소스 파일\Scene\LoadScene">
       <UniqueIdentifier>{33f92d37-a589-4285-a86c-780327d64234}</UniqueIdentifier>
     </Filter>
@@ -298,7 +285,18 @@
     </Filter>
     <Filter Include="Gauge">
       <UniqueIdentifier>{229d029e-7408-4063-81f4-1bc0682cb57f}</UniqueIdentifier>
->>>>>>> origin/master
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr">
+      <UniqueIdentifier>{4d882eea-c9fc-47fa-9298-b4b11d8fe263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent">
+      <UniqueIdentifier>{ca4bd0fe-53de-49cf-b975-547d018773b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider">
+      <UniqueIdentifier>{29e639d8-223d-4c95-b0f5-3673dde96134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider">
+      <UniqueIdentifier>{a4103b60-bfc6-43f2-acf3-738080443578}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -614,22 +612,6 @@
     <ClInclude Include="EzealQ_Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="ColiderComponent.h">
-      <Filter>소스 파일\Maneger\ColisionMgr\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="ColitionMgr.h">
-      <Filter>소스 파일\Maneger\ColisionMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleColider.h">
-      <Filter>소스 파일\Maneger\ColisionMgr\PaticleColision</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectColider.h">
-      <Filter>소스 파일\Maneger\ColisionMgr\ObjectColider</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleObj.h">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-=======
     <ClInclude Include="SoundMgr.h">
       <Filter>System\SystemManager\SoundMgr</Filter>
     </ClInclude>
@@ -647,7 +629,21 @@
     </ClInclude>
     <ClInclude Include="MinionGauge.h">
       <Filter>Gauge</Filter>
->>>>>>> origin/master
+    </ClInclude>
+    <ClInclude Include="ColitionMgr.h">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ColiderComponent.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectColider.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleColider.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleObj.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -936,22 +932,6 @@
     <ClCompile Include="EzealQ_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="ColiderComponent.cpp">
-      <Filter>소스 파일\Maneger\ColisionMgr\Colider</Filter>
-    </ClCompile>
-    <ClCompile Include="ColitionMgr.cpp">
-      <Filter>소스 파일\Maneger\ColisionMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleColider.cpp">
-      <Filter>소스 파일\Maneger\ColisionMgr\PaticleColision</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectColider.cpp">
-      <Filter>소스 파일\Maneger\ColisionMgr\ObjectColider</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleObj.cpp">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-=======
     <ClCompile Include="SoundMgr.cpp">
       <Filter>System\SystemManager\SoundMgr</Filter>
     </ClCompile>
@@ -969,7 +949,21 @@
     </ClCompile>
     <ClCompile Include="MinionGauge.cpp">
       <Filter>Gauge</Filter>
->>>>>>> origin/master
+    </ClCompile>
+    <ClCompile Include="ColitionMgr.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ColiderComponent.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectColider.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleColider.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleObj.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

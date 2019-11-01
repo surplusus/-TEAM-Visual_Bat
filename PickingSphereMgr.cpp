@@ -27,7 +27,7 @@ bool CPickingSphereMgr::GetSpherePicked(CObj* me, OUT SPHERE** sphere)
 			continue;
 		if (CheckPickingOnSphere(it.second)) {
 			*sphere = it.second;
-			GET_SINGLE(EventMgr)->Publish(new PICKSPHERE(it.first));
+			GET_SINGLE(EventMgr)->Publish(new PICKSPHEREEVENT(it.first));
 			return true;
 		}
 	}
