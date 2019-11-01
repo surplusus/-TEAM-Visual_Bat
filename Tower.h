@@ -18,8 +18,7 @@ class CTower
 	: public CDynamic
 {
 public:
-	CTower(string name, ST_ABILITY Ability);
-	CTower() {}
+	CTower();
 	virtual ~CTower();
 protected:
 	CObjMgr*				m_ObjMgr;
@@ -30,7 +29,7 @@ protected:
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
-	void		UpdateWorldMatrix();
+	void				UpdateWorldMatrix();
 	const VTXTEX*		GetVertexInHeightMap();
 	DWORD&				GetVertexNumInHeightMap();
 public:

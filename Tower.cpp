@@ -9,7 +9,8 @@
 #include "HeightMap.h"
 
 
-CTower::CTower(string name, ST_ABILITY Ability)
+
+CTower::CTower()
 {
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 
@@ -28,16 +29,11 @@ CTower::~CTower()
 
 void CTower::UpdateWorldMatrix()
 {
-	D3DXMATRIX	matRotX, matRotY, matRotZ;
-	D3DXMATRIX	matS, matR, matT;
+	D3DXMATRIX	matS, matT;
 	D3DXMatrixScaling(&matS, m_fSize, m_fSize, m_fSize);
-	if (_isnan(m_fAngle[ANGLE_Y]))
-		m_fAngle[ANGLE_Y] = 0.f;
-	D3DXMatrixRotationY(&matR, m_fAngle[ANGLE_Y]);
-	D3DXVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &matR);
 	D3DXMatrixTranslation(&matT, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	m_Info.matWorld = matS * matR * matT;
+	m_Info.matWorld = matS * matT;
 }
 
 const VTXTEX * CTower::GetVertexInHeightMap()

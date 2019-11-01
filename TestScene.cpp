@@ -19,6 +19,7 @@
 #include "HeightMap.h"
 #include "LoadingScene.h"
 #include "SceneMediator.h"
+#include "Turret.h"
 
 
 CTestScene::CTestScene()
@@ -61,11 +62,11 @@ HRESULT CTestScene::Initialize()
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CZealot>::CreateObject());
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", CFactory<CObj, CTurret>::CreateObject());
 	else
-		ERR_MSG(g_hWnd, L"Udyr Load Failed");
+		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
 
 	return S_OK;
 }
