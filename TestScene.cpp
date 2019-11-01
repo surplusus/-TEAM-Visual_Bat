@@ -108,6 +108,7 @@ HRESULT CTestScene::Setup()
 	return S_OK;
 }
 
+
 void CTestScene::SoundUpdate()
 {
 }

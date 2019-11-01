@@ -39,7 +39,6 @@ void CTurret::Render()
 
 void CTurret::Release()
 {
-	SAFE_RELEASE(m_pMeshSphere);
 	SAFE_RELEASE(m_pAnimationCtrl);
 }
 
