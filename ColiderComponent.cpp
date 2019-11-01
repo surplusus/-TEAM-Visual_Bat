@@ -36,8 +36,8 @@ void ColiderComponent::Render()
 	SetTexture(0, NULL);
 	SetTransform(D3DTS_WORLD, &matWorld);
 	SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pBoxMesh->GetMesh()->DrawSubset(0);
-	m_SphereMesh->GetMesh()->DrawSubset(0);
+	if(m_pBoxMesh)	m_pBoxMesh->GetMesh()->DrawSubset(0);
+	if (m_SphereMesh)m_SphereMesh->GetMesh()->DrawSubset(0);
 	SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	SetTexture(0, NULL);
 }
@@ -75,5 +75,6 @@ void ColiderComponent::Update(D3DXVECTOR3 vPos)
 void ColiderComponent::Release()
 {
 	SAFE_DELETE(m_SphereMesh);	m_SphereMesh = NULL;
+	SAFE_DELETE(m_pBoxMesh);	m_pBoxMesh = NULL;
 	m_VerTexBuffer.clear();
 }

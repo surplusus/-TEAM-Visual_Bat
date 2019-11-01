@@ -132,7 +132,7 @@ HRESULT CEzreal::Initialize()
 	m_ColiderList.push_back(m_pColider);
 	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
 	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
-	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::TestCollisionEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::PaticleCollisionEvent);
 	return S_OK;
 }
 
@@ -331,12 +331,8 @@ void CEzreal::InitUpdate()
 	}
 }
 
-void CEzreal::TestCollisionEvent(COLLISIONEVENT* Evt)
+void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
+	Evt->m_pOri->SetColl( true);
 
 }
-
-
-
-
-

@@ -13,6 +13,7 @@
 #include"ParticleMgr.h"
 #include"HeightMap.h"
 #include"ColitionMgr.h"
+#include"Cursor.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -60,6 +61,10 @@ HRESULT CGameScene::Initialize()
 		return E_FAIL;
 
 	LetObjectKnowHeightMap();
+
+	m_Cursor = new CCursor;
+	m_Cursor->InitCursor();
+	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
 }
 
 void CGameScene::Progress()
