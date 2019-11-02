@@ -301,6 +301,9 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
       <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene\최종 합치는 Scene">
+      <UniqueIdentifier>{c6f2c965-162b-46c0-b00d-334575d3ce7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">

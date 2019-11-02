@@ -73,7 +73,14 @@ private:
 	void InitAnimationState();
 	
 	void InitUpdate();
+private://test
+	CObj*				m_pTargetObj;
+
 public:
 	void PaticleCollisionEvent(COLLISIONEVENT* Evt);
+	void OnFindPickingSphere(PICKSPHEREEVENT * evt);
+	bool SettingSpell1_Motion();
+	bool SettingAttack_Motion();
+	bool SettingRun_Motion();
 };
 

@@ -5,6 +5,7 @@ class CParticle;
 class CObjMgr;
 class CHeightMap;
 class CCursor;
+class cGameHUD;
 class CGameScene: public CScene
 {
 public:
@@ -27,7 +28,7 @@ public:
 	CParticle* TestParticle;
 private:;
 	CHeightMap*			m_pHeightMap ;
-
+	cGameHUD * Hud;
 	CCursor* m_Cursor;
 public:
 	void LetObjectKnowHeightMap();

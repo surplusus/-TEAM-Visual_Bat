@@ -11,7 +11,7 @@ namespace BehaviorTree
 		virtual ~UdyrWalkCond() {}
 	private:
 		virtual bool Do() override {
-			return m_BlackBoard.get()->getBool("Walk");
+			return m_BlackBoard->get()->getBool("Walk");
 		}
 	};
 
