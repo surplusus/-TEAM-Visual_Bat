@@ -101,7 +101,7 @@ namespace BehaviorTree
 
 	class Task : public Node
 	{
-	private:
+	public:
 		Task* m_pChild;
 		Task(Task* child)
 			: m_pChild(child) {}

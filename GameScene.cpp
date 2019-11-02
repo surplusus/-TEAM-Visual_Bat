@@ -14,6 +14,7 @@
 #include"HeightMap.h"
 #include"ColitionMgr.h"
 #include"Cursor.h"
+#include"Turret.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
