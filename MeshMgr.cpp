@@ -103,6 +103,7 @@ void CMeshMgr::Mesh_Render(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pMeshKey)
 CMesh* CMeshMgr::GetMesh(const TCHAR * pMeshKey)
 {
 	map<const TCHAR*, CMesh*>::iterator	iter = m_MapMesh.find(pMeshKey);
-	if (iter == m_MapMesh.end()) return NULL;
+	if (iter == m_MapMesh.end()) 
+		return NULL;
 	return iter->second;
 }

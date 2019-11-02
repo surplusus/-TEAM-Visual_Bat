@@ -14,19 +14,17 @@
 #include "MeleeMinion.h"
 #include "CannonMinion.h"
 
-bool CLoadingFunctor::g_bComplete = false;
-
 CLoadingFunctor::CLoadingFunctor()
 	: m_iFuncIdx(0)
 {
-	//m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
-	//m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
-	//m_queFunc.push([this]() {return this->FuncLoadMap(); });
-	//m_queFunc.push([this]() {return this->FuncLoadChamp(); });
-	//m_queFunc.push([this]() {return this->FuncLoadMinion(); });
-	//
-	//m_iFuncSize = m_queFunc.size();
-	//m_mapMeshInfo.clear();
+}
+
+CLoadingFunctor::CLoadingFunctor(const CLoadingFunctor & rhv)
+{
+	m_SelectedChamp = rhv.m_SelectedChamp;
+	m_mapMeshInfo.clear();
+	m_iFuncIdx = rhv.m_iFuncIdx;
+	m_iFuncSize = rhv.m_iFuncSize;
 }
 
 CLoadingFunctor::~CLoadingFunctor()
@@ -36,8 +34,9 @@ CLoadingFunctor::~CLoadingFunctor()
 
 bool CLoadingFunctor::operator()()
 {
+	using FUNC = function<bool(void)>;
+	
 	{	// 생성자가 불리지 않는 관계로 여기서 초기화한다.
-		m_iFuncIdx = 0;
 		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
 		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
@@ -48,9 +47,7 @@ bool CLoadingFunctor::operator()()
 		m_mapMeshInfo.clear();
 	}
 
-	using FUNC = function<bool(void)>;
-	int iPrevFuncIdx = m_iFuncIdx;
-	
+	m_iFuncIdx = 0;
 	while (m_iFuncIdx < m_iFuncSize)
 	{
 		FUNC fp = m_queFunc.front();
@@ -58,7 +55,6 @@ bool CLoadingFunctor::operator()()
 		++m_iFuncIdx;
 		m_queFunc.pop();
 	}
-	g_bComplete = true;
 	return true;
 }
 
@@ -130,7 +126,7 @@ bool CLoadingFunctor::FuncLoadMap()
 {
 	if (!OperateFuncAddMeshByKey("Map")) {
 		printf("맵 매쉬 로딩 실패\n");
-		return true;
+		return false;
 	}
 	OperateFuncAddObjectByKey("Map");
 	printf("맵 매쉬 로딩 완료!\n");
@@ -139,12 +135,12 @@ bool CLoadingFunctor::FuncLoadMap()
 
 bool CLoadingFunctor::FuncLoadChamp()
 {
-	if (!OperateFuncAddMeshByKey("Udyr")) {
-		printf("우디르 매쉬 로딩 실패\n");
-		return true;
+	if (!OperateFuncAddMeshByKey(m_SelectedChamp)) {
+		printf("챔피언 매쉬 로딩 실패\n");
+		return false;
 	}
-	OperateFuncAddObjectByKey("Udyr");
-	printf("우디르 매쉬 로딩 완료!\n");
+	OperateFuncAddObjectByKey(m_SelectedChamp);
+	printf("챔피언 매쉬 로딩 완료!\n");
 	return true;
 }
 
@@ -152,7 +148,7 @@ bool CLoadingFunctor::FuncLoadMinion()
 {
 	if (!OperateFuncAddMeshByKey("MeleeMinion")) {
 		printf("미니언 매쉬 로딩 실패\n");
-		return true;
+		return false;
 	}
 	OperateFuncAddObjectByKey("MeleeMinion");
 	printf("미니언 매쉬 로딩 완료!\n");
@@ -225,8 +221,12 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	//else if (key == "CannonMinion")
 	//	re = GET_SINGLE(CObjMgr)->AddObject(L"CannonMinion", CFactory<CObj, CCannonMinion>::CreateObject());
 
-	if (SUCCEEDED(re))
+	if (SUCCEEDED(re)) {
 		printf("Succeeded in Object Registered\n");
-	else
+		return true;
+	}
+	else {
 		printf("Failed to Register Object\n");
+		return false;
+	}
 }

@@ -1,10 +1,11 @@
 #include "BaseInclude.h"
 #include "EzealQ_Particle.h"
-
-
+#include"ParticleColider.h"
+#include"BoundingBox.h"
 CEzealQ_Particle::CEzealQ_Particle()
-	:m_fRadius(0),m_fSize(0)
+	:m_fRadius(0), m_fSize(0)
 {
+	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;
 	m_VerTexInfo.p = { 0,0,0 };
 	m_VerTexInfo.c = D3DCOLOR_ARGB( 0,0,0,0 );
 	m_fAngle[ANGLE_X] = 0; m_fAngle[ANGLE_Y] = 0; m_fAngle[ANGLE_X] = 0;
@@ -13,6 +14,7 @@ CEzealQ_Particle::CEzealQ_Particle()
 CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle)
 	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f)
 {
+	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
@@ -30,40 +32,52 @@ void CEzealQ_Particle::Initalize()
 	SetUp_Particle();
 	InitRenderState();
 	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMesh, NULL);
+	D3DXMATRIX matWorld;
+	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
+	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
+	
+	//콜라이더 설정
+	m_pColider = new CParticleColider(this);
+	m_pColider->SetUp(m_Info, 0.5f,new CBoundingBox);
+	
 }
 
-void CEzealQ_Particle::Progress()
+bool CEzealQ_Particle::Progress()
 {
 	Update_Particle();
-	AddTail();
+	if (m_bCol)
+		return false;
+
+	if (!AddTail())
+		return false;
+	return true;
+
 }
 
 void CEzealQ_Particle::Render()
 {
-	Render_Particle();
-	Colistionbox();
-
+	Render_Particle();	
 }
 
 void CEzealQ_Particle::Release()
 {
-	CEzealQ_Particle::Release();
+	if (m_pColider)		{SAFE_DELETE(m_pColider);	m_pColider = NULL;}
+	if (m_pTex0)		{ m_pTex0->Release();		m_pTex0 = NULL; }
+	if (m_pTex1)		{ m_pTex1->Release();		m_pTex1 = NULL;}
+	if (m_pTex2)		{ m_pTex2->Release();		m_pTex2 = NULL; }
+
 }
 
 void CEzealQ_Particle::SetUp_Particle()
 {	
 	
 	D3DXMATRIXA16 matR, matWorld,matTrans,matScale;
-	D3DXVECTOR3 vScale = { 10,10,10 };
+//	D3DXVECTOR3 vScale = { 1,1,1 };
 
-	D3DXQUATERNION quatR(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_X], 1.f);
-	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixRotationQuaternion(&matR, &quatR);
-	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-
-	D3DXVec3TransformCoord(&m_VerTexInfo.p, &m_VerTexInfo.p, &matWorld);
-
+//	D3DXQUATERNION quatR(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_X], 1.f);
+//	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+//	D3DXMatrixRotationQuaternion(&matR, &quatR);
+//	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);	
 	m_VerTexInfo.c = D3DCOLOR_ARGB(255, 100, 70, 20);
 	m_vecVertexParticle.push_back(m_VerTexInfo);	
 }
@@ -108,7 +122,6 @@ void CEzealQ_Particle::Render_Particle()
 {
 	if (m_vecVertexParticle.empty()) 
 		return;
-	D3DXMATRIX matWorld;
 	
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	{
@@ -286,8 +299,9 @@ bool CEzealQ_Particle::AddTail()
 
 	if (fDistance > m_fMaxDistance)
 	{
-		if (m_vecVertexParticle.empty())
+		if (m_vecVertexParticle.empty()) {
 			return false;
+		}
 		m_vecVertexParticle.erase(m_vecVertexParticle.begin());
 		m_fSize -= 0.1f;	
 	}
@@ -300,24 +314,16 @@ bool CEzealQ_Particle::AddTail()
 			m_vecVertexParticle[i].p += (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		}
 		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
+		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
+
 		m_vecVertexParticle.push_back(m_VerTexInfo);
 
+
 	}
-	if (m_vecVertexParticle.empty())
+	if (m_vecVertexParticle.empty()) {
 		return false;
-
-
-	
-}
-
-void CEzealQ_Particle::Colistionbox()
-{
-
-	if (!m_vecVertexParticle.empty()) {
-		SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-		SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		GetDevice()->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecVertexParticle.size(), &m_vecVertexParticle[0], sizeof(CUSTOMVERTEX));
-		SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
+	return true;
 }
 

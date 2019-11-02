@@ -65,12 +65,12 @@ void cGameHUD::Initialize()
 	m_mapImage["garen"] = garen;
 	m_mapImage["garen"]->Initialize();*/
 
-	CImage_Loader * character_state = new CImage_Loader(
+	CImage_Loader * stats = new CImage_Loader(
 		"Resource/jiyun/state.png",
 		D3DXVECTOR3(WINSIZEX - 905, WINSIZEY - 101, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	m_mapImage["character_state"] = character_state;
-	m_mapImage["character_state"]->Initialize();
+	m_mapImage["stats"] = stats;
+	m_mapImage["stats"]->Initialize();
 
 	CImage_Loader * champion = new CImage_Loader(
 		"Resource/jiyun/champion-01.png",
@@ -96,6 +96,11 @@ void cGameHUD::Initialize()
 	/*m_Text = new cFont;
 	m_Text->Initialize(10, 5, L"±Ã¼­Ã¼");*/
 
+	/*CImage_Loader * character_state = new CImage_Loader(
+		"Resource/jiyun/character_state.png",
+		D3DXVECTOR3(0, WINSIZEY -  )
+	)*/
+
 	GET_SINGLE(cCubePC)->Initialize();
 
 	/*Ezreal.m_Skill[0] = CImage_Loader(
@@ -111,19 +116,19 @@ void cGameHUD::Initialize()
 	Ezreal_copy.m_Skill[0].Initialize();*/
 
 	float fA = 40;
-
+	
 	CTextMgr * TextA = new CTextMgr();
 	m_mapTextMgr["TextA"] = TextA;
 	m_mapTextMgr["TextA"]->Initialize_Text(
 		fA,
-		m_mapImage["character_state"]->GetPosition().x + 90, 
+		m_mapImage["stats"]->GetPosition().x + 90, 
 		
-		m_mapImage["character_state"]->GetPosition().y + 14, 
+		m_mapImage["stats"]->GetPosition().y + 14, 
 		
-		m_mapImage["character_state"]->GetPosition().x,
+		m_mapImage["stats"]->GetPosition().x,
 		
-		m_mapImage["character_state"]->GetImageInfo().Height
-	+ m_mapImage["character_state"]->GetPosition().y);
+		m_mapImage["stats"]->GetImageInfo().Height
+	+ m_mapImage["stats"]->GetPosition().y);
 }
 
 void cGameHUD::Progress()
@@ -159,7 +164,7 @@ void cGameHUD::Render()
 	m_mapImage["item"]->Render();
 	//m_mapImage["garen"]->Render();
 
-	m_mapImage["character_state"]->Render();
+	m_mapImage["stats"]->Render();
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();

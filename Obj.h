@@ -50,5 +50,7 @@ public:
 	virtual void Progress()PURE;
 	virtual void Render() PURE;
 	virtual void Release() PURE;
+public:
+	void SetColl(bool Coll) { m_bColl = Coll; }
 	
 };

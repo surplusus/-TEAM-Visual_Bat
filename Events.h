@@ -3,9 +3,9 @@
 #include <string>
 std::string;
 class CObj;
-class SoundMgr;
+class SoundManager;
 class GuhyunScene;
-
+class CPaticle;
 typedef struct _tagEvent
 {
 } EVENT;
@@ -33,6 +33,16 @@ typedef struct _tagRegisterObj : EVENT
 typedef struct _tagPickingSphere : EVENT
 {
 	_tagPickingSphere(CObj* picked)
-		: m_pObj(picked) {}
-	CObj * m_pObj;
-}PICKSPHERE;
+		: m_pObj(picked){}
+	CObj* m_pObj;
+} PICKSPHEREEVENT;
+
+typedef struct _tagCollisionEvent : EVENT
+{
+	_tagCollisionEvent(CObj* pOri, CObj* pTarget)
+		: m_pOri(pOri), m_pTarget(pTarget){}
+	CObj* m_pOri;
+	CObj* m_pTarget;
+
+
+} COLLISIONEVENT;

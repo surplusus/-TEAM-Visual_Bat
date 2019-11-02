@@ -6,7 +6,6 @@
 #include "SceneMgr.h"
 #include "SelectScene.h"
 #include "GuhyunScene.h"
-#include "SceneMediator.h"
 #include "ThreadPool.h"
 #include "ObjMgr.h"
 #include "SummonTerrain.h"
@@ -58,13 +57,6 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// Loading Progress Bar
 		SetUp_ProgressBar();
-	}
-	//Begin_Render();
-	//Render();
-	//End_Render(g_hWnd);
-	{	// Load Resource By Thread
-		//SetFuncLoading(); // 쓰레드 대신 써본다(callable vector)
-		//m_bLoadingComplete = OperateLoadingFunctorThruThread();
 	}
 
 	return S_OK;
@@ -119,8 +111,6 @@ void CLoadingScene::SetUp_ProgressBar()
 	if (FAILED(D3DXCreateSprite(GET_DEVICE, &m_pLoadingSprite)))
 		cout << "sprite를 못 불렀지용~" << endl;
 
-	//g_iLoadingSubSet = m_vfuncLoading.size();
-	//m_iMeshInfoSize = m_vfuncLoading.size();
 	m_iProgressBar = 0;
 }
 
@@ -154,6 +144,9 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 	if (once) {
 		once = false;
 		CLoadingFunctor functor;
+		string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
+		if (sChampName == "")	sChampName = "Ezreal";
+		functor.m_SelectedChamp = sChampName;
 		future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, functor);
 	}
 

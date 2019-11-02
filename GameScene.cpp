@@ -12,6 +12,8 @@
 #include"EzealQ_Particle.h"
 #include"ParticleMgr.h"
 #include"HeightMap.h"
+#include"ColitionMgr.h"
+#include"Cursor.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -49,28 +51,45 @@ HRESULT CGameScene::Initialize()
 
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
+	CObj *ez = new CEzreal("IDLE1", false);
+	ez->Initialize();
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2",ez)))
+		return E_FAIL;
 
+	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
+
 	LetObjectKnowHeightMap();
+
+	m_Cursor = new CCursor;
+	m_Cursor->InitCursor();
+	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
 }
 
 void CGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
+
+	GET_SINGLE(CColitionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
 }
 
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
+
+	GET_SINGLE(CColitionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 }
 
 void CGameScene::Release()
 {
-
+	m_pObjMgr->DestroyInstance();
+	GET_SINGLE(CColitionMgr)->DestroyInstance();
+	GET_SINGLE(CParticleMgr)->DestroyInstance();
+	GET_SINGLE(CCameraMgr)->DestroyInstance();
 }
 
 HRESULT CGameScene::Setup()

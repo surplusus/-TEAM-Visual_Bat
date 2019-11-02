@@ -1,5 +1,7 @@
 #pragma once
 class CParticle;
+class CObj;
+class ColiderComponent;
 class CParticleMgr
 {
 	DECLARE_SINGLETON(CParticleMgr);
@@ -8,10 +10,11 @@ private:
 public:
 	~CParticleMgr();
 private:
-	map<const TCHAR*, list<CParticle*>*> m_MapParticle;
-
+	map<CObj*, list<CParticle*>*> m_MapParticle;
+	map<CObj*,list<ColiderComponent*>*> m_pColiderMap;
 public:
-	void AddParticle(const TCHAR* pObjectName, CParticle* pParticle);
+	void AddParticle(CObj*, CParticle* pParticle);
+	void InsertColList(CObj* pObj,list<ColiderComponent*>* pColList);
 public:
 	void Initalize();
 	void Release();

@@ -3,16 +3,25 @@
 #include "SoundMgr.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
+#include "EventMgr.h"
 
 CUdyr::CUdyr()
 	: m_iStateFlag(0)
 	, m_pTargetObj(nullptr)
+	, m_pBehavior(nullptr)
 {
 }
 
 CUdyr::~CUdyr()
 {
 	Release();
+}
+
+void CUdyr::Release()
+{
+	SAFE_RELEASE(m_pMeshSphere);
+	SAFE_RELEASE(m_pAnimationCtrl);
+	SAFE_DELETE(m_pBehavior);
 }
 
 HRESULT CUdyr::Initialize()
@@ -33,13 +42,8 @@ HRESULT CUdyr::Initialize()
 		SetUpPickingShere(1.f);
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
-	{	// Push_back StateFunc
-		m_vStateFunc.push_back([this]() {return this->Func1_IDLE(); });
-		m_vStateFunc.push_back([this]() {return this->Func2_ATTACK(); });
-		m_vStateFunc.push_back([this]() {return this->Func3_RUN(); });
-		m_vStateFunc.push_back([this]() {return this->Func4_AGRESSIVE(); });
-
-		m_vStateFlag.resize(STATETYPE_END, false);
+	{	//<< : Behavior Tree
+		m_pBehavior = new BT::BehaviorTree();
 
 	}
 	return S_OK;
@@ -51,8 +55,13 @@ void CUdyr::Progress()
 	QWERControl();
 	ProgressStateFunc();
 	//ChangeAniSetByState();
+	{	//<< : Behavior Tree
+
+	}
 	CChampion::UpdateWorldMatrix();
 	m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
+
+	
 }
 
 void CUdyr::Render()
@@ -62,16 +71,9 @@ void CUdyr::Render()
 	Render_PickingShere();
 }
 
-void CUdyr::Release()
-{
-	SAFE_RELEASE(m_pMeshSphere);
-	SAFE_RELEASE(m_pAnimationCtrl);
-}
-
-void CUdyr::OnFindPickingSphere(PICKSPHERE * evt)
+void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
 	m_pTargetObj = evt->m_pObj;
-	delete evt;
 }
 
 void CUdyr::MouseControl()

@@ -286,6 +286,21 @@
     <Filter Include="Gauge">
       <UniqueIdentifier>{229d029e-7408-4063-81f4-1bc0682cb57f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr">
+      <UniqueIdentifier>{4d882eea-c9fc-47fa-9298-b4b11d8fe263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent">
+      <UniqueIdentifier>{ca4bd0fe-53de-49cf-b975-547d018773b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider">
+      <UniqueIdentifier>{29e639d8-223d-4c95-b0f5-3673dde96134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider">
+      <UniqueIdentifier>{a4103b60-bfc6-43f2-acf3-738080443578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
+      <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -585,12 +600,6 @@
     <ClInclude Include="InGameScene.h">
       <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClInclude>
-    <ClInclude Include="ICondition.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
@@ -617,6 +626,30 @@
     </ClInclude>
     <ClInclude Include="MinionGauge.h">
       <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="ColitionMgr.h">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ColiderComponent.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectColider.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleColider.h">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleObj.h">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorUdyr.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -890,12 +923,6 @@
     <ClCompile Include="InGameScene.cpp">
       <Filter>소스 파일\Scene\InGameScene</Filter>
     </ClCompile>
-    <ClCompile Include="ICondition.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Behavior.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
@@ -922,6 +949,30 @@
     </ClCompile>
     <ClCompile Include="MinionGauge.cpp">
       <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="ColitionMgr.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ColiderComponent.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectColider.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ObjColider</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleColider.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleObj.cpp">
+      <Filter>소스 파일\Maneger\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorUdyr.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,14 +23,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="BehaviorUdyr.h" />
     <ClInclude Include="C2DMouse.h" />
     <ClInclude Include="CannonMinion.h" />
     <ClInclude Include="Champ.h" />
     <ClInclude Include="ChampGauge.h" />
     <ClInclude Include="Cheon.h" />
+    <ClInclude Include="ColiderComponent.h" />
+    <ClInclude Include="ColitionMgr.h" />
     <ClInclude Include="CubePC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Cursor.h" />
     <ClInclude Include="DropBox.h" />
     <ClInclude Include="EzealQ_Particle.h" />
     <ClInclude Include="Ezreal.h" />
@@ -59,7 +63,6 @@
     <ClInclude Include="HUDScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="ICondition.h" />
     <ClInclude Include="ImageLoader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -77,8 +80,11 @@
     <ClInclude Include="Nexus.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ObjectColider.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleColider.h" />
     <ClInclude Include="ParticleMgr.h" />
+    <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="PickingSphereMgr.h" />
     <ClInclude Include="SelectedSpells.h" />
     <ClInclude Include="TestScene.h" />
@@ -155,7 +161,9 @@
     <ClInclude Include="Turret.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Udyr.h" />
+    <ClInclude Include="Udyr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
     <ClInclude Include="Zealot.h" />
@@ -170,6 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Behavior.cpp" />
+    <ClCompile Include="BehaviorUdyr.cpp" />
     <ClCompile Include="Bound.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="BoundingMgr.cpp" />
@@ -182,10 +191,13 @@
     <ClCompile Include="Champ.cpp" />
     <ClCompile Include="ChampGauge.cpp" />
     <ClCompile Include="Champion.cpp" />
+    <ClCompile Include="ColiderComponent.cpp" />
+    <ClCompile Include="ColitionMgr.cpp" />
     <ClCompile Include="CombatAlgorithm.cpp" />
     <ClCompile Include="CubePC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DropBox.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />
@@ -200,7 +212,6 @@
     <ClCompile Include="HUDScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="ICondition.cpp" />
     <ClCompile Include="ImageLoader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -218,8 +229,11 @@
     <ClCompile Include="Nexus.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ObjectColider.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleColider.cpp" />
     <ClCompile Include="ParticleMgr.cpp" />
+    <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="PickingSphereMgr.cpp" />
     <ClCompile Include="SelectedSpells.cpp" />
     <ClCompile Include="TestScene.cpp" />
@@ -289,7 +303,9 @@
     <ClCompile Include="Turret.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Udyr.cpp" />
+    <ClCompile Include="Udyr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="Obj.cpp" />
