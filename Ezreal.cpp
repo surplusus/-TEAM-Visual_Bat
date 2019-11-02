@@ -130,8 +130,8 @@ HRESULT CEzreal::Initialize()
 	INFO pInfo = m_Info;	
 	m_pColider->SetUp(m_Info, 2.0f,new CBoundingBox);
 	m_ColiderList.push_back(m_pColider);
-	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
-	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+	
+
 	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::PaticleCollisionEvent);
 	return S_OK;
 }

@@ -85,16 +85,17 @@ void CParticleMgr::Progress()
 	for (iter; iter != m_MapParticle.end(); ++iter)
 	{
 		list<CParticle*>::iterator iter2 = m_MapParticle[iter->first]->begin();
+		if (iter->second == NULL) continue;
 		for (iter2; iter2 != iter->second->end(); )
 		{
 			if (!(*iter2)->Progress())
-			{	
-				
+			{
 				list<ColiderComponent*>::iterator it2 = find(m_pColiderMap[iter->first]->begin(), m_pColiderMap[iter->first]->end(), ((CParticleObj*)(*iter2))->GetColider());
-				if(it2!= m_pColiderMap[iter->first]->end())
+				if (it2 != m_pColiderMap[iter->first]->end())
 					it2 = m_pColiderMap[iter->first]->erase(it2);
-
-				SAFE_DELETE(*iter2);
+					
+			
+				SAFE_DELETE(*iter2);				
 				iter2 = m_MapParticle[iter->first]->erase(iter2);
 
 			
