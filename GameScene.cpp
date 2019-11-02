@@ -13,6 +13,7 @@
 #include"ParticleMgr.h"
 #include"HeightMap.h"
 #include"ColitionMgr.h"
+#include "Turret.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -54,6 +55,13 @@ HRESULT CGameScene::Initialize()
 	ez->Initialize();
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2",ez)))
 		return E_FAIL;
+
+	// cheon
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", CFactory<CObj, CTurret>::CreateObject());
+	else
+		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
 
 	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
