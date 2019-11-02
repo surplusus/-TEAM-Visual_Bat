@@ -12,6 +12,7 @@
 #include"BoundingBox.h"
 #include"ColitionMgr.h"
 #include"EventMgr.h"
+#include"PickingSphereMgr.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
@@ -133,6 +134,9 @@ HRESULT CEzreal::Initialize()
 	
 
 	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::PaticleCollisionEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CEzreal::OnFindPickingSphere);
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pColider->GetSphere());
+
 	return S_OK;
 }
 
@@ -260,44 +264,9 @@ void CEzreal::SettingAnimationSort()
 {
 	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1])
 	{
-		if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
-		{
-			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-			m_ChangeMotion = false;
-			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
-
-			if (m_fStartTime >= m_fEndTime) {
-				m_Champ_State[CHAMPION_STATETYPE_SPELL1] = false;
-				m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
-				m_ChangeMotion = true;
-				m_fStartTime = 0;
-				m_bDirty = true;
-			}
-			else
-			{
-				m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
-				m_fStartTime += 1;
-
-			}
-		}
-		else if (m_Champ_State[CHAMPION_STATETYPE_RUN])//달리는 상태일때
-		{
-			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-			m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
-			
-			m_ChangeMotion = false;
-		}
-		if (m_Champ_State[CHAMPION_STATETYPE_RUN] && !m_ChangeMotion) {
-			TurnSlowly(&m_MouseHitPoint);
-			bool bRun = Update_vPos_ByDestPoint(&m_MouseHitPoint, 5.0f);
-			if (!bRun)
-			{
-				m_ChangeMotion = true;
-				m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
-				m_AnimationQueue.pop();
-
-			}
-		}
+		if (SettingSpell1_Motion()) return;
+		if (SettingAttack_Motion()) return;
+		if (SettingRun_Motion()) return;
 		
 	}
 	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
@@ -334,5 +303,83 @@ void CEzreal::InitUpdate()
 void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
 	Evt->m_pOri->SetColl( true);
+
+}
+
+void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)
+{
+	m_pTargetObj = evt->m_pObj;
+}
+
+bool CEzreal::SettingSpell1_Motion()
+{
+	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
+	{
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+		m_ChangeMotion = false;
+		m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
+
+		if (m_fStartTime >= m_fEndTime) {
+			m_Champ_State[CHAMPION_STATETYPE_SPELL1] = false;
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+			m_ChangeMotion = true;
+			m_fStartTime = 0;
+			m_bDirty = true;
+			return true;
+		}
+		else
+		{
+			m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
+			m_fStartTime += 1;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CEzreal::SettingAttack_Motion()
+{
+	if (m_Champ_State[CHAMPION_STATETYPE_ATTACK1])
+	{
+		
+		SPHERE* spherePicked = nullptr;
+		bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
+		if (bPickSphere)
+		{
+			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
+			m_AnimationQueue.push(CHAMPION_STATETYPE_ATTACK1);
+			m_fStartTime += 1;
+			return true;
+		}		
+	}
+	return false;
+}
+
+bool CEzreal::SettingRun_Motion()
+{
+	bool Check = false;
+	if (m_Champ_State[CHAMPION_STATETYPE_RUN])//달리는 상태일때
+	{
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+		m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
+		m_ChangeMotion = false;
+		Check = true;
+	}
+
+	if (m_Champ_State[CHAMPION_STATETYPE_RUN] && !m_ChangeMotion) {
+		TurnSlowly(&m_MouseHitPoint);
+		bool bRun = Update_vPos_ByDestPoint(&m_MouseHitPoint, 5.0f);
+		if (!bRun)
+		{
+			m_ChangeMotion = true;
+			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
+			if (!m_AnimationQueue.empty())
+				m_AnimationQueue.pop();
+			Check = true;
+		}
+	}
+	if (Check) return true;
+		
+	return false;
 
 }
