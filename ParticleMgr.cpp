@@ -95,9 +95,7 @@ void CParticleMgr::Progress()
 					it2 = m_pColiderMap[iter->first]->erase(it2);
 
 				SAFE_DELETE(*iter2);
-				iter2 = m_MapParticle[iter->first]->erase(iter2);
-
-			
+				iter2 = m_MapParticle[iter->first]->erase(iter2);			
 			}
 			else iter2++;
 		}

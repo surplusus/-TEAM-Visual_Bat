@@ -23,6 +23,12 @@ void ColiderComponent::SetUp(INFO tInfo, float fRadius, CBound* pMesh)
 	m_SphereMesh = new CBoundingSphere(m_fRadius,*m_pBoxMesh->GetCenter());
 	m_SphereMesh->InitMesh(GetDevice());
 
+
+	m_SphereInfo.fRadius = fRadius;
+	m_SphereInfo.pMesh = m_SphereMesh->GetMesh();
+	m_SphereInfo.isPicked = m_bColision;
+	m_SphereInfo.vpCenter = m_SphereMesh->GetCenter();
+
 	D3DMATRIX matWorld = m_Info.matWorld * m_matWorld;
 	m_Info.vPos = { matWorld._41,matWorld._42,matWorld._43 };
 	

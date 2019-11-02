@@ -212,8 +212,8 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	HRESULT re;
 	if (key == "Map")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
-	else if (key == "Udyr")
-		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
+	//else if (key == "Udyr")
+	//	re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
 	else if (key == "MeleeMinion")
