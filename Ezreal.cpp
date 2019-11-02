@@ -165,6 +165,7 @@ void CEzreal::AddSkill_Q()
 	CParticle * p = new CEzealQ_Particle(tInfo,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
 	p->Initalize();
 	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
+	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
 	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
 	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 }

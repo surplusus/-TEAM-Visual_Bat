@@ -38,7 +38,6 @@ void CColitionMgr::Render()
 	for (iter1; iter1 != m_ColMap.end(); ++iter1)
 	{
 		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
-		if (*ListIter1 == NULL) continue;
 		for(ListIter1; ListIter1 != m_ColMap[iter1->first]->end(); ListIter1++) {			
 			(*ListIter1)->Render();
 		}
