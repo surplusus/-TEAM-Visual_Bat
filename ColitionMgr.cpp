@@ -48,7 +48,6 @@ void CColitionMgr::Render()
 
 void CColitionMgr::UpdateColistion()
 {
-	int count =0 ;
 	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 		iter1 != m_ColMap.end(); ++iter1)
 	{
@@ -73,17 +72,14 @@ void CColitionMgr::UpdateColistion()
 						if ((*pOrigin)->CheckColision(*pTarget))
 						{
 							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT(iter1->first, iter2->first));
-							//(*pTarget)->SetStateCol(true);
-							//pOrigin = m_ColMap[iter1->first]->erase(pOrigin);
+							pOrigin =m_ColMap[iter1->first]->erase(pOrigin);
 							bCol = true;
-							pOrigin++;
 						}
 					}
 				}
-				if (!bCol)	pOrigin++;
+				if (!bCol) pOrigin++;
 			}
 		}
-		count++;
 	}
 
 

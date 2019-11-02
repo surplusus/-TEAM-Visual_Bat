@@ -34,6 +34,7 @@
     <ClInclude Include="CubePC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Cursor.h" />
     <ClInclude Include="DropBox.h" />
     <ClInclude Include="EzealQ_Particle.h" />
     <ClInclude Include="Ezreal.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="CubePC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DropBox.cpp" />
     <ClCompile Include="EventFunctionHandler.cpp" />
     <ClCompile Include="EventMgr.cpp" />

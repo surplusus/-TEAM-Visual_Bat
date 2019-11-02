@@ -45,7 +45,9 @@ void CEzealQ_Particle::Initalize()
 bool CEzealQ_Particle::Progress()
 {
 	Update_Particle();
-	
+	if (m_bCol)
+		return false;
+
 	if (!AddTail())
 		return false;
 	return true;

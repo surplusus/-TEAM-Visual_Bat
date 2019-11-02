@@ -2,21 +2,6 @@
 
 class CScene;
 
-
-struct ST_SELECTED_CHAMP_INFO
-{
-	string					m_ChampName;
-	string					m_Spell_1Name;
-	string					m_Spell_2Name;
-	ST_SELECTED_CHAMP_INFO() {}
-	
-	ST_SELECTED_CHAMP_INFO(ST_SELECTED_CHAMP_INFO *SelectedInfo)
-		: m_ChampName(SelectedInfo->m_ChampName), m_Spell_1Name(SelectedInfo->m_Spell_1Name), m_Spell_2Name(SelectedInfo->m_Spell_2Name) {}
-	
-	ST_SELECTED_CHAMP_INFO(string ChampName, string Spell_1, string Spell_2)
-		: m_ChampName(ChampName), m_Spell_1Name(Spell_1), m_Spell_2Name(Spell_2) {}
-};
-
 class CSceneMediator
 {
 public:

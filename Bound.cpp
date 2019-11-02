@@ -38,4 +38,5 @@ const float CBound::GetRadius()
 void CBound::Release()
 {
 	m_pMesh->Release();
+	m_pMesh = NULL;
 }
