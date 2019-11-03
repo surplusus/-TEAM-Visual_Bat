@@ -17,9 +17,9 @@ namespace UdyrBT
 		UdyrBTHandler();
 		~UdyrBTHandler();
 		//static CUdyr*		g_UdyrInst;
-		vector<Sequence*>	m_vSequnece;
-		vector<Selector*>	m_vSelector;
-		vector<Task*>		m_vTask;
+		vector<shared_ptr<Sequence>>	m_vSequnece;
+		vector<shared_ptr<Selector>>	m_vSelector;
+		vector<shared_ptr<Task>>		m_vTask;
 		void SetRoot(int eNode);
 		void MakeTree();
 		void AddTask(int eSequenceType, function<void(void)> pFunc);

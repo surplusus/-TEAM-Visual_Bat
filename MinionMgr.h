@@ -1,6 +1,6 @@
 #pragma once
 class CMinion;
-
+class CHeightMap;
 class CMinionMgr
 {
 	enum{T_MELEE, T_RANGE, T_CANNON, T_SUPER};

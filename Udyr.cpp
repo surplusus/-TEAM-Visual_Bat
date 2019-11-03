@@ -49,6 +49,7 @@ HRESULT CUdyr::Initialize()
 		m_pBehavior = new UdyrBTHandler;
 		m_pBehavior->AddTask(TASK_IDLE, [this]() {this->ChangeAniSetByKey("Idle"); });
 		m_pBehavior->AddTask(TASK_RUN, [this]() {this->ChangeAniSetByKey("Run"); });
+		m_pBehavior->MakeTree();
 	}
 	return S_OK;
 }
@@ -258,10 +259,11 @@ void CUdyr::ControlFlag()
 
 void CUdyr::UpdateBlackBoard()
 {
-	//static bool tmp = false;
+	static bool tmp = false;
 	//if (CheckPushKeyOneTime(VK_Y))
-	//	tmp = ~tmp;
 	//m_pBehavior->GetBlackBoard().setBool("Attack", tmp);
-	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0))
-		m_pBehavior->GetBlackBoard().setBool("Click", true);
+	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
+		tmp = !tmp;
+		m_pBehavior->GetBlackBoard().setBool("Click", tmp);
+	}
 }

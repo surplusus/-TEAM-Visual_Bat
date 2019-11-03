@@ -4,26 +4,20 @@
 
 UdyrBT::UdyrBTHandler::UdyrBTHandler()
 {
-	for (int i = 0; i < SEQUENCE_END; ++i)
-		m_vSequnece.emplace_back(new Sequence(&m_BlackBoard));
-	for (int i = 0; i < SELECTOR_END; ++i)
-		m_vSelector.emplace_back(new Selector(&m_BlackBoard));
+	m_vSequnece.resize(SEQUENCE_END);
+	m_vSelector.resize(SELECTOR_END);
 	m_vTask.resize(TASK_END);
 
-	MakeTree();
+	for (int i = 0; i < SEQUENCE_END; ++i)
+		m_vSequnece[i] = make_shared<Sequence>(&m_BlackBoard);
+	for (int i = 0; i < SELECTOR_END; ++i)
+		m_vSelector[i] = make_shared<Selector>(&m_BlackBoard);
 
 	SetRoot(SEQUENCE_ROOT);
 }
 
 UdyrBT::UdyrBTHandler::~UdyrBTHandler()
 {
-	Release();
-	for (auto & it : m_vSequnece)
-		SAFE_RELEASE(it);
-	for (auto & it : m_vSelector)
-		SAFE_RELEASE(it);
-	for (auto & it : m_vTask)
-		SAFE_DELETE(it);
 	m_vSequnece.clear();
 	m_vSelector.clear();
 	m_vTask.clear();
@@ -31,15 +25,15 @@ UdyrBT::UdyrBTHandler::~UdyrBTHandler()
 
 void UdyrBT::UdyrBTHandler::SetRoot(int eNode)
 {
-	m_Root = m_vSequnece[eNode];
+	m_Root = m_vSequnece[eNode].get();
 }
 
 void UdyrBT::UdyrBTHandler::MakeTree()
 {
 	// Task를 BehaviorTree에 매단다
-	m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vSelector[SELECTOR_RUN]);
-	m_vSelector[SELECTOR_RUN]->AddNode(m_vTask[TASK_IDLE]);
-	m_vSelector[SELECTOR_RUN]->AddNode(m_vTask[TASK_RUN]);
+	m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vSelector[SELECTOR_RUN].get());
+	m_vSelector[SELECTOR_RUN]->AddNode(m_vTask[TASK_IDLE].get());
+	m_vSelector[SELECTOR_RUN]->AddNode(m_vTask[TASK_RUN].get());
 }
 
 void UdyrBT::UdyrBTHandler::AddTask(int eSequenceType, function<void(void)> pFunc)
@@ -47,10 +41,9 @@ void UdyrBT::UdyrBTHandler::AddTask(int eSequenceType, function<void(void)> pFun
 	switch (eSequenceType)
 	{
 	case TASK_IDLE:
-		m_vTask[TASK_IDLE] = new UdyrIdle(pFunc);
-		break;
+		m_vTask[TASK_IDLE] = make_shared<UdyrIdle>(pFunc);
 	case TASK_RUN:
-		m_vTask[TASK_RUN] = new UdyrRun(pFunc);
+		m_vTask[TASK_RUN] = make_shared<UdyrRun>(pFunc);
 		break;
 	case TASK_ATTACK:
 		break;

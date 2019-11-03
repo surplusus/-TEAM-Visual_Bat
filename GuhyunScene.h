@@ -22,5 +22,7 @@ private:
 	HRESULT Setup();
 	void SoundUpdate();
 	void LetObjectKnowHeightMap();
+public:
+	void GetMinionMgr(void** pMinionMgr);
 };
 

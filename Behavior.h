@@ -20,7 +20,6 @@ namespace BehaviorTree
 	public:
 		pBlackBoard* m_BlackBoard;
 		virtual bool Run() = 0;
-		virtual void Release() = 0;
 	};
 
 	using ManyNodes = vector<Node*>;
@@ -30,14 +29,11 @@ namespace BehaviorTree
 		Composite(pBlackBoard* blackboard) {
 			m_BlackBoard = blackboard;
 		}
-		virtual ~Composite() {}
+		virtual ~Composite() { m_Nodes.clear(); }
 	public:
 		void AddNode(Node* node) {
 			node->m_BlackBoard = this->m_BlackBoard;
 			m_Nodes.emplace_back(node); }
-		//void AddManyNodes(initializer_list<Node*>&& nodes) {
-		//	for (Node* it : nodes)	AddNode(it);
-		//}
 		ManyNodes GetComposites() const{ return m_Nodes; }
 		ManyNodes GetCompositesShuffled() const {
 			ManyNodes tmp = m_Nodes;
@@ -50,13 +46,6 @@ namespace BehaviorTree
 				it->m_BlackBoard = this->m_BlackBoard;
 				AddNode(it);
 			}
-		}
-		virtual void Release() override{
-			for (auto & it : m_Nodes) {
-				it->Release();
-				SAFE_DELETE(it);
-			}
-			m_Nodes.clear();
 		}
 	protected:
 		ManyNodes m_Nodes;
@@ -112,7 +101,6 @@ namespace BehaviorTree
 		Task(Task* child)
 			: m_pChild(child) {}
 		virtual ~Task() {}
-		virtual void Release() override {}
 		virtual bool Run() override {
 			if (Condition())
 				return m_pChild->Do();
@@ -189,14 +177,10 @@ namespace BehaviorTree
 			m_BlackBoard = make_shared<BlackBoard>();
 		}
 		~BehaviorTreeHandler() {
-			m_Root->Release();
+			m_BlackBoard = nullptr;
 			m_Root = nullptr;
 		}
 		bool Run() const { return m_Root->Run(); }
-		void Release() {
-			m_Root->Release();
-			delete m_Root;
-		}
 		BlackBoard& GetBlackBoard() { return *m_BlackBoard.get(); }
 	};
 }

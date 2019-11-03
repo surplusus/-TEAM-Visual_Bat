@@ -4,15 +4,17 @@
 #include "CameraMgr.h"
 #include "ObjMgr.h"
 #include "SceneMgr.h"
-#include "ThreadPool.h"
 #include "Frustum.h"
-#include "SoundMgr.h"
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
+
+#include "SoundMgr.h"
 #include "Udyr.h"
 #include "Ezreal.h"
 #include "MinionMgr.h"
+#include "Factory.h"
+#include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
 {
@@ -34,16 +36,15 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 
-
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
 	#pragma region 이제 LoadingScene 부분으로 갔음
 	//=========== Add Mesh(Bounding) ===========//
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	//{
-	//	ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
-	//}
+	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	{
+		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
+	}
 	//=========== Add Texture ===========//
 
 	//=========== Add Mesh(static or dynamic) ===========//
@@ -55,7 +56,7 @@ HRESULT GuhyunScene::Initialize()
 	else
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 		
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
 		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
 			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
 	}
@@ -68,11 +69,11 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Particle ===========//	
 	#pragma endregion
-
-	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
-	LetObjectKnowHeightMap();
+	// 미니언 생성
 	m_pMinionMgr = new CMinionMgr();
 	m_pMinionMgr->CreateMinions();
+	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
+	LetObjectKnowHeightMap();
 	//HRESULT res;
 	//m_pMinion = new CMeleeMinion();
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
@@ -178,4 +179,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
 	if (pObj != nullptr)
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+}
+
+void GuhyunScene::GetMinionMgr(void ** pMinionMgr)
+{
+	m_pMinionMgr = reinterpret_cast<CMinionMgr*>(*pMinionMgr);
 }

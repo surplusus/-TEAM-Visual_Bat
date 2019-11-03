@@ -14,7 +14,6 @@ private:
 	class GuhyunScene*		m_pGuhyunScene = nullptr;
 	class CInGameScene*		m_pInGameScene = nullptr;
 
-	map<string, void**>		m_mapVoidPointer;
 	map<string, CScene*>	m_mapSceneMember;
 private:
 
@@ -24,6 +23,8 @@ public:
 
 	// Guhyun
 private:
+	map<string, void**>		m_mapVoidPointer;
+public:
 	void	SetVoidPointerMap(string key, IN void** pVoid);
 	//cheon
 

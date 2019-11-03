@@ -11,6 +11,8 @@
 #include "GameScene.h"
 #include "InGameScene.h"
 
+#include "MinionMgr.h"
+
 CLoadingScene::CLoadingScene() 
 	: m_pLoadingSprite(nullptr)
 	, m_pLoadingTexture(nullptr)
@@ -26,7 +28,6 @@ CLoadingScene::CLoadingScene()
 
 CLoadingScene::~CLoadingScene()
 {
-	Release();
 }
 
 HRESULT CLoadingScene::Initialize()
@@ -58,9 +59,14 @@ void CLoadingScene::Progress()
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 	
 	m_bLoadingComplete = OperateLoadingFunctorThruThread();
-	if (m_bLoadingComplete)
+	//m_bLoadingComplete = true;
+	if (m_bLoadingComplete) {
+		CMinionMgr* pMinionMgr = new CMinionMgr;
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr", reinterpret_cast<void**>(&pMinionMgr));
+
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	}
 }
 
 void CLoadingScene::Render()
@@ -142,12 +148,11 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 
 		bool bReady = false; 
 		bReady = (future.wait_for(chrono::seconds(0)) == future_status::ready);
-		//bool re = GET_THREADPOOL->PollThreadEnd(THREAD_LOADMAP);  이건 또 왜 안되냐?
 		if (bReady)
 		{
 			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
 			m_bLoadingComplete = true;
-			//return future.get();     이거 왜 안되는거냐???
+			bool re = future.get();     //이거 왜 안되는거냐???
 		}
 	}
 	catch (const std::exception& e)

@@ -28,7 +28,6 @@ public:
 			m_worker_threads_[eState].detach();
 	}
 	void ReleaseInst() {
-		m_job_q_.unlock();
 		for (auto& it : m_worker_threads_) {
 			auto thr = it.native_handle();
 			bool re = TerminateThread(thr, 0);

@@ -216,7 +216,8 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
 	else if (key == "MeleeMinion" || key == "CannonMinion")
-		GET_SINGLE(scenemgr)
+		int n = 0;
+		//GET_SINGLE(CSceneMgr)->GetSceneMediator()->
 
 	if (SUCCEEDED(re)) {
 		printf("%s register ¿Ï·á\n", key.c_str());
