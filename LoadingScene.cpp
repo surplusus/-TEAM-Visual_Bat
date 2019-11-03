@@ -143,12 +143,12 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
 			if (sChampName == "")	sChampName = "Ezreal";
 			functor.m_SelectedChamp = sChampName;
-			future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, functor);
-			this_thread::sleep_for(chrono::milliseconds(100));
+			function<bool(void)> func = [functor]() mutable {bool result = functor(); return result; };
+			future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, func);
 		}
 
 		bool bReady = false; 
-		bReady = (future.wait_for(chrono::seconds(0)) == future_status::ready);
+		bReady = (future.wait_for(chrono::milliseconds(80)) == future_status::ready);
 		if (bReady)
 		{
 			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
