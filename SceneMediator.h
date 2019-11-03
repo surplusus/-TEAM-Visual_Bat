@@ -11,10 +11,10 @@ private:
 	class CSelectScene*		m_pSelectScene = nullptr;
 	class CLoadingScene*	m_pLoadingScene = nullptr;
 	class CGameScene*		m_pGameScene = nullptr;
-	
 	class GuhyunScene*		m_pGuhyunScene = nullptr;
+	class CInGameScene*		m_pInGameScene = nullptr;
 
-	map<string, string>		m_mapStringInfo;
+	map<string, void**>		m_mapVoidPointer;
 	map<string, CScene*>	m_mapSceneMember;
 private:
 
@@ -22,6 +22,9 @@ public:
 	void SetSceneMember(CScene* member);
 	void MediateInfo(MEDIATETYPE type, CScene* member);
 
+	// Guhyun
+private:
+	void	SetVoidPointerMap(string key, IN void** pVoid);
 	//cheon
 
 private:

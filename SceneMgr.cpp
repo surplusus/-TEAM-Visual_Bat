@@ -22,8 +22,8 @@ void CSceneMgr::Initialize()
 {
 	m_pSceneMediator = new CSceneMediator();
 	//m_State = new CGameScene;
-	//m_State = new GuhyunScene;
-	m_State = new CLoadingScene;
+	m_State = new GuhyunScene;
+	//m_State = new CLoadingScene;
 	m_pSceneMediator->SetSceneMember(m_State);
 	if (m_State != NULL)
 		m_State->Initialize();
@@ -32,7 +32,6 @@ void CSceneMgr::Initialize()
 void CSceneMgr::Progress()
 {
 	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		//GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}

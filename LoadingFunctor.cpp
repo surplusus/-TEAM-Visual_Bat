@@ -4,6 +4,7 @@
 #include "SoundMgr.h"
 #include "Factory.h"
 #include "ObjMgr.h"
+#include "SceneMgr.h"
 #include <fstream>
 #include <sstream>
 
@@ -214,10 +215,8 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
-	else if (key == "MeleeMinion")
-		re = GET_SINGLE(CObjMgr)->AddObject(L"MeleeMinion", CFactory<CObj, CMeleeMinion>::CreateObject());
-	//else if (key == "CannonMinion")
-	//	re = GET_SINGLE(CObjMgr)->AddObject(L"CannonMinion", CFactory<CObj, CCannonMinion>::CreateObject());
+	else if (key == "MeleeMinion" || key == "CannonMinion")
+		GET_SINGLE(scenemgr)
 
 	if (SUCCEEDED(re)) {
 		printf("%s register ¿Ï·á\n", key.c_str());

@@ -48,19 +48,19 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
-	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	//}
-	//else
-	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-	//	
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
-	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
-	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	//}
-	//else
-	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
+	else
+		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+		
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	}
+	else
+		ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	//=========== Add Shader ===========//
 	
@@ -88,12 +88,6 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
-	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		//GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
-		PostMessage(NULL, WM_QUIT, 0, 0);
-		return;
-	}
-
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -119,6 +113,7 @@ void GuhyunScene::Release()
 	GET_SINGLE(CFrustum)->DestroyInstance();
 	SAFE_DELETE(m_pMinionMgr);
 	GET_SINGLE(CCameraMgr)->Release();
+	SAFE_DELETE(m_pHeightMap);
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
@@ -166,6 +161,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
+	// for Minion
+	m_pMinionMgr->SetHeightMap(&m_pHeightMap);
+	// for Champion
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr) {

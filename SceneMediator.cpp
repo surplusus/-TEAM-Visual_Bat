@@ -20,10 +20,26 @@ CSceneMediator::~CSceneMediator()
 
 void CSceneMediator::SetSceneMember(CScene * member)
 {
-	m_pSelectScene = dynamic_cast<CSelectScene*>(member);
-	m_pLoadingScene = dynamic_cast<CLoadingScene*>(member);
-	m_pGameScene = dynamic_cast<CGameScene*>(member);
-	m_pGuhyunScene = dynamic_cast<GuhyunScene*>(member);
+	if (dynamic_cast<CSelectScene*>(member) != nullptr) {
+		m_pSelectScene = (dynamic_cast<CSelectScene*>(member);
+		return;
+	}
+	else if (dynamic_cast<CLoadingScene*>(member) != nullptr) {
+		m_pSelectScene = (dynamic_cast<CLoadingScene*>(member);
+		return;
+	}
+	else if (dynamic_cast<CGameScene*>(member) != nullptr) {
+		m_pSelectScene = (dynamic_cast<CGameScene*>(member);
+		return;
+	}
+	else if (dynamic_cast<GuhyunScene*>(member) != nullptr) {
+		m_pSelectScene = (dynamic_cast<GuhyunScene*>(member);
+		return;
+	}
+	else if (dynamic_cast<CInGameScene*>(member) != nullptr) {
+		m_pSelectScene = (dynamic_cast<CInGameScene*>(member);
+		return;
+	}
 }
 
 void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
@@ -77,4 +93,9 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 		}	break;
 	}
 
+}
+
+void CSceneMediator::SetVoidPointerMap(string key, IN void ** pVoid)
+{
+	m_mapVoidPointer.insert(make_pair(key, pVoid));
 }

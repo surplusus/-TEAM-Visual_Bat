@@ -10,10 +10,13 @@ public:
 private:
 	vector<CMinion*> m_vMinion;
 public:
-	void CreateMinions();
 	void Initialize();
 	void Progress();
 	void Render();
 	void Release();
+public:
+	void CreateMinions();
+	void SetFirstPositions(const D3DXVECTOR3* pos);
+	void SetHeightMap(CHeightMap** pHeightMap);
 };
 
