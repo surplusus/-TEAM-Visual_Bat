@@ -7,25 +7,13 @@
 #include "SelectScene.h"
 #include "GuhyunScene.h"
 #include "ThreadPool.h"
-#include "ObjMgr.h"
-#include "SummonTerrain.h"
 #include "SelectedSpells.h"
 #include "GameScene.h"
-#include "Udyr.h"
-#include "Ezreal.h"
-#include "Factory.h"
-#include "SummonTerrain.h"
 #include "InGameScene.h"
-#include "SoundMgr.h"
-#include "MeshMgr.h"
-#include "MeleeMinion.h"
-#include <fstream>
-#include <sstream>
 
 CLoadingScene::CLoadingScene() 
 	: m_pLoadingSprite(nullptr)
 	, m_pLoadingTexture(nullptr)
-	, m_iMeshInfoSize(0)
 	, m_iProgressBar(0)
 	, m_pTextMgr(nullptr)
 	, m_pBackGround(nullptr)
@@ -69,8 +57,8 @@ void CLoadingScene::Progress()
 	if (CheckPushKeyOneTime(VK_SPACE))
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 	
-	bool ckeck = OperateLoadingFunctorThruThread();
-	if (ckeck)
+	m_bLoadingComplete = OperateLoadingFunctorThruThread();
+	if (m_bLoadingComplete)
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 }
@@ -97,6 +85,8 @@ void CLoadingScene::Release()
 
 	SAFE_RELEASE(m_pLoadingSprite);
 	SAFE_RELEASE(m_pLoadingTexture);
+	auto pThreadPool = GET_THREADPOOL;
+	SAFE_RELEASE(pThreadPool);
 }
 
 void CLoadingScene::SetUp_ProgressBar()
@@ -110,8 +100,6 @@ void CLoadingScene::SetUp_ProgressBar()
 		cout << "그림을 못 불렀지용~" << endl;
 	if (FAILED(D3DXCreateSprite(GET_DEVICE, &m_pLoadingSprite)))
 		cout << "sprite를 못 불렀지용~" << endl;
-
-	m_iProgressBar = 0;
 }
 
 void CLoadingScene::Render_ProgressBar()
@@ -141,23 +129,31 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 {
 	static bool once = true;
 	static future<bool> future;
-	if (once) {
-		once = false;
-		CLoadingFunctor functor;
-		string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-		if (sChampName == "")	sChampName = "Ezreal";
-		functor.m_SelectedChamp = sChampName;
-		future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, functor);
+	try
+	{
+		if (once) {
+			once = false;
+			CLoadingFunctor functor;
+			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
+			if (sChampName == "")	sChampName = "Ezreal";
+			functor.m_SelectedChamp = sChampName;
+			future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, functor);
+		}
+
+		bool bReady = false; 
+		bReady = (future.wait_for(chrono::seconds(0)) == future_status::ready);
+		//bool re = GET_THREADPOOL->PollThreadEnd(THREAD_LOADMAP);  이건 또 왜 안되냐?
+		if (bReady)
+		{
+			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
+			m_bLoadingComplete = true;
+			//return future.get();     이거 왜 안되는거냐???
+		}
+	}
+	catch (const std::exception& e)
+	{
+		cout << e.what() << '\n';
 	}
 
-	//future_status result;
-	bool bReady = future._Is_ready();
-	//bool re = GET_THREADPOOL->PollThreadEnd(THREAD_LOADMAP);  이건 또 왜 안되냐?
-	if (bReady)
-	{
-		GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-		return true;
-		//return future.get();     이거 왜 안되는거냐???
-	}
-	return false;
+	return m_bLoadingComplete;
 }

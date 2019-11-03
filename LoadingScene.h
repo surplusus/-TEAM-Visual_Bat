@@ -40,7 +40,6 @@ private:
 	LPD3DXSPRITE				m_pLoadingSprite;
 	LPDIRECT3DTEXTURE9			m_pLoadingTexture;
 	D3DXIMAGE_INFO				m_ImageInfo;
-	int							m_iMeshInfoSize;
 	int							m_iProgressBar;
 	void SetUp_ProgressBar();
 	void Render_ProgressBar();
@@ -58,22 +57,9 @@ public:
 	//map<string, string>*		GetStringInfo() { return &m_StringInfo; }
 	// >> :: mediate
 	// << :: thread
-	static CLoadingFunctor				m_functor;
-	bool						m_bLoadingComplete;
-	bool						m_asdofuiqawe = false;
-	//map<string, stMeshInfo>		m_mapMeshInfo;
-	//vector<FuncLoading>			m_vfuncLoading;
-	//vector<bool>				m_vbLoadingComplete;
-	//bool OperateFuncAddMeshByKey(string key);
-	//void OperateFuncAddObjectByKey(string key);
-	//// 로딩 함수들(vecter에 넣고 하나씩 꺼낸다)
-	//bool SetMeshInfoThruFile();
-	//bool FuncDefaultMgrSetUp();
-	//bool FuncLoadMap();
-	//bool FuncLoadChamp();
-	//bool FuncLoadMinion();
-	//void SetFuncLoading();
 private:
+	static CLoadingFunctor		m_functor;
+	bool						m_bLoadingComplete;
 	bool OperateLoadingFunctorThruThread();
 	// >> :: thread
 };

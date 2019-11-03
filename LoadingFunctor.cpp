@@ -15,8 +15,11 @@
 #include "CannonMinion.h"
 
 CLoadingFunctor::CLoadingFunctor()
-	: m_iFuncIdx(0)
+	: m_iFuncSize(0)
+	, m_iFuncIdx(0)
 {
+	m_SelectedChamp = "";
+	m_mapMeshInfo.clear();
 }
 
 CLoadingFunctor::CLoadingFunctor(const CLoadingFunctor & rhv)
@@ -51,7 +54,7 @@ bool CLoadingFunctor::operator()()
 	while (m_iFuncIdx < m_iFuncSize)
 	{
 		FUNC fp = m_queFunc.front();
-		fp();
+		bool re = fp();
 		++m_iFuncIdx;
 		m_queFunc.pop();
 	}
@@ -204,12 +207,7 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
 		return false;
 
-	auto info = m_mapMeshInfo[key];
-	basic_string<TCHAR> sName(info.m_ObjName.begin(), info.m_ObjName.end());
-	TCHAR* szName = new TCHAR[sName.length() + 1];
-	ZeroMemory(szName, sizeof(TCHAR) * (sName.length() + 1));
-	lstrcpy(szName, sName.c_str());
-	HRESULT re;
+	HRESULT re = S_FALSE;
 	if (key == "Map")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
 	else if (key == "Udyr")
@@ -222,11 +220,11 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	//	re = GET_SINGLE(CObjMgr)->AddObject(L"CannonMinion", CFactory<CObj, CCannonMinion>::CreateObject());
 
 	if (SUCCEEDED(re)) {
-		printf("Succeeded in Object Registered\n");
+		printf("%s register 완료\n", key.c_str());
 		return true;
 	}
 	else {
-		printf("Failed to Register Object\n");
+		printf("%s register 실패\n", key.c_str());
 		return false;
 	}
 }
