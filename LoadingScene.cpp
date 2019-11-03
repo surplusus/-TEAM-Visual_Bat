@@ -144,6 +144,7 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 			if (sChampName == "")	sChampName = "Ezreal";
 			functor.m_SelectedChamp = sChampName;
 			future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, functor);
+			this_thread::sleep_for(chrono::milliseconds(100));
 		}
 
 		bool bReady = false; 

@@ -47,16 +47,16 @@ bool CLoadingFunctor::operator()()
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
 
-		m_iFuncSize = m_queFunc.size();
+		//m_iFuncSize = m_queFunc.size();
 		m_mapMeshInfo.clear();
 	}
 
-	m_iFuncIdx = 0;
-	while (m_iFuncIdx < m_iFuncSize)
+	//m_iFuncIdx = 0;
+	while (!m_queFunc.empty())
 	{
 		FUNC fp = m_queFunc.front();
 		bool re = fp();
-		++m_iFuncIdx;
+		//++m_iFuncIdx;
 		m_queFunc.pop();
 	}
 	return true;

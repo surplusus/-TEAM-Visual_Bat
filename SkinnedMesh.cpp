@@ -35,9 +35,6 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 
 	LPD3DXANIMATIONCONTROLLER* ani = m_pAniCtrl->GetAniCtrl();
 	
-	g_iTotalSubSet = static_cast<int>((*ani)->GetNumAnimationSets());
-	g_iLoadingSubSet = 0;
-	
 	SetUpBoneMatrixPointer((BONE*)m_pRootBone);
 	
 	return S_OK;
