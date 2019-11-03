@@ -23,7 +23,7 @@ public:
 
 	// Guhyun
 private:
-	map<string, void**>		m_mapVoidPointer;
+	map<string, void*>		m_mapVoidPointer;
 public:
 	void	SetVoidPointerMap(string key, IN void** pVoid);
 	//cheon

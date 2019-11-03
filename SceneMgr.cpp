@@ -81,8 +81,8 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 	}
 
 	m_State = pState;
-	m_State->Initialize();
 	m_pSceneMediator->MediateInfo(MEDIATETYPE::GETTER, m_State);
+	m_State->Initialize();
 
 	return S_OK;
 }

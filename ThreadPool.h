@@ -8,12 +8,6 @@ public:
 		if (Inst == nullptr) Inst = new ThreadPool(10);
 		return Inst;
 	}
-	static void Release() {
-		if (Inst) {
-			Inst->ReleaseInst();
-		}
-		SAFE_DELETE(Inst);
-	}
 private:
 	ThreadPool(std::size_t num_threads);
 	~ThreadPool();

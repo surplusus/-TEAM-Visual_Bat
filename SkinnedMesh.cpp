@@ -42,8 +42,6 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 
 void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 {
-	g_iLoadingSubSet++;
-
 	if (pBone->pMeshContainer)
 	{
 		BONEMESH*		pBoneMesh = (BONEMESH*)pBone->pMeshContainer;
@@ -52,8 +50,6 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 		{
 			int		iNumBone = pBoneMesh->pSkinInfo->GetNumBones();
 			pBoneMesh->ppBoneMatrix = new D3DXMATRIX*[iNumBone];
-
-			g_iTotalSubSet = iNumBone;
 
 			for (int i = 0; i < iNumBone; ++i)
 			{

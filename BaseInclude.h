@@ -38,8 +38,6 @@
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
 extern float g_fDeltaTime;	// TimeMgr에서 만듦
-extern int g_iTotalSubSet;		// MeshMgr에서 만듦(로딩 확인용)
-extern int g_iLoadingSubSet;	// MeshMgr에서 만듦(로딩 확인용)
 using namespace std;
 
 #ifdef __cplusplus

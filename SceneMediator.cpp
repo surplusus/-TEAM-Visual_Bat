@@ -95,7 +95,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 
 		}
 		else if (member == m_pGuhyunScene) {
-			m_pGuhyunScene->GetMinionMgr(m_mapVoidPointer["MinionMgr"]);
+			m_pGuhyunScene->GetMinionMgr(&m_mapVoidPointer["MinionMgr"]);
 		}
 		else if (member == m_pInGameScene) {
 
@@ -108,5 +108,5 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 
 void CSceneMediator::SetVoidPointerMap(string key, IN void ** pVoid)
 {
-	m_mapVoidPointer.insert(make_pair(key, pVoid));
+	m_mapVoidPointer.insert(make_pair(key, *pVoid));
 }

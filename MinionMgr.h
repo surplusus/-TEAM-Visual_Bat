@@ -16,7 +16,8 @@ public:
 	void Release();
 public:
 	void CreateMinions();
-	void SetFirstPositions(const D3DXVECTOR3* pos);
+	void SetFirstPositions(CMinion* pMinion, const D3DXVECTOR3* pos);
 	void SetHeightMap(CHeightMap** pHeightMap);
+	CMinion* GetMinion(int nIndex);
 };
 

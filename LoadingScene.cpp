@@ -59,11 +59,7 @@ void CLoadingScene::Progress()
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 	
 	m_bLoadingComplete = OperateLoadingFunctorThruThread();
-	//m_bLoadingComplete = true;
 	if (m_bLoadingComplete) {
-		CMinionMgr* pMinionMgr = new CMinionMgr;
-		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr", reinterpret_cast<void**>(&pMinionMgr));
-
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
@@ -91,8 +87,6 @@ void CLoadingScene::Release()
 
 	SAFE_RELEASE(m_pLoadingSprite);
 	SAFE_RELEASE(m_pLoadingTexture);
-	auto pThreadPool = GET_THREADPOOL;
-	SAFE_RELEASE(pThreadPool);
 }
 
 void CLoadingScene::SetUp_ProgressBar()
@@ -134,26 +128,28 @@ void CLoadingScene::Render_ProgressBar()
 bool CLoadingScene::OperateLoadingFunctorThruThread()
 {
 	static bool once = true;
-	static future<bool> future;
+	static shared_future<bool> future;
 	try
 	{
 		if (once) {
 			once = false;
 			CLoadingFunctor functor;
+			{	// 로딩 functor에게 정보를 넣어준다.(수정요)
 			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
 			if (sChampName == "")	sChampName = "Ezreal";
 			functor.m_SelectedChamp = sChampName;
+			}
 			function<bool(void)> func = [functor]() mutable {bool result = functor(); return result; };
 			future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, func);
 		}
 
-		bool bReady = false; 
-		bReady = (future.wait_for(chrono::milliseconds(80)) == future_status::ready);
-		if (bReady)
-		{
-			GET_THREADPOOL->Thread_Stop(THREAD_LOADMAP);
-			m_bLoadingComplete = true;
-			bool re = future.get();     //이거 왜 안되는거냐???
+		static int iSkipTime = 0;
+		++iSkipTime;
+		if (iSkipTime > 60){
+			cout << "들어왔따\n";
+			iSkipTime = 0;
+			m_bLoadingComplete = (future.wait_for(chrono::milliseconds(0)) == future_status::ready);
+			cout << " 결과는요 : " << future.get() << '\n';
 		}
 	}
 	catch (const std::exception& e)

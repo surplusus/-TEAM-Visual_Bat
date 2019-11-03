@@ -4,10 +4,6 @@
 #include "StaticMesh.h"
 #include "SkinnedMesh.h"
 
-map<string, const TCHAR*> g_mapObjMeshName;
-int g_iTotalSubSet = -1;
-int g_iLoadingSubSet = -1;
-
 CMeshMgr::CMeshMgr()
 {
 }

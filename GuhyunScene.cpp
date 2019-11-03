@@ -41,27 +41,27 @@ HRESULT GuhyunScene::Initialize()
 
 	#pragma region 이제 LoadingScene 부분으로 갔음
 	//=========== Add Mesh(Bounding) ===========//
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	{
-		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
-	}
+	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+	//{
+	//	ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
+	//}
 	//=========== Add Texture ===========//
 
 	//=========== Add Mesh(static or dynamic) ===========//
 
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	}
-	else
-		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-		
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
-		if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
-			ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	}
-	else
-		ERR_MSG(g_hWnd, L"Udyr Load Failed");
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
+	//	
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
+	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
+	//}
+	//else
+	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	//=========== Add Shader ===========//
 	
@@ -70,8 +70,8 @@ HRESULT GuhyunScene::Initialize()
 	//=========== Add Particle ===========//	
 	#pragma endregion
 	// 미니언 생성
-	m_pMinionMgr = new CMinionMgr();
-	m_pMinionMgr->CreateMinions();
+	//m_pMinionMgr = new CMinionMgr();
+	//m_pMinionMgr->CreateMinions();
 	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
 	//HRESULT res;

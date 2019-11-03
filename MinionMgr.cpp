@@ -28,8 +28,8 @@ void CMinionMgr::CreateMinions()
 			ERR_MSG(g_hWnd, L"Fail : Minion Initialize");
 		
 		{	// 미니언 처음 위치 설정 (바꾸어야 됨)
-			int iPos = rand() % 10;
-			SetFirstPositions(&D3DXVECTOR3((float)iPos, 0, (float)iPos));
+			int iPos = rand() % 5;
+			SetFirstPositions(m_vMinion[i], &D3DXVECTOR3((float)iPos, 0, (float)iPos));
 		}
 	}
 
@@ -48,9 +48,9 @@ void CMinionMgr::CreateMinions()
 	this->Initialize();
 }
 
-void CMinionMgr::SetFirstPositions(const D3DXVECTOR3 * pos)
+void CMinionMgr::SetFirstPositions(CMinion *pMinion, const D3DXVECTOR3 * pos)
 {
-
+	pMinion->SetPosition(pos);
 }
 
 void CMinionMgr::SetHeightMap(CHeightMap ** pHeightMap)
@@ -59,9 +59,16 @@ void CMinionMgr::SetHeightMap(CHeightMap ** pHeightMap)
 		it->SetHeightMap(pHeightMap);
 }
 
+CMinion * CMinionMgr::GetMinion(int nIndex)
+{
+	if (nIndex >= m_vMinion.size())
+		return nullptr;
+	return m_vMinion[nIndex];
+}
+
 void CMinionMgr::Initialize()
 {
-	GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
+	//GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
 }
 
 void CMinionMgr::Progress()

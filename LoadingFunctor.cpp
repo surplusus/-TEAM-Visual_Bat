@@ -14,6 +14,7 @@
 #include "SummonTerrain.h"
 #include "MeleeMinion.h"
 #include "CannonMinion.h"
+#include "MinionMgr.h"
 
 CLoadingFunctor::CLoadingFunctor()
 	: m_iFuncSize(0)
@@ -194,12 +195,12 @@ bool CLoadingFunctor::OperateFuncAddMeshByKey(string key)
 			return true;
 		}
 	}
-	//else if (key == "CannonMinion") {
-	//	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"CannonMinion", info.m_MeshType))) {
-	//		printf("%s\n", info.m_ConsoleText.c_str());
-	//		return true;
-	//	}
-	//}
+	else if (key == "CannonMinion") {
+		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"CannonMinion", info.m_MeshType))) {
+			printf("%s\n", info.m_ConsoleText.c_str());
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -216,15 +217,18 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
 	else if (key == "MeleeMinion" || key == "CannonMinion")
-		int n = 0;
-		//GET_SINGLE(CSceneMgr)->GetSceneMediator()->
+	{	// 미니언 매니저 생성(&미니언 objmgr 등록)과 mediator setter
+		CMinionMgr* pMinionMgr = new CMinionMgr;
+		pMinionMgr->CreateMinions();
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr",
+			reinterpret_cast<void**>(&pMinionMgr));
+	}
 
 	if (SUCCEEDED(re)) {
 		printf("%s register 완료\n", key.c_str());
 		return true;
 	}
-	else {
-		printf("%s register 실패\n", key.c_str());
-		return false;
-	}
+
+	printf("%s register 건너뜀\n", key.c_str());
+	return false;
 }
