@@ -85,6 +85,7 @@
     <ClInclude Include="ParticleMgr.h" />
     <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="PickingSphereMgr.h" />
+    <ClInclude Include="ProgressBarFunctor.h" />
     <ClInclude Include="SelectedSpells.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Text.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="ParticleMgr.cpp" />
     <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="PickingSphereMgr.cpp" />
+    <ClCompile Include="ProgressBarFunctor.cpp" />
     <ClCompile Include="SelectedSpells.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Text.cpp" />

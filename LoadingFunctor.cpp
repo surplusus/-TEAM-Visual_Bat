@@ -65,8 +65,8 @@ bool CLoadingFunctor::operator()()
 
 bool CLoadingFunctor::SetMeshInfoThruFile()
 {
-	//ifstream file("./Resource/MeshPathList.dat", ifstream::in);
-	ifstream file("./Resource/Test/test.dat", ifstream::in);
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	//ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {
 		cout << "Error Opening File\n";
@@ -109,6 +109,7 @@ bool CLoadingFunctor::SetMeshInfoThruFile()
 		if (file.eof())	break;
 	}
 	file.close();
+	cout << "파일 로딩 끝\n";
 	return true;
 
 }
