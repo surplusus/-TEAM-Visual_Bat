@@ -8,28 +8,18 @@ class CUdyr : public CChampion
 {
 	friend class UdyrBT::UdyrBTHandler;
 	friend class BehaviorTree::Task;
-	using FUNCSTATE = function<bool(void)>;
-	enum {STATETYPE_IDLE, STATETYPE_ATTACK, STATETYPE_RUN, STATETYPE_AGRESSIVE
-		, STATETYPE_TURNING
-		, STATETYPE_END
-	};
 public:
 	CUdyr();
 	virtual ~CUdyr();
 private:
-	int 				m_iStateFlag;
-	void				ControlFlag();
-	vector<bool>		m_vStateFlag;
-	vector<FUNCSTATE>	m_vStateFunc;
-	queue<FUNCSTATE>	m_queStateFunc;
-	CObj*				m_pTargetObj;
 	vector<string>		m_AniSetNameList;
+	STATUSINFO			m_stStatusInfo;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	void			UpdateBlackBoard();
 	// >> : Behavior
 	// << : Collision
-	ColiderComponent*  m_pColider;
+	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColiderList;
 	// >> : Collision
 public:

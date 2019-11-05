@@ -657,6 +657,9 @@
     <ClInclude Include="ProgressBarFunctor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BehaviorMinion.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -982,6 +985,9 @@
     </ClCompile>
     <ClCompile Include="ProgressBarFunctor.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorMinion.cpp">
+      <Filter>System\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

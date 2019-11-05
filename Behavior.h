@@ -32,8 +32,13 @@ namespace BehaviorTree
 		virtual ~Composite() { m_Nodes.clear(); }
 	public:
 		void AddNode(Node* node) {
+			if (node == nullptr) {
+				ERR_MSG(g_hWnd, L"Error on Addnode Function.");
+				return;
+			}
 			node->m_BlackBoard = this->m_BlackBoard;
-			m_Nodes.emplace_back(node); }
+			m_Nodes.emplace_back(node); 
+		}
 		ManyNodes GetComposites() const{ return m_Nodes; }
 		ManyNodes GetCompositesShuffled() const {
 			ManyNodes tmp = m_Nodes;

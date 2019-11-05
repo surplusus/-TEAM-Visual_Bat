@@ -8,6 +8,8 @@
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
+#include "ColitionMgr.h"
+#include "ParticleMgr.h"
 
 #include "SoundMgr.h"
 #include "Udyr.h"
@@ -36,53 +38,7 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 
-	//=========== Subscribe Events ==========//
-	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
-
-	#pragma region 이제 LoadingScene 부분으로 갔음
-	//=========== Add Mesh(Bounding) ===========//
-	//if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	//{
-	//	ERR_MSG(g_hWnd, L"BoundingBox Load Failed");		return E_FAIL;
-	//}
-	//=========== Add Texture ===========//
-
-	//=========== Add Mesh(static or dynamic) ===========//
-
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"TestFloor.x", L"Map", MESHTYPE_STATIC))) {
-	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject())))
-	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	//}
-	//else
-	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-	//	
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
-	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
-	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	//}
-	//else
-	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
-
-	//=========== Add Shader ===========//
-	
-	//=========== Add Object ===========//	
-
-	//=========== Add Particle ===========//	
-	#pragma endregion
-	// 미니언 생성
-	//m_pMinionMgr = new CMinionMgr();
-	//m_pMinionMgr->CreateMinions();
-	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
-	//HRESULT res;
-	//m_pMinion = new CMeleeMinion();
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
-	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Minion", m_pMinion)))
-	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
-	//	m_pMinion->Initialize();
-	//}
-	//else
-	//	ERR_MSG(g_hWnd, L"Udyr Load Failed");
 
 	return S_OK;
 }
@@ -95,7 +51,8 @@ void GuhyunScene::Progress()
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	GET_SINGLE(CFrustum)->InitFrustum();
-	
+	GET_SINGLE(CColitionMgr)->Progress();
+	GET_SINGLE(CParticleMgr)->Progress();
 	SoundUpdate();
 }
 
@@ -104,8 +61,9 @@ void GuhyunScene::Render()
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
+	GET_SINGLE(CColitionMgr)->Render();
+	GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
-	//Bound_Render(BOUNDTYPE::BOUNDTYPE_SPHERE);
 }
 
 void GuhyunScene::Release()
@@ -115,7 +73,6 @@ void GuhyunScene::Release()
 	SAFE_DELETE(m_pMinionMgr);
 	GET_SINGLE(CCameraMgr)->Release();
 	SAFE_DELETE(m_pHeightMap);
-	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
 HRESULT GuhyunScene::Setup()

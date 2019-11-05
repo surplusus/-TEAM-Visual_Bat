@@ -178,11 +178,23 @@ typedef struct tagStateInfo
 	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
 	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
 
-}INFO_CHAMP;
-INFO_CHAMP operator+( INFO_CHAMP Info, INFO_CHAMP tInfo)
+	void PrintAll() {
+		std::cout << "fBase_Attack	 : " << fBase_Attack << '\n';
+		std::cout << "fMagic_Attack	 : " << fMagic_Attack << '\n';
+		std::cout << "fBase_Defence	 : " << fBase_Defence << '\n';
+		std::cout << "fMagic_Defence	 : " << fMagic_Defence << '\n';
+		std::cout << "fCriticalRatio	 : " << fCriticalRatio << '\n';
+		std::cout << "fMoveSpeed		 : " << fMoveSpeed << '\n';
+		std::cout << "fMana			 : " << fMana << '\n';
+		std::cout << "fHP			 : " << fHP << '\n';
+		std::cout << "fSkillTimeRatio : " << fSkillTimeRatio << '\n';
+		std::cout << "fAttackRange	 : " << fAttackRange << '\n';
+	}
+}STATUSINFO;
+tagStateInfo operator+(tagStateInfo Info, tagStateInfo tInfo)
 {
 	
-	INFO_CHAMP info;
+	STATUSINFO info;
 	info.fBase_Attack		= Info.fBase_Attack		+ tInfo.fBase_Attack;
 	info.fMagic_Attack		= Info.fMagic_Attack	+ tInfo.fMagic_Attack;
 	info.fBase_Defence		= Info.fBase_Defence	+ tInfo.fBase_Defence;
@@ -195,10 +207,10 @@ INFO_CHAMP operator+( INFO_CHAMP Info, INFO_CHAMP tInfo)
 	info.fAttackRange		= Info.fAttackRange		+ tInfo.fAttackRange;
 	return info;
 }
-INFO_CHAMP operator-(const INFO_CHAMP Info, INFO_CHAMP& tInfo)
+tagStateInfo operator-(const tagStateInfo Info, tagStateInfo& tInfo)
 {
 	
-	INFO_CHAMP info;
+	STATUSINFO info;
 	info.fBase_Attack		= Info.fBase_Attack + tInfo.fBase_Attack;
 	info.fMagic_Attack		= Info.fMagic_Attack + tInfo.fMagic_Attack;
 	info.fBase_Defence		= Info.fBase_Defence + tInfo.fBase_Defence;
@@ -211,7 +223,7 @@ INFO_CHAMP operator-(const INFO_CHAMP Info, INFO_CHAMP& tInfo)
 	info.fAttackRange		= Info.fAttackRange + tInfo.fAttackRange;
 	return info;	
 }
-INFO_CHAMP operator+=( INFO_CHAMP& Info,INFO_CHAMP tInfo)
+tagStateInfo operator+=(tagStateInfo& Info, tagStateInfo tInfo)
 {
 	
 	Info.fBase_Attack		+= tInfo.fBase_Attack;
@@ -226,7 +238,7 @@ INFO_CHAMP operator+=( INFO_CHAMP& Info,INFO_CHAMP tInfo)
 	Info.fAttackRange		+= tInfo.fAttackRange;	
 	return Info;
 }
-INFO_CHAMP operator-=( INFO_CHAMP& Info,INFO_CHAMP tInfo)
+tagStateInfo operator-=(tagStateInfo& Info, tagStateInfo tInfo)
 {
 	
 	Info.fBase_Attack		-= tInfo.fBase_Attack;
