@@ -18,7 +18,7 @@ protected:
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
-	bool				TurnSlowly(const D3DXVECTOR3* destPos);
+	bool				TurnSlowly(const D3DXVECTOR3* destPos,float fLerpRate = 7.0f);
 	void				UpdateWorldMatrix();
 	void				SetDirectionToMouseHitPoint();
 	bool				SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);

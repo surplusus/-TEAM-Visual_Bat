@@ -27,19 +27,8 @@ HRESULT CStaticMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, 
 	m_pTextures = new LPDIRECT3DTEXTURE9[m_dwSubSetCnt];
 	m_pMtrls = new D3DMATERIAL9[m_dwSubSetCnt];
 
-	//basic_string<TCHAR> tmp(pFileName);
-	//string sFileName(tmp.begin(), tmp.end());
-	//stLoadProcess* stLoadInfo = nullptr;
-	//stLoadInfo = GET_SINGLE(CMeshMgr)->m_mapLoadInfo.find(sFileName)->second;
-	//stLoadInfo->m_dwTotalSubSet = m_dwSubSetCnt;
-	//stLoadInfo->m_sConsoleOut += " 에서 읽은 vertex 수 : "; // 로딩정보
 	for (DWORD i = 0; i < m_dwSubSetCnt; ++i)
 	{
-		// 로딩 정보
-		//stLoadInfo->m_dwSubSetLoaded = i; // 로딩정보
-		g_iTotalSubSet = static_cast<int>(m_dwSubSetCnt);
-		g_iLoadingSubSet = static_cast<int>(i + 1);
-
 		TCHAR szBuff[128] = L"";
 		m_pMtrls[i] = m_pSubSets[i].MatD3D;
 		lstrcpy(szPath, pPath);

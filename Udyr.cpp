@@ -3,7 +3,11 @@
 #include "SoundMgr.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
-#include "EventMgr.h"
+#include "ColitionMgr.h"
+#include "ObjectColider.h"
+#include "BoundingBox.h"
+#include "ParticleMgr.h"
+using namespace UdyrBT;
 
 CUdyr::CUdyr()
 	: m_iStateFlag(0)
@@ -38,13 +42,28 @@ HRESULT CUdyr::Initialize()
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 
-	{
-		SetUpPickingShere(1.f);
+	{	//<< : SetUp m_AniSetNameList;
+		SetUpAniSetNameList();
+	}
+	{	//<< : Collision
+		m_pColider = new CObjectColider(this);
+		//INFO pInfo = m_Info;
+		m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
+		m_ColiderList.push_back(m_pColider);
+		GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
+		GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::PaticleCollisionEvent);
+	}
+	{	//<< : PickingSphere
+		//SetUpPickingShere(1.f);
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pColider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
-		m_pBehavior = new BT::BehaviorTree();
-
+		m_pBehavior = new UdyrBTHandler;
+		m_pBehavior->AddTask(TASK_IDLE, [this]() {this->ChangeAniSetByKey("Idle"); });
+		m_pBehavior->AddTask(TASK_RUN, [this]() {this->ChangeAniSetByKey("Run"); });
+		m_pBehavior->MakeTree();
 	}
 	return S_OK;
 }
@@ -56,12 +75,11 @@ void CUdyr::Progress()
 	ProgressStateFunc();
 	//ChangeAniSetByState();
 	{	//<< : Behavior Tree
-
+		UpdateBlackBoard();
+		m_pBehavior->Run();
 	}
 	CChampion::UpdateWorldMatrix();
 	m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
-
-	
 }
 
 void CUdyr::Render()
@@ -71,9 +89,30 @@ void CUdyr::Render()
 	Render_PickingShere();
 }
 
+void CUdyr::ChangeAniSetByKey(string key)
+{
+	auto it = find(m_AniSetNameList.begin(), m_AniSetNameList.end(), key);
+	if (it == m_AniSetNameList.end()) {
+		cout << "그런 애니 또 없습니다." << '\n';
+		return;
+	}
+
+	m_pAnimationCtrl->BlendAnimationSet(key);
+}
+
+void CUdyr::SetUpAniSetNameList()
+{
+	m_pAnimationCtrl->GetAnimationNames(m_AniSetNameList);
+}
+
 void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
 	m_pTargetObj = evt->m_pObj;
+}
+
+void CUdyr::PaticleCollisionEvent(COLLISIONEVENT * evt)
+{
+	m_pBehavior->m_BlackBoard->setBool("OnCollision", true);
 }
 
 void CUdyr::MouseControl()
@@ -145,6 +184,7 @@ void CUdyr::QWERControl()
 	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Death);
 }
 
+#pragma region STATE FUNC
 bool CUdyr::Func1_IDLE()
 {
 	m_pAnimationCtrl->BlendAnimationSet("Idle");
@@ -233,4 +273,16 @@ void CUdyr::ControlFlag()
 	// 비트 값만 켜고 나머지 전부 삭제하기
 	int f4 = (1 << idx);
 
+}
+#pragma endregion
+
+void CUdyr::UpdateBlackBoard()
+{
+	static bool tmp = false;
+	//if (CheckPushKeyOneTime(VK_Y))
+	//m_pBehavior->GetBlackBoard().setBool("Attack", tmp);
+	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
+		tmp = !tmp;
+		m_pBehavior->GetBlackBoard().setBool("Click", tmp);
+	}
 }

@@ -1,35 +1,55 @@
 #pragma once
 #include "Behavior.h"
+class CUdyr;
 
-namespace BehaviorTree
+namespace UdyrBT
 {
-	class UdyrWalkCond : public Condition
+	using namespace BehaviorTree;
+
+	enum {SEQUENCE_ROOT, SEQUENCE_IDLE, SEQUENCE_ATTACK, SEQUENCE_END};
+	enum {SELECTOR_IDLE, SELECTOR_RUN, SELECTOR_ATTACK, SELECTOR_END};
+	enum {TASK_IDLE, TASK_RUN, TASK_ATTACK, TASK_END};
+
+	class UdyrBTHandler : public BehaviorTreeHandler
 	{
 	public:
-		UdyrWalkCond()
-			: Condition(this) {}
-		virtual ~UdyrWalkCond() {}
-	private:
-		virtual bool Do() override {
-			return m_BlackBoard->get()->getBool("Walk");
-		}
+		//UdyrBTHandler(const CUdyr** inst);
+		UdyrBTHandler();
+		~UdyrBTHandler();
+		//static CUdyr*		g_UdyrInst;
+		vector<shared_ptr<Sequence>>	m_vSequnece;
+		vector<shared_ptr<Selector>>	m_vSelector;
+		vector<shared_ptr<Task>>		m_vTask;
+		void SetRoot(int eNode);
+		void MakeTree();
+		void AddTask(int eSequenceType, function<void(void)> pFunc);
 	};
 
-	class UdyrWalkTask : public Task
+	class UdyrTask : public Task
 	{
 	public:
+		UdyrTask() : Task(this) {}
+		virtual ~UdyrTask() {}
+		virtual bool Condition() = 0;
+		virtual bool Do() { m_Func(); return true; }
 		function<void(void)> m_Func;
-		public:
-		UdyrWalkTask(function<void(void)> func)
-			:Task(this) {
+	};
+
+	class UdyrIdle : public UdyrTask
+	{
+	public:
+		UdyrIdle(function<void(void)> func) {
 			m_Func = func;
 		}
-		virtual ~UdyrWalkTask() {}
-	private:
-		virtual bool Do() override {
-			m_Func();
-			return true;
-		}
+		virtual bool Condition() override;
 	};
 
+	class UdyrRun : public UdyrTask
+	{
+	public:
+		UdyrRun(function<void(void)> func) {
+			m_Func = func;
+		}
+		virtual bool Condition() override;
+	};
 }

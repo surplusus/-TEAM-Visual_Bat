@@ -13,10 +13,8 @@ public:
 	virtual void		Render()	 override;
 	virtual void		Release()	 override;
 private:
-	vector<bool>		m_vbOnState;
-	vector<StateFunc>	m_vStateFunc;
-	queue<StateFunc>	m_queStateFunc;
-	void				EnqueueStateFunc(StateFunc func);
-	void				ProgressStateFuncInQueue();
+
+public:
+	void SetPosition(const D3DXVECTOR3* pos);
 };
 

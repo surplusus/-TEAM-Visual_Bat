@@ -21,9 +21,9 @@ CSceneMgr::~CSceneMgr()
 void CSceneMgr::Initialize()
 {
 	m_pSceneMediator = new CSceneMediator();
-	m_State = new cHUDScene();
+	//m_State = new CGameScene;
 	//m_State = new GuhyunScene;
-	//m_State = new CLoadingScene;
+	m_State = new CLoadingScene;
 	m_pSceneMediator->SetSceneMember(m_State);
 	if (m_State != NULL)
 		m_State->Initialize();
@@ -32,7 +32,6 @@ void CSceneMgr::Initialize()
 void CSceneMgr::Progress()
 {
 	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		//GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
 		PostMessage(NULL, WM_QUIT, 0, 0);
 		return;
 	}
@@ -72,7 +71,7 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 		return E_FAIL;
 	// mediator로 이전 Scene에서 정보 건내받기
 	m_pSceneMediator->SetSceneMember(pState);
-	m_pSceneMediator->MediateInfo(MEDIATETYPE::INIT, pState);
+	m_pSceneMediator->MediateInfo(MEDIATETYPE::SETTER, pState);
 
 	if (m_State)
 	{
@@ -82,8 +81,9 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 	}
 
 	m_State = pState;
+	m_pSceneMediator->MediateInfo(MEDIATETYPE::GETTER, m_State);
 	m_State->Initialize();
-	
+
 	return S_OK;
 }
 
