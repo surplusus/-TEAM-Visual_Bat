@@ -8,7 +8,7 @@ namespace UdyrBT
 
 	enum {SEQUENCE_ROOT, SEQUENCE_RUN, SEQUENCE_END};
 	enum {SELECTOR_DEATH, SELECTOR_END};
-	enum {TASK_DEATH, TASK_CLICK, TASK_WALK, TASK_TURN, TASK_IDLE, TASK_ANI, TASK_END};
+	enum {TASK_DEATH, TASK_CLICK, TASK_RUN, TASK_TURN, TASK_IDLE, TASK_ANI, TASK_END};
 
 	class UdyrBTHandler : public BehaviorTreeHandler
 	{
@@ -45,5 +45,34 @@ namespace UdyrBT
 			: UdyrTask(pUdyr) { m_Func = func; }
 		virtual bool Condition() override;
 	};
-
+	struct UdyrClick : public UdyrTask
+	{
+		UdyrClick(CUdyr* pUdyr, function<void(void)> func)
+			: UdyrTask(pUdyr) { m_Func = func; }
+		virtual bool Condition() override;
+	};
+	struct UdyrRun : public UdyrTask
+	{
+		UdyrRun(CUdyr* pUdyr, function<void(void)> func)
+			: UdyrTask(pUdyr) { m_Func = func; }
+		virtual bool Condition() override;
+	};
+	struct UdyrTurn : public UdyrTask
+	{
+		UdyrTurn(CUdyr* pUdyr, function<void(void)> func)
+			: UdyrTask(pUdyr) { m_Func = func; }
+		virtual bool Condition() override;
+	};
+	struct UdyrIdle : public UdyrTask
+	{
+		UdyrIdle(CUdyr* pUdyr, function<void(void)> func)
+			: UdyrTask(pUdyr) { m_Func = func; }
+		virtual bool Condition() override;
+	};
+	struct UdyrAni : public UdyrTask
+	{
+		UdyrAni(CUdyr* pUdyr, function<void(void)> func)
+			: UdyrTask(pUdyr) { m_Func = func; }
+		virtual bool Condition() override;
+	};
 }

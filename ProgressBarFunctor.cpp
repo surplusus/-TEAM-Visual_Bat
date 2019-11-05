@@ -6,13 +6,13 @@
 #include "TextMgr.h"
 
 CProgressBarFunctor::CProgressBarFunctor(CLoadingScene*	pLoadingScene)
-	: m_pLoadingScene(nullptr)
+	: m_pLoadingScene(pLoadingScene)
 	, m_pLoadingSprite(nullptr)
 	, m_pLoadingTexture(nullptr)
 	, m_iProgressBar(0)
 	, m_iTimeProgressed(0)
-	, m_bOnSwitch(false)
 {
+	SetUp_ProgressBar();
 }
 
 CProgressBarFunctor::CProgressBarFunctor(CProgressBarFunctor && functor)
@@ -44,11 +44,6 @@ CProgressBarFunctor::~CProgressBarFunctor()
 
 bool CProgressBarFunctor::operator()()
 {
-	if (!m_bOnSwitch)
-		return true;
-
-	//printf("sprite delta time : %d\n", m_iProgressBar);
-	printf("Start\n");
 	Begin_Render();
 	
 	m_pLoadingScene->m_pBackGround->Render();
@@ -58,15 +53,7 @@ bool CProgressBarFunctor::operator()()
 	Render_ProgressBar();
 
 	End_Render(g_hWnd);
-	printf("End Render\n");
-
-	return false;
-}
-
-void CProgressBarFunctor::SetTextureByPara(LPD3DXSPRITE pSprite, LPDIRECT3DTEXTURE9 pTexture)
-{
-	m_pLoadingSprite = pSprite;
-	m_pLoadingTexture = pTexture;
+	return true;
 }
 
 void CProgressBarFunctor::SetUp_ProgressBar()

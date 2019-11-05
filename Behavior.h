@@ -167,7 +167,7 @@ namespace BehaviorTree
 			return strings[key];
 		}
 		bool hasString(std::string key) const { return strings.find(key) != strings.end(); }
-	protected:
+	public:
 		std::unordered_map<std::string, bool> bools;
 		std::unordered_map<std::string, int> ints;
 		std::unordered_map<std::string, float> floats;

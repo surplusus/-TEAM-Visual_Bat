@@ -42,7 +42,7 @@ namespace MinionBT
 	struct MinionDeath : public MinionTask
 	{
 		MinionDeath(CMinion* pMinion, function<void(void)> func)
-			: MinionDeath(pMinion) {
+			: MinionTask(pMinion) {
 			m_Func = func;
 		}
 		virtual bool Condition() override;

@@ -34,14 +34,6 @@ private:
 	void			SetUpAniSetNameList();
 	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
 	void			PaticleCollisionEvent(COLLISIONEVENT* evt);
-	void			MouseControl();
-	void			QWERControl();
-private:	// StateFunc
-	bool			Func1_IDLE();
-	bool			Func2_ATTACK();
-	bool			Func3_RUN();
-	bool			Func4_AGRESSIVE();
-
-	void			ProgressStateFunc();
+	void			ChangeAniByState();
 };
 
