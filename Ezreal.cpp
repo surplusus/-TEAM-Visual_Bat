@@ -17,10 +17,10 @@ D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
-	:m_bDirty(true),m_pMesh(NULL)
+	:m_bDirty(true),m_pMesh(NULL), m_CurStateType(CHAMPION_STATETYPE_IDLE1)
 {
 	m_fAngle[ANGLE_X] = 0;
-	m_fAngle[ANGLE_Y] = 0;
+	m_fAngle[ANGLE_Y] = 1.5;
 	m_fAngle[ANGLE_Z] = 0;
 	m_fStartTime = 0.f;
 	m_fEndTime = 0.f;
@@ -48,7 +48,11 @@ void CEzreal::SetContantTable()
 	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1] && m_fStartTime ==1) {
 		AddSkill_Q();
 	}
-
+	if (m_Champ_State[CHAMPION_STATETYPE_ATTACK1] && m_fStartTime == 1) {
+		TurnSlowly(&m_MouseHitPoint,1.0f);
+		UpdateWorldMatrix();
+		AddSkill_Q();
+	}
 }
 
 void CEzreal::WorldSetting()
@@ -150,6 +154,7 @@ void CEzreal::Progress()
 		SetContantTable();
 		m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);
 	}
+	
 	m_pColider->Update(m_Info.vPos);
 
 }
@@ -201,7 +206,7 @@ void CEzreal::SettingFrameAnimation()
 		eState = CHAMPION_STATETYPE_IDLE1;
 	}
 	else	eState = m_AnimationQueue.front();
-	switch (eState)
+	switch (m_CurStateType)
 	{
 	case CHAMPION_STATETYPE_IDLE1:
 		m_strAnimationState = "IDLE1"; break;
@@ -235,17 +240,24 @@ void CEzreal::SettingFrameAnimation()
 
 void CEzreal::KeyCheck()
 {
-	if (GetAsyncKeyState(VK_LBUTTON) && 0x8001) {
-
+	if (GetAsyncKeyState(VK_LBUTTON) )
+	{
 		if (MouseCheck())
 		{
-			m_Champ_State[CHAMPION_STATETYPE_RUN]	  = true;
-			m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
+			SPHERE* spherePicked = nullptr;
+			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
+			if (bPickSphere)
+				m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
+			else if (!bPickSphere)
+				m_Champ_State[CHAMPION_STATETYPE_RUN] = true;
+
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_bDirty = true;
 			SetAngleFromPostion();
+			
 		}
 	}
+	
 	if (g_bMouseHitPoint) {
 		g_bMouseHitPoint = false;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
@@ -258,30 +270,37 @@ void CEzreal::KeyCheck()
 		m_fEndTime = 25;
 		m_bDirty = true;
 	}
+	if (GetAsyncKeyState(VK_F1))
+	{
+		m_fAngle[ANGLE_Y] += 0.2f;
+	}
 	
 }
 
 void CEzreal::SettingAnimationSort()
 {
+
+	CHAMPION_STATETYPE Check = CHAMPION_STATETYPE_IDLE1;
 	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1])
 	{
-		if (SettingSpell1_Motion()) return;
-		if (SettingAttack_Motion()) return;
-		if (SettingRun_Motion()) return;
-		
+
+		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingSpell1_Motion();
+		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingAttack_Motion();
+		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingRun_Motion();
+		m_CurStateType = Check;
 	}
-	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
+	if (m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
 		)
 	{
 		InitAnimationState();
-		m_AnimationQueue.push(CHAMPION_STATETYPE_IDLE1);
 		m_bDirty = true;
+		m_ChangeMotion = false;		
 	}
 }
 
 void CEzreal::InitAnimationState()
 {
-	for (int i = 0; i > m_Champ_State.size(); i++)
+	for (int i = 0; i<m_Champ_State.size(); i++)
 	{
 		m_Champ_State[i] = false;
 	}
@@ -312,75 +331,86 @@ void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 	m_pTargetObj = evt->m_pObj;
 }
 
-bool CEzreal::SettingSpell1_Motion()
+CHAMPION_STATETYPE CEzreal::SettingSpell1_Motion()
 {
 	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
 	{
+		InitAnimationState();
+		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 		m_ChangeMotion = false;
-		m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
-
+		//시간이 다 지나을때에 대한 모션
 		if (m_fStartTime >= m_fEndTime) {
-			m_Champ_State[CHAMPION_STATETYPE_SPELL1] = false;
-			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+			InitAnimationState();
 			m_ChangeMotion = true;
 			m_fStartTime = 0;
 			m_bDirty = true;
-			return true;
-		}
-		else
-		{
-			m_AnimationQueue.push(CHAMPION_STATETYPE_SPELL1);
-			m_fStartTime += 1;
-			return true;
-		}
+			return CHAMPION_STATETYPE_IDLE1;
+		}		
+		m_fStartTime += 1;
+		return CHAMPION_STATETYPE_SPELL1;		
 	}
-	return false;
+	return CHAMPION_STATETYPE_IDLE1;
 }
 
-bool CEzreal::SettingAttack_Motion()
+CHAMPION_STATETYPE CEzreal::SettingAttack_Motion()
 {
 	if (m_Champ_State[CHAMPION_STATETYPE_ATTACK1])
 	{
 		
-		SPHERE* spherePicked = nullptr;
-		bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
-		if (bPickSphere)
+		InitAnimationState();
+		m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+		m_ChangeMotion = false;
+		m_fEndTime = 25;
+		m_CurStateType = CHAMPION_STATETYPE_ATTACK1;
+			
+		if (m_fStartTime >= m_fEndTime &&
+			m_CurStateType == CHAMPION_STATETYPE_ATTACK1) 
 		{
-			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
-			m_AnimationQueue.push(CHAMPION_STATETYPE_ATTACK1);
-			m_fStartTime += 1;
-			return true;
-		}		
+			InitAnimationState();
+			m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = false;
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+			m_ChangeMotion = true;
+			m_fStartTime = 0;
+			m_bDirty = true;
+			return CHAMPION_STATETYPE_IDLE1;
+		}
+		m_fStartTime += 1;
+		return CHAMPION_STATETYPE_ATTACK1;
+
 	}
-	return false;
+	
+	
+	return CHAMPION_STATETYPE_IDLE1;
 }
 
-bool CEzreal::SettingRun_Motion()
+CHAMPION_STATETYPE CEzreal::SettingRun_Motion()
 {
 	bool Check = false;
-	if (m_Champ_State[CHAMPION_STATETYPE_RUN])//달리는 상태일때
+	if (m_Champ_State[CHAMPION_STATETYPE_RUN] )//달리는 상태일때
 	{
+
+		InitAnimationState();
+		m_Champ_State[CHAMPION_STATETYPE_RUN]	= true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-		m_AnimationQueue.push(CHAMPION_STATETYPE_RUN);
 		m_ChangeMotion = false;
 		Check = true;
-	}
 
-	if (m_Champ_State[CHAMPION_STATETYPE_RUN] && !m_ChangeMotion) {
 		TurnSlowly(&m_MouseHitPoint);
 		bool bRun = Update_vPos_ByDestPoint(&m_MouseHitPoint, 5.0f);
 		if (!bRun)
 		{
 			m_ChangeMotion = true;
 			m_Champ_State[CHAMPION_STATETYPE_RUN] = false;
-			if (!m_AnimationQueue.empty())
-				m_AnimationQueue.pop();
-			Check = true;
+			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = true;
+			Check = false;
 		}
 	}
-	if (Check) return true;
+
+	if (Check) return CHAMPION_STATETYPE_RUN;
 		
-	return false;
+	return CHAMPION_STATETYPE_IDLE1;
 
 }
+

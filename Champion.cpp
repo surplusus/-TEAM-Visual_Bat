@@ -39,7 +39,7 @@ CChampion::~CChampion()
 
 }
 
-bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos)
+bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos,float fLerpRate)
 {
 	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
 	D3DXVECTOR3 vMouseNor;
@@ -47,7 +47,7 @@ bool CChampion::TurnSlowly(const D3DXVECTOR3 * destPos)
 	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vMouseNor.y;
 	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
 	float fRadian = acosf(fDot);
-	float fDirLerped = fRadian / 7.f;
+	float fDirLerped = fRadian / fLerpRate;
 
 	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
 		return false;

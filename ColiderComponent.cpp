@@ -55,10 +55,6 @@ bool ColiderComponent::CheckColision(ColiderComponent* pEnemy)
 	D3DXVECTOR3 vRes = vPos-(vPos2);
 	float fLenght = D3DXVec3Length(&vRes);
  	float fRadius = m_fRadius + pEnemy->m_fRadius;
-	if ( (g_fDeltaTime / 2)) {
-		cout << "角力 芭府:" << fLenght << endl;
-		cout << "面倒 芭府 : " << fRadius << endl;
-	}
 	if (fLenght < fRadius)
 		return true;
 
