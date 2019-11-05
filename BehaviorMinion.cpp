@@ -2,16 +2,14 @@
 #include "BehaviorMinion.h"
 #include "Minion.h"
 
-MinionBT::MinionBTHandler::MinionBTHandler()
+MinionBT::MinionBTHandler::MinionBTHandler(CMinion* inst)
+	: m_pUdyrInst(inst)
 {
-	m_vSequnece.resize(SEQUENCE_END);
-	m_vSelector.resize(SELECTOR_END);
 	m_vTask.resize(TASK_END);
-
 	for (int i = 0; i < SEQUENCE_END; ++i)
-		m_vSequnece[i] = make_shared<Sequence>(&m_BlackBoard);
+		m_vSequnece.emplace_back(make_shared<Sequence>(&m_BlackBoard));
 	for (int i = 0; i < SELECTOR_END; ++i)
-		m_vSelector[i] = make_shared<Selector>(&m_BlackBoard);
+		m_vSelector.emplace_back(make_shared<Selector>(&m_BlackBoard));
 
 	SetRoot(SEQUENCE_ROOT);
 }
@@ -54,20 +52,20 @@ void MinionBT::MinionBTHandler::AddTask(int eSequenceType, function<void(void)> 
 
 bool MinionBT::MinionTask::Condition()
 {
-	if (m_BlackBoard->get()->hasBool("Attack"))
-		return (m_BlackBoard->get()->getBool("Attack") == true);
+	if (m_BlackBoard->hasBool("Attack"))
+		return (m_BlackBoard->getBool("Attack") == true);
 
 	cout << "BlackBoard에 키 Attack이 없습니다." << '\n';
 }
 
 bool MinionBT::MinionIdle::Condition()
 {
-	if (m_BlackBoard->get()->hasBool("Click"))
-		return (m_BlackBoard->get()->getBool("Click") == false);
+	if (m_BlackBoard->hasBool("Click"))
+		return (m_BlackBoard->getBool("Click") == false);
 }
 
 bool MinionBT::MinionRun::Condition()
 {
-	if (m_BlackBoard->get()->hasBool("Click"))
-		return (m_BlackBoard->get()->getBool("Click") == true);
+	if (m_BlackBoard->hasBool("Click"))
+		return (m_BlackBoard->getBool("Click") == true);
 }

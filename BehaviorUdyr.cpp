@@ -2,31 +2,14 @@
 #include "BehaviorUdyr.h"
 #include "Udyr.h"
 
-UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr ** inst)
-	: m_pUdyrInst(*inst)
+UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
+	: m_pUdyrInst(inst)
 {
-	m_vSequnece.resize(SEQUENCE_END);
-	m_vSelector.resize(SELECTOR_END);
 	m_vTask.resize(TASK_END);
-
 	for (int i = 0; i < SEQUENCE_END; ++i)
-		m_vSequnece[i] = make_shared<Sequence>(&m_BlackBoard);
+		m_vSequnece.emplace_back(make_shared<Sequence>(&m_BlackBoard));
 	for (int i = 0; i < SELECTOR_END; ++i)
-		m_vSelector[i] = make_shared<Selector>(&m_BlackBoard);
-
-	SetRoot(SEQUENCE_ROOT);
-}
-
-UdyrBT::UdyrBTHandler::UdyrBTHandler()
-{
-	m_vSequnece.resize(SEQUENCE_END);
-	m_vSelector.resize(SELECTOR_END);
-	m_vTask.resize(TASK_END);
-
-	for (int i = 0; i < SEQUENCE_END; ++i)
-		m_vSequnece[i] = make_shared<Sequence>(&m_BlackBoard);
-	for (int i = 0; i < SELECTOR_END; ++i)
-		m_vSelector[i] = make_shared<Selector>(&m_BlackBoard);
+		m_vSelector.emplace_back(make_shared<Selector>(&m_BlackBoard));
 
 	SetRoot(SEQUENCE_ROOT);
 }
@@ -40,6 +23,7 @@ UdyrBT::UdyrBTHandler::~UdyrBTHandler()
 
 void UdyrBT::UdyrBTHandler::SetRoot(int eNode)
 {
+	auto it = m_vSequnece[eNode].get();
 	m_Root = m_vSequnece[eNode].get();
 }
 
@@ -59,9 +43,16 @@ void UdyrBT::UdyrBTHandler::MakeTree()
 void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 {
 	m_BlackBoard->setBool("Click", false);
-	m_BlackBoard->setFloat("HP", 100.f);
-	m_BlackBoard->setFloat("Base_Attack", 10.f);
-	m_BlackBoard->setFloat("MoveSpeed", 3.5f);
+	m_BlackBoard->setFloat("fBase_Attack", m_pUdyrInst->m_stStatusInfo.fBase_Attack);
+	m_BlackBoard->setFloat("fMagic_Attack", m_pUdyrInst->m_stStatusInfo.fMagic_Attack);
+	m_BlackBoard->setFloat("fBase_Defence", m_pUdyrInst->m_stStatusInfo.fBase_Defence);
+	m_BlackBoard->setFloat("fMagic_Defence", m_pUdyrInst->m_stStatusInfo.fMagic_Defence);
+	m_BlackBoard->setFloat("fCriticalRatio", m_pUdyrInst->m_stStatusInfo.fCriticalRatio);
+	m_BlackBoard->setFloat("fMoveSpeed", m_pUdyrInst->m_stStatusInfo.fMoveSpeed);
+	m_BlackBoard->setFloat("fMana", m_pUdyrInst->m_stStatusInfo.fMana);
+	m_BlackBoard->setFloat("fHP", m_pUdyrInst->m_stStatusInfo.fHP);
+	m_BlackBoard->setFloat("fSkillTimeRatio", m_pUdyrInst->m_stStatusInfo.fSkillTimeRatio);
+	m_BlackBoard->setFloat("fAttackRange", m_pUdyrInst->m_stStatusInfo.fAttackRange);
 }
 
 void UdyrBT::UdyrBTHandler::AddTask(int eSequenceType, function<void(void)> pFunc)

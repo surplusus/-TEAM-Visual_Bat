@@ -13,8 +13,8 @@ namespace UdyrBT
 	class UdyrBTHandler : public BehaviorTreeHandler
 	{
 	public:
-		UdyrBTHandler(CUdyr** inst);
-		UdyrBTHandler();
+		UdyrBTHandler(CUdyr* inst);
+		UdyrBTHandler() {}
 		~UdyrBTHandler();
 		CUdyr*							m_pUdyrInst;
 		vector<shared_ptr<Sequence>>	m_vSequnece;

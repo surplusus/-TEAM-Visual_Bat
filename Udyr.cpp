@@ -62,7 +62,7 @@ HRESULT CUdyr::Initialize()
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
-		m_pBehavior = new UdyrBTHandler;
+		m_pBehavior = new UdyrBTHandler(this);
 		m_pBehavior->AddTask(TASK_DEATH, [this]() {this->ChangeAniSetByKey("Run"); });
 		m_pBehavior->MakeTree();
 		m_pBehavior->SetUpBlackBoard();
