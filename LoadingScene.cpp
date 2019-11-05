@@ -94,20 +94,13 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// SetUp Functors
 		m_pLoadingFunctor = new CLoadingFunctor;
-		m_pProgressBarFunctor = new CProgressBarFunctor(this);
-		(*m_pProgressBarFunctor)();
-		LPD3DXSPRITE pSprite = m_pProgressBarFunctor->m_pLoadingSprite;
-		LPDIRECT3DTEXTURE9 pTexture = m_pProgressBarFunctor->m_pLoadingTexture;
-		int iProgressBar = m_pProgressBarFunctor->m_iProgressBar;
-		m_pProgressBarFunctor->SetTextureByPara(pSprite, pTexture);
+		//m_pProgressBarFunctor = new CProgressBarFunctor(this);
 		{	// 로딩 functor에게 정보를 넣어준다.(수정요)
 			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-			if (sChampName == "")	sChampName = "Ezreal";
+			if (sChampName == "")	sChampName = "Udyr";
 			m_pLoadingFunctor->m_SelectedChamp = sChampName;
 		}
-
-		pThread = new thread(ref(*m_pLoadingFunctor));
-
+		//pThread = new thread(ref(*m_pLoadingFunctor));
 		//m_future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, Operate, this,pSprite,pTexture,iProgressBar);
 	}
 
@@ -119,10 +112,9 @@ void CLoadingScene::Progress()
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 	if (CheckPushKeyOneTime(VK_SPACE))
-		int n = 0;
+		m_bLoadingComplete = (*m_pLoadingFunctor)();
 	
 	//m_bLoadingComplete = OperateLoadingFunctorThruThread();
-	pThread->
 	//m_bLoadingComplete = (g_future1.wait_for(chrono::seconds(0)) == future_status::ready);
 
 	if (m_bLoadingComplete) {
@@ -133,8 +125,6 @@ void CLoadingScene::Progress()
 
 void CLoadingScene::Render()
 {
-	if (!m_bLoadingComplete)
-		return;
 	m_pBackGround->Render();
 	m_pTextMgr->LoadingNoticeRender();
 	m_pChampSelect->Render();

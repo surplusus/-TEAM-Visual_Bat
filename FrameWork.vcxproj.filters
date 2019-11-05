@@ -654,6 +654,9 @@
     <ClInclude Include="Cursor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBarFunctor.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -975,6 +978,9 @@
       <Filter>System\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBarFunctor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

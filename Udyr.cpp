@@ -3,6 +3,10 @@
 #include "SoundMgr.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
+#include "ColitionMgr.h"
+#include "ObjectColider.h"
+#include "BoundingBox.h"
+#include "ParticleMgr.h"
 using namespace UdyrBT;
 
 CUdyr::CUdyr()
@@ -41,8 +45,18 @@ HRESULT CUdyr::Initialize()
 	{	//<< : SetUp m_AniSetNameList;
 		SetUpAniSetNameList();
 	}
+	{	//<< : Collision
+		m_pColider = new CObjectColider(this);
+		//INFO pInfo = m_Info;
+		m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
+		m_ColiderList.push_back(m_pColider);
+		GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
+		GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::PaticleCollisionEvent);
+	}
 	{	//<< : PickingSphere
-		SetUpPickingShere(1.f);
+		//SetUpPickingShere(1.f);
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pColider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
@@ -94,6 +108,11 @@ void CUdyr::SetUpAniSetNameList()
 void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
 	m_pTargetObj = evt->m_pObj;
+}
+
+void CUdyr::PaticleCollisionEvent(COLLISIONEVENT * evt)
+{
+	m_pBehavior->m_BlackBoard->setBool("OnCollision", true);
 }
 
 void CUdyr::MouseControl()

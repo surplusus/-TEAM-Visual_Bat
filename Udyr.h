@@ -2,6 +2,8 @@
 #include "Champion.h"
 #include "BehaviorUdyr.h"
 
+class ColiderComponent;
+class CParticle;
 class CUdyr : public CChampion
 {
 	friend class UdyrBT::UdyrBTHandler;
@@ -26,6 +28,10 @@ private:
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	void			UpdateBlackBoard();
 	// >> : Behavior
+	// << : Collision
+	ColiderComponent*  m_pColider;
+	list<ColiderComponent*> m_ColiderList;
+	// >> : Collision
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -37,6 +43,7 @@ private:
 	void			ChangeAniSetByKey(string key);
 	void			SetUpAniSetNameList();
 	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
+	void			PaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			MouseControl();
 	void			QWERControl();
 private:	// StateFunc
