@@ -1,10 +1,12 @@
 #include "BaseInclude.h"
 #include "ThreadPool.h"	
-ThreadPool* ThreadPool::Inst = NULL;
+ThreadPool* ThreadPool::Inst = nullptr;
+
 void ThreadPool::StopThraed(THREADMENU eState)
 {
 
 }
+
 void ThreadPool::WorkerThread() {
 	while (true) {
 		std::unique_lock<std::mutex> lock(m_job_q_);
@@ -42,15 +44,4 @@ ThreadPool::~ThreadPool() {
 	for (auto& t : m_worker_threads_) {
 		t.join();
 	}
-}
-
-bool ThreadPool::PollThreadEnd(THREADMENU state)
-{
-	if (m_mapbComplete.find(state) == m_mapbComplete.end())
-		m_mapbComplete.insert(make_pair(state, false));
-
-	if (m_jobs_.empty())
-		m_mapbComplete[state] = true;
-	
-	return m_mapbComplete[state];
 }

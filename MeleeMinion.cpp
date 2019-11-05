@@ -21,9 +21,7 @@ HRESULT CMeleeMinion::Initialize()
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 	
 	m_SortID = SORTID_LAST;
-	int Pos = rand() % 30;
-	m_Info.vPos = D3DXVECTOR3((float)Pos, 0.f, 0.f);
-	//m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
+	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
 	m_fSize = 1.f;
@@ -38,7 +36,7 @@ void CMeleeMinion::Progress()
 {
 	float speed = 0.01f;
 	m_Info.vPos += m_Info.vDir * speed;
-	//m_fAngle[ANGLE_Y] += D3DXToRadian(rand() % 5);
+	m_fAngle[ANGLE_Y] += D3DXToRadian(rand() % 1);
 	UpdateWorldMatrix();
 }
 
@@ -53,4 +51,11 @@ void CMeleeMinion::Release()
 {
 	SAFE_RELEASE(m_pMeshSphere);
 	SAFE_RELEASE(m_pAnimationCtrl);
+}
+
+void CMeleeMinion::SetPosition(const D3DXVECTOR3 * pos)
+{
+	m_Info.vPos.x = pos->x;
+	m_Info.vPos.y = pos->y;
+	m_Info.vPos.z = pos->z;
 }

@@ -4,15 +4,17 @@
 #include "CameraMgr.h"
 #include "ObjMgr.h"
 #include "SceneMgr.h"
-#include "ThreadPool.h"
 #include "Frustum.h"
-#include "SoundMgr.h"
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
+
+#include "SoundMgr.h"
 #include "Udyr.h"
 #include "Ezreal.h"
 #include "MinionMgr.h"
+#include "Factory.h"
+#include "SummonTerrain.h"
 
 GuhyunScene::GuhyunScene()
 {
@@ -34,7 +36,6 @@ HRESULT GuhyunScene::Initialize()
 	if (Setup())		// light off
 		return E_FAIL;
 
-
 	//=========== Subscribe Events ==========//
 	//GET_SINGLE(EventMgr)->Subscribe(this, &GuhyunScene::RegisterMapLoaded);
 
@@ -55,7 +56,7 @@ HRESULT GuhyunScene::Initialize()
 	//else
 	//	ERR_MSG(g_hWnd, L"MapSummon Load Failed");
 	//	
-	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
+	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC))) {
 	//	if (FAILED(GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject())))
 	//		ERR_MSG(g_hWnd, L"Fail : Register On ObjMgr");
 	//}
@@ -68,11 +69,11 @@ HRESULT GuhyunScene::Initialize()
 
 	//=========== Add Particle ===========//	
 	#pragma endregion
-
+	// 미니언 생성
+	//m_pMinionMgr = new CMinionMgr();
+	//m_pMinionMgr->CreateMinions();
 	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
 	LetObjectKnowHeightMap();
-	m_pMinionMgr = new CMinionMgr();
-	m_pMinionMgr->CreateMinions();
 	//HRESULT res;
 	//m_pMinion = new CMeleeMinion();
 	//if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Test/", L"Minion_Melee_Blue.x", L"Minion", MESHTYPE_DYNAMIC))) {
@@ -88,12 +89,6 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
-	if (CheckPushKeyOneTime(VK_ESCAPE)) {
-		//GET_SINGLE(CSceneMgr)->SetState(new CGameScene);
-		PostMessage(NULL, WM_QUIT, 0, 0);
-		return;
-	}
-
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -119,6 +114,7 @@ void GuhyunScene::Release()
 	GET_SINGLE(CFrustum)->DestroyInstance();
 	SAFE_DELETE(m_pMinionMgr);
 	GET_SINGLE(CCameraMgr)->Release();
+	SAFE_DELETE(m_pHeightMap);
 	//GET_SINGLE(EventMgr)->Unsubscribe(this, &GuhyunScene::RegisterMapLoaded);
 }
 
@@ -166,6 +162,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
+	// for Minion
+	m_pMinionMgr->SetHeightMap(&m_pHeightMap);
+	// for Champion
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr) {
@@ -180,4 +179,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
 	if (pObj != nullptr)
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+}
+
+void GuhyunScene::GetMinionMgr(void ** pMinionMgr)
+{
+	m_pMinionMgr = reinterpret_cast<CMinionMgr*>(*pMinionMgr);
 }

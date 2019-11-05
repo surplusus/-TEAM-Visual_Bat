@@ -27,5 +27,6 @@ protected:
 public:
 	void				SetPosition(const D3DXVECTOR3* pos);
 	void				SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
+	void				SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
 };
 

@@ -1,10 +1,13 @@
 #pragma once
 #include "Champion.h"
 #include "BehaviorUdyr.h"
-namespace BT = BehaviorTree;
 
+class ColiderComponent;
+class CParticle;
 class CUdyr : public CChampion
 {
+	friend class UdyrBT::UdyrBTHandler;
+	friend class BehaviorTree::Task;
 	using FUNCSTATE = function<bool(void)>;
 	enum {STATETYPE_IDLE, STATETYPE_ATTACK, STATETYPE_RUN, STATETYPE_AGRESSIVE
 		, STATETYPE_TURNING
@@ -20,9 +23,15 @@ private:
 	vector<FUNCSTATE>	m_vStateFunc;
 	queue<FUNCSTATE>	m_queStateFunc;
 	CObj*				m_pTargetObj;
+	vector<string>		m_AniSetNameList;
 	// << : Behavior
-	BT::BehaviorTree*	m_pBehavior;
+	UdyrBT::UdyrBTHandler*	m_pBehavior;
+	void			UpdateBlackBoard();
 	// >> : Behavior
+	// << : Collision
+	ColiderComponent*  m_pColider;
+	list<ColiderComponent*> m_ColiderList;
+	// >> : Collision
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -30,8 +39,11 @@ public:
 	virtual void	Release()    override;
 
 	virtual void	ChangeAniSetByState() override {}
-	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
 private:
+	void			ChangeAniSetByKey(string key);
+	void			SetUpAniSetNameList();
+	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
+	void			PaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			MouseControl();
 	void			QWERControl();
 private:	// StateFunc
