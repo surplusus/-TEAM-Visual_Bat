@@ -13,6 +13,8 @@
 #include"ParticleMgr.h"
 #include"HeightMap.h"
 #include"ColitionMgr.h"
+#include"Cursor.h"
+#include"GameHUD.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -26,10 +28,6 @@ CGameScene::~CGameScene()
 
 HRESULT CGameScene::Initialize()
 {
-	/*if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 10.f, -10.f)
-		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
-		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
-		return E_FAIL;*/
 	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
 		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))		return E_FAIL;
@@ -58,8 +56,14 @@ HRESULT CGameScene::Initialize()
 	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-
+			
 	LetObjectKnowHeightMap();
+
+	m_Cursor = new CCursor;
+	m_Cursor->InitCursor();
+	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
+	Hud = new cGameHUD;
+	Hud->Initialize();
 }
 
 void CGameScene::Progress()
@@ -69,6 +73,7 @@ void CGameScene::Progress()
 
 	GET_SINGLE(CColitionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
+	Hud->Progress();
 }
 
 void CGameScene::Render()
@@ -77,11 +82,16 @@ void CGameScene::Render()
 
 	GET_SINGLE(CColitionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
+	Hud->Render();
 }
 
 void CGameScene::Release()
 {
-
+	m_pObjMgr->DestroyInstance();
+	GET_SINGLE(CColitionMgr)->DestroyInstance();
+	GET_SINGLE(CParticleMgr)->DestroyInstance();
+	GET_SINGLE(CCameraMgr)->DestroyInstance();
+	Hud->Release();
 }
 
 HRESULT CGameScene::Setup()

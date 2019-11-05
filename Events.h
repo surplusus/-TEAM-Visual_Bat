@@ -5,7 +5,7 @@ std::string;
 class CObj;
 class SoundMgr;
 class GuhyunScene;
-
+class CPaticle;
 typedef struct _tagEvent
 {
 } EVENT;
@@ -43,5 +43,6 @@ typedef struct _tagCollisionEvent : EVENT
 		: m_pOri(pOri), m_pTarget(pTarget){}
 	CObj* m_pOri;
 	CObj* m_pTarget;
-} COLLISIONEVENT;
 
+
+} COLLISIONEVENT;

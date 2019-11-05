@@ -280,6 +280,9 @@
     <Filter Include="소스 파일\Scene\SelectScene">
       <UniqueIdentifier>{6a6f6239-b3c0-4581-9e67-34133055009e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene\LoadScene\LoadingFunctor">
+      <UniqueIdentifier>{13f703a8-2795-4bde-a84e-a080d5b2e636}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Gauge">
       <UniqueIdentifier>{229d029e-7408-4063-81f4-1bc0682cb57f}</UniqueIdentifier>
     </Filter>
@@ -295,8 +298,11 @@
     <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider">
       <UniqueIdentifier>{a4103b60-bfc6-43f2-acf3-738080443578}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\LoadScene\Functor">
-      <UniqueIdentifier>{13f703a8-2795-4bde-a84e-a080d5b2e636}</UniqueIdentifier>
+    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
+      <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scene\최종 합치는 Scene">
+      <UniqueIdentifier>{c6f2c965-162b-46c0-b00d-334575d3ce7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -613,7 +619,7 @@
       <Filter>소스 파일\02. Object\Minion</Filter>
     </ClInclude>
     <ClInclude Include="LoadingFunctor.h">
-      <Filter>소스 파일\Scene\LoadScene\Functor</Filter>
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClInclude>
     <ClInclude Include="ChampGauge.h">
       <Filter>Gauge</Filter>
@@ -645,7 +651,7 @@
     <ClInclude Include="BehaviorUdyr.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="ProgressBarFunctor.h">
+    <ClInclude Include="Cursor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -936,7 +942,7 @@
       <Filter>소스 파일\02. Object\Minion</Filter>
     </ClCompile>
     <ClCompile Include="LoadingFunctor.cpp">
-      <Filter>소스 파일\Scene\LoadScene\Functor</Filter>
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClCompile>
     <ClCompile Include="ChampGauge.cpp">
       <Filter>Gauge</Filter>
@@ -968,7 +974,7 @@
     <ClCompile Include="BehaviorUdyr.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="ProgressBarFunctor.cpp">
+    <ClCompile Include="Cursor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -98,6 +98,7 @@ namespace BehaviorTree
 	{
 	public:
 		Task* m_pChild;
+	public:
 		Task(Task* child)
 			: m_pChild(child) {}
 		virtual ~Task() {}

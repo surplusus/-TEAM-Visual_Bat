@@ -130,7 +130,7 @@ typedef struct tagRay
 typedef struct tagSphere
 {
 	float			fRadius;
-	D3DXVECTOR3*	vpCenter;
+	const D3DXVECTOR3*	vpCenter;
 	bool			isPicked = false;
 	LPD3DXMESH		pMesh = nullptr;
 	tagSphere() : fRadius(0.0f), vpCenter(nullptr) {}
@@ -146,3 +146,98 @@ typedef struct tagParticleVtx
 }PARTICLEVTX;
 
 const DWORD VTXFVF_PARTICLE = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+
+typedef struct tagStateInfo
+{
+	tagStateInfo()
+	{
+		fBase_Attack	 =0;
+		fMagic_Attack	 =0;
+		fBase_Defence	 =0;
+		fMagic_Defence	 =0;
+		fCriticalRatio	 =0;
+		fMoveSpeed		 =0;
+		fMana			 =0;
+		fHP				 =0;
+		fSkillTimeRatio	 =0;
+		fAttackRange	 =0;
+	}
+	float fBase_Attack		;
+	float fMagic_Attack		;
+	float fBase_Defence		;
+	float fMagic_Defence	;
+	float fCriticalRatio	;
+	float fMoveSpeed		;
+	float fMana				;
+	float fHP				;
+	float fSkillTimeRatio	;
+	float fAttackRange		;
+
+	friend tagStateInfo operator+(tagStateInfo Info,  tagStateInfo tInfo);
+	friend tagStateInfo operator-(tagStateInfo Info,  tagStateInfo& tInfo);
+	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
+	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
+
+}INFO_CHAMP;
+INFO_CHAMP operator+( INFO_CHAMP Info, INFO_CHAMP tInfo)
+{
+	
+	INFO_CHAMP info;
+	info.fBase_Attack		= Info.fBase_Attack		+ tInfo.fBase_Attack;
+	info.fMagic_Attack		= Info.fMagic_Attack	+ tInfo.fMagic_Attack;
+	info.fBase_Defence		= Info.fBase_Defence	+ tInfo.fBase_Defence;
+	info.fMagic_Defence		= Info.fMagic_Defence	+ tInfo.fMagic_Defence;
+	info.fCriticalRatio		= Info.fCriticalRatio	+ tInfo.fCriticalRatio;
+	info.fMoveSpeed			= Info.fMoveSpeed		+ tInfo.fMoveSpeed;
+	info.fMana				= Info.fMana			+ tInfo.fMana;
+	info.fHP				= Info.fHP				+ tInfo.fHP;
+	info.fSkillTimeRatio	= Info.fSkillTimeRatio	+ tInfo.fSkillTimeRatio;
+	info.fAttackRange		= Info.fAttackRange		+ tInfo.fAttackRange;
+	return info;
+}
+INFO_CHAMP operator-(const INFO_CHAMP Info, INFO_CHAMP& tInfo)
+{
+	
+	INFO_CHAMP info;
+	info.fBase_Attack		= Info.fBase_Attack + tInfo.fBase_Attack;
+	info.fMagic_Attack		= Info.fMagic_Attack + tInfo.fMagic_Attack;
+	info.fBase_Defence		= Info.fBase_Defence + tInfo.fBase_Defence;
+	info.fMagic_Defence		= Info.fMagic_Defence + tInfo.fMagic_Defence;
+	info.fCriticalRatio		= Info.fCriticalRatio + tInfo.fCriticalRatio;
+	info.fMoveSpeed			= Info.fMoveSpeed + tInfo.fMoveSpeed;
+	info.fMana				= Info.fMana + tInfo.fMana;
+	info.fHP				= Info.fHP + tInfo.fHP;
+	info.fSkillTimeRatio	= Info.fSkillTimeRatio + tInfo.fSkillTimeRatio;
+	info.fAttackRange		= Info.fAttackRange + tInfo.fAttackRange;
+	return info;	
+}
+INFO_CHAMP operator+=( INFO_CHAMP& Info,INFO_CHAMP tInfo)
+{
+	
+	Info.fBase_Attack		+= tInfo.fBase_Attack;
+	Info.fMagic_Attack		+= tInfo.fMagic_Attack;
+	Info.fBase_Defence		+= tInfo.fBase_Defence;
+	Info.fMagic_Defence		+= tInfo.fMagic_Defence;
+	Info.fCriticalRatio		+= tInfo.fCriticalRatio;
+	Info.fMoveSpeed			+= tInfo.fMoveSpeed;
+	Info.fMana				+= tInfo.fMana;
+	Info.fHP				+= tInfo.fHP;
+	Info.fSkillTimeRatio	+= tInfo.fSkillTimeRatio;
+	Info.fAttackRange		+= tInfo.fAttackRange;	
+	return Info;
+}
+INFO_CHAMP operator-=( INFO_CHAMP& Info,INFO_CHAMP tInfo)
+{
+	
+	Info.fBase_Attack		-= tInfo.fBase_Attack;
+	Info.fMagic_Attack		-= tInfo.fMagic_Attack;
+	Info.fBase_Defence		-= tInfo.fBase_Defence;
+	Info.fMagic_Defence		-= tInfo.fMagic_Defence;
+	Info.fCriticalRatio		-= tInfo.fCriticalRatio;
+	Info.fMoveSpeed			-= tInfo.fMoveSpeed;
+	Info.fMana				-= tInfo.fMana;
+	Info.fHP				-= tInfo.fHP;
+	Info.fSkillTimeRatio	-= tInfo.fSkillTimeRatio;
+	Info.fAttackRange		-= tInfo.fAttackRange;	
+	return Info;
+}
