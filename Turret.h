@@ -5,7 +5,8 @@ class CTurret :
 	public CTower
 {
 public:
-	CTurret();
+	CTurret() {}
+	CTurret(D3DXVECTOR3 pos);
 	virtual ~CTurret();
 public:
 	virtual HRESULT	Initialize() override;
@@ -16,7 +17,6 @@ private:
 	bool Animation_Break();
 
 public:
-	bool Attacked_Target();
 	list<ColiderComponent*> m_ColiderList;
 
 private:
@@ -26,5 +26,8 @@ private:
 	virtual void		ChangeAniSetByState() {};
 	void AddAttackLaizer();
 
+
+public:
+	void SetPosition(D3DXVECTOR3 position) { m_Info.vPos = position; }
 };
 

@@ -3,7 +3,8 @@
 #include"ColitionMgr.h"
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
-CTurret::CTurret()
+#include"AnimationCtrl.h"
+CTurret::CTurret(D3DXVECTOR3 pos)
 {
 	m_fSize = 1.0f;
 
@@ -11,11 +12,10 @@ CTurret::CTurret()
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3(23.f, 0.f, 22.5f);
+	m_Info.vPos = pos;
 	m_fHeight = 0.0f;
 	
 }
-
 
 CTurret::~CTurret()
 {
@@ -37,6 +37,7 @@ HRESULT CTurret::Initialize()
 void CTurret::Progress()
 {
 	m_pAnimationCtrl->FrameMove(L"Blue_Turret", g_fDeltaTime);
+
 	if (GetAsyncKeyState(VK_LEFT))
 		Animation_Break();
 	if (GetAsyncKeyState(VK_SPACE))
@@ -63,11 +64,6 @@ bool CTurret::Animation_Break()
 	return true;
 }
 
-bool CTurret::Attacked_Target()
-{
-
-	return false;
-}
 
 void CTurret::AddAttackLaizer()
 {

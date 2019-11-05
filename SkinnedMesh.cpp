@@ -23,7 +23,8 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 	m_pLoader = new CHierachyLoader(pPathName);
 
 	m_pAniCtrl = new CAnimationCtrl;
-
+	HRESULT hr = D3DXLoadMeshHierarchyFromX(szPath, D3DXMESH_MANAGED
+		, pDevice, m_pLoader, NULL, &m_pRootBone, m_pAniCtrl->GetAniCtrl());
 	if (FAILED(D3DXLoadMeshHierarchyFromX(szPath, D3DXMESH_MANAGED
 		, pDevice, m_pLoader, NULL, &m_pRootBone, m_pAniCtrl->GetAniCtrl())))
 		return E_FAIL;

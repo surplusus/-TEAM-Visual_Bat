@@ -73,7 +73,7 @@
     <ClInclude Include="Image_Loader.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="Inhibitor.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="LoadingFunctor.h" />
     <ClInclude Include="LoadingScene.h" />
@@ -82,7 +82,7 @@
     <ClInclude Include="MinionGauge.h" />
     <ClInclude Include="MinionMgr.h" />
     <ClInclude Include="Nexus.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ObjectColider.h" />
     <ClInclude Include="Particle.h" />
@@ -226,7 +226,7 @@
     <ClCompile Include="Image_Loader.cpp" />
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="Inhibitor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="LoadingFunctor.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
@@ -235,7 +235,7 @@
     <ClCompile Include="MinionGauge.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
     <ClCompile Include="Nexus.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ObjectColider.cpp" />
     <ClCompile Include="Particle.cpp" />

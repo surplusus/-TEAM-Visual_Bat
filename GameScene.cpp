@@ -15,6 +15,8 @@
 #include"ColitionMgr.h"
 #include"Cursor.h"
 #include"Turret.h"
+#include"Inhibitor.h"
+#include"Nexus.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -58,12 +60,40 @@ HRESULT CGameScene::Initialize()
 		return E_FAIL;
 
 	// cheon
+#pragma region 블루팀 포탑
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
 		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", CFactory<CObj, CTurret>::CreateObject());
+	{
+		CTurret* pTurret = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
+		pTurret->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+	}
 	else
 		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
-	
+#pragma endregion 포탑 끝
+
+#pragma region 블루팀 억제기
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/"
+		, L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
+	{
+		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+		pInhibitor->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
+	}
+	else
+		ERR_MSG(g_hWnd, L"inhibitor Load Failed");
+#pragma endregion 억제기 끝
+
+#pragma region 넥서스
+	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/"
+		, L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
+		GET_SINGLE(CObjMgr)->AddObject(L"Nexus", CFactory<CObj, CNexus>::CreateObject());
+	else
+		ERR_MSG(g_hWnd, L"Nexus Load Failed");
+#pragma endregion 넥서스 끝
+
+	// choen
+
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 
