@@ -55,9 +55,7 @@ void CChampGauge::Initialize()
 }
 
 void CChampGauge::Progress()
-{	
-	
-
+{
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		m_fDmg -= 0.01f;
@@ -70,9 +68,6 @@ void CChampGauge::Progress()
 		if (m_fDmg > 1.0f)
 			m_fDmg = 1.0f;
 	}
-
-	
-
 }
 
 void CChampGauge::Render()
@@ -91,10 +86,11 @@ void CChampGauge::Release()
 void CChampGauge::RenderBlankGauge()
 {
 	D3DXMATRIXA16 matT, matView, matS;
+	D3DXMatrixIdentity(&matS);
 	SetBillBoard(&matView);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
 
-	m_matWorld = matView * matT;
+	m_matWorld = matS * matView * matT;
 
 	SetTransform(D3DTS_WORLD, &m_matWorld);
 
@@ -113,11 +109,17 @@ void CChampGauge::RenderBlankGauge()
 
 void CChampGauge::RenderCellGauge()
 {
+	float fCorrection = 1.0f;
 	D3DXMATRIXA16 matView, matT, matS;
 	SetBillBoard(&matView);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
 	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 1.5f, m_vPosition.z);
+	D3DXMatrixTranslation(
+		&matT, 
+		m_vPosition.x + ((fCorrection / 2.0f) - 0.5f), 
+		m_vPosition.y + 1.5f, 
+		m_vPosition.z);
+
 	m_matWorld = matS * matView * matT;
 	SetTransform(D3DTS_WORLD, &m_matWorld);
 
