@@ -49,11 +49,10 @@ void CEzreal::SetContantTable()
 		AddSkill_Q();
 	}
 	if (m_Champ_State[CHAMPION_STATETYPE_ATTACK1] && m_fStartTime == 1) {
+		TurnSlowly(&m_MouseHitPoint,1.0f);
 		UpdateWorldMatrix();
 		AddSkill_Q();
 	}
-
-
 }
 
 void CEzreal::WorldSetting()
@@ -333,7 +332,6 @@ void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 
 CHAMPION_STATETYPE CEzreal::SettingSpell1_Motion()
 {
-
 	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1])
 	{
 		InitAnimationState();
@@ -347,11 +345,9 @@ CHAMPION_STATETYPE CEzreal::SettingSpell1_Motion()
 			m_fStartTime = 0;
 			m_bDirty = true;
 			return CHAMPION_STATETYPE_IDLE1;
-		}
-		
+		}		
 		m_fStartTime += 1;
-		return CHAMPION_STATETYPE_SPELL1;
-		
+		return CHAMPION_STATETYPE_SPELL1;		
 	}
 	return CHAMPION_STATETYPE_IDLE1;
 }
@@ -416,3 +412,4 @@ CHAMPION_STATETYPE CEzreal::SettingRun_Motion()
 	return CHAMPION_STATETYPE_IDLE1;
 
 }
+

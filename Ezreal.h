@@ -82,7 +82,6 @@ public:
 	CHAMPION_STATETYPE SettingSpell1_Motion();
 	CHAMPION_STATETYPE SettingAttack_Motion();
 	CHAMPION_STATETYPE SettingRun_Motion();
-	void Turn(const D3DXVECTOR3 * destPos);
 
 };
 
