@@ -13,11 +13,15 @@
 #include"ColitionMgr.h"
 #include"EventMgr.h"
 #include"PickingSphereMgr.h"
+//CHEON
+#include"ChampGauge.h"
+
+
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
-	:m_bDirty(true),m_pMesh(NULL), m_CurStateType(CHAMPION_STATETYPE_IDLE1)
+	:m_bDirty(true),m_pMesh(NULL), m_CurStateType(CHAMPION_STATETYPE_IDLE1), m_pGauge(NULL)
 {
 	m_fAngle[ANGLE_X] = 0;
 	m_fAngle[ANGLE_Y] = 1.5;
@@ -141,6 +145,10 @@ HRESULT CEzreal::Initialize()
 	GET_SINGLE(EventMgr)->Subscribe(this, &CEzreal::OnFindPickingSphere);
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pColider->GetSphere());
 
+	//cheon
+	m_pGauge = new CChampGauge();
+	m_pGauge->Initialize();
+
 	return S_OK;
 }
 
@@ -157,6 +165,8 @@ void CEzreal::Progress()
 	
 	m_pColider->Update(m_Info.vPos);
 
+	m_pGauge->SetPosition(m_Info.vPos);
+	m_pGauge->Progress();
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -179,13 +189,15 @@ void CEzreal::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	//몇개의 애니메이션이 돌지에 대해 설정한다.
+
 	if (m_bDirty) {
 		m_pAnimationCtrl->SetAnimationSet(m_strAnimationState);
 		m_bDirty = false;
 	}
 	Mesh_Render(GetDevice(), L"Ezreal");
 	SetTexture(0,NULL);	
-
+	//cheon
+	m_pGauge->Render();
 }
 
 void CEzreal::Release()

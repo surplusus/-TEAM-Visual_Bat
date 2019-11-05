@@ -8,6 +8,9 @@ class CParticle;
 //IDLE1 -> 기본 가만히
 //IDLE2,IDLE3 -> 가만히 있을때 변화되는 IDLE 시간변화에 따라 실행
 
+//cheon-> 체력 게이지 확인
+class CGauge;
+
 class ColiderComponent;
 class CEzreal :
 	public CChampion
@@ -83,5 +86,9 @@ public:
 	CHAMPION_STATETYPE SettingAttack_Motion();
 	CHAMPION_STATETYPE SettingRun_Motion();
 
+
+	//cheon
+private:
+	CGauge*				m_pGauge;
 };
 

@@ -15,10 +15,9 @@ public:
 
 
 private:
-	void SetBlankGauge();
-	void SetGaugeCell();
 
 	void RenderBlankGauge();
 	void RenderCellGauge();
+	D3DXMATRIXA16		m_matWorld;
 };
 

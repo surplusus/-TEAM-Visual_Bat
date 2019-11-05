@@ -59,7 +59,7 @@ HRESULT CGameScene::Initialize()
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2",ez)))
 		return E_FAIL;
 
-	// cheon
+// cheon
 #pragma region ºí·çÆÀ Æ÷Å¾
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
 		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
@@ -91,8 +91,7 @@ HRESULT CGameScene::Initialize()
 	else
 		ERR_MSG(g_hWnd, L"Nexus Load Failed");
 #pragma endregion ³Ø¼­½º ³¡
-
-	// choen
+// choen
 
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;

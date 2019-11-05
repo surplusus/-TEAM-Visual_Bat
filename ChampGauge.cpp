@@ -16,10 +16,9 @@ CChampGauge::~CChampGauge()
 
 void CChampGauge::Initialize()
 {
+	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
+	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
 	SetLight();
-	
-	SetBlankGauge();
-	SetGaugeCell();
 	//¾Æ·§ÂÊ »ï°¢Çü
 	VTXTEX v;
 	v.vPosition = D3DXVECTOR3(m_vPosition.x - 0.5f, m_vPosition.y + 1.0f, m_vPosition.z);
@@ -57,9 +56,9 @@ void CChampGauge::Initialize()
 
 void CChampGauge::Progress()
 {	
-	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Udyr")->vPos;
-	SetPosition(pos);
-	if (GetAsyncKeyState(VK_SPACE))
+	
+
+	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		m_fDmg -= 0.01f;
 		if (m_fDmg < 0.0f)
@@ -71,6 +70,9 @@ void CChampGauge::Progress()
 		if (m_fDmg > 1.0f)
 			m_fDmg = 1.0f;
 	}
+
+	
+
 }
 
 void CChampGauge::Render()
@@ -85,25 +87,16 @@ void CChampGauge::Release()
 	SAFE_RELEASE(m_pCell);
 }
 
-void CChampGauge::SetBlankGauge()
-{
-	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
-}
-
-void CChampGauge::SetGaugeCell()
-{
-	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
-}
 
 void CChampGauge::RenderBlankGauge()
 {
-	D3DXMATRIXA16 matWorld, matT;
+	D3DXMATRIXA16 matT, matView, matS;
+	SetBillBoard(&matView);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
 
-	matWorld = matT;
+	m_matWorld = matView * matT;
 
-	SetTransform(D3DTS_WORLD, &matWorld);
-
+	SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	SetTexture(0, m_pBlank);
 
@@ -120,14 +113,13 @@ void CChampGauge::RenderBlankGauge()
 
 void CChampGauge::RenderCellGauge()
 {
-	D3DXMATRIXA16 matWorld, matT, matS;
+	D3DXMATRIXA16 matView, matT, matS;
+	SetBillBoard(&matView);
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
 	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 2.0f, m_vPosition.z);
-	matWorld = matS * matT;
-
-	SetTransform(D3DTS_WORLD, &matWorld);
-
+	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 1.5f, m_vPosition.z);
+	m_matWorld = matS * matView * matT;
+	SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	SetTexture(0, m_pCell);
 

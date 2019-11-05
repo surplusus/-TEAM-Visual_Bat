@@ -59,7 +59,7 @@ void CMinionGauge::Progress()
 {
 	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Minion")->vPos;
 	SetPosition(pos);
-	if (GetAsyncKeyState(VK_SPACE))
+	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		m_fDmg -= 0.01f;
 		if (m_fDmg < 0.0f)
