@@ -3,6 +3,7 @@
 
 
 CImage_Loader::CImage_Loader()
+	:m_pSprite(NULL), m_pTexture(NULL)
 {
 }
 

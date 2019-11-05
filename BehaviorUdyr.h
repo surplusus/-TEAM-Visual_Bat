@@ -11,15 +11,15 @@ namespace BehaviorTree
 		virtual ~UdyrWalkCond() {}
 	private:
 		virtual bool Do() override {
-			return m_BlackBoard.get()->getBool("Walk");
+			return m_BlackBoard->get()->getBool("Walk");
 		}
 	};
 
 	class UdyrWalkTask : public Task
 	{
-	private:
-		function<void(void)> m_Func;
 	public:
+		function<void(void)> m_Func;
+		public:
 		UdyrWalkTask(function<void(void)> func)
 			:Task(this) {
 			m_Func = func;

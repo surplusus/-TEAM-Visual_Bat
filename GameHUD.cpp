@@ -11,6 +11,8 @@
 cGameHUD::cGameHUD()
 {
 	m_isLButtonDown = false;
+
+	m_Stats.fBase_Attack = NULL;
 }
 
 
@@ -114,21 +116,66 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(376, 660, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	Ezreal_copy.m_Skill[0].Initialize();*/
-
-	float fA = 40;
 	
-	CTextMgr * TextA = new CTextMgr();
-	m_mapTextMgr["TextA"] = TextA;
-	m_mapTextMgr["TextA"]->Initialize_Text(
-		fA,
-		m_mapImage["stats"]->GetPosition().x + 90, 
-		
-		m_mapImage["stats"]->GetPosition().y + 14, 
-		
-		m_mapImage["stats"]->GetPosition().x,
-		
-		m_mapImage["stats"]->GetImageInfo().Height
-	+ m_mapImage["stats"]->GetPosition().y);
+	// 능력치
+	{
+		// 임의로 값줌
+		{
+			m_Stats.fBase_Attack = 40;
+			m_Stats.fMagic_Attack = 40;
+			m_Stats.fBase_Defence = 100;
+			m_Stats.fMagic_Defence = 100;
+			m_Stats.fCriticalRatio = 20;
+			m_Stats.fMoveSpeed = 30;
+			m_Stats.fHP = 100;
+			m_Stats.fSkillTimeRatio = 45;
+			m_Stats.fAttackRange = 34;
+		}
+
+		// 공격력
+		CTextMgr * Base_Attack = new CTextMgr;
+		m_mapTextMgr["Base_Attack"] = Base_Attack;
+		m_mapTextMgr["Base_Attack"]->Initialize_Text(
+			m_Stats.fBase_Attack,
+			m_mapImage["stats"]->GetPosition().x + 90,
+			m_mapImage["stats"]->GetPosition().y + 14,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 주문력
+		CTextMgr * Magic_Attack = new CTextMgr;
+		m_mapTextMgr["Magic_Attack"] = Magic_Attack;
+		m_mapTextMgr["Magic_Attack"]->Initialize_Text(
+			m_Stats.fMagic_Attack,
+			m_mapImage["stats"]->GetPosition().x + 90,
+			m_mapImage["stats"]->GetPosition().y + 13,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 방어력
+		CTextMgr * Base_Defence = new CTextMgr;
+		m_mapTextMgr["Base_Defence"] = Base_Defence;
+		m_mapTextMgr["Base_Defence"]->Initialize_Text(
+			m_Stats.fBase_Defence,
+			m_mapImage["stats"]->GetPosition().x + 90,
+			m_mapImage["stats"]->GetPosition().y + 36,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 마법 저항력
+		CTextMgr * Magic_Defence = new CTextMgr;
+		m_mapTextMgr["Magic_Defence"] = Magic_Defence;
+		m_mapTextMgr["Magic_Defence"]->Initialize_Text(
+			m_Stats.fMagic_Defence,
+			m_mapImage["stats"]->GetPosition().x + 90,
+			m_mapImage["stats"]->GetPosition().y + 35,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+	}
 }
 
 void cGameHUD::Progress()
@@ -174,7 +221,10 @@ void cGameHUD::Render()
 	/*Ezreal.m_Skill[0].Render();
 	Ezreal_copy.m_Skill[0].Render();*/
 
-	m_mapTextMgr["TextA"]->Render_Text();
+	m_mapTextMgr["Base_Attack"]->Render_Text();
+	m_mapTextMgr["Magic_Attack"]->Render_Text();
+	m_mapTextMgr["Base_Defence"]->Render_Text();
+	m_mapTextMgr["Magic_Defence"]->Render_Text();
 }
 
 void cGameHUD::Release()
@@ -188,7 +238,10 @@ void cGameHUD::Release()
 	Ezreal.m_Skill[0].Release();
 	Ezreal_copy.m_Skill[0].Release();
 
-	m_mapTextMgr["TextA"]->Reelase();
+	m_mapTextMgr["Base_Attack"]->Reelase();
+	m_mapTextMgr["Magic_Attack"]->Reelase();
+	m_mapTextMgr["Base_Defence"]->Reelase();
+	m_mapTextMgr["Magic_Defence"]->Reelase();
 }
 
 void cGameHUD::Progress_Minimap()

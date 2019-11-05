@@ -32,5 +32,6 @@ private:
 	SkillList Ezreal_copy;
 
 	map<string, CTextMgr *> m_mapTextMgr;
+	INFO_CHAMP m_Stats;
 };
 
