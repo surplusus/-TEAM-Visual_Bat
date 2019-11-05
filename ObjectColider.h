@@ -15,6 +15,6 @@ public:
 	virtual COLISION_TYPE GetType() override { return m_Type; }
 	virtual void Update(D3DXVECTOR3 vPos) override;
 	virtual bool	CheckColision(ColiderComponent* pEnemy) override;
-
+	CObj* GetObj() { return m_pObj; }
 };
 

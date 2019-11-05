@@ -2,6 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AnimationCtrl.h"
 #include "MeshMgr.h"
+#include"HP.h"
 
 CSkinnedMesh::CSkinnedMesh()
 {

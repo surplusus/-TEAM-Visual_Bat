@@ -16,6 +16,7 @@ protected:
 	vector<VTXTEX> m_VerTexBuffer;
 	CBound * m_pBoxMesh;
 	CBound* m_SphereMesh;
+
 public:
 	void SetUp(INFO tInfo, float fRadius, CBound* pMesh);
 	void Render();
@@ -28,6 +29,6 @@ public:
 	void SetStateCol(bool bCol) { m_bColision = bCol; }
 	bool GetStateCol() { return m_bColision; }
 	void Release();
-	SPHERE& GetSphere() { return m_SphereInfo; }
+	SPHERE* GetSphere() { return &m_SphereInfo; }
 };
 

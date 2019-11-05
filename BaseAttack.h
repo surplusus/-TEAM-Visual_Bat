@@ -1,12 +1,17 @@
 #pragma once
 #include"ParticleObj.h"
-class ColiderComponent;
-class CEzealQ_Particle : public CParticleObj
+class CBaseAttack
+	: public CParticleObj
 {
 public:
-	CEzealQ_Particle();
-	CEzealQ_Particle( INFO tInfo, float fRadius, D3DXVECTOR3 vAngle);
-	~CEzealQ_Particle();
+	CBaseAttack(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle,STATUSINFO Status);
+	~CBaseAttack();
+public:
+
+	virtual void Initalize();
+	virtual bool Progress();
+	virtual void Render();
+	virtual void Release();
 private:
 	float m_fRadius;
 	float m_fAngle[ANGLE_END];
@@ -19,24 +24,17 @@ private:
 	D3DXVECTOR3 m_vMax;
 	D3DXMATRIX m_matWorld;
 private:
-	float m_BaseDamge;
-	float m_fCunsumMana;
-public:
-	bool StatusInit(STATUSINFO*Status,SKILL_LEVEL lv);
-
-
-public:
-	virtual void Initalize()override;
-	virtual bool Progress()	override;
-	virtual void Render()	override;
-	virtual void Release()	override;
+	float m_fBaseDamage;
+	
 private:
+	virtual void Setup_MultiTexture() override;
 	virtual void SetUp_Particle() override;
-	virtual void Setup_MultiTexture()override;
 	virtual void Render_Particle() override;
 	virtual void RenderEnd_Particle() override;
 	virtual void InitRenderState() override;
+public:
 	bool AddTail();
+
 private:
 	LPD3DXMESH m_BoxMesh;
 };
