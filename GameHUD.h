@@ -20,8 +20,6 @@ public:
 	void Render();
 	void Release();
 
-	void Progress_Minimap();
-
 private:
 	map<string, CImage_Loader *> m_mapImage;
 	//cFont * m_Text;
@@ -33,5 +31,11 @@ private:
 
 	map<string, CTextMgr *> m_mapTextMgr;
 	INFO_CHAMP m_Stats;
+	
+public:
+	void Progress_Minimap();
+
+	void SetInfoChamp(INFO_CHAMP n_Stats) { m_Stats = n_Stats; }
+	void Initialize_Text();
 };
 
