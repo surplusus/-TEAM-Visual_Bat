@@ -133,13 +133,13 @@ HRESULT CEzreal::Initialize()
 
 void CEzreal::Progress()
 {
-	m_pColider->Update(m_Info.vPos);
-
+	
 	KeyCheck();
 	SettingAnimationSort();
 	SettingFrameAnimation();	
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);		
+	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
 
 }
