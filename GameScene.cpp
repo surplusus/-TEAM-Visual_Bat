@@ -61,7 +61,7 @@ HRESULT CGameScene::Initialize()
 // cheon
 #pragma region ºí·çÆÀ Æ÷Å¾
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+		, L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
 	{
 		printf("Set Add Mesh\n");
 	}

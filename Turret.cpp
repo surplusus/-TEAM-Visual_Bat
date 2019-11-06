@@ -69,7 +69,7 @@ void CTurret::Release()
 
 bool CTurret::Animation_Break()
 {
-	m_pAnimationCtrl->BlendAnimationSet("Idle_break");
+	m_pAnimationCtrl->BlendAnimationSet("Idle_Break");
 	return true;
 }
 

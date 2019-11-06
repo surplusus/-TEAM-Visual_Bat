@@ -12,7 +12,7 @@ public:
 	virtual void Release()	  = 0;
 
 protected:
-	float													m_MAXHP;
+	float													m_MAXHP; // 최대 체력
 	float													m_MAXMP;
 	D3DXVECTOR3												m_vPosition;
 	
@@ -26,12 +26,13 @@ public:
 protected:
 	void SetBillBoard();
 	void SetLight();
-	float m_fDmg;
-	float m_fDeal;
+	float														m_fDmg; // 체력 게이지 크기
+	float														m_CurrentHP; // 현재 체력
+	float														m_rest; // 남은 체력
 	D3DXMATRIX m_matBillBoard;
 public:
-	void SetMaxHP(float HP) { m_MAXHP = HP; }
-	void SufferDmg(float fDeal) { m_fDeal = fDeal; }
+	void SetMaxHP(float MAXHP) { m_MAXHP = MAXHP; }
+	void SufferDmg(float CurrentHP) { m_CurrentHP = CurrentHP; }
 
 protected:
 	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);

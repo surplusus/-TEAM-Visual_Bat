@@ -66,7 +66,7 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT;
+	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -94,7 +94,7 @@ void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositio
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT;
+	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
 
 
 	SetTransform(D3DTS_WORLD, &matWorld);
