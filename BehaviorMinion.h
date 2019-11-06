@@ -24,7 +24,7 @@ namespace MinionBT
 		void SetRoot(int eNode);
 		void MakeTree();
 		void SetUpBlackBoard();
-		void AddTask(int eSequenceType, function<void(void)> pFunc);
+		void SetUpTask(int eSequenceType, function<void(void)> pFunc);
 	};
 
 	class MinionTask : public Task

@@ -12,10 +12,6 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 	{
 		m_vCondition.emplace_back(make_shared<UdyrDeath>());
 		m_vCondition.emplace_back(make_shared<UdyrClick>());
-		m_vCondition.emplace_back(make_shared<UdyrRun>());
-		m_vCondition.emplace_back(make_shared<UdyrTurn>());
-		m_vCondition.emplace_back(make_shared<UdyrIdle>());
-		m_vCondition.emplace_back(make_shared<UdyrAni>());
 		for (int i = 0; i < CONDITION_END; ++i)
 			m_vCondition[i]->SetMemberInst(m_pUdyrInst);
 	}
