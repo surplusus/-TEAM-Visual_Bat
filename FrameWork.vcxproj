@@ -75,6 +75,7 @@
     <ClInclude Include="Inhibitor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="InhibitorGauge.h" />
     <ClInclude Include="LoadingFunctor.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MeleeMinion.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Nexus.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="NexusGauge.h" />
     <ClInclude Include="ObjectColider.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleColider.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="Turret.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="TurretGauge.h" />
     <ClInclude Include="Udyr.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -228,6 +231,7 @@
     <ClCompile Include="Inhibitor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp" />
     <ClCompile Include="LoadingFunctor.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MeleeMinion.cpp" />
@@ -237,6 +241,7 @@
     <ClCompile Include="Nexus.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="NexusGauge.cpp" />
     <ClCompile Include="ObjectColider.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleColider.cpp" />
@@ -311,6 +316,7 @@
     <ClCompile Include="Turret.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TurretGauge.cpp" />
     <ClCompile Include="Udyr.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

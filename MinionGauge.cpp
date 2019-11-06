@@ -75,8 +75,8 @@ void CMinionGauge::Progress()
 
 void CMinionGauge::Render()
 {
-	RenderBlankGauge();
-	RenderCell();
+	RenderBlankGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
+	RenderCellGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
 }
 
 void CMinionGauge::Release()

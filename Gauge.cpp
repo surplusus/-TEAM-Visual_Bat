@@ -49,3 +49,56 @@ void CGauge::SetLight()
 		SetRenderState(D3DRS_LIGHTING, true);
 	}
 }
+
+void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+{
+	D3DXMATRIXA16 matView, matS;
+	D3DXMatrixIdentity(&matView);
+	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
+
+	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+
+	World = matS;
+	World *= matView;
+
+	SetTransform(D3DTS_WORLD, &World);
+
+	SetTexture(0, m_pBlank);
+
+	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
+
+	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		vecMultiVertex.size() / 3,
+		&vecMultiVertex[0],
+		sizeof(VTXTEX)
+	);
+	SetTexture(0, NULL);
+}
+
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+{
+	D3DXMATRIXA16 matView, matS;
+	D3DXMatrixIdentity(&matView);
+	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
+
+	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+
+
+	World = matS;
+	World *= matView;
+
+	SetTransform(D3DTS_WORLD, &World);
+
+	SetTexture(0, m_pCell);
+
+	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
+
+	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		vecMultiVertex.size() / 3,
+		&vecMultiVertex[0],
+		sizeof(VTXTEX)
+	);
+	SetTexture(0, NULL);
+}

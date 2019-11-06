@@ -16,9 +16,7 @@ private:
 	void SetBlankGauge();
 	void SetGaugeCell();
 
-	void RenderBlankGauge();
-	void RenderCell();
-
-	D3DXMATRIXA16				m_matWorld;
+	D3DXMATRIXA16		m_matWorld;
+	vector<VTXTEX>											m_vecMultiVertex;
 };
 

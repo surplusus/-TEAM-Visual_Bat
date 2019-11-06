@@ -63,22 +63,17 @@ void CInhibitor::Release()
 
 bool CInhibitor::Animation_Set()
 {
-		m_pAnimationCtrl->BlendAnimationSet("Armature_Take_001_BaseLayer");
+	m_pAnimationCtrl->BlendAnimationSet("Armature_Take_001_BaseLayer");
 
-	
-		m_pAnimationCtrl->BlendAnimationSet("BUFFBONE_GLB_CHANNEL_LOC_Take_001_BaseLayer");
+	m_pAnimationCtrl->BlendAnimationSet("BUFFBONE_GLB_CHANNEL_LOC_Take_001_BaseLayer");
 
-	
-		m_pAnimationCtrl->BlendAnimationSet("BUFFBONE_GLB_GROUND_LOC_Take_001_BaseLayer");
-	
-	
-		m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_CENTER_LOC_Take_001_BaseLayer");
-	
+	m_pAnimationCtrl->BlendAnimationSet("BUFFBONE_GLB_GROUND_LOC_Take_001_BaseLayer");
 
-		m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_LAYOUT_LOC_Take_001_BaseLayer");
+	m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_CENTER_LOC_Take_001_BaseLayer");
 
-	
-		m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_OVERHEAD_LOC_Take_001_BaseLayer");
+	m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_LAYOUT_LOC_Take_001_BaseLayer");
+
+	m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_OVERHEAD_LOC_Take_001_BaseLayer");
 
 	return true;
 }

@@ -25,7 +25,7 @@ public:
 protected:
 	void SetBillBoard(D3DXMATRIXA16 * Matrix, float x, float y, float z);
 
-	vector<VTXTEX>											m_vecMultiVertex;
+	
 	
 
 	void SetLight();
@@ -34,4 +34,8 @@ protected:
 public:
 	void SetMaxHP(float HP) { m_MAXHP = HP; }
 	void SufferDmg(float Dmg) { m_fDmg = Dmg; }
+
+protected:
+	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
 };

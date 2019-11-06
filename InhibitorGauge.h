@@ -1,12 +1,11 @@
 #pragma once
 #include "Gauge.h"
-
-class CChampGauge :
+class CInhibitorGauge :
 	public CGauge
 {
 public:
-	CChampGauge();
-	~CChampGauge();
+	CInhibitorGauge();
+	~CInhibitorGauge();
 public:
 	virtual void Initialize() override;
 	virtual void Progress() override;
@@ -15,8 +14,7 @@ public:
 
 
 private:
-
 	D3DXMATRIXA16		m_matWorld;
-	vector<VTXTEX>											m_vecMultiVertex;
+	vector<VTXTEX>		m_vecMultiVertex;
 };
 

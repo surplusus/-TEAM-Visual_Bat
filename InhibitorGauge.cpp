@@ -1,21 +1,17 @@
 #include "BaseInclude.h"
-#include "ChampGauge.h"
-#include "Image_Loader.h"
-#include "ObjMgr.h"
+#include "InhibitorGauge.h"
 
 
-CChampGauge::CChampGauge()
-{
-	m_MAXHP = 1.0f;
-	m_fDmg = 1.0f;
-}
-
-
-CChampGauge::~CChampGauge()
+CInhibitorGauge::CInhibitorGauge()
 {
 }
 
-void CChampGauge::Initialize()
+
+CInhibitorGauge::~CInhibitorGauge()
+{
+}
+
+void CInhibitorGauge::Initialize()
 {
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
@@ -39,7 +35,7 @@ void CChampGauge::Initialize()
 
 
 	//À­ÂÊ »ï°¢Çü
-	v.vPosition = D3DXVECTOR3(m_vPosition.x , m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	v.vTexture = D3DXVECTOR2(1, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
@@ -55,8 +51,8 @@ void CChampGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CChampGauge::Progress()
-{	
+void CInhibitorGauge::Progress()
+{
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		m_fDmg -= 0.01f;
@@ -71,13 +67,13 @@ void CChampGauge::Progress()
 	}
 }
 
-void CChampGauge::Render()
+void CInhibitorGauge::Render()
 {
 	RenderBlankGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
 	RenderCellGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
 }
 
-void CChampGauge::Release()
+void CInhibitorGauge::Release()
 {
 	SAFE_RELEASE(m_pBlank);
 	SAFE_RELEASE(m_pCell);

@@ -34,7 +34,7 @@ HRESULT CGameScene::Initialize()
 		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))
 		return E_FAIL;*/
-	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_DYNAMIC, D3DXVECTOR3(0.f, 50.f, -10.f)
+	if (FAILED(GET_SINGLE(CCameraMgr)->SetCamera(CAMMODE_GAME, D3DXVECTOR3(0.f, 50.f, -10.f)
 		, D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(0.f, 1.f, 0.f)
 		, D3DX_PI / 4.f, float(WINSIZEX) / WINSIZEY, 1.f, 1000.f)))		return E_FAIL;
 
@@ -64,12 +64,30 @@ HRESULT CGameScene::Initialize()
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
 		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
 	{
-		CTurret* pTurret = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
-		pTurret->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+		printf("Set Add Mesh\n");
 	}
 	else
 		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
+
+	{
+	CTurret* pTurret = NULL;
+	pTurret = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
+	pTurret->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+
+	pTurret = new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f));
+	pTurret->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+
+	pTurret = new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f));
+	pTurret->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+
+	pTurret = new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f));
+	pTurret->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+	}
+
 #pragma endregion 포탑 끝
 
 #pragma region 블루팀 억제기
