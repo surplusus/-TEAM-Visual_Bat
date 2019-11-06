@@ -43,6 +43,8 @@ HRESULT cHUDScene::Initialize()
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 
+	LetObjectKnowHeightMap();
+
 	GET_SINGLE(cGameHUD)->Initialize();
 	return S_OK;
 }

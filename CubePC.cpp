@@ -4,7 +4,7 @@
 
 cCubePC::cCubePC()
 	:m_vDirection(0, 0, 1)
-	, m_vPosition(-15, 0, -13)
+	, m_vPosition(0, 0, 0)
 	, m_fRotY(0.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);

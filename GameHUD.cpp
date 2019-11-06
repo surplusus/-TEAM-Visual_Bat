@@ -40,8 +40,8 @@ void cGameHUD::Initialize()
 	CImage_Loader * mini_cham = new CImage_Loader(
 		"Resource/jiyun/mini_cham-01.png",
 		D3DXVECTOR3(
-			(-57) * (GET_SINGLE(cCubePC)->GetPosition().x),
-			(-60) * (GET_SINGLE(cCubePC)->GetPosition().z), 0),
+			(GET_SINGLE(cCubePC)->GetPosition().x + 855),
+			(GET_SINGLE(cCubePC)->GetPosition().z + 780), 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["mini_cham"] = mini_cham;
 	m_mapImage["mini_cham"]->Initialize();
@@ -53,6 +53,13 @@ void cGameHUD::Initialize()
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	m_mapImage["spell"] = spell;
 	m_mapImage["spell"]->Initialize();
+
+	CImage_Loader * recall = new CImage_Loader(
+		"Resource/jiyun/Recall.png",
+		D3DXVECTOR3(WINSIZEX - 285, WINSIZEY - 54, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	m_mapImage["recall"] = recall;
+	m_mapImage["recall"]->Initialize();
 
 	CImage_Loader * item = new CImage_Loader(
 		"Resource/jiyun/item-01.png",
@@ -95,17 +102,10 @@ void cGameHUD::Initialize()
 	m_mapImage["time"] = time;
 	m_mapImage["time"]->Initialize();
 
-	/*m_Text = new cFont;
-	m_Text->Initialize(10, 5, L"궁서체");*/
-
-	/*CImage_Loader * character_state = new CImage_Loader(
-		"Resource/jiyun/character_state.png",
-		D3DXVECTOR3(0, WINSIZEY -  )
-	)*/
-
 	GET_SINGLE(cCubePC)->Initialize();
 
-	/*Ezreal.m_Skill[0] = CImage_Loader(
+	//ezreal
+	Ezreal.m_Skill[0] = CImage_Loader(
 		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
 		D3DXVECTOR3(376, 713, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
@@ -115,7 +115,7 @@ void cGameHUD::Initialize()
 		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
 		D3DXVECTOR3(376, 660, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal_copy.m_Skill[0].Initialize();*/
+	Ezreal_copy.m_Skill[0].Initialize();
 	
 	// 능력치
 	{
@@ -198,8 +198,12 @@ void cGameHUD::Render()
 	m_mapImage["mini_cham"]->Render();
 
 	m_mapImage["spell"]->Render();
+
+	m_mapImage["recall"]->Render();
 	m_mapImage["item"]->Render();
 	//m_mapImage["garen"]->Render();
+
+	Ezreal.m_Skill[0].Render();
 
 	m_mapImage["stats"]->Render();
 	m_mapImage["champion"]->Render();
@@ -237,26 +241,38 @@ void cGameHUD::Progress_Minimap()
 {
 	if (CheckPushKey(DIK_RIGHT))
 	{
-		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().x)++;
+		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().x)+= 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
 	}
 
 	if (CheckPushKey(DIK_LEFT))
 	{
-		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().x)--;
+		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().x) -= 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
 	}
 
 	if (CheckPushKey(DIK_UP))
 	{
-		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().y)--;
+		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().y) -= 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
 	}
 
 	if (CheckPushKey(DIK_DOWN))
 	{
-		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.22f;
-		(m_mapImage["mini_cham"]->Get_Position().y)++;
+		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().y) += 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
 	}
 }
 
@@ -265,8 +281,8 @@ void cGameHUD::Initialize_Text()
 	// 공격력
 	m_mapTextMgr["Base_Attack"]->Initialize_Text(
 		m_Stats.fBase_Attack,
-		m_mapImage["stats"]->GetPosition().x + 90,
-		m_mapImage["stats"]->GetPosition().y + 14,
+		m_mapImage["stats"]->GetPosition().x + 33,
+		m_mapImage["stats"]->GetPosition().y + 13,
 		m_mapImage["stats"]->GetPosition().x,
 		m_mapImage["stats"]->GetImageInfo().Height
 		+ m_mapImage["stats"]->GetPosition().y);
@@ -274,7 +290,7 @@ void cGameHUD::Initialize_Text()
 	// 마법력
 	m_mapTextMgr["Magic_Attack"]->Initialize_Text(
 		m_Stats.fMagic_Attack,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 100,
 		m_mapImage["stats"]->GetPosition().y + 13,
 		m_mapImage["stats"]->GetPosition().x + 135,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -283,7 +299,7 @@ void cGameHUD::Initialize_Text()
 	// 방어력
 	m_mapTextMgr["Base_Defence"]->Initialize_Text(
 		m_Stats.fBase_Defence,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 33,
 		m_mapImage["stats"]->GetPosition().y + 36,
 		m_mapImage["stats"]->GetPosition().x,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -292,7 +308,7 @@ void cGameHUD::Initialize_Text()
 	// 마법저항력
 	m_mapTextMgr["Magic_Defence"]->Initialize_Text(
 		m_Stats.fMagic_Defence,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 100,
 		m_mapImage["stats"]->GetPosition().y + 35,
 		m_mapImage["stats"]->GetPosition().x + 135,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -301,7 +317,7 @@ void cGameHUD::Initialize_Text()
 	// 사거리
 	m_mapTextMgr["AttackRange"]->Initialize_Text(
 		m_Stats.fAttackRange,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 33,
 		m_mapImage["stats"]->GetPosition().y + 58,
 		m_mapImage["stats"]->GetPosition().x,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -310,7 +326,7 @@ void cGameHUD::Initialize_Text()
 	// 재사용 대기시간 감소
 	m_mapTextMgr["SkillTimeRatio"]->Initialize_Text(
 		m_Stats.fSkillTimeRatio,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 100,
 		m_mapImage["stats"]->GetPosition().y + 58,
 		m_mapImage["stats"]->GetPosition().x + 135,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -319,7 +335,7 @@ void cGameHUD::Initialize_Text()
 	// 치명타
 	m_mapTextMgr["CriticalRatio"]->Initialize_Text(
 		m_Stats.fCriticalRatio,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 33,
 		m_mapImage["stats"]->GetPosition().y + 80,
 		m_mapImage["stats"]->GetPosition().x,
 		m_mapImage["stats"]->GetImageInfo().Height
@@ -328,7 +344,7 @@ void cGameHUD::Initialize_Text()
 	// 이동속도
 	m_mapTextMgr["MoveSpeed"]->Initialize_Text(
 		m_Stats.fMoveSpeed,
-		m_mapImage["stats"]->GetPosition().x + 90,
+		m_mapImage["stats"]->GetPosition().x + 100,
 		m_mapImage["stats"]->GetPosition().y + 80,
 		m_mapImage["stats"]->GetPosition().x + 135,
 		m_mapImage["stats"]->GetImageInfo().Height

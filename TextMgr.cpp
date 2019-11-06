@@ -171,7 +171,7 @@ void CTextMgr::Render_Text()
 		m_StateBox->m_sInfo.c_str(),
 		m_StateBox->m_sInfo.length(),
 		&m_StateBox->m_Rect,
-		DT_CENTER | DT_NOCLIP,
+		DT_LEFT | DT_NOCLIP,
 		D3DCOLOR_XRGB(255, 255, 0)
 	);
 }
