@@ -1,10 +1,10 @@
 #pragma once
 #include"Image_Loader.h"
-
-class CTextMgr;
+#include "TextMgr.h"
 
 struct SkillList {
 	CImage_Loader m_Skill[5];
+	CTextMgr m_pText;
 };
 
 class cGameHUD
@@ -33,9 +33,12 @@ private:
 	STATUSINFO m_Stats;
 	
 public:
-	void Progress_Minimap();
-
 	void SetInfoChamp(STATUSINFO n_Stats) { m_Stats = n_Stats; }
-	void Initialize_Text();
+
+	void Initialize_Stats();
+	void Initialize_Ez_Skill();
+
+	void Progress_Minimap();
+	void CheckMouse();
 };
 
