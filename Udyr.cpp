@@ -58,7 +58,7 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : PickingSphere
 		//SetUpPickingShere(1.f);
-		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pCollider->GetSphere());
+		//GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pCollider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree

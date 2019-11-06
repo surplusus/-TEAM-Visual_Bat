@@ -143,11 +143,11 @@ bool CLoadingFunctor::FuncLoadChamp()
 	OperateFuncAddObjectByKey(m_SelectedChamp);
 
 	{	//Ezreal dummy
-		if (!OperateFuncAddMeshByKey("Ezreal2")) {
+		if (!OperateFuncAddMeshByKey("Ezreal")) {
 			printf("챔피언 매쉬 로딩 실패\n");
 			return false;
 		}
-		OperateFuncAddObjectByKey("Ezreal2");
+		OperateFuncAddObjectByKey("Ezreal");
 	}
 	printf("챔피언 매쉬 로딩 완료!\n");
 	return true;
@@ -193,12 +193,6 @@ bool CLoadingFunctor::OperateFuncAddMeshByKey(string key)
 			return true;
 		}
 	}
-	else if (key == "Ezreal2") {
-		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"Ezreal", info.m_MeshType))) {
-			printf("%s\n", info.m_ConsoleText.c_str());
-			return true;
-		}
-	}
 	else if (key == "MeleeMinion") {
 		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"MeleeMinion", info.m_MeshType))) {
 			printf("%s\n", info.m_ConsoleText.c_str());
@@ -222,15 +216,10 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	HRESULT re = S_FALSE;
 	if (key == "Map")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
-//	else if (key == "Udyr")
-//		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
+	else if (key == "Udyr")
+		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
-	else if (key == "Ezreal2") {
-		CObj *ez = new CEzreal("IDLE1", false);
-		ez->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Ezreal2", ez);
-	}
 	else if (key == "MeleeMinion" || key == "CannonMinion")
 	{	// 미니언 매니저 생성(&미니언 objmgr 등록)과 mediator setter
 		CMinionMgr* pMinionMgr = new CMinionMgr;

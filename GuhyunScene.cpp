@@ -8,7 +8,7 @@
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
-#include "ColitionMgr.h"
+#include "CollisionMgr.h"
 #include "ParticleMgr.h"
 
 #include "SoundMgr.h"
@@ -51,7 +51,7 @@ void GuhyunScene::Progress()
 
 	GET_SINGLE(CCameraMgr)->Progress();
 	GET_SINGLE(CFrustum)->InitFrustum();
-	GET_SINGLE(CColitionMgr)->Progress();
+	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
 	SoundUpdate();
 }
@@ -61,7 +61,7 @@ void GuhyunScene::Render()
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
-	GET_SINGLE(CColitionMgr)->Render();
+	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
 }
@@ -126,16 +126,11 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr) {
 		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
-		return;
 	}
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-		return;
 	}
-	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Zealot"));
-	if (pObj != nullptr)
-		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
 }
 
 void GuhyunScene::GetMinionMgr(void ** pMinionMgr)
