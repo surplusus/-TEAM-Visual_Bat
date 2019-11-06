@@ -18,7 +18,10 @@ class CEzreal :
 	};
 public:
 	CEzreal();
-	CEzreal(string AnimationState,bool bProgress) { 
+	CEzreal(string AnimationState,bool bProgress) 
+		:m_bDirty(true), m_pMesh(NULL),  m_fStartTime(0)
+	{
+		m_CurStateType = CHAMPION_STATETYPE_IDLE1;
 		m_bProgress = bProgress;
 		m_fAngle[ANGLE_X] = 0;
 		m_fAngle[ANGLE_Y] = 0;
@@ -30,7 +33,7 @@ public:
 		{
 			m_Champ_State[i] = false;
 		}
-
+		TestMeshName = L"Ezreal2";
 
 	}
 	~CEzreal();
@@ -72,8 +75,6 @@ public:
 	//test
 private:
 	vector<bool>				m_Champ_State;
-	queue<CHAMPION_STATETYPE>	m_AnimationQueue;
-	CHAMPION_STATETYPE m_CurStateType;
 	bool m_ChangeMotion;
 	float m_fStartTime;
 	float m_fEndTime;
@@ -95,7 +96,9 @@ public:
 	CHAMPION_STATETYPE SettingSpell1_Motion();
 	CHAMPION_STATETYPE SettingAttack_Motion();
 	CHAMPION_STATETYPE SettingRun_Motion();
+	CHAMPION_STATETYPE SettingDeath_Motion();
 private:
 	void StatusInitalize();
+	const TCHAR* TestMeshName;
 };
 

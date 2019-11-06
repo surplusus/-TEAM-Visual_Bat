@@ -55,6 +55,8 @@ HRESULT CUdyr::Initialize()
 		GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
 		GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::PaticleCollisionEvent);
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
+
 	}
 	{	//<< : PickingSphere
 		//SetUpPickingShere(1.f);

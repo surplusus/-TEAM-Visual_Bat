@@ -2,7 +2,7 @@
 #include "ColiderComponent.h"
 #include"BoundingSphere.h"
 ColiderComponent::ColiderComponent()
-	:m_pBoxMesh(NULL),m_bColision(false), m_fRadius(0), m_SphereMesh(NULL)
+	:m_pBoxMesh(NULL),m_bColision(false), m_fRadius(0), m_SphereMesh(NULL), m_bErase(false)
 {
 
 }
@@ -52,6 +52,7 @@ bool ColiderComponent::CheckColision(ColiderComponent* pEnemy)
 {
 	D3DXVECTOR3 vPos = m_Info.vPos;
 	D3DXVECTOR3 vPos2 = pEnemy->m_Info.vPos;
+	vPos.y = 0;	vPos2.y = 0;
 	D3DXVECTOR3 vRes = vPos-(vPos2);
 	float fLenght = D3DXVec3Length(&vRes);
  	float fRadius = m_fRadius + pEnemy->m_fRadius;

@@ -33,3 +33,12 @@ bool CPickingSphereMgr::GetSpherePicked(CObj* me, OUT SPHERE** sphere)
 	}
 	return false;
 }
+
+void CPickingSphereMgr::SelectEraseSphere(CObj * me, SPHERE * pSphere)
+{
+	unordered_map<CObj*, SPHERE*>::iterator iter = m_vPickingSpheres.find(me);
+	if (iter != m_vPickingSpheres.end())
+	{
+		iter =m_vPickingSpheres.erase(iter);
+	}
+}
