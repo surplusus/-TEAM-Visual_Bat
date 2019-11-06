@@ -18,6 +18,7 @@
 #include"ChampGauge.h"
 #include"BaseAttack.h"
 #include"ParticleColider.h"
+#include"GameHUD.h"
 #include"Input.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
@@ -40,6 +41,7 @@ CEzreal::CEzreal()
 	m_strAnimationState = "IDLE1";
 	m_ChangeMotion = true;
 	TestMeshName = L"Ezreal";
+	StatusInitalize();
 }
 
 
@@ -148,6 +150,7 @@ void CEzreal::Progress()
 	}
 	if(m_pColider)	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
+	GET_SINGLE(cGameHUD)->SetInfoChamp(m_StatusInfo);
 
 
 }
@@ -481,10 +484,16 @@ CHAMPION_STATETYPE CEzreal::SettingDeath_Motion()
 
 void CEzreal::StatusInitalize()
 {
+
+	m_StatusInfo.fBase_Attack = 30;
+	m_StatusInfo.fMoveSpeed = 200;
 	m_StatusInfo.fAttackRange = 200;
 	m_StatusInfo.fHP = 150;
 	m_StatusInfo.fMana = 300;
-	m_StatusInfo.fMoveSpeed = 200;
-	m_StatusInfo.fBase_Attack = 30;
+	m_StatusInfo.fBase_Defence = 5;
+	m_StatusInfo.fMagic_Defence = 5;
+	m_StatusInfo.fCriticalRatio = 0;
+	m_StatusInfo.fSkillTimeRatio = 0;
+
 }
 

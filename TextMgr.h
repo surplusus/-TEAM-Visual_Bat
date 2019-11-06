@@ -115,6 +115,7 @@ public:
 
 	void Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom);
 	void Render_Text();
+	void SetText(float fVal);
 };
 
  

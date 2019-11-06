@@ -105,22 +105,20 @@ void cGameHUD::Initialize()
 	GET_SINGLE(cCubePC)->Initialize();
 
 	//ezreal
-	Initialize_Ez_Skill();
+	Ezreal.m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(376, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	Ezreal.m_Skill[0].Initialize();
+
+	Ezreal_copy.m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(376, 660, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	Ezreal_copy.m_Skill[0].Initialize();
 	
 	// 능력치
-	{
-		// 임의로 값줌
-		{
-			m_Stats.fBase_Attack = 40;
-			m_Stats.fMagic_Attack = 40;
-			m_Stats.fBase_Defence = 100;
-			m_Stats.fMagic_Defence = 100;
-			m_Stats.fSkillTimeRatio = 45;
-			m_Stats.fCriticalRatio = 20;
-			m_Stats.fMoveSpeed = 30;
-			m_Stats.fHP = 100;
-			m_Stats.fAttackRange = 34;
-		}
+	{	
 
 		// 공격력
 		CTextMgr * Base_Attack = new CTextMgr;
@@ -154,7 +152,7 @@ void cGameHUD::Initialize()
 		CTextMgr * MoveSpeed = new CTextMgr;
 		m_mapTextMgr["MoveSpeed"] = MoveSpeed;
 
-		Initialize_Stats();
+		Initialize_Text();
 	}
 }
 
@@ -164,7 +162,6 @@ void cGameHUD::Progress()
 	GetClientRect(g_hWnd, &rc);
 
 	Progress_Minimap();
-	CheckMouse();
 
 	GET_SINGLE(cCubePC)->Progress();
 
@@ -179,6 +176,7 @@ void cGameHUD::Progress()
 	if (m_isLButtonDown)
 	{
 	}*/
+	Update_StateText();
 }
 
 void cGameHUD::Render()
@@ -195,7 +193,6 @@ void cGameHUD::Render()
 	//m_mapImage["garen"]->Render();
 
 	Ezreal.m_Skill[0].Render();
-	Ezreal_copy.m_Skill[0].Render();
 
 	m_mapImage["stats"]->Render();
 	m_mapImage["champion"]->Render();
@@ -229,8 +226,46 @@ void cGameHUD::Release()
 	}
 }
 
+void cGameHUD::Progress_Minimap()
+{
+	if (CheckPushKey(DIK_RIGHT))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().x)+= 0.55f;
 
-void cGameHUD::Initialize_Stats()
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
+	}
+
+	if (CheckPushKey(DIK_LEFT))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().x) -= 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
+	}
+
+	if (CheckPushKey(DIK_UP))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().y) -= 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
+	}
+
+	if (CheckPushKey(DIK_DOWN))
+	{
+		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
+		(m_mapImage["mini_cham"]->Get_Position().y) += 0.55f;
+
+		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
+			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
+	}
+}
+
+void cGameHUD::Initialize_Text()
 {
 	// 공격력
 	m_mapTextMgr["Base_Attack"]->Initialize_Text(
@@ -305,74 +340,26 @@ void cGameHUD::Initialize_Stats()
 		+ m_mapImage["stats"]->GetPosition().y);
 }
 
-
-void cGameHUD::Initialize_Ez_Skill()
+void cGameHUD::Update_StateText()
 {
-	Ezreal.m_Skill[0] = CImage_Loader(
-		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(376, 713, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal.m_Skill[0].Initialize();
 
-	Ezreal_copy.m_Skill[0] = CImage_Loader(
-		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(376, 660, 0),
-		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal_copy.m_Skill[0].Initialize();
-}
+	// 공격력
+	m_mapTextMgr["Base_Attack"]->SetText(m_Stats.fBase_Attack);
 
+	// 마법력
+	m_mapTextMgr["Magic_Attack"]->SetText(m_Stats.fMagic_Attack);
 
-void cGameHUD::Progress_Minimap()
-{
-	if (CheckPushKey(DIK_RIGHT))
-	{
-		(GET_SINGLE(cCubePC)->GetPosition().x) += 0.25f;
-		(m_mapImage["mini_cham"]->Get_Position().x) += 0.55f;
+	// 방어력
+	m_mapTextMgr["Base_Defence"]->SetText(m_Stats.fBase_Defence);
+	// 마법저항력
+	m_mapTextMgr["Magic_Defence"]->SetText(m_Stats.fMagic_Defence);
+	// 사거리
+	m_mapTextMgr["AttackRange"]->SetText(m_Stats.fAttackRange);
+	// 재사용 대기시간 감소
+	m_mapTextMgr["SkillTimeRatio"]->SetText(m_Stats.fSkillTimeRatio);
+	// 치명타
+	m_mapTextMgr["CriticalRatio"]->SetText(m_Stats.fCriticalRatio);
+	// 이동속도
+	m_mapTextMgr["MoveSpeed"]->SetText(m_Stats.fMoveSpeed);
 
-		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
-			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
-	}
-
-	if (CheckPushKey(DIK_LEFT))
-	{
-		(GET_SINGLE(cCubePC)->GetPosition().x) -= 0.25f;
-		(m_mapImage["mini_cham"]->Get_Position().x) -= 0.55f;
-
-		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
-			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
-	}
-
-	if (CheckPushKey(DIK_UP))
-	{
-		(GET_SINGLE(cCubePC)->GetPosition().z) += 0.25f;
-		(m_mapImage["mini_cham"]->Get_Position().y) -= 0.55f;
-
-		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
-			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
-	}
-
-	if (CheckPushKey(DIK_DOWN))
-	{
-		(GET_SINGLE(cCubePC)->GetPosition().z) -= 0.25f;
-		(m_mapImage["mini_cham"]->Get_Position().y) += 0.55f;
-
-		cout << m_mapImage["mini_cham"]->Get_Position().x << ", "
-			<< m_mapImage["mini_cham"]->Get_Position().y << endl;
-	}
-}
-
-void cGameHUD::CheckMouse()
-{
-	if (CheckPushKeyOneTime(VK_LBUTTON))
-	{
-		if (GET_SINGLE(C2DMouse)->IsClicked_Button(&(Ezreal.m_Skill[0])))
-		{
-			m_isLButtonDown = true;
-			cout << "clicked\n";
-		}
-		else
-		{
-			m_isLButtonDown = false;
-		}
-	}
 }

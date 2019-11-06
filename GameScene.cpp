@@ -73,8 +73,7 @@ HRESULT CGameScene::Initialize()
 	m_Cursor = new CCursor;
 	m_Cursor->InitCursor();
 	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
-	Hud = new cGameHUD;
-	Hud->Initialize();
+	GET_SINGLE(cGameHUD)->Initialize();
 }
 
 void CGameScene::Progress()
@@ -84,7 +83,7 @@ void CGameScene::Progress()
 
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
-	Hud->Progress();
+	GET_SINGLE(cGameHUD)->Progress();
 }
 
 void CGameScene::Render()
@@ -92,7 +91,7 @@ void CGameScene::Render()
 	m_pObjMgr->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
-	Hud->Render();
+	GET_SINGLE(cGameHUD)->Render();
 }
 
 void CGameScene::Release()
@@ -101,7 +100,7 @@ void CGameScene::Release()
 	GET_SINGLE(CCollisionMgr)->DestroyInstance();
 	GET_SINGLE(CParticleMgr)->DestroyInstance();
 	GET_SINGLE(CCameraMgr)->DestroyInstance();
-	Hud->Release();
+	GET_SINGLE(cGameHUD)->Release();
 }
 
 HRESULT CGameScene::Setup()
