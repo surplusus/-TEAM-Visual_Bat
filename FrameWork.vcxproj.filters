@@ -669,9 +669,6 @@
     <ClInclude Include="RectColor.h">
       <Filter>ReSoureceSource\02.Buffer\RectColor</Filter>
     </ClInclude>
-    <ClInclude Include="CollitionMgr.h">
-      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
-    </ClInclude>
     <ClInclude Include="EzealQ_Particle.h">
       <Filter>소스 파일\Maneger\Skill\EzrealQ</Filter>
     </ClInclude>
@@ -1007,9 +1004,6 @@
     <ClCompile Include="RectColor.cpp">
       <Filter>ReSoureceSource\02.Buffer\RectColor</Filter>
     </ClCompile>
-    <ClCompile Include="CollitionMgr.cpp">
-      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
-    </ClCompile>
     <ClCompile Include="EzealQ_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill\EzrealQ</Filter>
     </ClCompile>
@@ -1018,6 +1012,9 @@
     </ClCompile>
     <ClCompile Include="ProgressBarFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorMinion.cpp">
       <Filter>System\Behavior</Filter>

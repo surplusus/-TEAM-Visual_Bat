@@ -1,12 +1,12 @@
 #pragma once
 class ColiderComponent;
-class CCollitionMgr
+class CCollisionMgr
 {
-	DECLARE_SINGLETON(CCollitionMgr)
+	DECLARE_SINGLETON(CCollisionMgr)
 private:
-	CCollitionMgr();
+	CCollisionMgr();
 public:
-	~CCollitionMgr();
+	~CCollisionMgr();
 private:
 	map<CObj*, list<ColiderComponent*>*> m_ColMap;
 public:
