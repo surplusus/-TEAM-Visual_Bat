@@ -36,6 +36,7 @@ public:
 	void BlendAnimationSet(int aniIdx);
 	void FrameMove(const TCHAR* pMeshKey, float fTime);
 	void DisplayAniSetNameOnConsole();
+	void GetAnimationNames(OUT vector<string>& vec);
 public:
 	LPD3DXANIMATIONCONTROLLER* GetAniCtrl()
 	{

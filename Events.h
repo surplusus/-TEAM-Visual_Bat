@@ -3,7 +3,7 @@
 #include <string>
 std::string;
 class CObj;
-class SoundManager;
+class SoundMgr;
 class GuhyunScene;
 class CPaticle;
 class ColiderComponent;
