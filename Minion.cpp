@@ -16,6 +16,11 @@ CMinion::~CMinion()
 {
 }
 
+void CMinion::UpdateBlackBoard()
+{
+
+}
+
 void CMinion::UpdateWorldMatrix()
 {
 	D3DXMATRIX matScale, matRot, matTrans;
