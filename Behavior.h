@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <cassert>
+#include <deque>
 namespace BehaviorTree
 {
 	class Node;
@@ -12,8 +13,8 @@ namespace BehaviorTree
 	{
 		INVALID,
 		SUCCESS,
-		FAILURE,
-		RUNNING
+		RUNNING,
+		TERMINATED,
 	};
 
 	class Node {
@@ -104,21 +105,27 @@ namespace BehaviorTree
 	class Task : public Node
 	{
 	public:
+		Task(Task* pChild) : m_pChild(pChild) {}
+		virtual ~Task(){}
+		virtual void Init() {};
+		virtual void Terminate() {};
+		Status m_status = INVALID;
+	private:
 		Task* m_pChild;
-	public:
-		Task(Task* child)
-			: m_pChild(child) {}
-		virtual ~Task() {}
-		virtual bool Run() override {
-			if (Condition()) {
-				m_pChild->Do();
-				return true;
-			}
-			return false;
-		}
-		virtual bool Condition() = 0;
-		virtual void Do() = 0;
 	};
+
+	class Condition : public Node
+	{
+	public:
+		Condition(Condition* pChild) :m_pChild(pChild) {}
+		virtual ~Condition() {}
+		virtual Status Ask() = 0;
+		void SetUpTask(Task* pTask) { m_pTask = pTask; }
+	private:
+		Task*		m_pTask;
+		Condition*	m_pChild;
+	};
+
 	
 	// BlackBoard
 	class BlackBoard
@@ -180,17 +187,19 @@ namespace BehaviorTree
 	class BehaviorTreeHandler
 	{
 	public:
-		Node* m_Root;
-		sharedpBlackBoard m_BlackBoard;
+		Node*				m_Root;
+		sharedpBlackBoard	m_BlackBoard;
+		deque<Node*>		m_queRunning;
+		deque<Node*>		m_queSuccess;
 	public:
 		BehaviorTreeHandler() {
 			m_BlackBoard = make_shared<BlackBoard>();
 		}
 		~BehaviorTreeHandler() {
-			m_BlackBoard = nullptr;
+			m_BlackBoard.~shared_ptr();
 			m_Root = nullptr;
 		}
-		bool Run() const { return m_Root->Run(); }
+		bool Search() const { return m_Root->Run(); }
 		BlackBoard& GetBlackBoard() { return *m_BlackBoard.get(); }
 		virtual void UpdateBlackBoard() = 0;
 	};

@@ -9,8 +9,16 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 		m_vSequnece.emplace_back(make_shared<Sequence>(m_BlackBoard.get()));
 	for (int i = 0; i < SELECTOR_END; ++i)
 		m_vSelector.emplace_back(make_shared<Selector>(m_BlackBoard.get()));
-
-	//m_vTask.resize(TASK_END);
+	{
+		m_vCondition.emplace_back(make_shared<UdyrDeath>());
+		m_vCondition.emplace_back(make_shared<UdyrClick>());
+		m_vCondition.emplace_back(make_shared<UdyrRun>());
+		m_vCondition.emplace_back(make_shared<UdyrTurn>());
+		m_vCondition.emplace_back(make_shared<UdyrIdle>());
+		m_vCondition.emplace_back(make_shared<UdyrAni>());
+		for (int i = 0; i < CONDITION_END; ++i)
+			m_vCondition[i]->SetMemberInst(m_pUdyrInst);
+	}
 	{
 		m_vTask.emplace_back(make_shared<UdyrDeath>());
 		m_vTask.emplace_back(make_shared<UdyrClick>());
@@ -19,9 +27,7 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 		m_vTask.emplace_back(make_shared<UdyrIdle>());
 		m_vTask.emplace_back(make_shared<UdyrAni>());
 		for (int i = 0; i < TASK_END; ++i)
-		{
 			m_vTask[i]->SetMemberInst(m_pUdyrInst);
-		}
 	}
 	SetRoot(SEQUENCE_ROOT);
 }
@@ -89,7 +95,7 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 	m_BlackBoard->setFloat("fAttackRange", Info.fAttackRange);
 }
 
-void UdyrBT::UdyrBTHandler::AddTask(int eTaskType, function<void(void)> pFunc)
+void UdyrBT::UdyrBTHandler::SetUpTask(int eTaskType, function<void(void)> pFunc)
 {
 	if (!pFunc)
 		return;
