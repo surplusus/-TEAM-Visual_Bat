@@ -65,17 +65,25 @@ void CCollisionMgr::UpdateColistion()
 				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
 					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
-					if ((*pOrigin) == (*pTarget)) continue;
-					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
+					if ((*pOrigin) == (*pTarget))
 					{
+						pTarget++;	continue;
+					}
+					//origin이 파티클 임
+					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
+					{//target이 오브젝트임(챔피언)
 						if ((*pOrigin)->CheckColision(*pTarget))
-						{
-							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT((iter1->first), (iter2->first), (*pOrigin), (*pTarget)));
-							pOrigin =m_ColMap[iter1->first]->erase(pOrigin);
-							bCol = true;
+						{									//iter1 = origin , iter2 : Target
+							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT((iter2->first), (*pOrigin)));							
+							if (iter2->first->GetColl()) {
+								pOrigin = m_ColMap[iter1->first]->erase(pOrigin);
+								bCol = true;
+							}
+							
 							if (pOrigin == m_ColMap[iter1->first]->end()) break;
-
+							
 						}
+					
 					}
 				}
 				if (!bCol) pOrigin++;

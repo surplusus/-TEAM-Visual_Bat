@@ -52,5 +52,6 @@ public:
 	virtual void Release() PURE;
 public:
 	void SetColl(bool Coll) { m_bColl = Coll; }
+	bool GetColl() { return m_bColl; }
 	
 };

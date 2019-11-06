@@ -1,9 +1,9 @@
 #include "BaseInclude.h"
 #include "ParticleColider.h"
 #include"BoundingBox.h"
+#include"ParticleObj.h"
 
-
-CParticleColider::CParticleColider(CParticle * pParticle)
+CParticleColider::CParticleColider(CParticleObj * pParticle)
 	:m_Type(COLISION_TYPE_PARTICLE)
 {
 	m_Particle = pParticle;

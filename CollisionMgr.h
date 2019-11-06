@@ -7,7 +7,7 @@ private:
 	CCollisionMgr();
 public:
 	~CCollisionMgr();
-private:
+private:	
 	map<CObj*, list<ColiderComponent*>*> m_ColMap;
 public:
 	void InsertColistion(CObj* pObj, list<ColiderComponent*>* pList);
