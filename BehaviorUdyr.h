@@ -32,43 +32,45 @@ namespace UdyrBT
 
 	class UdyrTask : public Task
 	{
+	protected:
+		CUdyr*	m_pInst = nullptr;
 	public:
-		CUdyr*	m_UdyrInst;
-		UdyrTask(CUdyr* pUdyr) : Task(this), m_UdyrInst(pUdyr) {}
+		UdyrTask() : Task(this){}
 		virtual ~UdyrTask() {}
 		virtual bool Condition() = 0;
 		virtual bool Do() = 0;
+		void SetMemberInst(CUdyr* pInst) { m_pInst = pInst; }
 		void SetMemberFunc(function<void(void)> func) { m_Func = func; }
 		function<void(void)> m_Func;
 	};
 
 	// UdyrTask 자식 클래스들(조건을 정의한다.)
-	class UdyrDeath : public UdyrTask
+	struct UdyrDeath : public UdyrTask
 	{	// only condition
 		virtual bool Condition() override;
 		virtual bool Do() override { return Condition(); }
 	};
-	class UdyrClick : public UdyrTask
+	struct UdyrClick : public UdyrTask
 	{	
 		virtual bool Condition() override;
 		virtual bool Do() override;
 	};
-	class UdyrRun : public UdyrTask
+	struct UdyrRun : public UdyrTask
 	{
 		virtual bool Condition() override;
 		virtual bool Do() override;
 	};
-	class UdyrTurn : public UdyrTask
+	struct UdyrTurn : public UdyrTask
 	{
 		virtual bool Condition() override;
 		virtual bool Do() override;
 	};
-	class UdyrIdle : public UdyrTask
+	struct UdyrIdle : public UdyrTask
 	{
 		virtual bool Condition() override;
 		virtual bool Do() override;
 	};
-	class UdyrAni : public UdyrTask
+	struct UdyrAni : public UdyrTask
 	{
 		virtual bool Condition() override;
 		virtual bool Do() override;

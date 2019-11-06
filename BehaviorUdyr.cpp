@@ -10,14 +10,18 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 	for (int i = 0; i < SELECTOR_END; ++i)
 		m_vSelector.emplace_back(make_shared<Selector>(m_BlackBoard.get()));
 
-	m_vTask.resize(TASK_END);
+	//m_vTask.resize(TASK_END);
 	{
-		m_vTask[TASK_DEATH] = make_shared<UdyrDeath>();
-		m_vTask[TASK_CLICK] = make_shared<UdyrClick>();
-		m_vTask[TASK_RUN] = make_shared<UdyrRun>();
-		m_vTask[TASK_TURN] = make_shared<UdyrTurn>();
-		m_vTask[TASK_IDLE] = make_shared<UdyrIdle>();
-		m_vTask[TASK_ANI] = make_shared<UdyrAni>();
+		m_vTask.emplace_back(make_shared<UdyrDeath>());
+		m_vTask.emplace_back(make_shared<UdyrClick>());
+		m_vTask.emplace_back(make_shared<UdyrRun>());
+		m_vTask.emplace_back(make_shared<UdyrTurn>());
+		m_vTask.emplace_back(make_shared<UdyrIdle>());
+		m_vTask.emplace_back(make_shared<UdyrAni>());
+		for (int i = 0; i < TASK_END; ++i)
+		{
+			m_vTask[i]->SetMemberInst(m_pUdyrInst);
+		}
 	}
 	SetRoot(SEQUENCE_ROOT);
 }
@@ -90,9 +94,7 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 
 void UdyrBT::UdyrBTHandler::AddTask(int eTaskType, function<void(void)> pFunc)
 {
-	if (pFunc == nullptr)
 		return;
-
 	m_vTask[eTaskType]->SetMemberFunc(pFunc);
 }
 
