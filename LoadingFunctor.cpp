@@ -4,19 +4,33 @@
 #include "SoundMgr.h"
 #include "Factory.h"
 #include "ObjMgr.h"
+#include "SceneMgr.h"
 #include <fstream>
 #include <sstream>
 
-#include "Zealot.h"
 #include "Udyr.h"
 #include "Ezreal.h"
 #include "SummonTerrain.h"
 #include "MeleeMinion.h"
 #include "CannonMinion.h"
+#include "MinionMgr.h"
 
 CLoadingFunctor::CLoadingFunctor()
-	: m_iFuncIdx(0)
+	: m_iFuncSize(0)
+	, m_iFuncIdx(0)
 {
+	m_SelectedChamp = "";
+	m_mapMeshInfo.clear();
+
+	{
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
+		m_queFunc.push([this]() {return this->FuncLoadMap(); });
+		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
+		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+
+		m_mapMeshInfo.clear();
+	}
 }
 
 CLoadingFunctor::CLoadingFunctor(const CLoadingFunctor & rhv)
@@ -35,27 +49,13 @@ CLoadingFunctor::~CLoadingFunctor()
 bool CLoadingFunctor::operator()()
 {
 	using FUNC = function<bool(void)>;
-	
-	{	// 생성자가 불리지 않는 관계로 여기서 초기화한다.
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
-		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
-		m_queFunc.push([this]() {return this->FuncLoadMap(); });
-		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
-		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
-
-		m_iFuncSize = m_queFunc.size();
-		m_mapMeshInfo.clear();
-	}
-
-	m_iFuncIdx = 0;
-	while (m_iFuncIdx < m_iFuncSize)
-	{
-		FUNC fp = m_queFunc.front();
-		fp();
-		++m_iFuncIdx;
-		m_queFunc.pop();
-	}
-	return true;
+	if (m_queFunc.empty())
+		return true;
+	FUNC fp = m_queFunc.front();
+	bool re = fp();
+	++m_iFuncIdx;
+	m_queFunc.pop();
+	return false;
 }
 
 bool CLoadingFunctor::SetMeshInfoThruFile()
@@ -104,6 +104,7 @@ bool CLoadingFunctor::SetMeshInfoThruFile()
 		if (file.eof())	break;
 	}
 	file.close();
+	cout << "파일 로딩 끝\n";
 	return true;
 
 }
@@ -140,6 +141,14 @@ bool CLoadingFunctor::FuncLoadChamp()
 		return false;
 	}
 	OperateFuncAddObjectByKey(m_SelectedChamp);
+
+	{	//Ezreal dummy
+		if (!OperateFuncAddMeshByKey("Ezreal")) {
+			printf("챔피언 매쉬 로딩 실패\n");
+			return false;
+		}
+		OperateFuncAddObjectByKey("Ezreal");
+	}
 	printf("챔피언 매쉬 로딩 완료!\n");
 	return true;
 }
@@ -190,12 +199,12 @@ bool CLoadingFunctor::OperateFuncAddMeshByKey(string key)
 			return true;
 		}
 	}
-	//else if (key == "CannonMinion") {
-	//	if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"CannonMinion", info.m_MeshType))) {
-	//		printf("%s\n", info.m_ConsoleText.c_str());
-	//		return true;
-	//	}
-	//}
+	else if (key == "CannonMinion") {
+		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"CannonMinion", info.m_MeshType))) {
+			printf("%s\n", info.m_ConsoleText.c_str());
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -204,29 +213,26 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
 		return false;
 
-	auto info = m_mapMeshInfo[key];
-	basic_string<TCHAR> sName(info.m_ObjName.begin(), info.m_ObjName.end());
-	TCHAR* szName = new TCHAR[sName.length() + 1];
-	ZeroMemory(szName, sizeof(TCHAR) * (sName.length() + 1));
-	lstrcpy(szName, sName.c_str());
-	HRESULT re;
+	HRESULT re = S_FALSE;
 	if (key == "Map")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
-	//else if (key == "Udyr")
-	//	re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
+	else if (key == "Udyr")
+		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
-	else if (key == "MeleeMinion")
-		re = GET_SINGLE(CObjMgr)->AddObject(L"MeleeMinion", CFactory<CObj, CMeleeMinion>::CreateObject());
-	//else if (key == "CannonMinion")
-	//	re = GET_SINGLE(CObjMgr)->AddObject(L"CannonMinion", CFactory<CObj, CCannonMinion>::CreateObject());
+	else if (key == "MeleeMinion" || key == "CannonMinion")
+	{	// 미니언 매니저 생성(&미니언 objmgr 등록)과 mediator setter
+		CMinionMgr* pMinionMgr = new CMinionMgr;
+		pMinionMgr->CreateMinions();
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr",
+			reinterpret_cast<void**>(&pMinionMgr));
+	}
 
 	if (SUCCEEDED(re)) {
-		printf("Succeeded in Object Registered\n");
+		printf("%s register 완료\n", key.c_str());
 		return true;
 	}
-	else {
-		printf("Failed to Register Object\n");
-		return false;
-	}
+
+	printf("%s register 건너뜀\n", key.c_str());
+	return false;
 }

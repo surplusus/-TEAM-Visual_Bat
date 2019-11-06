@@ -236,8 +236,11 @@ void CAnimationCtrl::DisplayAniSetNameOnConsole()
 	}
 }
 
-
-
+void CAnimationCtrl::GetAnimationNames(OUT vector<string>& vec)
+{
+	vec.resize(m_vAllAnimationName.size());
+	copy(m_vAllAnimationName.begin(), m_vAllAnimationName.end(), vec.begin());
+}
 
 CAnimationCtrl * CAnimationCtrl::Clone()
 {

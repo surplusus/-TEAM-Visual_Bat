@@ -29,6 +29,12 @@ HRESULT CMainGame::InitResuource()
 	{
 		ERR_MSG(g_hWnd, L"Buffer Create Failed");		return E_FAIL;
 	}
+	if (FAILED(Insert_Buffer(GetDevice(), L"RectColor", BUFFERTYPE_RCCOL)))
+
+	{
+		ERR_MSG(g_hWnd,L"Buffer Create Failed");
+		return E_FAIL;
+	}
 	return S_OK;
 }
 

@@ -2,6 +2,7 @@
 #include "SkinnedMesh.h"
 #include "AnimationCtrl.h"
 #include "MeshMgr.h"
+#include"HP.h"
 
 CSkinnedMesh::CSkinnedMesh()
 {
@@ -36,9 +37,6 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 
 	LPD3DXANIMATIONCONTROLLER* ani = m_pAniCtrl->GetAniCtrl();
 	
-	g_iTotalSubSet = static_cast<int>((*ani)->GetNumAnimationSets());
-	g_iLoadingSubSet = 0;
-	
 	SetUpBoneMatrixPointer((BONE*)m_pRootBone);
 	
 	return S_OK;
@@ -46,8 +44,6 @@ HRESULT CSkinnedMesh::CreateMesh(LPDIRECT3DDEVICE9 pDevice
 
 void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 {
-	g_iLoadingSubSet++;
-
 	if (pBone->pMeshContainer)
 	{
 		BONEMESH*		pBoneMesh = (BONEMESH*)pBone->pMeshContainer;
@@ -56,8 +52,6 @@ void CSkinnedMesh::SetUpBoneMatrixPointer(BONE* pBone)
 		{
 			int		iNumBone = pBoneMesh->pSkinInfo->GetNumBones();
 			pBoneMesh->ppBoneMatrix = new D3DXMATRIX*[iNumBone];
-
-			g_iTotalSubSet = iNumBone;
 
 			for (int i = 0; i < iNumBone; ++i)
 			{

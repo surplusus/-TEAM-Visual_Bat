@@ -18,6 +18,12 @@ private:
 	D3DXVECTOR3 m_vMin;
 	D3DXVECTOR3 m_vMax;
 	D3DXMATRIX m_matWorld;
+private:
+	float m_BaseDamge;
+	float m_fCunsumMana;
+public:
+	bool StatusInit(STATUSINFO*Status,SKILL_LEVEL lv);
+
 
 public:
 	virtual void Initalize()override;
@@ -33,7 +39,5 @@ private:
 	bool AddTail();
 private:
 	LPD3DXMESH m_BoxMesh;
-public:
-	ColiderComponent* GetColider() { return m_pColider; }
 };
 

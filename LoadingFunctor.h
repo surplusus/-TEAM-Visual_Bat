@@ -21,11 +21,11 @@ public:
 	bool operator() ();
 public:
 	string							m_SelectedChamp;
-public:
 	int								m_iFuncSize;
 	int								m_iFuncIdx;
 	map<string, stMeshInfo>			m_mapMeshInfo;
 	queue<function<bool(void)>>		m_queFunc;
+public:
 	bool SetMeshInfoThruFile();
 	bool FuncDefaultMgrSetUp();
 	bool FuncLoadMap();

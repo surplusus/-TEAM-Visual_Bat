@@ -4,10 +4,6 @@
 #include "StaticMesh.h"
 #include "SkinnedMesh.h"
 
-map<string, const TCHAR*> g_mapObjMeshName;
-int g_iTotalSubSet = -1;
-int g_iLoadingSubSet = -1;
-
 CMeshMgr::CMeshMgr()
 {
 }
@@ -33,10 +29,6 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 	CMesh* pMesh = NULL;
 	if (iter == m_MapMesh.end())
 	{
-		// 로딩 정보
-		g_iTotalSubSet = 0;
-		g_iLoadingSubSet = 0;
-
 		switch (MeshType)
 		{
 		case MESHTYPE_STATIC:
@@ -49,10 +41,6 @@ HRESULT CMeshMgr::AddMesh(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pPath, const 
 		if (FAILED(pMesh->CreateMesh(pDevice, pPath, pFileName)))
 			return E_FAIL;
 		m_MapMesh.insert(make_pair(pMeshKey, pMesh));
-
-		// 로딩 정보
-		//CMeshMgr::g_iTotalSubSet = -1;
-		//CMeshMgr::g_iLoadingSubSet = -1;
 	}
 	else return E_FAIL;
 	return S_OK;

@@ -2,6 +2,7 @@
 #include "BufferMgr.h"
 #include"Cube_Texture.h"
 #include"Rect_Texture.h"
+#include"RectColor.h"
 #include"Terrain.h"
 HRESULT CBufferMgr::AddBuffers(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pBufferKey, BUFFERTYPE Type, const int & iVtxCntX, const int & iVtxCntZ, const float & fGap)
 {
@@ -21,7 +22,7 @@ HRESULT CBufferMgr::AddBuffers(LPDIRECT3DDEVICE9 pDevice, const TCHAR * pBufferK
 	//	pVIBuffer = new CTriangle_Color;
 		break;
 	case BUFFERTYPE_RCCOL:
-		//pVIBuffer = new CRectColor;
+		pVIBuffer = new CRectColor;
 		break;
 	case BUFFERTYPE_RCTEX:
 		pVIBuffer = new CRect_Texture;
