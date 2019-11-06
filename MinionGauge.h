@@ -18,5 +18,7 @@ private:
 
 	void RenderBlankGauge();
 	void RenderCell();
+
+	D3DXMATRIXA16				m_matWorld;
 };
 

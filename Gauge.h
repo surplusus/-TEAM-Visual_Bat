@@ -23,12 +23,16 @@ public:
 	void SetPosition(D3DXVECTOR3 position) { m_vPosition = position; }
 
 protected:
-	void SetBillBoard(D3DXMATRIXA16 * Matrix);
+	void SetBillBoard(D3DXMATRIXA16 * Matrix, float x, float y, float z);
 
 	vector<VTXTEX>											m_vecMultiVertex;
 	
 
 	void SetLight();
+	float m_fDmg;
 
-	float													m_fDmg;
+public:
+	void SetMaxHP(float HP) { m_MAXHP = HP; }
+	void SetMaxMP(float MP) { m_MAXMP = MP; }
+	void SufferDmg(float Dmg) { m_fDmg = Dmg; }
 };

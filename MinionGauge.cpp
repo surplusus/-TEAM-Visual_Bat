@@ -103,12 +103,18 @@ void CMinionGauge::SetGaugeCell()
 
 void CMinionGauge::RenderBlankGauge()
 {
-	D3DXMATRIXA16 matWorld, matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.0f, m_vPosition.z);
+	D3DXMATRIXA16 matView, matS;
+	D3DXMatrixIdentity(&matView);
+	SetBillBoard(&matView, m_vPosition.x - 0.5f, m_vPosition.y + 2.5f, m_vPosition.z);
 
-	matWorld = matT;
+	D3DXMatrixScaling(&matS, 1.0f, 0.1f, 1.0f);
 
-	SetTransform(D3DTS_WORLD, &matWorld);
+	m_matWorld = matS;
+	m_matWorld *= matView;
+
+	SetTransform(D3DTS_WORLD, &m_matWorld);
+
+	SetTexture(0, m_pBlank);
 
 	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
 
@@ -123,14 +129,17 @@ void CMinionGauge::RenderBlankGauge()
 
 void CMinionGauge::RenderCell()
 {
-	D3DXMATRIXA16 matWorld, matT, matS;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.0f, m_vPosition.z);
-	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 1.0f, m_vPosition.z);
-	matWorld = matS * matT;
+	D3DXMATRIXA16 matView, matS;
+	D3DXMatrixIdentity(&matView);
+	SetBillBoard(&matView, m_vPosition.x - 0.5f, m_vPosition.y + 2.5f, m_vPosition.z);
 
-	SetTransform(D3DTS_WORLD, &matWorld);
+	D3DXMatrixScaling(&matS, m_fDmg, 0.1f, 1.0f);
 
+
+	m_matWorld = matS;
+	m_matWorld *= matView;
+
+	SetTransform(D3DTS_WORLD, &m_matWorld);
 
 	SetTexture(0, m_pCell);
 

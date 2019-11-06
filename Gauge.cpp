@@ -16,7 +16,7 @@ CGauge::~CGauge()
 {
 }
 
-void CGauge::SetBillBoard(D3DXMATRIXA16 * Matrix)
+void CGauge::SetBillBoard(D3DXMATRIXA16 * Matrix, float x, float y, float z)
 {
 	D3DXMATRIXA16	matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -24,9 +24,9 @@ void CGauge::SetBillBoard(D3DXMATRIXA16 * Matrix)
 	GetDevice()->GetTransform(D3DTS_VIEW, &matWorld);
 
 	D3DXMatrixInverse(&matWorld, NULL, &matWorld);
-	matWorld._41 = 0;
-	matWorld._42 = 0;
-	matWorld._43 = 0;
+	matWorld._41 = x;
+	matWorld._42 = y;
+	matWorld._43 = z;
 
 	*Matrix = matWorld;
 }
