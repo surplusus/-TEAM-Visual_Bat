@@ -10,7 +10,7 @@
 #include"ObjectColider.h"
 #include"MathMgr.h"
 #include"BoundingBox.h"
-#include"CollitionMgr.h"
+#include"CollisionMgr.h"
 #include"EventMgr.h"
 #include"HP.h"
 #include"PickingSphereMgr.h"
@@ -119,7 +119,7 @@ HRESULT CEzreal::Initialize()
 	m_pColider->SetUp(m_Info, 2.0f,new CBoundingBox);
 	m_ColiderList.push_back(m_pColider);
 	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
-	GET_SINGLE(CCollitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::PaticleCollisionEvent);
 	GET_SINGLE(EventMgr)->Subscribe(this, &CEzreal::OnFindPickingSphere);
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pColider->GetSphere());
@@ -165,7 +165,7 @@ void CEzreal::AddSkill_Q()
 		p->Initalize();
 		if (dynamic_cast<CEzealQ_Particle*>(p)->StatusInit(&m_StatusInfo, m_SkillLevel[SKILL_Q])) {
 			m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
-			GET_SINGLE(CCollitionMgr)->InsertColistion(this, &m_ColiderList);
+			GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 			GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 		}
 	}
@@ -183,7 +183,7 @@ void CEzreal::AddBaseAttack()
 	CParticle * p = new CBaseAttack(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]),m_StatusInfo);
 	p->Initalize();
 	m_ColiderList.push_back(dynamic_cast<CBaseAttack*>(p)->GetColider());
-	GET_SINGLE(CCollitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 }
 
