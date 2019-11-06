@@ -30,12 +30,12 @@ private:
 	SkillList Ezreal_copy;
 
 	map<string, CTextMgr *> m_mapTextMgr;
-	INFO_CHAMP m_Stats;
+	STATUSINFO m_Stats;
 	
 public:
 	void Progress_Minimap();
 
-	void SetInfoChamp(INFO_CHAMP n_Stats) { m_Stats = n_Stats; }
+	void SetInfoChamp(STATUSINFO n_Stats) { m_Stats = n_Stats; }
 	void Initialize_Text();
 };
 
