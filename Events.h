@@ -6,6 +6,7 @@ class CObj;
 class SoundMgr;
 class GuhyunScene;
 class CPaticle;
+class ColiderComponent;
 typedef struct _tagEvent
 {
 } EVENT;
@@ -39,10 +40,13 @@ typedef struct _tagPickingSphere : EVENT
 
 typedef struct _tagCollisionEvent : EVENT
 {
-	_tagCollisionEvent(CObj* pOri, CObj* pTarget)
-		: m_pOri(pOri), m_pTarget(pTarget){}
-	CObj* m_pOri;
-	CObj* m_pTarget;
+	_tagCollisionEvent(CObj* pOri,CObj*pTarget,ColiderComponent* pOriCol, ColiderComponent* pTargetCol)
+		: m_pOriObj(pOri), m_pTargetObj(pTarget),m_pOriCol(pOriCol), m_pTargetCol(pTargetCol)
+		{}
+	ColiderComponent* m_pOriCol;
+	ColiderComponent* m_pTargetCol;
+	CObj* m_pOriObj;
+	CObj* m_pTargetObj;
 
 
 } COLLISIONEVENT;

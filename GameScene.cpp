@@ -12,7 +12,7 @@
 #include"EzealQ_Particle.h"
 #include"ParticleMgr.h"
 #include"HeightMap.h"
-#include"ColitionMgr.h"
+#include"CollitionMgr.h"
 #include"Cursor.h"
 #include"GameHUD.h"
 CGameScene::CGameScene()
@@ -36,7 +36,7 @@ HRESULT CGameScene::Initialize()
 		return E_FAIL;
 	InitAsset();
 	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE))) return E_FAIL;
-
+	
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Ezreal.x", L"Ezreal", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
@@ -46,17 +46,17 @@ HRESULT CGameScene::Initialize()
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
-		return E_FAIL;
-	CObj *ez = new CEzreal("IDLE1", false);
-	ez->Initialize();
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2",ez)))
-		return E_FAIL;
-
+	
 	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
-			
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
+		return E_FAIL;
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", CFactory<CObj, CEzreal >::CreateObject())))
+		return E_FAIL;
+
+
+
 	LetObjectKnowHeightMap();
 
 	m_Cursor = new CCursor;
@@ -71,7 +71,7 @@ void CGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 
-	GET_SINGLE(CColitionMgr)->Progress();
+	GET_SINGLE(CCollitionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
 	Hud->Progress();
 }
@@ -79,8 +79,7 @@ void CGameScene::Progress()
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
-
-	GET_SINGLE(CColitionMgr)->Render();
+	GET_SINGLE(CCollitionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	Hud->Render();
 }
@@ -88,7 +87,7 @@ void CGameScene::Render()
 void CGameScene::Release()
 {
 	m_pObjMgr->DestroyInstance();
-	GET_SINGLE(CColitionMgr)->DestroyInstance();
+	GET_SINGLE(CCollitionMgr)->DestroyInstance();
 	GET_SINGLE(CParticleMgr)->DestroyInstance();
 	GET_SINGLE(CCameraMgr)->DestroyInstance();
 	Hud->Release();
@@ -132,8 +131,13 @@ void CGameScene::LetObjectKnowHeightMap()
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
+	
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-		return;
 	}
+	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
+	if (pObj != nullptr) {
+		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+	}
+	return;
 }
