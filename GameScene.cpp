@@ -15,6 +15,7 @@
 #include"CollisionMgr.h"
 #include"Cursor.h"
 #include"GameHUD.h"
+#include"Udyr.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -41,24 +42,34 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Ezreal.x", L"Ezreal2", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
 	
-	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", CFactory<CObj, CEzreal >::CreateObject())))
+
+	CObj* p = new CEzreal("IDLE1", false);
+	p->Initialize();
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
 		return E_FAIL;
 
-
+//	if (FAILED(m_pObjMgr->AddObject(L"Udyr", CFactory<CObj, CUdyr >::CreateObject())))
+//		return E_FAIL;
 
 	LetObjectKnowHeightMap();
-
 	m_Cursor = new CCursor;
 	m_Cursor->InitCursor();
 	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
@@ -134,10 +145,11 @@ void CGameScene::LetObjectKnowHeightMap()
 	
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
+	}	
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}
+
 	return;
 }

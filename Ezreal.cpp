@@ -23,8 +23,10 @@ D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
-	:m_bDirty(true),m_pMesh(NULL), m_CurStateType(CHAMPION_STATETYPE_IDLE1)
+	:m_bDirty(true),m_pMesh(NULL), m_fStartTime(0)
 {
+
+	m_CurStateType = CHAMPION_STATETYPE_IDLE1;
 	m_fAngle[ANGLE_X] = 0;
 	m_fAngle[ANGLE_Y] = 1.5;
 	m_fAngle[ANGLE_Z] = 0;
@@ -37,6 +39,7 @@ CEzreal::CEzreal()
 	}
 	m_strAnimationState = "IDLE1";
 	m_ChangeMotion = true;
+	TestMeshName = L"Ezreal";
 }
 
 
@@ -103,9 +106,9 @@ HRESULT CEzreal::Initialize()
 	m_ObjName = "Ezreal";
 
 	D3DXMatrixIdentity(&m_Info.matWorld);
-	CloneMesh(GetDevice(), L"Ezreal", &m_pAnimationCtrl);
+	CloneMesh(GetDevice(), TestMeshName, &m_pAnimationCtrl);
 	D3DXMATRIX BonMatrix;
-	GetBoneMatrix(L"Ezreal", "Armature_root", &BonMatrix);
+	GetBoneMatrix(TestMeshName, "Armature_root", &BonMatrix);
 	m_pAnimationCtrl->GetAniCtrl();
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
@@ -133,21 +136,26 @@ HRESULT CEzreal::Initialize()
 
 void CEzreal::Progress()
 {
-	
-	KeyCheck();
+	if (m_bProgress) {
+		KeyCheck();
+	}
 	SettingAnimationSort();
-	SettingFrameAnimation();	
+	SettingFrameAnimation();
 	UpdateWorldMatrix();
-	m_pAnimationCtrl->FrameMove(L"Ezreal", g_fDeltaTime);		
-	m_pColider->Update(m_Info.vPos);
+
+	if ( !(m_Champ_State[CHAMPION_STATETYPE_DEATH] && m_fStartTime >= m_fEndTime)) {
+		m_pAnimationCtrl->FrameMove(TestMeshName, g_fDeltaTime);
+	}
+	if(m_pColider)	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
+
 
 }
 void CEzreal::AddSkill_Q()
 {	
 	D3DXMATRIX matWorld;
 	D3DXVECTOR3 vPos;
-	GetBoneMatrix(L"Ezreal", "Armature_L_hand", &matWorld);
+	GetBoneMatrix(TestMeshName, "Armature_L_hand", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
@@ -176,7 +184,7 @@ void CEzreal::AddBaseAttack()
 {
 	D3DXMATRIX matWorld;
 	D3DXVECTOR3 vPos;
-	GetBoneMatrix(L"Ezreal", "Armature_L_hand", &matWorld);
+	GetBoneMatrix(TestMeshName, "Armature_L_hand", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
@@ -195,7 +203,8 @@ void CEzreal::Render()
 		m_pAnimationCtrl->SetAnimationSet(m_strAnimationState);
 		m_bDirty = false;
 	}
-	Mesh_Render(GetDevice(), L"Ezreal");
+	
+	Mesh_Render(GetDevice(), TestMeshName);
 	SetTexture(0,NULL);	
 }
 
@@ -217,13 +226,11 @@ void CEzreal::SettingFrameAnimation()
 {
 	if (m_CurStateType == CHAMPION_STATETYPE_DEATH)
 	{
-		m_strAnimationState = "Death";		return;
+		m_strAnimationState = "Death";		
+		
+		return;
 	}
-	CHAMPION_STATETYPE eState;
-	if (m_AnimationQueue.empty()) {
-		eState = CHAMPION_STATETYPE_IDLE1;
-	}
-	else	eState = m_AnimationQueue.front();
+	
 	switch (m_CurStateType)
 	{
 	case CHAMPION_STATETYPE_IDLE1:
@@ -253,7 +260,6 @@ void CEzreal::SettingFrameAnimation()
 	default:
 		break;
 	}
-	if(!m_AnimationQueue.empty())	m_AnimationQueue.pop();
 }
 
 void CEzreal::KeyCheck()
@@ -279,7 +285,6 @@ void CEzreal::KeyCheck()
 	{
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-		m_fStartTime = 0;
 		m_fEndTime = 25;
 		m_bDirty = true;
 	}	
@@ -290,14 +295,30 @@ void CEzreal::SettingAnimationSort()
 {
 
 	CHAMPION_STATETYPE Check = CHAMPION_STATETYPE_IDLE1;
+	
+	if (SettingDeath_Motion()==CHAMPION_STATETYPE_DEATH)
+	{
+		m_bDirty = true;
+		m_CurStateType = CHAMPION_STATETYPE_DEATH;
+		return;
+	}
+	else if (SettingDeath_Motion() == CHAMPION_STATETYPE_END_ANIMSTATE)
+	{
+		m_bDirty = false;
+		return;
+	}
 	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1])
 	{
 
 		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingSpell1_Motion();
 		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingAttack_Motion();
 		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingRun_Motion();
+		
+		
 		m_CurStateType = Check;
 	}
+
+
 	if (m_Champ_State[CHAMPION_STATETYPE_IDLE1] && m_ChangeMotion
 		)
 	{
@@ -331,15 +352,19 @@ void CEzreal::InitUpdate()
 
 void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
-	dynamic_cast<CEzreal*>(Evt->m_pTargetObj)->m_StatusInfo.fHP -=dynamic_cast<CParticleObj*>((dynamic_cast<CParticleColider*>(Evt->m_pOriCol))->GetParticle())->GetStatus().fBase_Attack;
-	if (m_StatusInfo.fHP < 0)
+	if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH) 
 	{
-		m_CurStateType = CHAMPION_STATETYPE_DEATH;
-		m_strAnimationState = "Death";
-		m_pAnimationCtrl->SetAnimationSet(m_strAnimationState);
-		m_bProgress = false;
-		m_bDirty = true;
+		dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP -= (dynamic_cast<CParticleColider*>(Evt->m_pOriCol))->GetParticle()->GetStatus().fBase_Attack;
+		if (m_StatusInfo.fHP < 0)
+		{
+			m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
+			if (m_fStartTime <= 0)		m_fStartTime = 0;
+			m_bProgress = false;
+			m_bDirty = true;
+			dynamic_cast<CChampion*>(Evt->m_pOriObj);
+		}
 	}
+	m_bColl = false;
 	std::cout <<"HP" <<m_StatusInfo.fHP<<endl;
 }
 
@@ -429,6 +454,29 @@ CHAMPION_STATETYPE CEzreal::SettingRun_Motion()
 		
 	return CHAMPION_STATETYPE_IDLE1;
 
+}
+
+CHAMPION_STATETYPE CEzreal::SettingDeath_Motion()
+{
+	if (m_Champ_State[CHAMPION_STATETYPE_DEATH])
+	{
+		InitAnimationState();
+		m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
+		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+		m_ChangeMotion = true;
+		m_fEndTime = 25;
+		if (m_fStartTime >= m_fEndTime )
+		{
+			InitAnimationState();
+			m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
+			m_ChangeMotion = true;
+			m_bDirty = true;
+			return CHAMPION_STATETYPE_END_ANIMSTATE;
+		}
+		m_fStartTime += 1;
+		return CHAMPION_STATETYPE_DEATH;
+	}
+	return CHAMPION_STATETYPE_IDLE1;
 }
 
 void CEzreal::StatusInitalize()

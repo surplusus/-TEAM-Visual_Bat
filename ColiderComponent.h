@@ -11,6 +11,7 @@ protected:
 	INFO m_Info;
 	float m_fRadius;
 	bool m_bColision;
+	bool m_bErase;//지워질것인가;
 
 	SPHERE m_SphereInfo;
 	vector<VTXTEX> m_VerTexBuffer;
@@ -28,6 +29,8 @@ public:
 	virtual COLISION_TYPE GetType() { return COLISION_TYPE_End; };
 	void SetStateCol(bool bCol) { m_bColision = bCol; }
 	bool GetStateCol() { return m_bColision; }
+	bool GetStateErase() { return m_bErase; }
+	void SetStateErase(bool bErase) { m_bErase = bErase; }
 	void Release();
 	SPHERE* GetSphere() { return &m_SphereInfo; }
 };
