@@ -24,6 +24,11 @@ public:
 		m_fAngle[ANGLE_Y] = 0;
 		m_fAngle[ANGLE_Z] = 0;		
 		m_strAnimationState = AnimationState; 
+		m_Champ_State.resize(CHAMPION_STATETYPE_END_ANIMSTATE);
+		for (int i = 0; i < CHAMPION_STATETYPE_END_ANIMSTATE; i++)
+		{
+			m_Champ_State[i] = false;
+		}
 	}
 	~CEzreal();
 //Áö¿ï°Í

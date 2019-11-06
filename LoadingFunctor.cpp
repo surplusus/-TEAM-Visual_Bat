@@ -21,6 +21,16 @@ CLoadingFunctor::CLoadingFunctor()
 {
 	m_SelectedChamp = "";
 	m_mapMeshInfo.clear();
+
+	{
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
+		m_queFunc.push([this]() {return this->FuncLoadMap(); });
+		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
+		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+
+		m_mapMeshInfo.clear();
+	}
 }
 
 CLoadingFunctor::CLoadingFunctor(const CLoadingFunctor & rhv)
@@ -39,27 +49,13 @@ CLoadingFunctor::~CLoadingFunctor()
 bool CLoadingFunctor::operator()()
 {
 	using FUNC = function<bool(void)>;
-	
-	{	// 생성자가 불리지 않는 관계로 여기서 초기화한다.
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
-		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
-		m_queFunc.push([this]() {return this->FuncLoadMap(); });
-		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
-		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
-
-		//m_iFuncSize = m_queFunc.size();
-		m_mapMeshInfo.clear();
-	}
-
-	//m_iFuncIdx = 0;
-	while (!m_queFunc.empty())
-	{
-		FUNC fp = m_queFunc.front();
-		bool re = fp();
-		//++m_iFuncIdx;
-		m_queFunc.pop();
-	}
-	return true;
+	if (m_queFunc.empty())
+		return true;
+	FUNC fp = m_queFunc.front();
+	bool re = fp();
+	++m_iFuncIdx;
+	m_queFunc.pop();
+	return false;
 }
 
 bool CLoadingFunctor::SetMeshInfoThruFile()
@@ -147,11 +143,11 @@ bool CLoadingFunctor::FuncLoadChamp()
 	OperateFuncAddObjectByKey(m_SelectedChamp);
 
 	{	//Ezreal dummy
-		if (!OperateFuncAddMeshByKey("Ezreal2")) {
+		if (!OperateFuncAddMeshByKey("Ezreal")) {
 			printf("챔피언 매쉬 로딩 실패\n");
 			return false;
 		}
-		OperateFuncAddObjectByKey("Ezreal2");
+		OperateFuncAddObjectByKey("Ezreal");
 	}
 	printf("챔피언 매쉬 로딩 완료!\n");
 	return true;
@@ -197,12 +193,6 @@ bool CLoadingFunctor::OperateFuncAddMeshByKey(string key)
 			return true;
 		}
 	}
-	else if (key == "Ezreal2") {
-		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"Ezreal", info.m_MeshType))) {
-			printf("%s\n", info.m_ConsoleText.c_str());
-			return true;
-		}
-	}
 	else if (key == "MeleeMinion") {
 		if (SUCCEEDED(AddMesh(GetDevice(), t1, t2, L"MeleeMinion", info.m_MeshType))) {
 			printf("%s\n", info.m_ConsoleText.c_str());
@@ -226,15 +216,10 @@ bool CLoadingFunctor::OperateFuncAddObjectByKey(string key)
 	HRESULT re = S_FALSE;
 	if (key == "Map")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Map", CFactory<CObj, CSummonTerrain>::CreateObject());
-//	else if (key == "Udyr")
-//		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
+	else if (key == "Udyr")
+		re = GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CUdyr>::CreateObject());
 	else if (key == "Ezreal")
 		re = GET_SINGLE(CObjMgr)->AddObject(L"Ezreal", CFactory<CObj, CEzreal>::CreateObject());
-	else if (key == "Ezreal2") {
-		CObj *ez = new CEzreal("IDLE1", false);
-		ez->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Ezreal2", ez);
-	}
 	else if (key == "MeleeMinion" || key == "CannonMinion")
 	{	// 미니언 매니저 생성(&미니언 objmgr 등록)과 mediator setter
 		CMinionMgr* pMinionMgr = new CMinionMgr;

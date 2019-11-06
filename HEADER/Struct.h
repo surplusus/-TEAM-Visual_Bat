@@ -173,13 +173,23 @@ typedef struct tagStateInfo
 	float fHP				;
 	float fSkillTimeRatio	;
 	float fAttackRange		;
-
 	
 	friend tagStateInfo operator+(tagStateInfo Info,  tagStateInfo tInfo);
 	friend tagStateInfo operator-(tagStateInfo Info,  tagStateInfo& tInfo);
 	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
 	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
-
+	void PrintAll() {
+		std::cout << "fBase_Attack	 : " << fBase_Attack << '\n';
+		std::cout << "fMagic_Attack	 : " << fMagic_Attack << '\n';
+		std::cout << "fBase_Defence	 : " << fBase_Defence << '\n';
+		std::cout << "fMagic_Defence	 : " << fMagic_Defence << '\n';
+		std::cout << "fCriticalRatio	 : " << fCriticalRatio << '\n';
+		std::cout << "fMoveSpeed		 : " << fMoveSpeed << '\n';
+		std::cout << "fMana			 : " << fMana << '\n';
+		std::cout << "fHP			 : " << fHP << '\n';
+		std::cout << "fSkillTimeRatio : " << fSkillTimeRatio << '\n';
+		std::cout << "fAttackRange	 : " << fAttackRange << '\n';
+	}
 }STATUSINFO;
 typedef enum SkILL_LEVEL
 {

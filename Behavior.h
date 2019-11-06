@@ -6,7 +6,7 @@ namespace BehaviorTree
 	class Node;
 	class Task;
 	class BlackBoard;
-	using pBlackBoard = std::shared_ptr<BlackBoard>;
+	using sharedpBlackBoard = std::shared_ptr<BlackBoard>;
 
 	enum Status
 	{
@@ -18,7 +18,7 @@ namespace BehaviorTree
 
 	class Node {
 	public:
-		pBlackBoard* m_BlackBoard;
+		BlackBoard* m_BlackBoard;
 		virtual bool Run() = 0;
 	};
 
@@ -26,14 +26,19 @@ namespace BehaviorTree
 	class Composite : public Node
 	{
 	public:
-		Composite(pBlackBoard* blackboard) {
-			m_BlackBoard = blackboard;
+		Composite(BlackBoard* pBlackboard) {
+			m_BlackBoard = pBlackboard;
 		}
 		virtual ~Composite() { m_Nodes.clear(); }
 	public:
 		void AddNode(Node* node) {
-			node->m_BlackBoard = this->m_BlackBoard;
-			m_Nodes.emplace_back(node); }
+			if (node == nullptr) {
+				ERR_MSG(g_hWnd, L"Error on Addnode Function.");
+				return;
+			}
+			node->m_BlackBoard = m_BlackBoard;
+			m_Nodes.emplace_back(node); 
+		}
 		ManyNodes GetComposites() const{ return m_Nodes; }
 		ManyNodes GetCompositesShuffled() const {
 			ManyNodes tmp = m_Nodes;
@@ -54,8 +59,8 @@ namespace BehaviorTree
 	class Selector : public Composite
 	{
 	public:
-		Selector(pBlackBoard* blackboard)
-			: Composite(blackboard) {}
+		Selector(BlackBoard* pBlackboard)
+			: Composite(pBlackboard) {}
 		virtual ~Selector() {}
 	public :
 		virtual bool Run() override {
@@ -68,8 +73,8 @@ namespace BehaviorTree
 	class RandomSelector : public Composite
 	{
 	public:
-		RandomSelector(pBlackBoard* blackboard)
-			: Composite(blackboard) {}
+		RandomSelector(BlackBoard* pBlackboard)
+			: Composite(pBlackboard) {}
 		virtual ~RandomSelector() {}
 	public :
 		virtual bool Run() override {
@@ -82,8 +87,10 @@ namespace BehaviorTree
 	class Sequence : public Composite
 	{
 	public:
-		Sequence(pBlackBoard* blackboard)
-			: Composite(blackboard) {}
+		Sequence(BlackBoard* pBlackboard)
+			: Composite(pBlackboard) {}
+		Sequence(const Sequence* pSqc)
+			:Composite(pSqc->m_BlackBoard) {}
 		virtual ~Sequence() {}
 	public:
 		virtual bool Run() override {
@@ -160,7 +167,7 @@ namespace BehaviorTree
 			return strings[key];
 		}
 		bool hasString(std::string key) const { return strings.find(key) != strings.end(); }
-	protected:
+	public:
 		std::unordered_map<std::string, bool> bools;
 		std::unordered_map<std::string, int> ints;
 		std::unordered_map<std::string, float> floats;
@@ -172,7 +179,7 @@ namespace BehaviorTree
 	{
 	public:
 		Node* m_Root;
-		pBlackBoard m_BlackBoard;
+		sharedpBlackBoard m_BlackBoard;
 	public:
 		BehaviorTreeHandler() {
 			m_BlackBoard = make_shared<BlackBoard>();
@@ -183,5 +190,6 @@ namespace BehaviorTree
 		}
 		bool Run() const { return m_Root->Run(); }
 		BlackBoard& GetBlackBoard() { return *m_BlackBoard.get(); }
+		virtual void UpdateBlackBoard() = 0;
 	};
 }
