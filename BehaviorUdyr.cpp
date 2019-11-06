@@ -5,12 +5,20 @@
 UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 	: m_pUdyrInst(inst)
 {
-	m_vTask.resize(TASK_END);
 	for (int i = 0; i < SEQUENCE_END; ++i)
 		m_vSequnece.emplace_back(make_shared<Sequence>(m_BlackBoard.get()));
 	for (int i = 0; i < SELECTOR_END; ++i)
 		m_vSelector.emplace_back(make_shared<Selector>(m_BlackBoard.get()));
 
+	m_vTask.resize(TASK_END);
+	{
+		m_vTask[TASK_DEATH] = make_shared<UdyrDeath>();
+		m_vTask[TASK_CLICK] = make_shared<UdyrClick>();
+		m_vTask[TASK_RUN] = make_shared<UdyrRun>();
+		m_vTask[TASK_TURN] = make_shared<UdyrTurn>();
+		m_vTask[TASK_IDLE] = make_shared<UdyrIdle>();
+		m_vTask[TASK_ANI] = make_shared<UdyrAni>();
+	}
 	SetRoot(SEQUENCE_ROOT);
 }
 
@@ -58,31 +66,34 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 	m_BlackBoard->setFloat("fAttackRange", m_pUdyrInst->m_stStatusInfo.fAttackRange);
 }
 
-void UdyrBT::UdyrBTHandler::AddTask(int eSequenceType, function<void(void)> pFunc)
+void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 {
-	switch (eSequenceType)
-	{
-	case UdyrBT::TASK_DEATH:
-		m_vTask[TASK_DEATH] = make_shared<UdyrDeath>(m_pUdyrInst, pFunc);
-		break;
-	case UdyrBT::TASK_CLICK:
-		m_vTask[TASK_CLICK] = make_shared<UdyrClick>(m_pUdyrInst, pFunc);
-		break;
-	case UdyrBT::TASK_RUN:
-		m_vTask[TASK_RUN] = make_shared<UdyrRun>(m_pUdyrInst, pFunc);
-		break;
-	case UdyrBT::TASK_TURN:
-		m_vTask[TASK_TURN] = make_shared<UdyrTurn>(m_pUdyrInst, pFunc);
-		break;
-	case UdyrBT::TASK_IDLE:
-		m_vTask[TASK_IDLE] = make_shared<UdyrIdle>(m_pUdyrInst, pFunc);
-		break;
-	case UdyrBT::TASK_ANI:
-		m_vTask[TASK_ANI] = make_shared<UdyrAni>(m_pUdyrInst, pFunc);
-		break;
-	default:
-		break;
+	STATUSINFO& Info = m_pUdyrInst->m_stStatusInfo;
+
+	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
+		m_BlackBoard->setBool("Click", true);
 	}
+	if (CheckPushKeyOneTime(VK_K))
+		m_BlackBoard->setFloat("fHP", Info.fHP);
+
+	m_BlackBoard->setFloat("fBase_Attack", Info.fBase_Attack);
+	m_BlackBoard->setFloat("fMagic_Attack", Info.fMagic_Attack);
+	m_BlackBoard->setFloat("fBase_Defence", Info.fBase_Defence);
+	m_BlackBoard->setFloat("fMagic_Defence", Info.fMagic_Defence);
+	m_BlackBoard->setFloat("fCriticalRatio", Info.fCriticalRatio);
+	m_BlackBoard->setFloat("fMoveSpeed", Info.fMoveSpeed);
+	m_BlackBoard->setFloat("fMana", Info.fMana);
+	m_BlackBoard->setFloat("fHP", Info.fHP);
+	m_BlackBoard->setFloat("fSkillTimeRatio", Info.fSkillTimeRatio);
+	m_BlackBoard->setFloat("fAttackRange", Info.fAttackRange);
+}
+
+void UdyrBT::UdyrBTHandler::AddTask(int eTaskType, function<void(void)> pFunc)
+{
+	if (pFunc == nullptr)
+		return;
+
+	m_vTask[eTaskType]->SetMemberFunc(pFunc);
 }
 
 bool UdyrBT::UdyrDeath::Condition()
@@ -94,33 +105,54 @@ bool UdyrBT::UdyrDeath::Condition()
 
 bool UdyrBT::UdyrClick::Condition()
 {
-	if (m_BlackBoard->getBool("Click"))
+	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0))
 		return true;
 	return false;
 }
 
+bool UdyrBT::UdyrClick::Do()
+{
+	
+	m_BlackBoard->setBool("Click", true);
+	return true;
+}
+
 bool UdyrBT::UdyrRun::Condition()
 {
-	if (m_BlackBoard->getBool("Run"))
-		return true;
+	return false;
+}
+
+bool UdyrBT::UdyrRun::Do()
+{
 	return false;
 }
 
 bool UdyrBT::UdyrTurn::Condition()
 {
-	if (m_BlackBoard->getBool("Turn"))
-		return true;
+	return false;
+}
+
+bool UdyrBT::UdyrTurn::Do()
+{
 	return false;
 }
 
 bool UdyrBT::UdyrIdle::Condition()
 {
-	if (m_BlackBoard->getBool("Idle"))
-		return true;
+	return false;
+}
+
+bool UdyrBT::UdyrIdle::Do()
+{
 	return false;
 }
 
 bool UdyrBT::UdyrAni::Condition()
 {
-	return true;
+	return false;
+}
+
+bool UdyrBT::UdyrAni::Do()
+{
+	return false;
 }

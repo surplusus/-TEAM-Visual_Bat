@@ -63,11 +63,11 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
-		m_pBehavior->AddTask(TASK_DEATH, [this]() {this->ChangeAniSetByKey("Death"); });
-		m_pBehavior->AddTask(TASK_CLICK, [this]() {this->ChangeAniSetByKey("Click"); });
-		m_pBehavior->AddTask(TASK_RUN, [this]() {this->ChangeAniSetByKey("Death"); });
+		m_pBehavior->AddTask(TASK_DEATH, nullptr);
+		m_pBehavior->AddTask(TASK_CLICK, nullptr);
+		m_pBehavior->AddTask(TASK_RUN, [this]() {this->Update_vPos_ByDestPoint(&m_MouseHitPoint, m_stStatusInfo.fMoveSpeed); });
 		m_pBehavior->AddTask(TASK_TURN, [this]() {this->ChangeAniSetByKey("Death"); });
-		m_pBehavior->AddTask(TASK_IDLE, [this]() {this->m_pBehavior->GetBlackBoard().setBool("Idle", true); });
+		m_pBehavior->AddTask(TASK_IDLE, []() {});
 		m_pBehavior->AddTask(TASK_ANI, [this]() {this->ChangeAniByState(); });
 		m_pBehavior->MakeTree();
 		m_pBehavior->SetUpBlackBoard();
@@ -81,7 +81,7 @@ void CUdyr::Progress()
 		m_stStatusInfo.PrintAll();
 
 	{	//<< : Behavior Tree
-		UpdateBlackBoard();
+		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
 	}
 	m_pCollider->Update(m_Info.vPos);
@@ -130,27 +130,6 @@ void CUdyr::ChangeAniByState()
 		ChangeAniSetByKey("Run");
 	else if (m_pBehavior->GetBlackBoard().getBool("Idle"))
 		ChangeAniSetByKey("Idle");
-}
-
-void CUdyr::UpdateBlackBoard()
-{
-	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
-		m_pBehavior->GetBlackBoard().setBool("Click", true);
-	}
-	if (CheckPushKeyOneTime(VK_K))
-		m_pBehavior->GetBlackBoard().setFloat("fHP", m_stStatusInfo.fHP);
-
-
-	m_pBehavior->GetBlackBoard().setFloat("fBase_Attack", m_stStatusInfo.fBase_Attack);
-	m_pBehavior->GetBlackBoard().setFloat("fMagic_Attack", m_stStatusInfo.fMagic_Attack);
-	m_pBehavior->GetBlackBoard().setFloat("fBase_Defence", m_stStatusInfo.fBase_Defence);
-	m_pBehavior->GetBlackBoard().setFloat("fMagic_Defence", m_stStatusInfo.fMagic_Defence);
-	m_pBehavior->GetBlackBoard().setFloat("fCriticalRatio", m_stStatusInfo.fCriticalRatio);
-	m_pBehavior->GetBlackBoard().setFloat("fMoveSpeed", m_stStatusInfo.fMoveSpeed);
-	m_pBehavior->GetBlackBoard().setFloat("fMana", m_stStatusInfo.fMana);
-	m_pBehavior->GetBlackBoard().setFloat("fHP", m_stStatusInfo.fHP);
-	m_pBehavior->GetBlackBoard().setFloat("fSkillTimeRatio", m_stStatusInfo.fSkillTimeRatio);
-	m_pBehavior->GetBlackBoard().setFloat("fAttackRange", m_stStatusInfo.fAttackRange);
 }
 
 //void CUdyr::MouseControl()

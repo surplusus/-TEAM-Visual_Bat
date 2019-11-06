@@ -16,7 +16,6 @@ private:
 	STATUSINFO			m_stStatusInfo;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
-	void			UpdateBlackBoard();
 	// >> : Behavior
 	// << : Collision
 	ColiderComponent*  m_pCollider;

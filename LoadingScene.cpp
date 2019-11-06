@@ -97,49 +97,20 @@ void CLoadingScene::Release()
 
 bool CLoadingScene::OperateLoadingFunctorThruThread()
 {
-	//static bool once = true;
-	//static shared_future<bool> future;
-	try
-	{
-		//if (once) {
-		//	once = false;
-		//	CLoadingFunctor functor;
-		//	{	// 로딩 functor에게 정보를 넣어준다.(수정요)
-		//	string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-		//	if (sChampName == "")	sChampName = "Ezreal";
-		//	functor.m_SelectedChamp = sChampName;
-		//	}
-
-
-		//	function<bool(void)> func = [functor]() mutable {bool result = functor(); return result; };
-		//	
-		//	for (int i = 0; i < length; i++)
-		//	{
-
-		//	}
-
-		//	future = GET_THREADPOOL->EnqueueFunc(THREAD_LOADMAP, func);
+	try{
+		//m_bLoadingComplete = (g_future.wait_for(chrono::milliseconds(0)) == future_status::ready);
+		//g_status = g_future.wait_for(chrono::milliseconds(0));
+		//if (g_status == std::future_status::deferred) {
+		//	std::cout << "deferred\n";
 		//}
-
-		static int iSkipTime = 0;
-		++iSkipTime;
-		if (iSkipTime > 10){
-			cout << "들어왔따\n";
-			//m_bLoadingComplete = (g_future.wait_for(chrono::milliseconds(0)) == future_status::ready);
-			//g_status = g_future.wait_for(chrono::milliseconds(0));
-			iSkipTime = 0;
-			//if (g_status == std::future_status::deferred) {
-			//	std::cout << "deferred\n";
-			//}
-			//else if (g_status == std::future_status::timeout) {
-			//	std::cout << "timeout\n";
-			//}
-			//else if (g_status == std::future_status::ready) {
-			//	std::cout << "ready!\n";
-			//}
-			//if (m_bLoadingComplete)
-			//cout << " 결과는요 : " << g_future.get() << '\n';
-		}
+		//else if (g_status == std::future_status::timeout) {
+		//	std::cout << "timeout\n";
+		//}
+		//else if (g_status == std::future_status::ready) {
+		//	std::cout << "ready!\n";
+		//}
+		//if (m_bLoadingComplete)
+		//cout << " 결과는요 : " << g_future.get() << '\n';
 	}
 	catch (const std::exception& e)
 	{

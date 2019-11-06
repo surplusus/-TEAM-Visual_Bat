@@ -190,5 +190,6 @@ namespace BehaviorTree
 		}
 		bool Run() const { return m_Root->Run(); }
 		BlackBoard& GetBlackBoard() { return *m_BlackBoard.get(); }
+		virtual void UpdateBlackBoard() = 0;
 	};
 }
