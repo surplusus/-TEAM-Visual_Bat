@@ -12,7 +12,7 @@
 #include"EzealQ_Particle.h"
 #include"ParticleMgr.h"
 #include"HeightMap.h"
-#include"CollitionMgr.h"
+#include"CollisionMgr.h"
 #include"Cursor.h"
 #include"GameHUD.h"
 CGameScene::CGameScene()
@@ -71,7 +71,7 @@ void CGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 
-	GET_SINGLE(CCollitionMgr)->Progress();
+	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
 	Hud->Progress();
 }
@@ -79,7 +79,7 @@ void CGameScene::Progress()
 void CGameScene::Render()
 {
 	m_pObjMgr->Render();
-	GET_SINGLE(CCollitionMgr)->Render();
+	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	Hud->Render();
 }
@@ -87,7 +87,7 @@ void CGameScene::Render()
 void CGameScene::Release()
 {
 	m_pObjMgr->DestroyInstance();
-	GET_SINGLE(CCollitionMgr)->DestroyInstance();
+	GET_SINGLE(CCollisionMgr)->DestroyInstance();
 	GET_SINGLE(CParticleMgr)->DestroyInstance();
 	GET_SINGLE(CCameraMgr)->DestroyInstance();
 	Hud->Release();

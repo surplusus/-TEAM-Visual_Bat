@@ -1,19 +1,19 @@
 #include "BaseInclude.h"
-#include "CollitionMgr.h"
+#include "CollisionMgr.h"
 #include"ColiderComponent.h"
 #include"EventMgr.h"
 #include"Obj.h"
 #include"Input.h"
-CCollitionMgr::CCollitionMgr()
+CCollisionMgr::CCollisionMgr()
 {
 }
 
 
-CCollitionMgr::~CCollitionMgr()
+CCollisionMgr::~CCollisionMgr()
 {
 }
 
-void CCollitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
+void CCollisionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
 {
 	map<CObj*, list<ColiderComponent*>*>::iterator iter = m_ColMap.find(pObj);
 	if (iter == m_ColMap.end())
@@ -27,12 +27,12 @@ void CCollitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
 	}
 }
 
-void CCollitionMgr::Progress()
+void CCollisionMgr::Progress()
 {
 	UpdateColistion();	
 }
 
-void CCollitionMgr::Render()
+void CCollisionMgr::Render()
 {
 	map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 	for (iter1; iter1 != m_ColMap.end(); ++iter1)
@@ -46,7 +46,7 @@ void CCollitionMgr::Render()
 
 
 
-void CCollitionMgr::UpdateColistion()
+void CCollisionMgr::UpdateColistion()
 {
 	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 		iter1 != m_ColMap.end(); ++iter1)
@@ -86,7 +86,7 @@ void CCollitionMgr::UpdateColistion()
 
 }
 
-bool CCollitionMgr::PickColition()
+bool CCollisionMgr::PickColition()
 {
 	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 		iter1 != m_ColMap.end(); ++iter1)
