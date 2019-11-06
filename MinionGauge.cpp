@@ -6,6 +6,7 @@
 CMinionGauge::CMinionGauge()
 {
 	m_fDmg = 1.0f;
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 
@@ -57,8 +58,6 @@ void CMinionGauge::Initialize()
 
 void CMinionGauge::Progress()
 {
-	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Minion")->vPos;
-	SetPosition(pos);
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		m_fDmg -= 0.01f;
@@ -99,57 +98,4 @@ void CMinionGauge::SetGaugeCell()
 		L"Resource/choen/UI/GaugeCell.png",
 		&m_pCell
 	);
-}
-
-void CMinionGauge::RenderBlankGauge()
-{
-	D3DXMATRIXA16 matView, matS;
-	D3DXMatrixIdentity(&matView);
-	SetBillBoard(&matView, m_vPosition.x - 0.5f, m_vPosition.y + 2.5f, m_vPosition.z);
-
-	D3DXMatrixScaling(&matS, 1.0f, 0.1f, 1.0f);
-
-	m_matWorld = matS;
-	m_matWorld *= matView;
-
-	SetTransform(D3DTS_WORLD, &m_matWorld);
-
-	SetTexture(0, m_pBlank);
-
-	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
-
-	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
-		D3DPT_TRIANGLELIST,
-		m_vecMultiVertex.size() / 3,
-		&m_vecMultiVertex[0],
-		sizeof(VTXTEX)
-	);
-	SetTexture(0, NULL);
-}
-
-void CMinionGauge::RenderCell()
-{
-	D3DXMATRIXA16 matView, matS;
-	D3DXMatrixIdentity(&matView);
-	SetBillBoard(&matView, m_vPosition.x - 0.5f, m_vPosition.y + 2.5f, m_vPosition.z);
-
-	D3DXMatrixScaling(&matS, m_fDmg, 0.1f, 1.0f);
-
-
-	m_matWorld = matS;
-	m_matWorld *= matView;
-
-	SetTransform(D3DTS_WORLD, &m_matWorld);
-
-	SetTexture(0, m_pCell);
-
-	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
-
-	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
-		D3DPT_TRIANGLELIST,
-		m_vecMultiVertex.size() / 3,
-		&m_vecMultiVertex[0],
-		sizeof(VTXTEX)
-	);
-	SetTexture(0, NULL);
 }

@@ -4,6 +4,7 @@
 
 CInhibitorGauge::CInhibitorGauge()
 {
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 

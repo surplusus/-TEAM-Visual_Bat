@@ -8,6 +8,7 @@ CChampGauge::CChampGauge()
 {
 	m_MAXHP = 1.0f;
 	m_fDmg = 1.0f;
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 

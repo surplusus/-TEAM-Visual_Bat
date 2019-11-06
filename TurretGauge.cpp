@@ -4,6 +4,7 @@
 
 CTurretGauge::CTurretGauge()
 {
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 

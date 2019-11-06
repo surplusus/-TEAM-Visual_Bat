@@ -4,6 +4,7 @@
 
 CNexusGauge::CNexusGauge()
 {
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 

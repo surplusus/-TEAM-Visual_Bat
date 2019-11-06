@@ -7,7 +7,7 @@ public:
 	virtual ~CGauge();
 public:
 	virtual void Initialize() = 0;
-	virtual void Progress(D3DXVECTOR3 vPos)	  = 0;
+	virtual void Progress()	  = 0;
 	virtual void Render()	  = 0;
 	virtual void Release()	  = 0;
 
@@ -30,12 +30,13 @@ protected:
 
 	void SetLight();
 	float m_fDmg;
+	float m_fDeal;
 
 public:
 	void SetMaxHP(float HP) { m_MAXHP = HP; }
-	void SufferDmg(float Dmg) { m_fDmg = Dmg; }
+	void SufferDmg(float fDeal) { m_fDeal = fDeal; }
 
 protected:
-	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
-	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
 };

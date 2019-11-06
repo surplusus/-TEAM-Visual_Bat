@@ -8,7 +8,7 @@ public:
 	~CMinionGauge();
 public:
 	virtual void Initialize() override;
-	virtual void Progress(D3DXVECTOR3 vPos) override;
+	virtual void Progress() override;
 	virtual void Render() override;
 	virtual void Release() override;
 

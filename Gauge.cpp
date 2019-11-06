@@ -50,9 +50,9 @@ void CGauge::SetLight()
 	}
 }
 
-void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS;
+	D3DXMATRIXA16 matView, matS, World;
 	D3DXMatrixIdentity(&matView);
 	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
 
@@ -76,9 +76,9 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World
 	SetTexture(0, NULL);
 }
 
-void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXMATRIXA16 World, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS;
+	D3DXMATRIXA16 matView, matS, World;
 	D3DXMatrixIdentity(&matView);
 	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
 

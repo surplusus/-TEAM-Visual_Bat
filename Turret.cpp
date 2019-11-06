@@ -1,6 +1,6 @@
 #include "BaseInclude.h"
 #include "Turret.h"
-#include"ColitionMgr.h"
+#include"CollisionMgr.h"
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
 #include"AnimationCtrl.h"
@@ -80,6 +80,6 @@ void CTurret::AddAttackLaizer()
 	p->Initalize();
 	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
 	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
-	GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 }

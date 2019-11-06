@@ -128,6 +128,7 @@ HRESULT CEzreal::Initialize()
 	m_SkillLevel = { SKILL_LEVEL1,SKILL_LEVEL0 ,SKILL_LEVEL0 ,SKILL_LEVEL0 };
 	StatusInitalize();
 	
+	
 	return S_OK;
 }
 
@@ -142,8 +143,7 @@ void CEzreal::Progress()
 	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
 
-	m_pGauge->SetPosition(m_Info.vPos);
-	m_pGauge->Progress();
+	
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -200,8 +200,7 @@ void CEzreal::Render()
 	}
 	Mesh_Render(GetDevice(), L"Ezreal");
 	SetTexture(0,NULL);	
-	//cheon
-	m_pGauge->Render();
+	
 }
 
 void CEzreal::Release()
