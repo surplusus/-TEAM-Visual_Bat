@@ -29,6 +29,7 @@ void CTower::UpdateWorldMatrix()
 	D3DXMatrixRotationY(&matR, 1.0f);
 	D3DXMatrixTranslation(&matT, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixIdentity(&m_Info.matWorld);
+
 	m_Info.matWorld = matS * matR * matT;
 }
 
