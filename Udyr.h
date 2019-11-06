@@ -34,5 +34,8 @@ private:
 	void			OnFindPickingSphere(PICKSPHEREEVENT* evt);
 	void			PaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			ChangeAniByState();
+	void			SearchNWrite();
+	void			MoveNWrite();
+	void			TurnNWirte();
 };
 

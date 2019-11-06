@@ -110,12 +110,14 @@ namespace BehaviorTree
 			: m_pChild(child) {}
 		virtual ~Task() {}
 		virtual bool Run() override {
-			if (Condition())
-				return m_pChild->Do();
+			if (Condition()) {
+				m_pChild->Do();
+				return true;
+			}
 			return false;
 		}
 		virtual bool Condition() = 0;
-		virtual bool Do() = 0;
+		virtual void Do() = 0;
 	};
 	
 	// BlackBoard

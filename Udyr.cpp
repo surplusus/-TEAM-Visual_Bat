@@ -58,35 +58,47 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : PickingSphere
 		//SetUpPickingShere(1.f);
-		//GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pCollider->GetSphere());
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
-		m_pBehavior->AddTask(TASK_DEATH, [this]() {this->ChangeAniByState(); });
-		m_pBehavior->AddTask(TASK_CLICK, [this]() {this->ChangeAniByState(); });
-		m_pBehavior->AddTask(TASK_RUN, [this]() {this->Update_vPos_ByDestPoint(&m_MouseHitPoint, m_stStatusInfo.fMoveSpeed); });
-		m_pBehavior->AddTask(TASK_TURN, [this]() {this->ChangeAniSetByKey("Death"); });
-		m_pBehavior->AddTask(TASK_IDLE, [this]() {this->ChangeAniByState(); });
+		m_pBehavior->AddTask(TASK_DEATH, nullptr);
+		m_pBehavior->AddTask(TASK_CLICK, [this]() {this->SearchNWrite(); });
+		m_pBehavior->AddTask(TASK_RUN, [this]() {this->MoveNWrite(); });
+		m_pBehavior->AddTask(TASK_TURN, [this]() {this->TurnNWirte(); });
+		m_pBehavior->AddTask(TASK_IDLE, nullptr);
 		m_pBehavior->AddTask(TASK_ANI, [this]() {this->ChangeAniByState(); });
 		m_pBehavior->MakeTree();
 		m_pBehavior->SetUpBlackBoard();
+		
 	}
 	return S_OK;
 }
 
 void CUdyr::Progress()
 {
-	if (CheckPushKeyOneTime(VK_SPACE))
+	if (CheckPushKeyOneTime(VK_1))
 		m_stStatusInfo.PrintAll();
-
+	if (CheckPushKeyOneTime(VK_2))
+		m_stStatusInfo.fHP -= 100.f;
+	if (CheckPushKeyOneTime(VK_3)) {
+		for (size_t i = 0; i < m_AniSetNameList.size(); i++)
+		{
+			cout << "Ani Num " << i << " : " << m_AniSetNameList[i] << '\n';
+		}
+	}
+	if (CheckPushKeyOneTime(VK_4))
+		m_stStatusInfo.fMoveSpeed += 0.1f;
+	
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
 	}
 	m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
-	m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
+	if (!m_pBehavior->GetBlackBoard().getBool("ChampIsOver"))
+		m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
 }
 
 void CUdyr::Render()
@@ -114,22 +126,58 @@ void CUdyr::SetUpAniSetNameList()
 
 void CUdyr::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
+	m_MouseHitPoint = evt->m_pObj->GetInfo()->vPos;
 	//m_pTargetObj = evt->m_pObj;
 }
 
 void CUdyr::PaticleCollisionEvent(COLLISIONEVENT * evt)
 {
-	m_pBehavior->m_BlackBoard->setBool("OnCollision", true);
+	//m_stStatusInfo -= dynamic_cast<CChampion*>(evt->)->m_StatusInfo;
 }
 
 void CUdyr::ChangeAniByState()
 {
-	if (m_pBehavior->GetBlackBoard().getBool("Death"))
+	if (!m_pBehavior->GetBlackBoard().getBool("Ani"))
+		return;
+
+	if (m_pBehavior->GetBlackBoard().getBool("Death")) {
 		ChangeAniSetByKey("Death");
-	else if (m_pBehavior->GetBlackBoard().getBool("Run"))
+		return;
+	}
+	else if (m_pBehavior->GetBlackBoard().getBool("Run")) {
 		ChangeAniSetByKey("Run");
-	else if (m_pBehavior->GetBlackBoard().getBool("Idle"))
+		return;
+	}
+	else if (m_pBehavior->GetBlackBoard().getBool("Idle")) {
 		ChangeAniSetByKey("Idle");
+		return;
+	}
+
+	m_pBehavior->GetBlackBoard().setBool("Ani", false);
+}
+
+void CUdyr::SearchNWrite()
+{
+	bool result = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
+	if (!result)
+		m_pBehavior->m_BlackBoard->setBool("Pick", false);
+}
+
+void CUdyr::MoveNWrite()
+{
+
+	bool result = Update_vPos_ByDestPoint(&m_MouseHitPoint, m_stStatusInfo.fMoveSpeed);
+	if (!result)
+		m_pBehavior->m_BlackBoard->setBool("Run", false);
+}
+
+void CUdyr::TurnNWirte()
+{
+	bool result = TurnSlowly(&m_MouseHitPoint, 7.f);
+	if (!result) {
+		m_pBehavior->m_BlackBoard->setBool("Turn", false);
+		m_pBehavior->m_BlackBoard->setBool("Pick", false);
+	}
 }
 
 //void CUdyr::MouseControl()

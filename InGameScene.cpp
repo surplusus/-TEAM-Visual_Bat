@@ -14,6 +14,7 @@
 #include "Ezreal.h"
 #include "MinionMgr.h"
 #include "MeleeMinion.h"
+#include "Cursor.h"
 
 CInGameScene::CInGameScene()
 {
@@ -26,8 +27,6 @@ CInGameScene::~CInGameScene()
 
 HRESULT CInGameScene::Initialize()
 {
-	// Set InGame Sound
-	GET_SINGLE(SoundMgr)->SetUp();
 	// 절두체 Setup
 	GET_SINGLE(CFrustum)->InitFrustum();
 	// Make Light
@@ -37,9 +36,10 @@ HRESULT CInGameScene::Initialize()
 		return E_FAIL;
 	// Make InGame UI
 	GET_SINGLE(cGameHUD)->Initialize();
-
-	// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
-	LetObjectKnowHeightMap();
+	{
+		// 높이맵이 필요한 Object에게 HeightMap 포인터 알려주기
+		LetObjectKnowHeightMap();
+	}
 
 	return S_OK;
 }
@@ -126,4 +126,14 @@ void CInGameScene::LetObjectKnowHeightMap()
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 		return;
 	}
+}
+
+void CInGameScene::GetMinionMgr(void ** pMinionMgr)
+{
+	m_pMinionMgr = reinterpret_cast<CMinionMgr*>(*pMinionMgr);
+}
+
+void CInGameScene::GetCursor(void ** pCursor)
+{
+	m_pCursor = reinterpret_cast<CCursor*>(*pCursor);
 }

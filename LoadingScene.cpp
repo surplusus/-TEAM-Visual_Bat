@@ -61,8 +61,12 @@ void CLoadingScene::Progress()
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 	
-	if (CheckPushKeyOneTime(VK_SPACE))
+	static float fFake = 0;
+	fFake += g_fDeltaTime;
+	if (fFake >= 1.f) {
 		m_bLoadingComplete = (*m_pLoadingFunctor)();
+		fFake = 0.f;
+	}
 	
 	if (m_bLoadingComplete) {
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);

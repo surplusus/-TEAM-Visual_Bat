@@ -34,7 +34,7 @@ namespace MinionBT
 		MinionTask(CMinion* pMinion) : Task(this), m_pMinionInst(pMinion) {}
 		virtual ~MinionTask() {}
 		virtual bool Condition() = 0;
-		virtual bool Do() { m_Func(); return true; }
+		virtual void Do() { m_Func();}
 		function<void(void)> m_Func;
 	};
 

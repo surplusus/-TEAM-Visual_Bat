@@ -53,11 +53,11 @@ void UdyrBT::UdyrBTHandler::MakeTree()
 
 void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 {
-	m_BlackBoard->setBool("Click", false);
+	m_BlackBoard->setBool("ChampIsOver", false);
 	m_BlackBoard->setBool("Death", false);
 	m_BlackBoard->setBool("Run", false);
-	m_BlackBoard->setBool("Idle", false);
-
+	m_BlackBoard->setBool("Idle", true);
+	
 	m_BlackBoard->setFloat("fBase_Attack", m_pUdyrInst->m_stStatusInfo.fBase_Attack);
 	m_BlackBoard->setFloat("fMagic_Attack", m_pUdyrInst->m_stStatusInfo.fMagic_Attack);
 	m_BlackBoard->setFloat("fBase_Defence", m_pUdyrInst->m_stStatusInfo.fBase_Defence);
@@ -74,11 +74,8 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 {
 	STATUSINFO& Info = m_pUdyrInst->m_stStatusInfo;
 
-	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
-		m_BlackBoard->setBool("Click", true);
-	}
 	if (CheckPushKeyOneTime(VK_K))
-		m_BlackBoard->setFloat("fHP", Info.fHP);
+		m_BlackBoard->setFloat("fHP", Info.fHP - 10.f);
 
 	m_BlackBoard->setFloat("fBase_Attack", Info.fBase_Attack);
 	m_BlackBoard->setFloat("fMagic_Attack", Info.fMagic_Attack);
@@ -94,6 +91,7 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 
 void UdyrBT::UdyrBTHandler::AddTask(int eTaskType, function<void(void)> pFunc)
 {
+	if (!pFunc)
 		return;
 	m_vTask[eTaskType]->SetMemberFunc(pFunc);
 }
@@ -105,56 +103,73 @@ bool UdyrBT::UdyrDeath::Condition()
 	return false;
 }
 
-bool UdyrBT::UdyrClick::Condition()
+void UdyrBT::UdyrDeath::Do()
 {
-	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0))
-		return true;
-	return false;
+	m_BlackBoard->setBool("Death", true);
+	static float time = 0;
+	time += 1;
+	if (time > 120)
+		m_BlackBoard->setBool("ChampIsOver", true);
 }
 
-bool UdyrBT::UdyrClick::Do()
+bool UdyrBT::UdyrClick::Condition()
 {
-	
-	m_BlackBoard->setBool("Click", true);
+	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
+		m_BlackBoard->setBool("Pick",true);
+	}
 	return true;
+}
+
+void UdyrBT::UdyrClick::Do()
+{
+	if (m_BlackBoard->getBool("Pick"))
+		m_BlackBoard->setBool("Pick", false);
+	else
+		return;
+	m_Func();
+	m_BlackBoard->setBool("Turn", true);
+	m_BlackBoard->setBool("Run", true);
+	m_BlackBoard->setBool("Idle", false);
 }
 
 bool UdyrBT::UdyrRun::Condition()
 {
-	return false;
+	return m_BlackBoard->getBool("Run");
 }
 
-bool UdyrBT::UdyrRun::Do()
+void UdyrBT::UdyrRun::Do()
 {
-	return false;
+	m_Func();
 }
 
 bool UdyrBT::UdyrTurn::Condition()
 {
-	return false;
+	return true;
 }
 
-bool UdyrBT::UdyrTurn::Do()
+void UdyrBT::UdyrTurn::Do()
 {
-	return false;
+	if (m_BlackBoard->getBool("Turn"))
+		m_Func();
 }
 
 bool UdyrBT::UdyrIdle::Condition()
 {
-	return false;
+	return true;
 }
 
-bool UdyrBT::UdyrIdle::Do()
+void UdyrBT::UdyrIdle::Do()
 {
-	return false;
+	m_BlackBoard->setBool("Idle", true);
 }
 
 bool UdyrBT::UdyrAni::Condition()
 {
-	return false;
+	return true;
 }
 
-bool UdyrBT::UdyrAni::Do()
+void UdyrBT::UdyrAni::Do()
 {
-	return false;
+	m_Func();
+	m_BlackBoard->setBool("Ani", true);
 }

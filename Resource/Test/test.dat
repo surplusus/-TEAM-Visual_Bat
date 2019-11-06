@@ -7,20 +7,13 @@ FolderPath ./Resource/Champion/
 FileName Udyr.x
 ConsoleText "Udyr File Loaded"
 MeshType 1
--Ezreal-
-bComplete false
-ObjName Ezreal
-FolderPath ./Resource/Champion/
-FileName Ezreal.x
-ConsoleText "Ezreal File Loaded"
-MeshType 1
--Ezreal2-
-bComplete false
-ObjName Ezreal2
-FolderPath ./Resource/Champion/
-FileName Ezreal.x
-ConsoleText "Ezreal2 File Loaded"
-MeshType 1
+#-Ezreal-
+#bComplete false
+#ObjName Ezreal
+#FolderPath ./Resource/Champion/
+#FileName Ezreal.x
+#ConsoleText "Ezreal File Loaded"
+#MeshType 1
 -Map-
 bComplete false
 ObjName Map
