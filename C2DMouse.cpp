@@ -100,3 +100,12 @@ bool C2DMouse::IsClicked_Button(CImage_Loader * button)
 	}
 	return false;
 }
+
+bool C2DMouse::IsClicked_inImage(CImage_Loader * skill_Image)
+{
+	GetCursorPos(&m_GetCur);
+	ScreenToClient(g_hWnd, &m_GetCur);
+	if (PtInRect(&skill_Image->GetRect(), m_GetCur))
+		return true;
+	return false;
+}

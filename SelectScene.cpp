@@ -58,9 +58,6 @@ HRESULT CSelectScene::Initialize()
 	m_TimerImage = new CImage_Loader("Resource/choen/Select/Time.png", D3DXVECTOR3(191, 38, 0), D3DXVECTOR3(1.0f, 1.0f, 0));
 	m_TimerImage->Initialize();
 
-	m_pTextMgr = new CTextMgr();
-	m_pTextMgr->Initialize();
-
 	for (int i = 0; i < m_vecBackGround.size(); i++)
 	{
 		if (m_vecBackGround[i])

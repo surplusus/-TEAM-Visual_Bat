@@ -24,6 +24,7 @@ public:
 	void Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale);
 
 	void Release();
+	D3DXVECTOR3 & Get_Position() { return m_vPosition; }
 	D3DXVECTOR3 GetPosition() { return m_vPosition; }
 
 	int GetWidth();
