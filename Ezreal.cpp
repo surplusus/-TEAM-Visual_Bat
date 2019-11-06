@@ -18,6 +18,7 @@
 #include"ChampGauge.h"
 #include"BaseAttack.h"
 #include"ParticleColider.h"
+#include"Input.h"
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
@@ -271,26 +272,17 @@ void CEzreal::KeyCheck()
 			m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 			m_bDirty = true;
 			SetAngleFromPostion();
-			
+			m_fStartTime = 0;
 		}
 	}
-	
-	if (g_bMouseHitPoint) {
-		g_bMouseHitPoint = false;
-		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-
-	}
-	if (CheckPushKeyOneTime(VK_Q))
+	else if (CheckPushKeyOneTime(VK_Q))
 	{
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
+		m_fStartTime = 0;
 		m_fEndTime = 25;
 		m_bDirty = true;
-	}
-	if (GetAsyncKeyState(VK_F1))
-	{
-		m_fAngle[ANGLE_Y] += 0.2f;
-	}
+	}	
 	
 }
 

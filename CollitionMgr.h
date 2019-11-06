@@ -15,7 +15,8 @@ public:
 	void Render();
 private:
 	void UpdateColistion();
-
+public:
+	bool PickColition();
 
 };
 

@@ -59,7 +59,8 @@ bool CMousePicker::CheckIntersectWithSphere(SPHERE* sphere)
 	*m_stRay = CalcPickingRay(mouse.x, mouse.y);	// PickingRay from CamaraEye
 
 	D3DXMATRIXA16 view;
-	GET_DEVICE->GetTransform(D3DTS_VIEW, &view);
+	GetTransform(D3DTS_VIEW, &view);
+	
 	D3DXMATRIXA16 matInv;
 	D3DXMatrixInverse(&matInv, NULL, &view);
 

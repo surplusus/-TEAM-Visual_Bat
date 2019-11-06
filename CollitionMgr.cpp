@@ -3,6 +3,7 @@
 #include"ColiderComponent.h"
 #include"EventMgr.h"
 #include"Obj.h"
+#include"Input.h"
 CCollitionMgr::CCollitionMgr()
 {
 }
@@ -83,4 +84,20 @@ void CCollitionMgr::UpdateColistion()
 	}
 
 
+}
+
+bool CCollitionMgr::PickColition()
+{
+	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
+		iter1 != m_ColMap.end(); ++iter1)
+	{
+		for(list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
+			pOrigin!=m_ColMap[iter1->first]->end();++pOrigin)
+		
+		if (GET_SINGLE(CInput)->CheckPickingOnSphere((*pOrigin)->GetSphere()))
+		{
+			return true;
+		}
+	}
+	return false;
 }
