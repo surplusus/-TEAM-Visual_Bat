@@ -663,7 +663,6 @@
     <ClInclude Include="Cursor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="HP.h">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClInclude>
@@ -678,10 +677,9 @@
     </ClInclude>
     <ClInclude Include="BaseAttack.h">
       <Filter>소스 파일\Maneger\Skill\Ezreal_평타</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="ProgressBarFunctor.h">
-      <Filter>소스 파일\헤더 파일</Filter>
->>>>>>> origin/master
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1000,7 +998,6 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="HP.cpp">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClCompile>
@@ -1015,10 +1012,9 @@
     </ClCompile>
     <ClCompile Include="BaseAttack.cpp">
       <Filter>소스 파일\Maneger\Skill\Ezreal_평타</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="ProgressBarFunctor.cpp">
-      <Filter>소스 파일</Filter>
->>>>>>> origin/master
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
