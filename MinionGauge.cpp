@@ -55,10 +55,10 @@ void CMinionGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CMinionGauge::Progress()
+void CMinionGauge::Progress(D3DXVECTOR3 vPos)
 {
-	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Minion")->vPos;
-	SetPosition(pos);
+	m_vPosition = vPos;
+	SetPosition(m_vPosition);
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		m_fDmg -= 0.01f;

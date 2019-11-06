@@ -304,6 +304,21 @@
     <Filter Include="소스 파일\Scene\최종 합치는 Scene">
       <UniqueIdentifier>{c6f2c965-162b-46c0-b00d-334575d3ce7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\InGameUI">
+      <UniqueIdentifier>{de4a51c1-d4a8-40ee-b80d-3b60b3fc2add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\InGameUI\HPBAR">
+      <UniqueIdentifier>{e4963f06-4d01-4a0e-8110-dab9a118051c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReSoureceSource\02.Buffer\RectColor">
+      <UniqueIdentifier>{bb6acf86-db86-409e-8a16-c67ccf61d659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\Skill\EzrealQ">
+      <UniqueIdentifier>{2fd296be-28e1-412a-948a-3cd9d7fc5c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\Skill\Ezreal_평타">
+      <UniqueIdentifier>{7e850720-c575-450f-8a07-c71195c683a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER\Enum.h">
@@ -609,9 +624,6 @@
     <ClInclude Include="ParticleMgr.h">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClInclude>
-    <ClInclude Include="EzealQ_Particle.h">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClInclude>
     <ClInclude Include="SoundMgr.h">
       <Filter>System\SystemManager\SoundMgr</Filter>
     </ClInclude>
@@ -629,9 +641,6 @@
     </ClInclude>
     <ClInclude Include="MinionGauge.h">
       <Filter>Gauge</Filter>
-    </ClInclude>
-    <ClInclude Include="ColitionMgr.h">
-      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClInclude>
     <ClInclude Include="ColiderComponent.h">
       <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
@@ -654,8 +663,23 @@
     <ClInclude Include="Cursor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HP.h">
+      <Filter>소스 파일\InGameUI\HPBAR</Filter>
+    </ClInclude>
+    <ClInclude Include="RectColor.h">
+      <Filter>ReSoureceSource\02.Buffer\RectColor</Filter>
+    </ClInclude>
+    <ClInclude Include="CollitionMgr.h">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="EzealQ_Particle.h">
+      <Filter>소스 파일\Maneger\Skill\EzrealQ</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseAttack.h">
+      <Filter>소스 파일\Maneger\Skill\Ezreal_평타</Filter>
+    </ClInclude>
     <ClInclude Include="ProgressBarFunctor.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -935,9 +959,6 @@
     <ClCompile Include="ParticleMgr.cpp">
       <Filter>소스 파일\Maneger\Skill</Filter>
     </ClCompile>
-    <ClCompile Include="EzealQ_Particle.cpp">
-      <Filter>소스 파일\Maneger\Skill</Filter>
-    </ClCompile>
     <ClCompile Include="SoundMgr.cpp">
       <Filter>System\SystemManager\SoundMgr</Filter>
     </ClCompile>
@@ -955,9 +976,6 @@
     </ClCompile>
     <ClCompile Include="MinionGauge.cpp">
       <Filter>Gauge</Filter>
-    </ClCompile>
-    <ClCompile Include="ColitionMgr.cpp">
-      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClCompile>
     <ClCompile Include="ColiderComponent.cpp">
       <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent</Filter>
@@ -980,8 +998,23 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="HP.cpp">
+      <Filter>소스 파일\InGameUI\HPBAR</Filter>
+    </ClCompile>
+    <ClCompile Include="RectColor.cpp">
+      <Filter>ReSoureceSource\02.Buffer\RectColor</Filter>
+    </ClCompile>
+    <ClCompile Include="CollitionMgr.cpp">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="EzealQ_Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill\EzrealQ</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseAttack.cpp">
+      <Filter>소스 파일\Maneger\Skill\Ezreal_평타</Filter>
+    </ClCompile>
     <ClCompile Include="ProgressBarFunctor.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

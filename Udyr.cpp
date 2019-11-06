@@ -3,7 +3,7 @@
 #include "SoundMgr.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
-#include "ColitionMgr.h"
+#include "CollitionMgr.h"
 #include "ObjectColider.h"
 #include "BoundingBox.h"
 #include "ParticleMgr.h"
@@ -51,12 +51,12 @@ HRESULT CUdyr::Initialize()
 		m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
 		m_ColiderList.push_back(m_pColider);
 		GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
-		GET_SINGLE(CColitionMgr)->InsertColistion(this, &m_ColiderList);
+		GET_SINGLE(CCollitionMgr)->InsertColistion(this, &m_ColiderList);
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::PaticleCollisionEvent);
 	}
 	{	//<< : PickingSphere
 		//SetUpPickingShere(1.f);
-		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_pColider->GetSphere());
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pColider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree

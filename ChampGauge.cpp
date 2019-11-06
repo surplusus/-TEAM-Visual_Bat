@@ -9,6 +9,11 @@ CChampGauge::CChampGauge()
 	m_fDmg = 1.0f;
 }
 
+CChampGauge::CChampGauge(D3DXVECTOR3 vPos)
+{
+	m_vPosition = vPos;
+}
+
 
 CChampGauge::~CChampGauge()
 {
@@ -16,8 +21,7 @@ CChampGauge::~CChampGauge()
 
 void CChampGauge::Initialize()
 {
-	SetLight();
-	
+	SetLight();	
 	SetBlankGauge();
 	SetGaugeCell();
 	//¾Æ·§ÂÊ »ï°¢Çü
@@ -55,10 +59,9 @@ void CChampGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CChampGauge::Progress()
+void CChampGauge::Progress(D3DXVECTOR3 vPos)
 {	
-	D3DXVECTOR3 pos = GET_SINGLE(CObjMgr)->GetInfo(L"Udyr")->vPos;
-	SetPosition(pos);
+	SetPosition(vPos);
 	if (GetAsyncKeyState(VK_SPACE))
 	{
 		m_fDmg -= 0.01f;
@@ -124,7 +127,9 @@ void CChampGauge::RenderCellGauge()
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.5f, m_vPosition.z);
 	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
 	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 2.0f, m_vPosition.z);
-	matWorld = matS * matT;
+	
+		
+	matWorld = matS* matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 

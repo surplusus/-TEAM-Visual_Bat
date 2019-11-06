@@ -1,18 +1,19 @@
 #include "BaseInclude.h"
-#include "ColitionMgr.h"
+#include "CollitionMgr.h"
 #include"ColiderComponent.h"
 #include"EventMgr.h"
 #include"Obj.h"
-CColitionMgr::CColitionMgr()
+#include"Input.h"
+CCollitionMgr::CCollitionMgr()
 {
 }
 
 
-CColitionMgr::~CColitionMgr()
+CCollitionMgr::~CCollitionMgr()
 {
 }
 
-void CColitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
+void CCollitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
 {
 	map<CObj*, list<ColiderComponent*>*>::iterator iter = m_ColMap.find(pObj);
 	if (iter == m_ColMap.end())
@@ -26,13 +27,12 @@ void CColitionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
 	}
 }
 
-void CColitionMgr::Progress()
+void CCollitionMgr::Progress()
 {
-	UpdateColistion();
-	
+	UpdateColistion();	
 }
 
-void CColitionMgr::Render()
+void CCollitionMgr::Render()
 {
 	map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 	for (iter1; iter1 != m_ColMap.end(); ++iter1)
@@ -46,7 +46,7 @@ void CColitionMgr::Render()
 
 
 
-void CColitionMgr::UpdateColistion()
+void CCollitionMgr::UpdateColistion()
 {
 	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
 		iter1 != m_ColMap.end(); ++iter1)
@@ -65,15 +65,16 @@ void CColitionMgr::UpdateColistion()
 				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
 					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
-					if ((*pOrigin) == (*pTarget))
-						continue;
+					if ((*pOrigin) == (*pTarget)) continue;
 					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
 					{
 						if ((*pOrigin)->CheckColision(*pTarget))
 						{
-							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT(iter1->first, iter2->first));
+							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT((iter1->first), (iter2->first), (*pOrigin), (*pTarget)));
 							pOrigin =m_ColMap[iter1->first]->erase(pOrigin);
 							bCol = true;
+							if (pOrigin == m_ColMap[iter1->first]->end()) break;
+
 						}
 					}
 				}
@@ -83,4 +84,20 @@ void CColitionMgr::UpdateColistion()
 	}
 
 
+}
+
+bool CCollitionMgr::PickColition()
+{
+	for (map<CObj*, list<ColiderComponent*>*>::iterator iter1 = m_ColMap.begin();
+		iter1 != m_ColMap.end(); ++iter1)
+	{
+		for(list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
+			pOrigin!=m_ColMap[iter1->first]->end();++pOrigin)
+		
+		if (GET_SINGLE(CInput)->CheckPickingOnSphere((*pOrigin)->GetSphere()))
+		{
+			return true;
+		}
+	}
+	return false;
 }
