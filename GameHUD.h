@@ -35,7 +35,10 @@ private:
 public:
 	void Progress_Minimap();
 
-	void SetInfoChamp(STATUSINFO n_Stats) { m_Stats = n_Stats; }
+	void SetInfoChamp(STATUSINFO n_Stats) {
+		m_Stats = n_Stats; 
+	}
 	void Initialize_Text();
+	void Update_StateText();
 };
 
