@@ -15,6 +15,7 @@
 #include"CollisionMgr.h"
 #include"Cursor.h"
 #include"GameHUD.h"
+#include"Udyr.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -47,16 +48,12 @@ HRESULT CGameScene::Initialize()
 	}
 
 	
-	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", CFactory<CObj, CEzreal >::CreateObject())))
-		return E_FAIL;
-
-
-
+	
+	
 	LetObjectKnowHeightMap();
 
 	m_Cursor = new CCursor;
@@ -134,10 +131,6 @@ void CGameScene::LetObjectKnowHeightMap()
 	
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
-	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
-	if (pObj != nullptr) {
-		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
+	}	
 	return;
 }
