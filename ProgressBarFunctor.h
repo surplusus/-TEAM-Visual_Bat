@@ -15,11 +15,7 @@ public:
 	D3DXIMAGE_INFO				m_ImageInfo;
 	int							m_iProgressBar;
 	int							m_iTimeProgressed;
-	atomic<bool>				m_bOnSwitch;
 	void SetUp_ProgressBar();
 	void Render_ProgressBar();
-public:
-	void SetTextureByPara(LPD3DXSPRITE pSprite, LPDIRECT3DTEXTURE9 pTexture);
-	void SetSwitch(bool bOnOff) { m_bOnSwitch = bOnOff; }
 };
 
