@@ -9,7 +9,7 @@ public:
 	~CParticleObj();
 protected:
 	ColiderComponent * m_pColider;
-
+	STATUSINFO m_StatusInfo;
 public:
 	virtual void Initalize() {}
 	virtual bool Progress() { return true; }
@@ -17,5 +17,6 @@ public:
 	virtual void Release() {}
 public:
 	ColiderComponent * GetColider() { return m_pColider; }
+	STATUSINFO GetStatus() { return m_StatusInfo; }
 };
 

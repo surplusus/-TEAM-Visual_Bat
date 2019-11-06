@@ -34,5 +34,10 @@ public:
 public:		// 챔피언이면 만들어야 되는 함수들
 	virtual void		ChangeAniSetByState()	PURE;
 	void				SetHeightMap(CHeightMap* pHeightMap);
+
+protected:
+	STATUSINFO m_StatusInfo;
+
+
 };
 

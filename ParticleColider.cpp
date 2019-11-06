@@ -21,8 +21,8 @@ void CParticleColider::Update(D3DXVECTOR3 vPos)
 	m_Info.matWorld._43 = vPos.z;
 
 	D3DMATRIX matWorld = m_Info.matWorld * m_matWorld;
-
-	m_Info.vPos = { matWorld._41,matWorld._42,matWorld._43 };
+	m_Info.vPos = { matWorld._41,matWorld._42,matWorld._43 };	
+	m_SphereInfo.vpCenter = &m_Info.vPos;
 }
 
 bool CParticleColider::CheckColision(ColiderComponent* pEnemy)

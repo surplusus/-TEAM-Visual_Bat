@@ -12,18 +12,43 @@ CEzealQ_Particle::CEzealQ_Particle()
 }
 
 CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle)
-	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f)
+	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f), m_BaseDamge(30.0f)
 {
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
+	
 }
 
 
 CEzealQ_Particle::~CEzealQ_Particle()
 {
 	Release();
+}
+
+
+
+
+bool CEzealQ_Particle::StatusInit(STATUSINFO * Status, SKILL_LEVEL lv)
+{
+	m_BaseDamge += Status->fBase_Attack + Status->fMagic_Attack;
+	m_StatusInfo.fBase_Attack = m_BaseDamge;
+	switch (lv)
+	{
+		case SKILL_LEVEL0:
+			return false;
+		case SKILL_LEVEL1:
+			Status->fMana -= 50.0f; return true;
+		case SKILL_LEVEL2:
+
+			Status->fMana -= 60.0f; return true;
+		case SKILL_LEVEL3:
+
+			Status->fMana -= 70.0f; return true;
+		case SKILL_LEVEL4:
+			Status->fMana -= 80.0f; return true;
+	}
 }
 
 void CEzealQ_Particle::Initalize()

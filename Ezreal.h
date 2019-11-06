@@ -7,11 +7,15 @@ class CParticle;
 //Attack2 ->비전쓰고난 후(e스킬후) 평타모션)
 //IDLE1 -> 기본 가만히
 //IDLE2,IDLE3 -> 가만히 있을때 변화되는 IDLE 시간변화에 따라 실행
-
+class CGauge;
 class ColiderComponent;
 class CEzreal :
 	public CChampion
 {
+	enum
+	{
+		SKILL_Q, SKILL_W, SKILL_E, SKILL_R,
+	};
 public:
 	CEzreal();
 	CEzreal(string AnimationState,bool bProgress) { 
@@ -30,6 +34,7 @@ private:
 	ColiderComponent*  m_pColider;
 	bool m_bDirty;
 	list<ColiderComponent*> m_ColiderList;
+	vector<SKILL_LEVEL> m_SkillLevel;
 public:
 	virtual void	SetContantTable();
 #pragma region Function
@@ -49,6 +54,7 @@ private:
 //test
 private:
 	void AddSkill_Q();
+	void AddBaseAttack();
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -75,13 +81,14 @@ private:
 	void InitUpdate();
 private://test
 	CObj*				m_pTargetObj;
-
+	CGauge*				m_HpBar;
 public:
 	void PaticleCollisionEvent(COLLISIONEVENT* Evt);
 	void OnFindPickingSphere(PICKSPHEREEVENT * evt);
 	CHAMPION_STATETYPE SettingSpell1_Motion();
 	CHAMPION_STATETYPE SettingAttack_Motion();
 	CHAMPION_STATETYPE SettingRun_Motion();
-
+private:
+	void StatusInitalize();
 };
 
