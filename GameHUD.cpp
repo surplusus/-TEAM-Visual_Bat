@@ -95,11 +95,6 @@ void cGameHUD::Initialize()
 	GET_SINGLE(cCubePC)->Initialize();
 
 
-	m_Gauge = new CChampGauge;
-	m_Gauge->Initialize();
-
-	m_Minion = new CMinionGauge;
-	m_Minion->Initialize();
 }
 
 void cGameHUD::Progress() 
@@ -108,8 +103,7 @@ void cGameHUD::Progress()
 	GET_SINGLE(cCubePC)->Progress();
 
 	
-	m_Gauge->Progress();
-	m_Minion->Progress();
+	
 }
 
 void cGameHUD::Render()
@@ -135,8 +129,6 @@ void cGameHUD::Render()
 #pragma endregion
 	//GET_SINGLE(cCubePC)->Render();
 
-	m_Gauge->Render();
-	m_Minion->Render();
 }
 
 void cGameHUD::Release()

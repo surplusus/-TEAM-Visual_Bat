@@ -69,22 +69,16 @@ HRESULT CGameScene::Initialize()
 		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
 
 	{
-	CTurret* pTurret = NULL;
-	pTurret = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
-	pTurret->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
-
-	pTurret = new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f));
-	pTurret->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
-
-	pTurret = new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f));
-	pTurret->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
-
-	pTurret = new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f));
-	pTurret->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", pTurret);
+		vector<CTurret*>	vecTurret(4);
+		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
+		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
+		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
+		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+		for (size_t i = 0; i < vecTurret.size(); i++)
+		{
+			vecTurret[i]->Initialize();
+			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
+		}
 	}
 
 #pragma endregion 포탑 끝
@@ -93,20 +87,24 @@ HRESULT CGameScene::Initialize()
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/"
 		, L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
 	{
-		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-		pInhibitor->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
 	}
 	else
 		ERR_MSG(g_hWnd, L"inhibitor Load Failed");
+
+		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+		pInhibitor->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
 #pragma endregion 억제기 끝
 
 #pragma region 넥서스
 	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/"
 		, L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Nexus", CFactory<CObj, CNexus>::CreateObject());
+	{ }
 	else
 		ERR_MSG(g_hWnd, L"Nexus Load Failed");
+	CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
+	pNexus->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
 #pragma endregion 넥서스 끝
 // choen
 

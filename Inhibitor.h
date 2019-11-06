@@ -4,7 +4,7 @@ class CInhibitor :
 	public CTower
 {
 public:
-	CInhibitor();
+	CInhibitor() {}
 	explicit CInhibitor(D3DXVECTOR3 pos);
 	virtual ~CInhibitor();
 public:

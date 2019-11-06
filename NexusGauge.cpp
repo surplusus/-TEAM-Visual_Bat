@@ -5,6 +5,7 @@
 CNexusGauge::CNexusGauge()
 {
 	//m_fDmg = m_fDeal / m_MAXHP;
+	m_fDmg = 1.0f;
 }
 
 
@@ -70,8 +71,8 @@ void CNexusGauge::Progress()
 
 void CNexusGauge::Render()
 {
-	RenderBlankGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
-	RenderCellGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
+	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f,		   0.2f, 1.0f));
+	RenderCellGauge (m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f * m_fDmg, 0.2f, 1.0f));
 }
 
 void CNexusGauge::Release()

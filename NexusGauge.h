@@ -14,8 +14,6 @@ public:
 
 
 private:
-
-	D3DXMATRIXA16		m_matWorld;
 	vector<VTXTEX>											m_vecMultiVertex;
 };
 

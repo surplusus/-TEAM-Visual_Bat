@@ -15,6 +15,7 @@ struct ST_ABILITY
 class CObjMgr;
 class CHeightMap;
 //>>champion -> dyanmic으로 나중에 코드 정리후 상속관계변경 필요
+class CGauge;
 class CTower
 	: public CChampion
 {
@@ -40,6 +41,7 @@ public:
 	virtual void		Release()		 = 0;
 	void				SetHeightMap(CHeightMap* pHeightMap);
 
-	
+protected:
+	CGauge*					m_pGauge;
 };
 

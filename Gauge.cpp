@@ -16,19 +16,24 @@ CGauge::~CGauge()
 {
 }
 
-void CGauge::SetBillBoard(D3DXMATRIXA16 * Matrix, float x, float y, float z)
+void CGauge::SetBillBoard()
 {
-	D3DXMATRIXA16	matWorld;
-	D3DXMatrixIdentity(&matWorld);
+	D3DXMATRIXA16	matView,matBillBoard;
+	D3DXMatrixIdentity(&matView);
 
-	GetDevice()->GetTransform(D3DTS_VIEW, &matWorld);
+	GetDevice()->GetTransform(D3DTS_VIEW, &matView);
+	m_matBillBoard = matView;
+	m_matBillBoard._41 = 0.f;
+	m_matBillBoard._42 = 0.f;
+	m_matBillBoard._43 = 0.f;
 
-	D3DXMatrixInverse(&matWorld, NULL, &matWorld);
-	matWorld._41 = x;
-	matWorld._42 = y;
-	matWorld._43 = z;
+	m_matBillBoard._11 = matView._11;
+	m_matBillBoard._31 = matView._31;
+	m_matBillBoard._13 = matView._13;
+	m_matBillBoard._33 = matView._33;
+	D3DXMatrixInverse(&m_matBillBoard, 0, &m_matBillBoard);
 
-	*Matrix = matWorld;
+	//*Matrix = matBillBoard;
 }
 
 void CGauge::SetLight()
@@ -52,16 +57,18 @@ void CGauge::SetLight()
 
 void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS, World;
+	D3DXMATRIXA16 matView, matS,matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
-	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
+	D3DXMatrixIdentity(&matR);
+	SetBillBoard();
+
+	//D3DXMatrixRotationX(&matR, D3DX_PI / 4.0f);
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
+	matWorld = matS * matR	* m_matBillBoard *matT;
 
-	World = matS;
-	World *= matView;
-
-	SetTransform(D3DTS_WORLD, &World);
+	SetTransform(D3DTS_WORLD, &matWorld);
 
 	SetTexture(0, m_pBlank);
 
@@ -78,17 +85,19 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 
 void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS, World;
+	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
-	SetBillBoard(&matView, vPosition.x - 0.5f, vPosition.y + 2.5f, vPosition.z);
+	D3DXMatrixIdentity(&matR);
+	SetBillBoard();
+
+	//D3DXMatrixRotationX(&matR, D3DX_PI / 4.0f);
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
+	matWorld = matS * matR	* m_matBillBoard *matT;
 
 
-	World = matS;
-	World *= matView;
-
-	SetTransform(D3DTS_WORLD, &World);
+	SetTransform(D3DTS_WORLD, &matWorld);
 
 	SetTexture(0, m_pCell);
 

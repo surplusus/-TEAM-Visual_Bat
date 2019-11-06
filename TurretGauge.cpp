@@ -5,6 +5,7 @@
 CTurretGauge::CTurretGauge()
 {
 	//m_fDmg = m_fDeal / m_MAXHP;
+	m_fDmg = 1.0f;
 }
 
 
@@ -54,24 +55,25 @@ void CTurretGauge::Initialize()
 
 void CTurretGauge::Progress()
 {
-	if (GetAsyncKeyState(VK_LSHIFT))
-	{
-		m_fDmg -= 0.01f;
-		if (m_fDmg < 0.0f)
-			m_fDmg = 0.0f;
-	}
-	if (GetAsyncKeyState(VK_RETURN))
-	{
-		m_fDmg += 0.01f;
-		if (m_fDmg > 1.0f)
-			m_fDmg = 1.0f;
-	}
+	//if (GetAsyncKeyState(VK_LSHIFT))
+	//{
+	//	m_fDmg -= 0.01f;
+	//	if (m_fDmg < 0.0f)
+	//		m_fDmg = 0.0f;
+	//}
+	//if (GetAsyncKeyState(VK_RETURN))
+	//{
+	//	m_fDmg += 0.01f;
+	//	if (m_fDmg > 1.0f)
+	//		m_fDmg = 1.0f;
+	//}
 }
 
 void CTurretGauge::Render()
 {
-	RenderBlankGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
-	RenderCellGauge(m_vecMultiVertex, m_matWorld, m_vPosition, D3DXVECTOR3(m_fDmg, 0.1f, 1.0f));
+
+	RenderBlankGauge(m_vecMultiVertex,D3DXVECTOR3( m_vPosition.x, m_vPosition.y + 5.0f, m_vPosition.z), D3DXVECTOR3(1.0f, 0.1f, 1.0f));
+	RenderCellGauge(m_vecMultiVertex, D3DXVECTOR3( m_vPosition.x, m_vPosition.y + 5.0f, m_vPosition.z), D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f));
 }
 
 void CTurretGauge::Release()

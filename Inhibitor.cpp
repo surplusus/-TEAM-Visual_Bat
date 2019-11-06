@@ -1,19 +1,7 @@
 #include "BaseInclude.h"
 #include "Inhibitor.h"
+#include "InhibitorGauge.h"
 
-
-
-CInhibitor::CInhibitor()
-{
-	m_fSize = 1.5f;
-
-	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
-	m_SortID = SORTID_LAST;
-	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, 1.f);
-	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
-	m_Info.vPos = D3DXVECTOR3 (0, 0, 0);
-	m_fHeight = 0.0f;
-}
 
 CInhibitor::CInhibitor(D3DXVECTOR3 pos)
 {
@@ -41,6 +29,9 @@ HRESULT CInhibitor::Initialize()
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
+	m_pGauge = new CInhibitorGauge;
+	m_pGauge->SetWorld(m_Info.matWorld);
+	m_pGauge->Initialize();
 	return S_OK;
 }
 
@@ -48,12 +39,14 @@ void CInhibitor::Progress()
 {
 	m_pAnimationCtrl->FrameMove(L"Inhibitor", g_fDeltaTime);
 	Animation_Set();
+	m_pGauge->SetPosition(m_Info.vPos);
 }
 
 void CInhibitor::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Inhibitor");
+	m_pGauge->Render();
 }
 
 void CInhibitor::Release()

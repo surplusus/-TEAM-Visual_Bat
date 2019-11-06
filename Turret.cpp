@@ -4,6 +4,7 @@
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
 #include"AnimationCtrl.h"
+#include "TurretGauge.h"
 CTurret::CTurret(D3DXVECTOR3 pos)
 {
 	m_fSize = 1.0f;
@@ -31,6 +32,10 @@ HRESULT CTurret::Initialize()
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
+	m_pGauge = new CTurretGauge;
+	m_pGauge->SetWorld(m_Info.matWorld);
+	m_pGauge->Initialize();
+
 	return S_OK;
 }
 
@@ -44,12 +49,16 @@ void CTurret::Progress()
 	{
 		AddAttackLaizer();
 	}
+	m_pGauge->SetPosition(m_Info.vPos); 
+	
+	m_pGauge->Progress();
 }
 
 void CTurret::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Blue_Turret");
+	m_pGauge->Render();
 }
 
 void CTurret::Release()

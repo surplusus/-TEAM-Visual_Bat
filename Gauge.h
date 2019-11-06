@@ -21,17 +21,14 @@ protected:
 
 public:
 	void SetPosition(D3DXVECTOR3 position) { m_vPosition = position; }
+	void SetWorld(D3DXMATRIX World) { m_matWorld = World; }
 
 protected:
-	void SetBillBoard(D3DXMATRIXA16 * Matrix, float x, float y, float z);
-
-	
-	
-
+	void SetBillBoard();
 	void SetLight();
 	float m_fDmg;
 	float m_fDeal;
-
+	D3DXMATRIX m_matBillBoard;
 public:
 	void SetMaxHP(float HP) { m_MAXHP = HP; }
 	void SufferDmg(float fDeal) { m_fDeal = fDeal; }
@@ -39,4 +36,7 @@ public:
 protected:
 	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
 	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+
+private:
+	D3DXMATRIX						m_matWorld;
 };
