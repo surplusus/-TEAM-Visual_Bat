@@ -33,6 +33,5 @@ protected:
 
 public:
 	void SetMaxHP(float HP) { m_MAXHP = HP; }
-	void SetMaxMP(float MP) { m_MAXMP = MP; }
 	void SufferDmg(float Dmg) { m_fDmg = Dmg; }
 };
