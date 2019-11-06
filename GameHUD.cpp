@@ -118,19 +118,7 @@ void cGameHUD::Initialize()
 	Ezreal_copy.m_Skill[0].Initialize();
 	
 	// 능력치
-	{
-		// 임의로 값줌
-		{
-			m_Stats.fBase_Attack = 40;
-			m_Stats.fMagic_Attack = 40;
-			m_Stats.fBase_Defence = 100;
-			m_Stats.fMagic_Defence = 100;
-			m_Stats.fSkillTimeRatio = 45;
-			m_Stats.fCriticalRatio = 20;
-			m_Stats.fMoveSpeed = 30;
-			m_Stats.fHP = 100;
-			m_Stats.fAttackRange = 34;
-		}
+	{	
 
 		// 공격력
 		CTextMgr * Base_Attack = new CTextMgr;
@@ -188,6 +176,7 @@ void cGameHUD::Progress()
 	if (m_isLButtonDown)
 	{
 	}*/
+	Update_StateText();
 }
 
 void cGameHUD::Render()
@@ -349,4 +338,28 @@ void cGameHUD::Initialize_Text()
 		m_mapImage["stats"]->GetPosition().x + 135,
 		m_mapImage["stats"]->GetImageInfo().Height
 		+ m_mapImage["stats"]->GetPosition().y);
+}
+
+void cGameHUD::Update_StateText()
+{
+
+	// 공격력
+	m_mapTextMgr["Base_Attack"]->SetText(m_Stats.fBase_Attack);
+
+	// 마법력
+	m_mapTextMgr["Magic_Attack"]->SetText(m_Stats.fMagic_Attack);
+
+	// 방어력
+	m_mapTextMgr["Base_Defence"]->SetText(m_Stats.fBase_Defence);
+	// 마법저항력
+	m_mapTextMgr["Magic_Defence"]->SetText(m_Stats.fMagic_Defence);
+	// 사거리
+	m_mapTextMgr["AttackRange"]->SetText(m_Stats.fAttackRange);
+	// 재사용 대기시간 감소
+	m_mapTextMgr["SkillTimeRatio"]->SetText(m_Stats.fSkillTimeRatio);
+	// 치명타
+	m_mapTextMgr["CriticalRatio"]->SetText(m_Stats.fCriticalRatio);
+	// 이동속도
+	m_mapTextMgr["MoveSpeed"]->SetText(m_Stats.fMoveSpeed);
+
 }

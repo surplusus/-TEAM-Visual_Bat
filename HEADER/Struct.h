@@ -150,29 +150,16 @@ const DWORD VTXFVF_PARTICLE = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 typedef struct tagStateInfo
 {
 
-	tagStateInfo()
-	{
-		fBase_Attack	 =0;
-		fMagic_Attack	 =0;
-		fBase_Defence	 =0;
-		fMagic_Defence	 =0;
-		fCriticalRatio	 =0;
-		fMoveSpeed		 =0;
-		fMana			 =0;
-		fHP				 =0;
-		fSkillTimeRatio	 =0;
-		fAttackRange	 =0;
-	}
-	float fBase_Attack		;
-	float fMagic_Attack		;
-	float fBase_Defence		;
-	float fMagic_Defence	;
-	float fCriticalRatio	;
-	float fMoveSpeed		;
-	float fMana				;
-	float fHP				;
-	float fSkillTimeRatio	;
-	float fAttackRange		;
+	float fBase_Attack		=0;
+	float fMagic_Attack		=0;
+	float fBase_Defence		=0;
+	float fMagic_Defence	=0;
+	float fCriticalRatio	=0;
+	float fMoveSpeed		=0;
+	float fMana				=0;
+	float fHP				=0;
+	float fSkillTimeRatio	=0;
+	float fAttackRange		=0;
 	
 	friend tagStateInfo operator+(tagStateInfo Info,  tagStateInfo tInfo);
 	friend tagStateInfo operator-(tagStateInfo Info,  tagStateInfo& tInfo);

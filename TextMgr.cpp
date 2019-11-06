@@ -175,6 +175,15 @@ void CTextMgr::Render_Text()
 		D3DCOLOR_XRGB(255, 255, 0)
 	);
 }
+void CTextMgr::SetText(float fVal)
+{
+	if (m_StateBox)
+	{
+		value = (int)fVal;
+		m_sState = to_string(value);
+		m_StateBox->m_sInfo = m_sState;
+	}
+}
 //<<
 
 void CTextMgr::Render(UI_SPELLTYPE type)//UI Render << 2D(spell)
