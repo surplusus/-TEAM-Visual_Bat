@@ -58,18 +58,18 @@ void CChampGauge::Initialize()
 
 void CChampGauge::Progress()
 {	
-	//if (GetAsyncKeyState(VK_LSHIFT))
-	//{
-	//	m_fDmg -= 0.01f;
-	//	if (m_fDmg < 0.0f)
-	//		m_fDmg = 0.0f;
-	//}
-	//if (GetAsyncKeyState(VK_RETURN))
-	//{
-	//	m_fDmg += 0.01f;
-	//	if (m_fDmg > 1.0f)
-	//		m_fDmg = 1.0f;
-	//}
+	if (GetAsyncKeyState(VK_LSHIFT))
+	{
+		m_fDmg -= 0.01f;
+		if (m_fDmg < 0.0f)
+			m_fDmg = 0.0f;
+	}
+	if (GetAsyncKeyState(VK_RETURN))
+	{
+		m_fDmg += 0.01f;
+		if (m_fDmg > 1.0f)
+			m_fDmg = 1.0f;
+	}
 }
 
 void CChampGauge::Render()

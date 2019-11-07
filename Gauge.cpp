@@ -104,7 +104,7 @@ void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositio
 	float z = m_matParentWorld._43;
 
 	D3DXMatrixScaling(&matS, vScale.x * fDmg, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, x - ((vScale.x * fDmg) / 2.0f) - ((vScale.x - vScale.x * fDmg)) / 2.0f, vPosition.y + 2.5f, z);
+	D3DXMatrixTranslation(&matT, x - ( vScale.x - (2.0f * ((vScale.x * fDmg) / 2.0f))), vPosition.y + 2.5f, z);
 	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
