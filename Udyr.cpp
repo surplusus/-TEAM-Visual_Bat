@@ -63,14 +63,12 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
-		m_pBehavior->SetUpTask(TASK_DEATH, nullptr);
-		m_pBehavior->SetUpTask(TASK_CLICK, [this]() {this->SearchNWrite(); });
-		m_pBehavior->SetUpTask(TASK_RUN, [this]() {this->MoveNWrite(); });
-		m_pBehavior->SetUpTask(TASK_TURN, [this]() {this->TurnNWirte(); });
-		m_pBehavior->SetUpTask(TASK_IDLE, nullptr);
-		m_pBehavior->SetUpTask(TASK_ANI, [this]() {this->ChangeAniByState(); });
-		m_pBehavior->MakeTree();
-		m_pBehavior->SetUpBlackBoard();
+		//m_pBehavior->SetUpTask(TASK_DEATH, nullptr);
+		//m_pBehavior->SetUpTask(TASK_CLICK, [this]() {this->SearchNWrite(); });
+		//m_pBehavior->SetUpTask(TASK_RUN, [this]() {this->MoveNWrite(); });
+		//m_pBehavior->SetUpTask(TASK_TURN, [this]() {this->TurnNWirte(); });
+		//m_pBehavior->SetUpTask(TASK_IDLE, nullptr);
+		//m_pBehavior->SetUpTask(TASK_ANI, [this]() {this->ChangeAniByState(); });
 		
 	}
 	return S_OK;

@@ -21,6 +21,7 @@ namespace BehaviorTree
 	public:
 		BlackBoard* m_BlackBoard;
 		virtual bool Run() = 0;
+		Status m_status = INVALID;
 	};
 
 	using ManyNodes = vector<Node*>;
@@ -102,28 +103,52 @@ namespace BehaviorTree
 	};
 
 	// Condition & Task (Decorator)
+	class Decorator : public Node
+	{
+	public:
+		virtual ~Decorator() {}
+		void WriteStatusInTask(bool bSuccess) {
+			if (!bSuccess) {
+				if (m_pTask->m_status == TERMINATED)
+					m_pTask->m_status = INVALID;
+				if (m_pTask->m_status != INVALID)
+					m_pTask->m_status = TERMINATED;
+				return;
+			}
+			if (m_pTask->m_status == SUCCESS)
+				m_pTask->m_status = RUNNING;
+			if (m_pTask->m_status == INVALID)
+				m_pTask->m_status = SUCCESS;
+		}
+		void SetTask(Node* pTask) { 
+			m_pTask = pTask; 
+			m_pTask->m_BlackBoard = m_BlackBoard; }
+		bool HasTask() const { return m_pTask != nullptr; }
+	protected:
+		Node* m_pTask = nullptr;
+	};
+
 	class Task : public Node
 	{
 	public:
 		Task(Task* pChild) : m_pChild(pChild) {}
 		virtual ~Task(){}
-		virtual void Init() {};
-		virtual void Terminate() {};
-		Status m_status = INVALID;
+		virtual bool Run() override {
+			if (m_status == SUCCESS)
+				Init();
+			Do();
+			if (m_status != RUNNING) {
+				if (m_status == TERMINATED)
+					Terminate();
+				return false;
+			}
+		}
+		void SetStatus(Status status) { m_status = status; }
 	private:
+		virtual void Init() = 0;
+		virtual void Do() = 0;
+		virtual void Terminate() = 0;
 		Task* m_pChild;
-	};
-
-	class Condition : public Node
-	{
-	public:
-		Condition(Condition* pChild) :m_pChild(pChild) {}
-		virtual ~Condition() {}
-		virtual Status Ask() = 0;
-		void SetUpTask(Task* pTask) { m_pTask = pTask; }
-	private:
-		Task*		m_pTask;
-		Condition*	m_pChild;
 	};
 
 	
@@ -189,17 +214,15 @@ namespace BehaviorTree
 	public:
 		Node*				m_Root;
 		sharedpBlackBoard	m_BlackBoard;
-		deque<Node*>		m_queRunning;
-		deque<Node*>		m_queSuccess;
 	public:
 		BehaviorTreeHandler() {
 			m_BlackBoard = make_shared<BlackBoard>();
 		}
 		~BehaviorTreeHandler() {
-			m_BlackBoard.~shared_ptr();
+			m_BlackBoard = nullptr;
 			m_Root = nullptr;
 		}
-		bool Search() const { return m_Root->Run(); }
+		bool Run() const { return m_Root->Run(); }
 		BlackBoard& GetBlackBoard() { return *m_BlackBoard.get(); }
 		virtual void UpdateBlackBoard() = 0;
 	};
