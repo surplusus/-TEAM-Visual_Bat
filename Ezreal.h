@@ -99,6 +99,7 @@ public:
 	CHAMPION_STATETYPE SettingDeath_Motion();
 private:
 	void StatusInitalize();
+	void UpdateCollisionList();
 	const TCHAR* TestMeshName;
 };
 

@@ -24,7 +24,6 @@ public:
 	void SetWorld(D3DXMATRIX World) { m_matWorld = World; }
 
 protected:
-	void SetBillBoard();
 	void SetLight();
 	float														m_fDmg; // 체력 게이지 크기
 	float														m_CurrentHP; // 현재 체력
@@ -37,6 +36,7 @@ public:
 protected:
 	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
 	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void SetBillBoard();
 
 private:
 	D3DXMATRIX						m_matWorld;

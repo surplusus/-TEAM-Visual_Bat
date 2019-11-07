@@ -24,13 +24,14 @@ CTower::~CTower()
 
 void CTower::UpdateWorldMatrix()
 {
-	D3DXMATRIX	matS, matR, matT;
-	D3DXMatrixScaling(&matS, m_fSize, m_fSize, m_fSize);
-	D3DXMatrixRotationY(&matR, 1.0f);
-	D3DXMatrixTranslation(&matT, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
-	D3DXMatrixIdentity(&m_Info.matWorld);
-
-	m_Info.matWorld = matS * matR * matT;
+	D3DXMATRIX matRotX, matRotY, matRotZ, matTrans, matScale;
+	D3DXMatrixRotationX(&matRotX, m_fAngle[ANGLE_X]);
+	D3DXMatrixRotationY(&matRotY, m_fAngle[ANGLE_Y]);
+	D3DXMatrixRotationZ(&matRotZ, m_fAngle[ANGLE_Z]);
+	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
+	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
+	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
+	CPipeLine::MyVec3TransformNormal(&m_Info.vDir, &m_Info.vLook, &m_Info.matWorld);
 }
 
 const VTXTEX * CTower::GetVertexInHeightMap()

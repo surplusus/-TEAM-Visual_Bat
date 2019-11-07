@@ -88,19 +88,13 @@ void CParticleMgr::Progress()
 		for (iter2; iter2 != iter->second->end(); )
 		{
 			if (!(*iter2)->Progress())
-			{	
-				auto found = m_pColiderMap.find(iter->first);
-
-				if (found != m_pColiderMap.end())
+			{
+				CParticleObj *pObj = dynamic_cast<CParticleObj*>(*iter2);
+				if (pObj)
 				{
-					list<ColiderComponent*>::iterator it2 = find(m_pColiderMap[iter->first]->begin(), m_pColiderMap[iter->first]->end(), ((CParticleObj*)(*iter2))->GetColider());
-					if (it2 != m_pColiderMap[iter->first]->end())
-						it2 = m_pColiderMap[iter->first]->erase(it2);
-
-					SAFE_DELETE(*iter2);
-					iter2 = m_MapParticle[iter->first]->erase(iter2);
+					pObj->GetColider()->SetStateCol(true);
 				}
-				
+				iter2 =m_MapParticle[iter->first]->erase(iter2);
 			}
 			else iter2++;
 		}

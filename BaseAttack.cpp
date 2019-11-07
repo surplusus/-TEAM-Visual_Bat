@@ -26,8 +26,6 @@ void CBaseAttack::Initalize()
 	Setup_MultiTexture();
 	SetUp_Particle();
 	InitRenderState();
-	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMesh, NULL);
-	D3DXMATRIX matWorld;
 	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 
@@ -300,7 +298,7 @@ bool CBaseAttack::AddTail()
 		}
 		m_VerTexInfo.p = m_vecVertexParticle[size - 1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
-		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p,m_Info.matWorld);
 
 		m_vecVertexParticle.push_back(m_VerTexInfo);
 

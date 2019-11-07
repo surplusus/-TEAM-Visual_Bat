@@ -35,7 +35,5 @@ private:
 public:
 	bool AddTail();
 
-private:
-	LPD3DXMESH m_BoxMesh;
 };
 

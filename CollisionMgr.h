@@ -17,6 +17,8 @@ private:
 	void UpdateColistion();
 public:
 	bool PickColition();
+	void UpdateCollisionList(CObj* pObj,list<ColiderComponent*>*);
+
 
 };
 

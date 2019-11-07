@@ -86,7 +86,7 @@ void CUdyr::Progress()
 		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
 	}
-	m_pCollider->Update(m_Info.vPos);
+//	m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
 	m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
 }
