@@ -7,7 +7,7 @@ class CParticle;
 class CUdyr : public CChampion
 {
 	friend class UdyrBT::UdyrBTHandler;
-	friend class UdyrBT::UdyrAccessors;
+	friend class UdyrBT::UdyrAccessor;
 	friend class BehaviorTree::Decorator;
 public:
 	CUdyr();

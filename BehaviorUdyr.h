@@ -50,11 +50,11 @@ namespace UdyrBT
 	};
 
 	using MemberFunc = function<void(void)>;
-	class UdyrAccessors : public Task
+	class UdyrAccessor : public Task
 	{
 	public:
-		UdyrAccessors() :Task(this) {}
-		virtual ~UdyrAccessors() {}
+		UdyrAccessor() :Task(this) {}
+		virtual ~UdyrAccessor() {}
 		virtual void Init() override {}
 		virtual void Do() override = 0;
 		virtual void Terminate() override {}
@@ -82,19 +82,16 @@ namespace UdyrBT
 	};*/
 
 #pragma region DECORATOR
+	class Successor : public Decorator
+	{
+		virtual bool Ask() override { return true; }
+	};
+
 	class Repeater : public Decorator
 	{
 	public:
 		Repeater(int iLimit = 0) : m_iLimit(iLimit) {}
-		bool Run() {
-			bool bAsk = Ask();
-			WriteStatusInTask(bAsk);	// true 조건이 들어가야됨
-			if (m_pTask->m_status == INVALID)
-				return false;
-			m_pTask->Run();
-			return true;
-		}
-		bool Ask() {
+		virtual bool Ask() override {
 			return (m_iLimit > 0 && ++m_iCount <= m_iLimit);
 		}
 	protected:
@@ -106,7 +103,7 @@ namespace UdyrBT
 	{
 	public:
 		BoolChecker(string sKey) : m_bKey(sKey) {}
-		bool Ask() override {
+		virtual bool Ask() override {
 			m_bTrigger = m_BlackBoard->getBool(m_bKey);
 			return m_bTrigger;
 		}
@@ -117,7 +114,7 @@ namespace UdyrBT
 #pragma endregion
 
 #pragma region UdyrTask 자식 클래스들
-	struct UdyrDeath : public UdyrAccessors
+	struct UdyrDeath : public UdyrAccessor
 	{
 		virtual void Init() override {}
 		virtual void Do() override;

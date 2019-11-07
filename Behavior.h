@@ -102,7 +102,30 @@ namespace BehaviorTree
 		}
 	};
 
-	// Condition & Task (Decorator)
+	// Decorator & Task
+	class Task : public Node
+	{
+	public:
+		Task(Task* pChild) : m_pChild(pChild) {}
+		virtual ~Task() {}
+		virtual bool Run() override {
+			if (m_status == SUCCESS)
+				Init();
+			Do();
+			if (m_status != RUNNING) {
+				if (m_status == TERMINATED)
+					Terminate();
+				return false;
+			} 
+		}
+		void SetStatus(Status status) { m_status = status; }
+	private:
+		virtual void Init() = 0;
+		virtual void Do() = 0;
+		virtual void Terminate() = 0;
+		Task* m_pChild;
+	};
+
 	class Decorator : public Node
 	{
 	public:
@@ -135,29 +158,6 @@ namespace BehaviorTree
 		bool HasTask() const { return m_pTask != nullptr; }
 	protected:
 		Node* m_pTask = nullptr;
-	};
-
-	class Task : public Node
-	{
-	public:
-		Task(Task* pChild) : m_pChild(pChild) {}
-		virtual ~Task(){}
-		virtual bool Run() override {
-			if (m_status == SUCCESS)
-				Init();
-			Do();
-			if (m_status != RUNNING) {
-				if (m_status == TERMINATED)
-					Terminate();
-				return false;
-			}
-		}
-		void SetStatus(Status status) { m_status = status; }
-	private:
-		virtual void Init() = 0;
-		virtual void Do() = 0;
-		virtual void Terminate() = 0;
-		Task* m_pChild;
 	};
 
 	

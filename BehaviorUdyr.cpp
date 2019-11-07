@@ -184,7 +184,7 @@ void UdyrBT::UdyrBTHandler::SetUpTask(int eTaskType, function<void(void)> pFunc)
 //}
 #pragma endregion
 
-void UdyrBT::UdyrAccessors::ChangeAnySet(string key)
+void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 {
 	auto it = find(m_pInst->m_AniSetNameList.begin(), m_pInst->m_AniSetNameList.end(), key);
 	if (it == m_pInst->m_AniSetNameList.end()) {
