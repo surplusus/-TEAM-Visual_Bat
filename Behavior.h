@@ -107,6 +107,15 @@ namespace BehaviorTree
 	{
 	public:
 		virtual ~Decorator() {}
+		virtual bool Ask() = 0;
+		bool Run() override {
+			bool bAsk = Ask();
+			WriteStatusInTask(bAsk);
+			if (m_pTask->m_status == INVALID)
+				return false;
+			m_pTask->Run();
+			return true;
+		}
 		void WriteStatusInTask(bool bSuccess) {
 			if (!bSuccess) {
 				if (m_pTask->m_status == TERMINATED)
@@ -155,7 +164,6 @@ namespace BehaviorTree
 	// BlackBoard
 	class BlackBoard
 	{
-		
 	public:
 		void setBool(std::string key, bool value) { bools[key] = value; }
 		bool getBool(std::string key)	{

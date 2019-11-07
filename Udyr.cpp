@@ -49,7 +49,6 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : Collision
 		m_pCollider = new CObjectColider(this);
-		//INFO pInfo = m_Info;
 		m_pCollider->SetUp(m_Info, 1.0f, new CBoundingBox);
 		m_ColiderList.push_back(m_pCollider);
 		GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
@@ -63,12 +62,6 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
-		//m_pBehavior->SetUpTask(TASK_DEATH, nullptr);
-		//m_pBehavior->SetUpTask(TASK_CLICK, [this]() {this->SearchNWrite(); });
-		//m_pBehavior->SetUpTask(TASK_RUN, [this]() {this->MoveNWrite(); });
-		//m_pBehavior->SetUpTask(TASK_TURN, [this]() {this->TurnNWirte(); });
-		//m_pBehavior->SetUpTask(TASK_IDLE, nullptr);
-		//m_pBehavior->SetUpTask(TASK_ANI, [this]() {this->ChangeAniByState(); });
 		
 	}
 	return S_OK;
@@ -82,12 +75,14 @@ void CUdyr::Progress()
 		m_stStatusInfo.fHP -= 100.f;
 	if (CheckPushKeyOneTime(VK_3)) {
 		for (size_t i = 0; i < m_AniSetNameList.size(); i++)
-		{
 			cout << "Ani Num " << i << " : " << m_AniSetNameList[i] << '\n';
-		}
 	}
 	if (CheckPushKeyOneTime(VK_4))
 		m_stStatusInfo.fMoveSpeed += 0.1f;
+	if (CheckPushKeyOneTime(VK_5)) {
+		bool b = m_pBehavior->GetBlackBoard().getBool("Die");
+		m_pBehavior->GetBlackBoard().setBool("Die", !b);
+	}
 	
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
@@ -133,50 +128,6 @@ void CUdyr::PaticleCollisionEvent(COLLISIONEVENT * evt)
 	//m_stStatusInfo -= dynamic_cast<CChampion*>(evt->)->m_StatusInfo;
 }
 
-void CUdyr::ChangeAniByState()
-{
-	if (!m_pBehavior->GetBlackBoard().getBool("Ani"))
-		return;
-
-	if (m_pBehavior->GetBlackBoard().getBool("Death")) {
-		ChangeAniSetByKey("Death");
-		return;
-	}
-	else if (m_pBehavior->GetBlackBoard().getBool("Run")) {
-		ChangeAniSetByKey("Run");
-		return;
-	}
-	else if (m_pBehavior->GetBlackBoard().getBool("Idle")) {
-		ChangeAniSetByKey("Idle");
-		return;
-	}
-
-	m_pBehavior->GetBlackBoard().setBool("Ani", false);
-}
-
-void CUdyr::SearchNWrite()
-{
-	bool result = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
-	if (!result)
-		m_pBehavior->m_BlackBoard->setBool("Pick", false);
-}
-
-void CUdyr::MoveNWrite()
-{
-
-	bool result = Update_vPos_ByDestPoint(&m_MouseHitPoint, m_stStatusInfo.fMoveSpeed);
-	if (!result)
-		m_pBehavior->m_BlackBoard->setBool("Run", false);
-}
-
-void CUdyr::TurnNWirte()
-{
-	bool result = TurnSlowly(&m_MouseHitPoint, 7.f);
-	if (!result) {
-		m_pBehavior->m_BlackBoard->setBool("Turn", false);
-		m_pBehavior->m_BlackBoard->setBool("Pick", false);
-	}
-}
 
 //void CUdyr::MouseControl()
 //{

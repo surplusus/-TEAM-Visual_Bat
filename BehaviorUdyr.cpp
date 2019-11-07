@@ -9,20 +9,16 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * inst)
 		m_vSequnece.emplace_back(make_shared<Sequence>(m_BlackBoard.get()));
 	for (int i = 0; i < SELECTOR_END; ++i)
 		m_vSelector.emplace_back(make_shared<Selector>(m_BlackBoard.get()));
-	{	// vecter에 task 보관
-		//m_vTask.emplace_back(make_shared<UdyrClick>());
-		//m_vTask.emplace_back(make_shared<UdyrRun>());
-		//m_vTask.emplace_back(make_shared<UdyrTurn>());
-		//m_vTask.emplace_back(make_shared<UdyrIdle>());
-		//m_vTask.emplace_back(make_shared<UdyrAni>());
-		InsertTask<UdyrDeath>();
+	{	// vecter에 task와 decorator 보관 & decorator에 task 매달기
+		InsertDecorate<BoolChecker>(InsertTask<UdyrDeath>(), "Die");
 	}
 	{	// vecter에 decorator 보관
-		//auto decorator = make_shared<Repeater>(60);
+		//auto decorator = make_shared <Repeater>(60);
 		//decorator->SetTask(m_vTask[TASK_DEATH].get());
 		//m_vDecorator.emplace_back(move(decorator));
 		//InsertDecorate<Repeater, Task>(m_vTask[TASK_DEATH].get(), 60);
-		InsertDecorate<Repeater>(TASK_DEATH, 60);
+		//InsertDecorate<Repeater>(TASK_DEATH, 60);
+		
 		//InsertDecorate<Repeater,Task>(InsertTask<UdyrDeath>(), 60);
 	}
 	SetRoot(SEQUENCE_ROOT);
@@ -46,7 +42,13 @@ void UdyrBT::UdyrBTHandler::SetRoot(int eNode)
 void UdyrBT::UdyrBTHandler::MakeTree()
 {
 	// Task를 BehaviorTree에 매단다
-	m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vDecorator[DECORATOR_REPEATER].get());
+	m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vSequnece[SEQUENCE_ROOT].get());
+	{
+		m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vSelector[SELECTOR_DEATH].get());
+		{
+			m_vSelector[SELECTOR_DEATH]->AddNode(m_vDecorator[DECORATOR_WHENTRUE].get());
+		}
+	}
 	//m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vSelector[SELECTOR_DEATH].get());
 	//m_vSequnece[SEQUENCE_ROOT]->AddNode(m_vTask[TASK_ANI].get());
 	//m_vSelector[SELECTOR_DEATH]->AddNode(m_vTask[TASK_DEATH].get());
@@ -197,6 +199,11 @@ void UdyrBT::UdyrAccessors::ChangeAnySet(string key)
 void UdyrBT::UdyrDeath::Do()
 {
 	ChangeAnySet("Death");
+}
+
+void UdyrBT::UdyrDeath::Terminate()
+{
+	ChangeAnySet("Idle");
 }
 
 

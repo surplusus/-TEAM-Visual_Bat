@@ -9,7 +9,7 @@ namespace UdyrBT
 
 	enum {SEQUENCE_ROOT, SEQUENCE_RUN, SEQUENCE_END};
 	enum {SELECTOR_DEATH, SELECTOR_RUN, SELECTOR_END};
-	enum {DECORATOR_REPEATER, DECORATOR_END};
+	enum {DECORATOR_REPEATER, DECORATOR_WHENTRUE, DECORATOR_END};
 	enum {TASK_DEATH, TASK_CLICK, TASK_RUN, TASK_TURN, TASK_IDLE, TASK_ANI, TASK_END};
 	class UdyrTask;
 	class UdyrBTHandler : public BehaviorTreeHandler
@@ -24,7 +24,7 @@ namespace UdyrBT
 		vector<shared_ptr<Sequence>>	m_vSequnece;
 		vector<shared_ptr<Selector>>	m_vSelector;
 		vector<shared_ptr<Decorator>>	m_vDecorator;
-		vector<shared_ptr<Task>>	m_vTask;
+		vector<shared_ptr<Task>>		m_vTask;
 
 		void SetRoot(int eNode); 
 		void MakeTree();
@@ -33,16 +33,18 @@ namespace UdyrBT
 		void SetUpTask(int eTaskType, function<void(void)> pFunc);
 
 		template <typename T, typename enable_if<is_base_of<Task, T>::value, T>::type* = nullptr>
-		inline shared_ptr<T> InsertTask() {
+		inline Task* InsertTask() {
 			auto task = make_shared<T>();
 			task->SetMemberInst(m_pInst);
+			task->m_BlackBoard = m_BlackBoard.get();
 			m_vTask.emplace_back(static_pointer_cast<Task>(task));
-			return task;
+			return m_vTask[m_vTask.size()-1].get();
 		}
 		template <typename U, typename enable_if<is_base_of<Decorator, U>::value, U>::type* = nullptr, typename... Args>
-		inline void InsertDecorate(int eTask, Args &&... args) {
+		inline void InsertDecorate(Task* pTask, Args &&... args) {
 			auto deco = make_shared<U>(std::forward<Args>(args)...);
-			deco.get()->SetTask(static_cast<Node*>(m_vTask[eTask].get()));
+			deco->m_BlackBoard = m_BlackBoard.get();
+			deco.get()->SetTask(static_cast<Node*>(pTask));
 			m_vDecorator.emplace_back(move(deco));
 		}
 	};
@@ -87,7 +89,7 @@ namespace UdyrBT
 		bool Run() {
 			bool bAsk = Ask();
 			WriteStatusInTask(bAsk);	// true 조건이 들어가야됨
-			if (!bAsk)
+			if (m_pTask->m_status == INVALID)
 				return false;
 			m_pTask->Run();
 			return true;
@@ -99,6 +101,19 @@ namespace UdyrBT
 		int m_iLimit;
 		int m_iCount = 0;
 	};
+
+	class BoolChecker : public Decorator
+	{
+	public:
+		BoolChecker(string sKey) : m_bKey(sKey) {}
+		bool Ask() override {
+			m_bTrigger = m_BlackBoard->getBool(m_bKey);
+			return m_bTrigger;
+		}
+	private:
+		bool m_bTrigger = false;
+		string m_bKey;
+	};
 #pragma endregion
 
 #pragma region UdyrTask 자식 클래스들
@@ -106,7 +121,7 @@ namespace UdyrBT
 	{
 		virtual void Init() override {}
 		virtual void Do() override;
-		virtual void Terminate() override {}
+		virtual void Terminate() override;
 	};
 	//struct UdyrClick : public UdyrTask
 	//{	

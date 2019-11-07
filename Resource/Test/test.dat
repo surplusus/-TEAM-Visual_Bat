@@ -14,13 +14,13 @@ MeshType 1
 #FileName Ezreal.x
 #ConsoleText "Ezreal File Loaded"
 #MeshType 1
--Map-
-bComplete false
-ObjName Map
-FolderPath ./Resource/Test/
-FileName TestFloor.x
-ConsoleText "Floor File Load Start"
-MeshType 0
+#-Map-
+#bComplete false
+#ObjName Map
+#FolderPath ./Resource/Test/
+#FileName TestFloor.x
+#ConsoleText "Floor File Load Start"
+#MeshType 0
 -MeleeMinion-
 bComplete false
 ObjName MeleeMinion
