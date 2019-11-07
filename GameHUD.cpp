@@ -153,17 +153,6 @@ void cGameHUD::Progress()
 
 	GET_SINGLE(cCubePC)->Progress();
 
-	/*if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if (GET_SINGLE(C2DMouse)->IsClicked_inImage(&Ezreal.m_Skill[0]))
-		{
-			m_isLButtonDown = true;
-			cout << "clicked\n";
-		}
-	}
-	if (m_isLButtonDown)
-	{
-	}*/
 	CheckMouse();
 
 	Update_StateText();

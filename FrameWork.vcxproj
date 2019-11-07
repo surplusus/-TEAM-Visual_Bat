@@ -300,7 +300,9 @@
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneMgr.cpp" />
+    <ClCompile Include="SceneMgr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SoundMgr.cpp" />
     <ClCompile Include="Spell_.cpp" />
