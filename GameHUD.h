@@ -38,7 +38,11 @@ public:
 	void SetInfoChamp(STATUSINFO n_Stats) {
 		m_Stats = n_Stats; 
 	}
-	void Initialize_Text();
+	void Initialize_Skill();
+
+	void Initialize_Stats();
 	void Update_StateText();
+
+	void CheckMouse();
 };
 
