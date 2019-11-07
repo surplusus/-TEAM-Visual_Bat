@@ -89,38 +89,33 @@ HRESULT CGameScene::Initialize()
 
 	//////////////// ÆÄ¶ûÆÀ Æ÷Å¾
 
-	{
-		//ÅÍ·¿
-		vector<CTurret*>	vecTurret(4);
-		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
-		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
-		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
-		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
-		for (size_t i = 0; i < vecTurret.size(); i++)
-		{
-			vecTurret[i]->Initialize();
-			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
-		}
-		//¾ïÁ¦±â
-		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-		pInhibitor->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-
-
-
-		CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
-		pNexus->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-	}
+	//{
+	//	//ÅÍ·¿
+	//	vector<CTurret*>	vecTurret(4);
+	//	vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
+	//	vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
+	//	vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
+	//	vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+	//	for (size_t i = 0; i < vecTurret.size(); i++)
+	//	{
+	//		vecTurret[i]->Initialize();
+	//		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
+	//	}
+	//	//¾ïÁ¦±â
+	//	CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+	//	pInhibitor->Initialize();
+	//	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
+	//
+	//
+	//
+	//	CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
+	//	pNexus->Initialize();
+	//	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
+	//}
 
 
 
 #pragma endregion
-
-
-//	if (FAILED(m_pObjMgr->AddObject(L"Udyr", CFactory<CObj, CUdyr >::CreateObject())))
-//		return E_FAIL;
-
 	LetObjectKnowHeightMap();
 	m_Cursor = new CCursor;
 	m_Cursor->InitCursor();

@@ -112,8 +112,6 @@ HRESULT CEzreal::Initialize()
 	D3DXMATRIX BonMatrix;
 	GetBoneMatrix(TestMeshName, "Armature_root", &BonMatrix);
 	m_pAnimationCtrl->GetAniCtrl();
-	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
-	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
 	
 	g_MouseHitPoint = m_Info.vPos;
 	WorldSetting();

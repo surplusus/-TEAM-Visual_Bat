@@ -15,8 +15,6 @@ private:
 	float m_fSpeed;
 	float m_fLength;
 	CUSTOMVERTEX m_VerTexInfo;
-	D3DXVECTOR3 m_vMin;
-	D3DXVECTOR3 m_vMax;
 	D3DXMATRIX m_matWorld;
 private:
 	float m_BaseDamge;

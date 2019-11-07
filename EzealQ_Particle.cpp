@@ -58,8 +58,6 @@ void CEzealQ_Particle::Initalize()
 	InitRenderState();
 	D3DXCreateBox(GetDevice(), 1, 1, 1, &m_BoxMesh, NULL);
 	D3DXMATRIX matWorld;
-	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
-	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
 	
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
@@ -86,10 +84,10 @@ void CEzealQ_Particle::Render()
 
 void CEzealQ_Particle::Release()
 {
-	if (m_pColider)		{SAFE_DELETE(m_pColider);	m_pColider = NULL;}
-	if (m_pTex0)		{ m_pTex0->Release();		m_pTex0 = NULL; }
-	if (m_pTex1)		{ m_pTex1->Release();		m_pTex1 = NULL;}
-	if (m_pTex2)		{ m_pTex2->Release();		m_pTex2 = NULL; }
+	if (m_pColider)		{ SAFE_DELETE(m_pColider);	m_pColider = NULL;	 }
+	if (m_pTex0)		{ m_pTex0->Release();		m_pTex0	   = NULL;   }
+	if (m_pTex1)		{ m_pTex1->Release();		m_pTex1	   = NULL;   }
+	if (m_pTex2)		{ m_pTex2->Release();		m_pTex2	   = NULL;   }
 
 }
 
@@ -97,12 +95,6 @@ void CEzealQ_Particle::SetUp_Particle()
 {	
 	
 	D3DXMATRIXA16 matR, matWorld,matTrans,matScale;
-//	D3DXVECTOR3 vScale = { 1,1,1 };
-
-//	D3DXQUATERNION quatR(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_X], 1.f);
-//	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
-//	D3DXMatrixRotationQuaternion(&matR, &quatR);
-//	D3DXMatrixTranslation(&matTrans, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);	
 	m_VerTexInfo.c = D3DCOLOR_ARGB(255, 100, 70, 20);
 	m_vecVertexParticle.push_back(m_VerTexInfo);	
 }

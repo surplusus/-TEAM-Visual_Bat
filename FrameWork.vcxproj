@@ -46,6 +46,7 @@
     <ClInclude Include="DropBox.h" />
     <ClInclude Include="EzealQ_Particle.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Ezreal_W_Particle.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="EzealQ_Particle.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Ezreal_W_Particle.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameHUD.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
