@@ -341,9 +341,7 @@ bool CEzealQ_Particle::AddTail()
 		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
 		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
-
 		m_vecVertexParticle.push_back(m_VerTexInfo);
-
 
 	}
 	if (m_vecVertexParticle.empty()) {
