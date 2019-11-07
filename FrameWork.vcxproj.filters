@@ -684,6 +684,15 @@
     <ClInclude Include="CollisionMgr.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="TurretGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="InhibitorGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -1021,6 +1030,15 @@
     </ClCompile>
     <ClCompile Include="BehaviorMinion.cpp">
       <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretGauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusGauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp">
+      <Filter>Gauge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

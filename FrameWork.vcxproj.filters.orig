@@ -663,6 +663,16 @@
     <ClInclude Include="Cursor.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="TurretGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusGauge.h">
+      <Filter>Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="InhibitorGauge.h">
+      <Filter>Gauge</Filter>
+=======
     <ClInclude Include="HP.h">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClInclude>
@@ -678,12 +688,11 @@
     <ClInclude Include="ProgressBarFunctor.h">
       <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="BehaviorMinion.h">
       <Filter>System\Behavior</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="CollisionMgr.h">
-      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+      <Filter>소스 파일\헤더 파일</Filter>
 >>>>>>> origin/master
     </ClInclude>
   </ItemGroup>
@@ -1003,6 +1012,16 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="TurretGauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusGauge.cpp">
+      <Filter>Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp">
+      <Filter>Gauge</Filter>
+=======
     <ClCompile Include="HP.cpp">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClCompile>
@@ -1018,12 +1037,11 @@
     <ClCompile Include="ProgressBarFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="BehaviorMinion.cpp">
-      <Filter>System\Behavior</Filter>
-=======
     <ClCompile Include="CollisionMgr.cpp">
       <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorMinion.cpp">
+      <Filter>System\Behavior</Filter>
 >>>>>>> origin/master
     </ClCompile>
   </ItemGroup>

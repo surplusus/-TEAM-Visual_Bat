@@ -1,22 +1,20 @@
 #include "BaseInclude.h"
-#include "ChampGauge.h"
-#include "Image_Loader.h"
-#include "ObjMgr.h"
+#include "TurretGauge.h"
 
 
-CChampGauge::CChampGauge()
+CTurretGauge::CTurretGauge()
 {
-	m_MAXHP = 1.0f;
+	//rest = MaxHP - curHP
+	//m_fDmg -= rest / m_MAXHP;
 	m_fDmg = 1.0f;
-	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 
-CChampGauge::~CChampGauge()
+CTurretGauge::~CTurretGauge()
 {
 }
 
-void CChampGauge::Initialize()
+void CTurretGauge::Initialize()
 {
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
@@ -40,7 +38,7 @@ void CChampGauge::Initialize()
 
 
 	//À­ÂÊ »ï°¢Çü
-	v.vPosition = D3DXVECTOR3(m_vPosition.x , m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	v.vTexture = D3DXVECTOR2(1, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
@@ -56,8 +54,8 @@ void CChampGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CChampGauge::Progress()
-{	
+void CTurretGauge::Progress()
+{
 	//if (GetAsyncKeyState(VK_LSHIFT))
 	//{
 	//	m_fDmg -= 0.01f;
@@ -72,13 +70,14 @@ void CChampGauge::Progress()
 	//}
 }
 
-void CChampGauge::Render()
+void CTurretGauge::Render()
 {
-	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f, 0.1f, 1.0f));
-	RenderCellGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f));
+
+	RenderBlankGauge(m_vecMultiVertex,D3DXVECTOR3( m_vPosition.x, m_vPosition.y + 5.0f, m_vPosition.z), D3DXVECTOR3(1.0f, 0.1f, 1.0f));
+	RenderCellGauge(m_vecMultiVertex, D3DXVECTOR3( m_vPosition.x, m_vPosition.y + 5.0f, m_vPosition.z), D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f));
 }
 
-void CChampGauge::Release()
+void CTurretGauge::Release()
 {
 	SAFE_RELEASE(m_pBlank);
 	SAFE_RELEASE(m_pCell);
