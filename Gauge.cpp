@@ -19,21 +19,20 @@ CGauge::~CGauge()
 void CGauge::SetBillBoard()
 {
 	D3DXMATRIXA16	matView,matBillBoard;
-	D3DXMatrixIdentity(&matView);
-
+	D3DXMatrixIdentity(&matBillBoard);
+	
 	GetDevice()->GetTransform(D3DTS_VIEW, &matView);
-	m_matBillBoard = matView;
-	m_matBillBoard._41 = 0.f;
-	m_matBillBoard._42 = 0.f;
-	m_matBillBoard._43 = 0.f;
+	m_matBillBoard._41 = 0.0f;
+	m_matBillBoard._42 = 0.0f;
+	m_matBillBoard._43 = 0.0f;
 
+	//y축 회전행렬 만 가지게 만든다.
 	m_matBillBoard._11 = matView._11;
 	m_matBillBoard._31 = matView._31;
 	m_matBillBoard._13 = matView._13;
 	m_matBillBoard._33 = matView._33;
 	D3DXMatrixInverse(&m_matBillBoard, 0, &m_matBillBoard);
 
-	//*Matrix = matBillBoard;
 }
 
 void CGauge::SetLight()
@@ -61,17 +60,14 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	D3DXMatrixIdentity(&matView);
 	D3DXMatrixIdentity(&matR);
 	SetBillBoard();
-
-	float radian = D3DXToRadian(60.0f);
+	float radian = D3DXToRadian(60.0f );
 	D3DXMatrixRotationZ(&matR, radian);
-	float xradian = D3DXToRadian(30.0f);
+	float xradian = D3DXToRadian(30.0f );
 	D3DXMatrixRotationX(&matR, xradian);
-	/*float yradian = D3DXToRadian(90.0f);
-	D3DXMatrixRotationY(&matR, yradian);*/
-
+	
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
+	matWorld = matS * matR	* matT* m_matWorld;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -102,7 +98,7 @@ void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositio
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
 	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
+	matWorld = matS * matR *matT* m_matWorld;
 
 
 	SetTransform(D3DTS_WORLD, &matWorld);

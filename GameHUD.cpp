@@ -163,7 +163,7 @@ void cGameHUD::Progress()
 
 	Progress_Minimap();
 
-	GET_SINGLE(cCubePC)->Progress();
+	//GET_SINGLE(cCubePC)->Progress();
 
 	/*if (GetAsyncKeyState(VK_LBUTTON))
 	{
@@ -199,7 +199,7 @@ void cGameHUD::Render()
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
 
-	GET_SINGLE(cCubePC)->Render();
+	//GET_SINGLE(cCubePC)->Render();
 
 	for (auto it = m_mapTextMgr.begin();
 		it != m_mapTextMgr.end(); it++)
@@ -222,7 +222,7 @@ void cGameHUD::Release()
 	for (auto it = m_mapTextMgr.begin();
 		it != m_mapTextMgr.end(); it++)
 	{
-		it->second->Reelase();
+		it->second->Release();
 	}
 }
 

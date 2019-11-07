@@ -81,40 +81,37 @@ HRESULT CGameScene::Initialize()
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-
-	CObj* p = new CEzreal("IDLE1", false);
-	p->Initialize();
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
-		return E_FAIL;
+	
+	//CObj* p = new CEzreal("IDLE1", false);
+	//p->Initialize();
+	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
+	//	return E_FAIL;
 
 	//////////////// ÆÄ¶ûÆÀ Æ÷Å¾
 
-	//{
-	//	//ÅÍ·¿
-	//	vector<CTurret*>	vecTurret(4);
-	//	vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
-	//	vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
-	//	vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
-	//	vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
-	//	for (size_t i = 0; i < vecTurret.size(); i++)
-	//	{
-	//		vecTurret[i]->Initialize();
-	//		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
-	//	}
-	//	//¾ïÁ¦±â
-	//	CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-	//	pInhibitor->Initialize();
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-	//
-	//
-	//
-	//	CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
-	//	pNexus->Initialize();
-	//	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-	//}
-
-
-
+	{
+		//ÅÍ·¿
+		vector<CTurret*>	vecTurret(4);
+		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
+		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
+		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
+		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+		for (size_t i = 0; i < vecTurret.size(); i++)
+		{
+			vecTurret[i]->Initialize();
+			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
+		}
+		//¾ïÁ¦±â
+		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+		pInhibitor->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
+	
+	
+	
+		CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
+		pNexus->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
+	}
 #pragma endregion
 	LetObjectKnowHeightMap();
 	m_Cursor = new CCursor;
@@ -128,8 +125,8 @@ void CGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 
-	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
+	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(cGameHUD)->Progress();
 }
 
@@ -192,10 +189,10 @@ void CGameScene::LetObjectKnowHeightMap()
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}	
-	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
-	if (pObj != nullptr) {
-		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
+	//pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
+	//if (pObj != nullptr) {
+	//	dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+	//}
 
 	return;
 }

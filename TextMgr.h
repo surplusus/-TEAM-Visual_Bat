@@ -28,35 +28,35 @@ struct SPELL_NAME
 
 struct CTEXT_INFO
 {
-	CText*				m_pCleanse;
-	CText*				m_pGhost;
-	CText*				m_pHeal;
-	CText*				m_pExhaust;
-	CText*				m_pFlash;
-	CText*				m_pSmite;
-	CText*				m_pTeleport;
-	CText*				m_pIgnite;
-	CText*				m_pBarrier;
+	CText*				m_pCleanse	 = NULL;
+	CText*				m_pGhost	 = NULL;
+	CText*				m_pHeal		 = NULL;
+	CText*				m_pExhaust	 = NULL;
+	CText*				m_pFlash	 = NULL;
+	CText*				m_pSmite	 = NULL;
+	CText*				m_pTeleport	 = NULL;
+	CText*				m_pIgnite	 = NULL;
+	CText*				m_pBarrier	 = NULL;
 };
 
 struct  CTEXT_NAME
 {
-	CText*				m_pCleanse_name;
-	CText*				m_pGhost_name;
-	CText*				m_pHeal_name;
-	CText*				m_pExhaust_name;
-	CText*				m_pFlash_name;
-	CText*				m_pSmite_name;
-	CText*				m_pTeleport_name;
-	CText*				m_pIgnite_name;
-	CText*				m_pBarrier_name;
+	CText*				m_pCleanse_name	=NULL;
+	CText*				m_pGhost_name	=NULL;
+	CText*				m_pHeal_name	=NULL;
+	CText*				m_pExhaust_name	=NULL;
+	CText*				m_pFlash_name	=NULL;
+	CText*				m_pSmite_name	=NULL;
+	CText*				m_pTeleport_name=NULL;
+	CText*				m_pIgnite_name	=NULL;
+	CText*				m_pBarrier_name	=NULL;
 };
 
 // jiyun
 struct ST_STATE_BOX {
-	CText * m_pA;
-	CText * m_pB;
-	CText * m_pC;
+	CText * m_pA = NULL;
+	CText * m_pB = NULL;
+	CText * m_pC = NULL;
 };
 
 struct ST_STATE_STRING {
@@ -101,7 +101,6 @@ private:
 public:
 	void SetPosition(D3DXVECTOR3 pos) { m_vpos = pos; }
 	void SetMaxTime(float MAXTIME_) { m_MAXTIME = MAXTIME_; }
-	void Reelase();
 	int GetMaxTime() { return (int)m_MAXTIME; }
 	
 	//>> 필요한거 작업
@@ -115,6 +114,7 @@ public:
 
 	void Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom);
 	void Render_Text();
+	void Release();
 	void SetText(float fVal);
 };
 

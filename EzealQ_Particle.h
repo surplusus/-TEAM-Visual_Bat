@@ -35,7 +35,5 @@ private:
 	virtual void RenderEnd_Particle() override;
 	virtual void InitRenderState() override;
 	bool AddTail();
-private:
-	LPD3DXMESH m_BoxMesh;
 };
 
