@@ -70,7 +70,7 @@ void CNexusGauge::Progress()
 }
 
 void CNexusGauge::Render()
-{
+{ 
 	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f,		   0.2f, 1.0f));
 	RenderCellGauge (m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f * m_fDmg, 0.2f, 1.0f));
 }
