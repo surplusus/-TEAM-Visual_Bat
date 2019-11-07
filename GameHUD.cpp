@@ -102,7 +102,7 @@ void cGameHUD::Initialize()
 	m_mapImage["time"] = time;
 	m_mapImage["time"]->Initialize();
 
-	GET_SINGLE(cCubePC)->Initialize();
+	//GET_SINGLE(cCubePC)->Initialize();
 
 	//ezreal
 	Ezreal.m_Skill[0] = CImage_Loader(
@@ -163,7 +163,7 @@ void cGameHUD::Progress()
 
 	Progress_Minimap();
 
-	GET_SINGLE(cCubePC)->Progress();
+	//GET_SINGLE(cCubePC)->Progress();
 
 	/*if (GetAsyncKeyState(VK_LBUTTON))
 	{
@@ -199,7 +199,7 @@ void cGameHUD::Render()
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
 
-	GET_SINGLE(cCubePC)->Render();
+	//GET_SINGLE(cCubePC)->Render();
 
 	for (auto it = m_mapTextMgr.begin();
 		it != m_mapTextMgr.end(); it++)

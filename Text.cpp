@@ -3,7 +3,8 @@
 
 CText::~CText()
 {
-	SAFE_RELEASE(m_pFont);
+	SAFE_DELETE(m_pFont);
+	m_pFont = NULL;
 }
 
 CText::CText(const CText & text)

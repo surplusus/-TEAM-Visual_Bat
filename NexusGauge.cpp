@@ -20,34 +20,34 @@ void CNexusGauge::Initialize()
 	SetLight();
 	//¾Æ·§ÂÊ »ï°¢Çü
 	VTXTEX v;
-	v.vPosition = D3DXVECTOR3(m_vPosition.x + 1.f, m_vPosition.y + 1.f, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(1.0f, 1.f, 0);
 	v.vTexture = D3DXVECTOR2(0, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y + 1.f, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(0.0f, 1.0f, 0);
 	v.vTexture = D3DXVECTOR2(0, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(m_vPosition.x + 1.f, m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(1.f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
 
 	//À­ÂÊ »ï°¢Çü
-	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(m_vPosition.x + 1.f, m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y + 1.f, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(0.0f, 1.f, 0.0f);
 	v.vTexture = D3DXVECTOR2(0, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
@@ -71,8 +71,8 @@ void CNexusGauge::Progress()
 
 void CNexusGauge::Render()
 { 
-	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f,		   0.2f, 1.0f));
-	RenderCellGauge (m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f * m_fDmg, 0.2f, 1.0f));
+	RenderBlankGauge(m_vecMultiVertex, m_stInfo.vPos, D3DXVECTOR3(3.0f,		     0.2f, 1.0f));
+	RenderCellGauge (m_vecMultiVertex, m_stInfo.vPos, D3DXVECTOR3(3.0f, 0.2f, 1.0f), m_fDmg);
 }
 
 void CNexusGauge::Release()

@@ -210,7 +210,7 @@ void CEzreal::Render()
 		m_bDirty = false;
 	}
 	
-	Mesh_Render(GetDevice(), TestMeshName);
+	//Mesh_Render(GetDevice(), TestMeshName);
 	SetTexture(0,NULL);	
 	
 }

@@ -25,8 +25,12 @@ CTower::~CTower()
 void CTower::UpdateWorldMatrix()
 {
 	D3DXMATRIX	matS, matR, matT;
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, m_fSize, m_fSize, m_fSize);
-	D3DXMatrixRotationY(&matR, 1.0f);
+	float yradian = D3DXToRadian(50.0f);
+	D3DXMatrixRotationY(&matR, yradian);
 	D3DXMatrixTranslation(&matT, m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 	D3DXMatrixIdentity(&m_Info.matWorld);
 

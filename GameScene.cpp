@@ -16,6 +16,9 @@
 #include"Cursor.h"
 #include"GameHUD.h"
 #include"Udyr.h"
+#include"Turret.h"
+#include"Nexus.h"
+#include"Inhibitor.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -55,6 +58,41 @@ HRESULT CGameScene::Initialize()
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
+#pragma region 천->포탑, 억제기, 타워(order)
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/", L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Turret Failed"); return E_FAIL;
+	}
+	vector<CTurret*> vecTurret(4);
+	vecTurret[0] = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
+	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f));
+	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f));
+	vecTurret[3] = new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f));
+	for (size_t i = 0; i < vecTurret.size(); i++)
+	{
+		vecTurret[i]->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
+	}
+
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/", L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"inhibitor Failed"); return E_FAIL;
+	}
+	CInhibitor * pinhibitor = NULL;
+	pinhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+	pinhibitor->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pinhibitor);
+
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/", L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Nexus Failed"); return E_FAIL;
+	}
+	CNexus * pNexus = NULL;
+	pNexus = new CNexus(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+	pNexus->Initialize();
+	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
+
+#pragma endregion
 	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;

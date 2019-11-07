@@ -32,7 +32,9 @@ HRESULT CNexus::Initialize()
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
 	m_pGauge = new CNexusGauge;
-	m_pGauge->SetWorld(m_Info.matWorld);
+
+	m_pGauge->SetInfo(m_Info);
+	m_pGauge->SetParentWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
 	return S_OK;
 }
@@ -44,7 +46,6 @@ void CNexus::Progress()
 
 	AnimationSet();
 
-	m_pGauge->SetPosition(m_Info.vPos);
 	m_pGauge->Progress();
 }
 

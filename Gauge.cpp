@@ -7,7 +7,6 @@ CGauge::CGauge()
 	, m_pCell(NULL)
 	, m_MAXHP(0)
 	, m_MAXMP(0)
-	, m_vPosition(0, 0, 0)
 {
 }
 
@@ -61,17 +60,18 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	D3DXMatrixIdentity(&matView);
 	D3DXMatrixIdentity(&matR);
 	SetBillBoard();
+	
+	float radian;
+	radian = D3DXToRadian(60.0f);
+	D3DXMatrixRotationX(&matR, radian);
 
-	float radian = D3DXToRadian(60.0f);
-	D3DXMatrixRotationZ(&matR, radian);
-	float xradian = D3DXToRadian(30.0f);
-	D3DXMatrixRotationX(&matR, xradian);
-	/*float yradian = D3DXToRadian(90.0f);
-	D3DXMatrixRotationY(&matR, yradian);*/
+
+	float x = m_matParentWorld._41;
+	float z = m_matParentWorld._43;
 
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
+	D3DXMatrixTranslation(&matT, x, vPosition.y + 2.5f, z);
+	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -88,22 +88,24 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	SetTexture(0, NULL);
 }
 
-void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale, float fDmg)
 {
 	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
 	D3DXMatrixIdentity(&matR);
 	SetBillBoard();
+	
+	float radian;
+	radian = D3DXToRadian(60.0f);
+	D3DXMatrixRotationX(&matR, radian);
 
-	float radian = D3DXToRadian(60.0f);
-	D3DXMatrixRotationZ(&matR, radian);
-	float xradian = D3DXToRadian(30.0f);
-	D3DXMatrixRotationX(&matR, xradian);
 
-	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* m_matBillBoard *matT* m_matWorld;
+	float x = m_matParentWorld._41;
+	float z = m_matParentWorld._43;
 
+	D3DXMatrixScaling(&matS, vScale.x * fDmg, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT, x - ((vScale.x * fDmg) / 2.0f) - ((vScale.x - vScale.x * fDmg)) / 2.0f, vPosition.y + 2.5f, z);
+	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 

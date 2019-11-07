@@ -14,16 +14,17 @@ public:
 protected:
 	float													m_MAXHP; // 최대 체력
 	float													m_MAXMP;
-	D3DXVECTOR3												m_vPosition;
 	
 	LPDIRECT3DTEXTURE9										m_pBlank;
 	LPDIRECT3DTEXTURE9										m_pCell;
 
 public:
-	void SetPosition(D3DXVECTOR3 position) { m_vPosition = position; }
-	void SetWorld(D3DXMATRIX World) { m_matWorld = World; }
+	void SetInfo(INFO info) { m_stInfo = info; }
+	
+	void SetParentWorld(D3DXMATRIX World) { m_matParentWorld = World; }
 
 protected:
+	INFO	m_stInfo;
 	void SetBillBoard();
 	void SetLight();
 	float														m_fDmg; // 체력 게이지 크기
@@ -36,8 +37,8 @@ public:
 
 protected:
 	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
-	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale, float fDmg);
 
 private:
-	D3DXMATRIX						m_matWorld;
+	D3DXMATRIX						m_matParentWorld;
 };
