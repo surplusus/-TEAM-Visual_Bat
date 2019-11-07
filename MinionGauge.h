@@ -8,7 +8,7 @@ public:
 	~CMinionGauge();
 public:
 	virtual void Initialize() override;
-	virtual void Progress(D3DXVECTOR3 vPos) override;
+	virtual void Progress() override;
 	virtual void Render() override;
 	virtual void Release() override;
 
@@ -16,7 +16,6 @@ private:
 	void SetBlankGauge();
 	void SetGaugeCell();
 
-	void RenderBlankGauge();
-	void RenderCell();
+	vector<VTXTEX>											m_vecMultiVertex;
 };
 

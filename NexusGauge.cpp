@@ -1,22 +1,19 @@
 #include "BaseInclude.h"
-#include "ChampGauge.h"
-#include "Image_Loader.h"
-#include "ObjMgr.h"
+#include "NexusGauge.h"
 
 
-CChampGauge::CChampGauge()
+CNexusGauge::CNexusGauge()
 {
-	m_MAXHP = 1.0f;
-	m_fDmg = 1.0f;
 	//m_fDmg = m_fDeal / m_MAXHP;
+	m_fDmg = 1.0f;
 }
 
 
-CChampGauge::~CChampGauge()
+CNexusGauge::~CNexusGauge()
 {
 }
 
-void CChampGauge::Initialize()
+void CNexusGauge::Initialize()
 {
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/BlankGauge.png", &m_pBlank);
 	D3DXCreateTextureFromFile(GetDevice(), L"./Resource/choen/UI/GaugeCell.png", &m_pCell);
@@ -40,7 +37,7 @@ void CChampGauge::Initialize()
 
 
 	//À­ÂÊ »ï°¢Çü
-	v.vPosition = D3DXVECTOR3(m_vPosition.x , m_vPosition.y, m_vPosition.z);
+	v.vPosition = D3DXVECTOR3(m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	v.vTexture = D3DXVECTOR2(1, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
@@ -56,29 +53,29 @@ void CChampGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CChampGauge::Progress()
-{	
-	//if (GetAsyncKeyState(VK_LSHIFT))
-	//{
-	//	m_fDmg -= 0.01f;
-	//	if (m_fDmg < 0.0f)
-	//		m_fDmg = 0.0f;
-	//}
-	//if (GetAsyncKeyState(VK_RETURN))
-	//{
-	//	m_fDmg += 0.01f;
-	//	if (m_fDmg > 1.0f)
-	//		m_fDmg = 1.0f;
-	//}
-}
-
-void CChampGauge::Render()
+void CNexusGauge::Progress()
 {
-	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f, 0.1f, 1.0f));
-	RenderCellGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f));
+	if (GetAsyncKeyState(VK_LSHIFT))
+	{
+		m_fDmg -= 0.01f;
+		if (m_fDmg < 0.0f)
+			m_fDmg = 0.0f;
+	}
+	if (GetAsyncKeyState(VK_RETURN))
+	{
+		m_fDmg += 0.01f;
+		if (m_fDmg > 1.0f)
+			m_fDmg = 1.0f;
+	}
 }
 
-void CChampGauge::Release()
+void CNexusGauge::Render()
+{ 
+	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f,		   0.2f, 1.0f));
+	RenderCellGauge (m_vecMultiVertex, m_vPosition, D3DXVECTOR3(3.0f * m_fDmg, 0.2f, 1.0f));
+}
+
+void CNexusGauge::Release()
 {
 	SAFE_RELEASE(m_pBlank);
 	SAFE_RELEASE(m_pCell);
