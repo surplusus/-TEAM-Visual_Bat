@@ -1,9 +1,11 @@
 #pragma once
+#include"Image_Loader.h"
 
-class CImage_Loader;
 class CTextMgr;
-class CGauge;
-class cFont;
+
+struct SkillList {
+	CImage_Loader m_Skill[5];
+};
 
 class cGameHUD
 {
@@ -18,20 +20,25 @@ public:
 	void Render();
 	void Release();
 
-	void WndProc(HWND hwnd, UINT message,
-		WPARAM wParam, LPARAM lParam);
-
-	void Render_Text();
-
 private:
 	map<string, CImage_Loader *> m_mapImage;
-	cFont * m_Text;
-
-	CTextMgr*					m_TextMgr;
+	//cFont * m_Text;
 
 	bool m_isLButtonDown;
 
-	CGauge*						m_Gauge;
-	CGauge*						m_Minion;
+	SkillList Ezreal;
+	SkillList Ezreal_copy;
+
+	map<string, CTextMgr *> m_mapTextMgr;
+	STATUSINFO m_Stats;
+	
+public:
+	void Progress_Minimap();
+
+	void SetInfoChamp(STATUSINFO n_Stats) {
+		m_Stats = n_Stats; 
+	}
+	void Initialize_Text();
+	void Update_StateText();
 };
 

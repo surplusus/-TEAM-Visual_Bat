@@ -10,5 +10,6 @@ private:
 public:
 	bool AddSphere(CObj* hash, SPHERE* sphere);
 	bool GetSpherePicked(CObj* me, OUT SPHERE** sphere);
+	void SelectEraseSphere(CObj* me,SPHERE* pSphere);
 };
 

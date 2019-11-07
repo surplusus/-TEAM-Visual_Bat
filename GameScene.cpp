@@ -14,10 +14,8 @@
 #include"HeightMap.h"
 #include"CollisionMgr.h"
 #include"Cursor.h"
-#include"Turret.h"
-#include"Inhibitor.h"
-#include"Nexus.h"
 #include"GameHUD.h"
+#include"Udyr.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -44,80 +42,38 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Ezreal.x", L"Ezreal2", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+	{
+		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
 	
-	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", CFactory<CObj, CEzreal >::CreateObject())))
+
+	CObj* p = new CEzreal("IDLE1", false);
+	p->Initialize();
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
 		return E_FAIL;
 
-// cheon
-#pragma region 블루팀 포탑
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
-	{
-		printf("Set Add Mesh\n");
-	}
-	else
-		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
-
-	{
-		vector<CTurret*>	vecTurret(4);
-		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
-		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
-		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
-		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
-		for (size_t i = 0; i < vecTurret.size(); i++)
-		{
-			vecTurret[i]->Initialize();
-			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
-		}
-	}
-
-#pragma endregion 포탑 끝
-
-#pragma region 블루팀 억제기
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/"
-		, L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
-	{
-	}
-	else
-		ERR_MSG(g_hWnd, L"inhibitor Load Failed");
-
-		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-		pInhibitor->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-#pragma endregion 억제기 끝
-
-#pragma region 넥서스
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/"
-		, L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
-	{ }
-	else
-		ERR_MSG(g_hWnd, L"Nexus Load Failed");
-	CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
-	pNexus->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-#pragma endregion 넥서스 끝
-// choen
-
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
+//	if (FAILED(m_pObjMgr->AddObject(L"Udyr", CFactory<CObj, CUdyr >::CreateObject())))
+//		return E_FAIL;
 
 	LetObjectKnowHeightMap();
-
 	m_Cursor = new CCursor;
 	m_Cursor->InitCursor();
 	m_Cursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
-	Hud = new cGameHUD;
-	Hud->Initialize();
+	GET_SINGLE(cGameHUD)->Initialize();
 }
 
 void CGameScene::Progress()
@@ -127,7 +83,7 @@ void CGameScene::Progress()
 
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
-	Hud->Progress();
+	GET_SINGLE(cGameHUD)->Progress();
 }
 
 void CGameScene::Render()
@@ -135,7 +91,7 @@ void CGameScene::Render()
 	m_pObjMgr->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
-	Hud->Render();
+	GET_SINGLE(cGameHUD)->Render();
 }
 
 void CGameScene::Release()
@@ -144,7 +100,7 @@ void CGameScene::Release()
 	GET_SINGLE(CCollisionMgr)->DestroyInstance();
 	GET_SINGLE(CParticleMgr)->DestroyInstance();
 	GET_SINGLE(CCameraMgr)->DestroyInstance();
-	Hud->Release();
+	GET_SINGLE(cGameHUD)->Release();
 }
 
 HRESULT CGameScene::Setup()
@@ -188,10 +144,11 @@ void CGameScene::LetObjectKnowHeightMap()
 	
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
+	}	
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}
+
 	return;
 }
