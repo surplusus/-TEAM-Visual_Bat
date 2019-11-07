@@ -21,7 +21,5 @@ private:
 private:
 	HRESULT	Setup();
 	void SoundUpdate();
-
-	class MinionMgr*			m_minion;
 };
 
