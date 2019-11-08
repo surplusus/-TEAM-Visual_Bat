@@ -12,7 +12,6 @@
 #include <sstream>
 #include "SoundMgr.h"
 #include "Amumu.h"
-#include "Zealot.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"
@@ -59,14 +58,6 @@ HRESULT CTestScene::Initialize()
 		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
 	else
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-
-
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/Zealot/"
-		, L"zealot.x", L"Zealot", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Udyr", CFactory<CObj, CZealot>::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"Udyr Load Failed");
-
 	return S_OK;
 }
 

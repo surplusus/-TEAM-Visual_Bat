@@ -6,18 +6,18 @@ class CUdyr;
 namespace UdyrBT
 {
 	using namespace BehaviorTree;
-
-	enum {SEQUENCE_ROOT, SEQUENCE_RUN, SEQUENCE_END};
-	enum {SELECTOR_DEATH, SELECTOR_RUN, SELECTOR_END};
-	enum {DECORATOR_REPEATER, DECORATOR_WHENTRUE, DECORATOR_END};
-	enum {TASK_DEATH, TASK_CLICK, TASK_RUN, TASK_TURN, TASK_IDLE, TASK_ANI, TASK_END};
-	class UdyrTask;
+	
+	enum {SEQUENCE_LIFE, SEQUENCE_MOVE, SEQUENCE_EARTH, SEQUENCE_ENEMY, SEQUENCE_SKILL, SEQUENCE_END};
+	enum {SELECTOR_DEATH, SELECTOR_INPUT, SELECTOR_TARGET, SELECTOR_AGGRESSIVE, SELECTOR_END};
+	//enum {DECORATOR_YES, DECORATOR_REPEAT, DECORATOR_BOOLON, DECORATOR_FLOATLOW, DECORATOR_FLOATABOVE, DECORATOR_END};
+	enum {TASK_DEATH, TASK_HEATH, TASK_BEATEN, TASK_ATTACK, TASK_IDLE, TASK_QACTION
+		, TASK_TARGETING, TASK_SETCOORD, TASK_RUN, TASK_TURN, TASK_END};
 	class UdyrBTHandler : public BehaviorTreeHandler
 	{
 	private:
 		friend class CUdyr;
 	public:
-		UdyrBTHandler(CUdyr* inst);
+		UdyrBTHandler(CUdyr* pInst);
 		UdyrBTHandler() {}
 		~UdyrBTHandler();
 		CUdyr*							m_pInst;
@@ -26,11 +26,9 @@ namespace UdyrBT
 		vector<shared_ptr<Decorator>>	m_vDecorator;
 		vector<shared_ptr<Task>>		m_vTask;
 
-		void SetRoot(int eNode); 
 		void MakeTree();
 		void SetUpBlackBoard();
 		virtual void UpdateBlackBoard() override;
-		void SetUpTask(int eTaskType, function<void(void)> pFunc);
 
 		template <typename T, typename enable_if<is_base_of<Task, T>::value, T>::type* = nullptr>
 		inline Task* InsertTask() {
@@ -69,28 +67,19 @@ namespace UdyrBT
 		void ChangeAnySet(string key);
 	};
 
-	/*class UdyrCondition : public Condition
-	{
-	protected:
-		CUdyr*	m_pInst = nullptr;
-	public:
-		UdyrCondition() : Task(this) {}
-		virtual ~UdyrCondition() {}
-		virtual bool Run() = 0;
-		virtual Status Ask() = 0;
-		void SetMemberInst(CUdyr* pInst) { m_pInst = pInst; }
-	};*/
-
 #pragma region DECORATOR
-	class Successor : public Decorator
+	class WhenAlive : public Decorator
 	{
-		virtual bool Ask() override { return true; }
+		virtual bool Ask() override {
+			if (!m_BlackBoard->getBool("Alive"))
+				return false;
+			return true; }
 	};
 
-	class Repeater : public Decorator
+	class WhenTillEnd : public Decorator
 	{
 	public:
-		Repeater(int iLimit = 0) : m_iLimit(iLimit) {}
+		WhenTillEnd(int iLimit = 0) : m_iLimit(iLimit) {}
 		virtual bool Ask() override {
 			return (m_iLimit > 0 && ++m_iCount <= m_iLimit);
 		}
@@ -99,10 +88,10 @@ namespace UdyrBT
 		int m_iCount = 0;
 	};
 
-	class BoolChecker : public Decorator
+	class WhenBoolOn : public Decorator
 	{
 	public:
-		BoolChecker(string sKey) : m_bKey(sKey) {}
+		WhenBoolOn(string sKey) : m_bKey(sKey) {}
 		virtual bool Ask() override {
 			m_bTrigger = m_BlackBoard->getBool(m_bKey);
 			return m_bTrigger;
@@ -111,51 +100,99 @@ namespace UdyrBT
 		bool m_bTrigger = false;
 		string m_bKey;
 	};
+
+	class WhenFloatLow : public Decorator
+	{
+	public:
+		WhenFloatLow(string sKey, float fLimit)
+			: m_bKey(sKey), m_fLimit(fLimit) {}
+		virtual bool Ask() override {
+			float fValue = m_BlackBoard->getFloat(m_bKey);
+			if (fValue >= m_fLimit)
+				return true;
+			return false;
+		}
+	private:
+		string m_bKey;
+		float m_fLimit;
+	};
+
+	class WhenFloatAbove : public Decorator
+	{
+	public:
+		WhenFloatAbove(string sKey, float fLimit)
+			: m_bKey(sKey), m_fLimit(fLimit) {}
+		virtual bool Ask() override {
+			float fValue =  fabs(m_BlackBoard->getFloat(m_bKey));
+			if (fValue < m_fLimit)
+				return true;
+			return false;
+		}
+	private:
+		string m_bKey;
+		float m_fLimit;
+	};
 #pragma endregion
 
 #pragma region UdyrTask 자식 클래스들
 	struct UdyrDeath : public UdyrAccessor
 	{
-		virtual void Init() override {}
 		virtual void Do() override;
 		virtual void Terminate() override;
 	};
-	//struct UdyrClick : public UdyrTask
-	//{	
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-	//struct UdyrRun : public UdyrTask
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-	//struct UdyrTurn : public UdyrTask
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-	//struct UdyrIdle : public UdyrTask
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-	//struct UdyrAni : public UdyrTask
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-
-	//// UdyrCondition 자식 클래스들(조건을 정의한다.)
-	//struct UdyrAni : public UdyrCondition
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-	//struct UdyrAni : public UdyrCondition
-	//{
-	//	virtual bool Condition() override;
-	//	virtual void Do() override;
-	//};
-
+	struct UdyrHealth : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrBeaten : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrAttack : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrIdle : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrQAction : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrTargeting : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrSetCoord : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrRun : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+	struct UdyrTurn : public UdyrAccessor
+	{
+		virtual void Init() override {}
+		virtual void Do() override {}
+		virtual void Terminate() override {};
+	};
+#pragma endregion
 }
