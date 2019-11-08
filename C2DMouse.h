@@ -21,4 +21,5 @@ public:
 	string IsInImage_Spell(CUI* UI);
 
 	bool IsClicked_Button(CImage_Loader* button);
+	bool IsClicked_inImage(CImage_Loader* skill_Image);
 };

@@ -1,19 +1,22 @@
 #pragma once
 #include "ColiderComponent.h"
-class CParticle;
+class CParticleObj;
 class CParticleColider :
 	public ColiderComponent
 {
 public:
-	CParticleColider(CParticle* pParticle);
+	CParticleColider(CParticleObj* pParticle);
 	~CParticleColider();
 private:
-	CParticle* m_Particle;
+	CParticleObj* m_Particle;
 	const COLISION_TYPE m_Type;
-	ColiderComponent m_Colider;
 public:
 	virtual COLISION_TYPE GetType() override { return m_Type; }
-	virtual void Update(D3DXVECTOR3 vPos) override;
+	virtual void Update(D3DXVECTOR3 vPos, D3DXMATRIX matWorld) override;
+	virtual void Render() override;
 	virtual bool CheckColision(ColiderComponent* pEnemy) override;
-	CParticle* GetParticle() { return m_Particle; }
+	CParticleObj* GetParticle() { 
+		if (m_Particle) { return m_Particle; }
+		else return NULL; 
+	}
 };

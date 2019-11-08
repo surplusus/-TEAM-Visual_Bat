@@ -7,12 +7,12 @@ public:
 	virtual ~CGauge();
 public:
 	virtual void Initialize() = 0;
-	virtual void Progress(D3DXVECTOR3 vPos)	  = 0;
+	virtual void Progress()	  = 0;
 	virtual void Render()	  = 0;
 	virtual void Release()	  = 0;
 
 protected:
-	float													m_MAXHP;
+	float													m_MAXHP; // 최대 체력
 	float													m_MAXMP;
 	D3DXVECTOR3												m_vPosition;
 	
@@ -21,14 +21,23 @@ protected:
 
 public:
 	void SetPosition(D3DXVECTOR3 position) { m_vPosition = position; }
+	void SetWorld(D3DXMATRIX World) { m_matWorld = World; }
 
 protected:
-	void SetBillBoard(D3DXMATRIXA16 * Matrix);
-
-	vector<VTXTEX>											m_vecMultiVertex;
-	
-
 	void SetLight();
+	float														m_fDmg; // 체력 게이지 크기
+	float														m_CurrentHP; // 현재 체력
+	float														m_rest; // 남은 체력
+	D3DXMATRIX m_matBillBoard;
+public:
+	void SetMaxHP(float MAXHP) { m_MAXHP = MAXHP; }
+	void SufferDmg(float CurrentHP) { m_CurrentHP = CurrentHP; }
 
-	float													m_fDmg;
+protected:
+	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
+	void SetBillBoard();
+
+private:
+	D3DXMATRIX						m_matWorld;
 };

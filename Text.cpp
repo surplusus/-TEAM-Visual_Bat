@@ -3,10 +3,11 @@
 
 CText::~CText()
 {
-	SAFE_RELEASE(m_pFont);
+	//if(m_pFont)	m_pFont->Release();
 }
 
 CText::CText(const CText & text)
+	:m_pFont(NULL)
 {
 	m_pFont = text.m_pFont;
 	m_Rect = text.m_Rect;

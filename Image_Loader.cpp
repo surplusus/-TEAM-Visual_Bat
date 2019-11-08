@@ -3,6 +3,7 @@
 
 
 CImage_Loader::CImage_Loader()
+	:m_pSprite(NULL), m_pTexture(NULL)
 {
 }
 
@@ -62,8 +63,6 @@ void CImage_Loader::Render()
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixTranslation(&matT,m_vPosition.x, m_vPosition.y, 0);
 
-	
-
 	matWorld = matS * matT;
 
 	m_pSprite->SetTransform(&matWorld);
@@ -74,7 +73,7 @@ void CImage_Loader::Render()
 
 	ID3DXSprite* temp;
 
-	m_pSprite->Draw(m_pTexture, nullptr, nullptr,
+	m_pSprite->Draw(m_pTexture, &rc, nullptr,
 		nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	m_pSprite->End();
@@ -88,25 +87,23 @@ void CImage_Loader::Render(D3DXVECTOR3 pos, D3DXVECTOR3 scale)
 
 	D3DXMatrixScaling(&matS, scale.x, scale.y, scale.z);
 	D3DXMatrixTranslation(&matT, pos.x, pos.y, 0);
-
 	
-
 	matWorld = matS * matT;
 
 	m_pSprite->SetTransform(&matWorld);
 
 	RECT rc;
 	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
-	m_pSprite->Draw(m_pTexture, &rc, NULL,
-		NULL, D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->Draw(m_pTexture, &rc, nullptr,
+		nullptr, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	m_pSprite->End();
 }
 
 void CImage_Loader::Release()
 {
-	SAFE_RELEASE( m_pSprite);
-	SAFE_RELEASE( m_pTexture);
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pTexture);
 }
 
 int CImage_Loader::GetWidth()

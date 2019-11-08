@@ -6,6 +6,7 @@
 CMinionGauge::CMinionGauge()
 {
 	m_fDmg = 1.0f;
+	//m_fDmg = m_fDeal / m_MAXHP;
 }
 
 
@@ -55,28 +56,26 @@ void CMinionGauge::Initialize()
 	m_vecMultiVertex.push_back(v);
 }
 
-void CMinionGauge::Progress(D3DXVECTOR3 vPos)
+void CMinionGauge::Progress()
 {
-	m_vPosition = vPos;
-	SetPosition(m_vPosition);
-	if (GetAsyncKeyState(VK_SPACE))
-	{
-		m_fDmg -= 0.01f;
-		if (m_fDmg < 0.0f)
-			m_fDmg = 0.0f;
-	}
-	if (GetAsyncKeyState(VK_RETURN))
-	{
-		m_fDmg += 0.01f;
-		if (m_fDmg > 1.0f)
-			m_fDmg = 1.0f;
-	}
+	//if (GetAsyncKeyState(VK_LSHIFT))
+	//{
+	//	m_fDmg -= 0.01f;
+	//	if (m_fDmg < 0.0f)
+	//		m_fDmg = 0.0f;
+	//}
+	//if (GetAsyncKeyState(VK_RETURN))
+	//{
+	//	m_fDmg += 0.01f;
+	//	if (m_fDmg > 1.0f)
+	//		m_fDmg = 1.0f;
+	//}
 }
 
 void CMinionGauge::Render()
 {
-	RenderBlankGauge();
-	RenderCell();
+	RenderBlankGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f, 0.1f, 1.0f));
+	RenderCellGauge(m_vecMultiVertex, m_vPosition, D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f));
 }
 
 void CMinionGauge::Release()
@@ -99,48 +98,4 @@ void CMinionGauge::SetGaugeCell()
 		L"Resource/choen/UI/GaugeCell.png",
 		&m_pCell
 	);
-}
-
-void CMinionGauge::RenderBlankGauge()
-{
-	D3DXMATRIXA16 matWorld, matT;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.0f, m_vPosition.z);
-
-	matWorld = matT;
-
-	SetTransform(D3DTS_WORLD, &matWorld);
-
-	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
-
-	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
-		D3DPT_TRIANGLELIST,
-		m_vecMultiVertex.size() / 3,
-		&m_vecMultiVertex[0],
-		sizeof(VTXTEX)
-	);
-	SetTexture(0, NULL);
-}
-
-void CMinionGauge::RenderCell()
-{
-	D3DXMATRIXA16 matWorld, matT, matS;
-	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y + 1.0f, m_vPosition.z);
-	D3DXMatrixScaling(&matS, m_fDmg, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_vPosition.x + (m_fDmg / 2) - 0.5f, m_vPosition.y + 1.0f, m_vPosition.z);
-	matWorld = matS * matT;
-
-	SetTransform(D3DTS_WORLD, &matWorld);
-
-
-	SetTexture(0, m_pCell);
-
-	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
-
-	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
-		D3DPT_TRIANGLELIST,
-		m_vecMultiVertex.size() / 3,
-		&m_vecMultiVertex[0],
-		sizeof(VTXTEX)
-	);
-	SetTexture(0, NULL);
 }

@@ -2,12 +2,14 @@
 #include "Tower.h"
 
 class CHeightMap;
+class CGauge;
 class CNexus :
 	public CTower
 {
 public:
-	CNexus();
+	CNexus() {}
 	~CNexus();
+	explicit CNexus(D3DXVECTOR3 pos);
 public:
 private:
 	CHeightMap*			m_pHeightMap = nullptr;
@@ -17,5 +19,11 @@ public:
 	virtual void	Render()     override;
 	virtual void	Release()    override;
 
+private:
+	virtual void ChangeAniSetByState() {  };
+
+	bool AnimationSet();
+
+	
 };
 

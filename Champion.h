@@ -14,9 +14,10 @@ protected:
 	float					m_fSize;
 	D3DXVECTOR3				m_MouseHitPoint;
 	bool					m_bPicked;
-	
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
+	CHAMPION_STATETYPE m_CurStateType;
+
 protected:
 	bool				TurnSlowly(const D3DXVECTOR3* destPos,float fLerpRate = 7.0f);
 	void				UpdateWorldMatrix();
@@ -33,8 +34,9 @@ public:
 	virtual void		Release()		PURE;
 public:		// 챔피언이면 만들어야 되는 함수들
 	void				SetHeightMap(CHeightMap* pHeightMap);
-
-public:
+	STATUSINFO	*		GetStatusInfo() { return &m_StatusInfo; }
+	CHAMPION_STATETYPE	GetStateType() { return m_CurStateType; }
+protected:
 	STATUSINFO m_StatusInfo;
 
 

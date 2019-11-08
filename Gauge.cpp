@@ -16,19 +16,23 @@ CGauge::~CGauge()
 {
 }
 
-void CGauge::SetBillBoard(D3DXMATRIXA16 * Matrix)
+void CGauge::SetBillBoard()
 {
-	D3DXMATRIXA16	matWorld;
-	D3DXMatrixIdentity(&matWorld);
+	D3DXMATRIXA16	matView,matBillBoard;
+	D3DXMatrixIdentity(&matBillBoard);
+	
+	GetDevice()->GetTransform(D3DTS_VIEW, &matView);
+	m_matBillBoard._41 = 0.0f;
+	m_matBillBoard._42 = 0.0f;
+	m_matBillBoard._43 = 0.0f;
 
-	GetDevice()->GetTransform(D3DTS_VIEW, &matWorld);
+	//y축 회전행렬 만 가지게 만든다.
+	m_matBillBoard._11 = matView._11;
+	m_matBillBoard._31 = matView._31;
+	m_matBillBoard._13 = matView._13;
+	m_matBillBoard._33 = matView._33;
+	D3DXMatrixInverse(&m_matBillBoard, 0, &m_matBillBoard);
 
-	D3DXMatrixInverse(&matWorld, NULL, &matWorld);
-	matWorld._41 = 0;
-	matWorld._42 = 0;
-	matWorld._43 = 0;
-
-	*Matrix = matWorld;
 }
 
 void CGauge::SetLight()
@@ -48,4 +52,66 @@ void CGauge::SetLight()
 		GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 		SetRenderState(D3DRS_LIGHTING, true);
 	}
+}
+
+void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+{
+	D3DXMATRIXA16 matView, matS,matT, matWorld, matR;
+	D3DXMatrixIdentity(&matView);
+	D3DXMatrixIdentity(&matR);
+	SetBillBoard();
+	float radian = D3DXToRadian(60.0f );
+	D3DXMatrixRotationZ(&matR, radian);
+	float xradian = D3DXToRadian(30.0f );
+	D3DXMatrixRotationX(&matR, xradian);
+	
+	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
+	matWorld = matS * matR	* matT* m_matWorld;
+
+	SetTransform(D3DTS_WORLD, &matWorld);
+
+	SetTexture(0, m_pBlank);
+
+	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
+
+	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		vecMultiVertex.size() / 3,
+		&vecMultiVertex[0],
+		sizeof(VTXTEX)
+	);
+	SetTexture(0, NULL);
+}
+
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+{
+	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
+	D3DXMatrixIdentity(&matView);
+	D3DXMatrixIdentity(&matR);
+	SetBillBoard();
+
+	float radian = D3DXToRadian(60.0f);
+	D3DXMatrixRotationZ(&matR, radian);
+	float xradian = D3DXToRadian(30.0f);
+	D3DXMatrixRotationX(&matR, xradian);
+
+	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
+	matWorld = matS * matR *matT* m_matWorld;
+
+
+	SetTransform(D3DTS_WORLD, &matWorld);
+
+	SetTexture(0, m_pCell);
+
+	GET_DEVICE->SetFVF(VTXFVF_VTXTEX);
+
+	HRESULT HR = GET_DEVICE->DrawPrimitiveUP(
+		D3DPT_TRIANGLELIST,
+		vecMultiVertex.size() / 3,
+		&vecMultiVertex[0],
+		sizeof(VTXTEX)
+	);
+	SetTexture(0, NULL);
 }

@@ -47,6 +47,7 @@
     <ClInclude Include="DropBox.h" />
     <ClInclude Include="EzealQ_Particle.h" />
     <ClInclude Include="Ezreal.h" />
+    <ClInclude Include="Ezreal_W_Particle.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameAlgorithm.h" />
     <ClInclude Include="Amumu.h" />
@@ -79,8 +80,9 @@
     <ClInclude Include="Image_Loader.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="Inhibitor.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="InhibitorGauge.h" />
     <ClInclude Include="LoadingFunctor.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MeleeMinion.h" />
@@ -88,8 +90,9 @@
     <ClInclude Include="MinionGauge.h" />
     <ClInclude Include="MinionMgr.h" />
     <ClInclude Include="Nexus.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="NexusGauge.h" />
     <ClInclude Include="ObjectColider.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleColider.h" />
@@ -168,11 +171,12 @@
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="Tower.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Turret.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="TurretGauge.h" />
     <ClInclude Include="Udyr.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
@@ -226,6 +230,7 @@
     <ClCompile Include="EventMgr.cpp" />
     <ClCompile Include="EzealQ_Particle.cpp" />
     <ClCompile Include="Ezreal.cpp" />
+    <ClCompile Include="Ezreal_W_Particle.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameHUD.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -242,8 +247,9 @@
     <ClCompile Include="Image_Loader.cpp" />
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="Inhibitor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp" />
     <ClCompile Include="LoadingFunctor.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MeleeMinion.cpp" />
@@ -251,8 +257,9 @@
     <ClCompile Include="MinionGauge.cpp" />
     <ClCompile Include="MinionMgr.cpp" />
     <ClCompile Include="Nexus.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="NexusGauge.cpp" />
     <ClCompile Include="ObjectColider.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleColider.cpp" />
@@ -304,7 +311,9 @@
     <ClCompile Include="Rect_Texture.cpp" />
     <ClCompile Include="ResourceFunc.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneMgr.cpp" />
+    <ClCompile Include="SceneMgr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SoundMgr.cpp" />
     <ClCompile Include="Spell_.cpp" />
@@ -324,11 +333,12 @@
     <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="Tower.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Turret.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TurretGauge.cpp" />
     <ClCompile Include="Udyr.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>

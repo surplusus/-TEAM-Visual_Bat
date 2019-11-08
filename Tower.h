@@ -1,5 +1,5 @@
 #pragma once
-#include "Dynamic.h"
+#include "Champion.h"
 struct ST_ABILITY
 {
 	int st_HitPoint;
@@ -14,12 +14,14 @@ struct ST_ABILITY
 
 class CObjMgr;
 class CHeightMap;
+class ColiderComponent;
+//>>champion -> dyanmic으로 나중에 코드 정리후 상속관계변경 필요
+class CGauge;
 class CTower
-	: public CDynamic
+	: public CChampion
 {
 public:
-	CTower(string name, ST_ABILITY Ability);
-	CTower() {}
+	CTower();
 	virtual ~CTower();
 protected:
 	CObjMgr*				m_ObjMgr;
@@ -30,14 +32,18 @@ protected:
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
-	void		UpdateWorldMatrix();
+	void				UpdateWorldMatrix();
 	const VTXTEX*		GetVertexInHeightMap();
 	DWORD&				GetVertexNumInHeightMap();
+	ColiderComponent*	m_pColider;
 public:
 	virtual	HRESULT		Initialize()	 = 0;
 	virtual void		Progress()		 = 0;
 	virtual void		Render()		 = 0;
 	virtual void		Release()		 = 0;
 	void				SetHeightMap(CHeightMap* pHeightMap);
+
+protected:
+	CGauge*					m_pGauge;
 };
 
