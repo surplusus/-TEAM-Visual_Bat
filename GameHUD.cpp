@@ -6,6 +6,7 @@
 //#include "Font.h"
 #include "CubePC.h"
 #include "C2DMouse.h"
+#include "Text.h"
 #include "TextMgr.h"
 
 cGameHUD::cGameHUD()
@@ -104,58 +105,55 @@ void cGameHUD::Initialize()
 	GET_SINGLE(cCubePC)->Initialize();
 
 	Initialize_Skill();
+	InitializeKey();
 	
 	// 능력치
-	{	
-
+	{
 		// 공격력
 		CTextMgr * Base_Attack = new CTextMgr;
-		m_mapTextMgr["Base_Attack"] = Base_Attack;
+		m_mapStatsMgr["Base_Attack"] = Base_Attack;
 
 		// 주문력
 		CTextMgr * Magic_Attack = new CTextMgr;
-		m_mapTextMgr["Magic_Attack"] = Magic_Attack;
+		m_mapStatsMgr["Magic_Attack"] = Magic_Attack;
 
 		// 방어력
 		CTextMgr * Base_Defence = new CTextMgr;
-		m_mapTextMgr["Base_Defence"] = Base_Defence;
+		m_mapStatsMgr["Base_Defence"] = Base_Defence;
 
 		// 마법 저항력
 		CTextMgr * Magic_Defence = new CTextMgr;
-		m_mapTextMgr["Magic_Defence"] = Magic_Defence;
+		m_mapStatsMgr["Magic_Defence"] = Magic_Defence;
 
 		// 사거리
 		CTextMgr * AttackRange = new CTextMgr;
-		m_mapTextMgr["AttackRange"] = AttackRange;
+		m_mapStatsMgr["AttackRange"] = AttackRange;
 
 		// 재사용 대기시간 감소
 		CTextMgr * SkillTimeRatio = new CTextMgr;
-		m_mapTextMgr["SkillTimeRatio"] = SkillTimeRatio;
+		m_mapStatsMgr["SkillTimeRatio"] = SkillTimeRatio;
 
 		// 치명타
 		CTextMgr * CriticalRatio = new CTextMgr;
-		m_mapTextMgr["CriticalRatio"] = CriticalRatio;
+		m_mapStatsMgr["CriticalRatio"] = CriticalRatio;
 
 		// 이동속도
 		CTextMgr * MoveSpeed = new CTextMgr;
-		m_mapTextMgr["MoveSpeed"] = MoveSpeed;
+		m_mapStatsMgr["MoveSpeed"] = MoveSpeed;
 
-		Initialize_Stats();
+		InitializeStats();
 	}
+
 }
 
 void cGameHUD::Progress()
 {
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
 	Progress_Minimap();
-
 	GET_SINGLE(cCubePC)->Progress();
-
-	CheckMouse();
-
+	
 	Update_StateText();
+
+	//CheckMouse();
 }
 
 void cGameHUD::Render()
@@ -171,13 +169,6 @@ void cGameHUD::Render()
 	m_mapImage["item"]->Render();
 	//m_mapImage["garen"]->Render();
 
-	Ezreal.m_Skill[0].Render();
-
-	if (m_isLButtonDown == true)
-	{
-		Ezreal_copy.m_Skill[0].Render();
-	}
-
 	m_mapImage["stats"]->Render();
 	m_mapImage["champion"]->Render();
 	m_mapImage["coin"]->Render();
@@ -185,10 +176,13 @@ void cGameHUD::Render()
 
 	GET_SINGLE(cCubePC)->Render();
 
-	for (auto it = m_mapTextMgr.begin();
-		it != m_mapTextMgr.end(); it++)
+	Render_Skill();
+	RenderKey();
+
+	for (auto it = m_mapStatsMgr.begin();
+		it != m_mapStatsMgr.end(); it++)
 	{
-		it->second->Render_Text();
+		it->second->RenderStats();
 	}
 }
 
@@ -200,11 +194,11 @@ void cGameHUD::Release()
 		it->second->Release();
 	}
 
-	Ezreal.m_Skill[0].Release();
-	Ezreal_copy.m_Skill[0].Release();
+	Release_Skill();
+	ReleaseKey();
 
-	for (auto it = m_mapTextMgr.begin();
-		it != m_mapTextMgr.end(); it++)
+	for (auto it = m_mapStatsMgr.begin();
+		it != m_mapStatsMgr.end(); it++)
 	{
 		it->second->Reelase();
 	}
@@ -213,115 +207,255 @@ void cGameHUD::Release()
 void cGameHUD::Initialize_Skill()
 {
 	// Ezreal
-	Ezreal.m_Skill[0] = CImage_Loader(
-		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+	m_MapSkill.insert(make_pair("Ezreal", new SkillList));
+
+	m_MapSkill["Ezreal"]->m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Mystic_Shot.png",
 		D3DXVECTOR3(376, 713, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal.m_Skill[0].Initialize();
 
-	Ezreal_copy.m_Skill[0] = CImage_Loader(
-		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
-		D3DXVECTOR3(376, 660, 0),
+	m_MapSkill["Ezreal"]->m_Skill[1] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Essence_Flux.png",
+		D3DXVECTOR3(420, 713, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	Ezreal_copy.m_Skill[0].Initialize();
+
+	m_MapSkill["Ezreal"]->m_Skill[2] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Arcane_Shift.png",
+		D3DXVECTOR3(464, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["Ezreal"]->m_Skill[3] = CImage_Loader(
+		"Resource/jiyun/skill/Ezreal/Trueshot_Barrage.png",
+		D3DXVECTOR3(508, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	//// Ez_copy
+	//Ezreal_copy.m_Skill[0] = CImage_Loader(
+	//	"Resource/jiyun/skill/Ezreal/Mystic_Shot.png",
+	//	D3DXVECTOR3(376, 660, 0),
+	//	D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	//Udyr
+	m_MapSkill.insert(make_pair("Udyr", new SkillList));
+
+	m_MapSkill["Udyr"]->m_Skill[0] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Tiger_Stance.png",
+		D3DXVECTOR3(376, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["Udyr"]->m_Skill[1] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Turtle_Stance.png",
+		D3DXVECTOR3(420, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["Udyr"]->m_Skill[2] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Bear_Stance.png",
+		D3DXVECTOR3(464, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["Udyr"]->m_Skill[3] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Phoenix_Stance.png", 
+		D3DXVECTOR3(508, 713, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	
+	for (int i = 0; i < SkillCount; i++)
+	{
+		m_MapSkill["Ezreal"]->m_Skill[i].Initialize();
+		m_MapSkill["Udyr"]->m_Skill[i].Initialize();
+	}
+
+	//Ezreal_copy.m_Skill[0].Initialize();
 }
 
-void cGameHUD::Initialize_Stats()
+void cGameHUD::Render_Skill()
 {
-	// 공격력
-	m_mapTextMgr["Base_Attack"]->Initialize_Text(
-		m_Stats.fBase_Attack,
-		m_mapImage["stats"]->GetPosition().x + 33,
-		m_mapImage["stats"]->GetPosition().y + 13,
-		m_mapImage["stats"]->GetPosition().x,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+	for (int i = 0; i < SkillCount; i++)
+	{
+		//m_MapSkill["Ezreal"]->m_Skill[i].Render();
+		m_MapSkill["Udyr"]->m_Skill[i].Render();
+		//Ezreal.m_Skill[i].Render();
+	}
+		
+	/*if (m_isLButtonDown == true)
+	{
+		Ezreal_copy.m_Skill[0].Render();
+	}*/
+}
 
-	// 마법력
-	m_mapTextMgr["Magic_Attack"]->Initialize_Text(
-		m_Stats.fMagic_Attack,
-		m_mapImage["stats"]->GetPosition().x + 100,
-		m_mapImage["stats"]->GetPosition().y + 13,
-		m_mapImage["stats"]->GetPosition().x + 135,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+void cGameHUD::Release_Skill()
+{
+	for (int i = 0; i < SkillCount; i++)
+	{
+		//m_MapSkill["Ezreal"]->m_Skill[i].Release();
+		m_MapSkill["Udyr"]->m_Skill[i].Release();
+	}
+}
 
-	// 방어력
-	m_mapTextMgr["Base_Defence"]->Initialize_Text(
-		m_Stats.fBase_Defence,
-		m_mapImage["stats"]->GetPosition().x + 33,
-		m_mapImage["stats"]->GetPosition().y + 36,
-		m_mapImage["stats"]->GetPosition().x,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+void cGameHUD::InitializeKey()
+{
+	RECT QBox;
+	SetRect(&QBox, 376, 742, 415, 742);
+	st_key.m_pQKey = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", QBox, string("Q"));
 
-	// 마법저항력
-	m_mapTextMgr["Magic_Defence"]->Initialize_Text(
-		m_Stats.fMagic_Defence,
-		m_mapImage["stats"]->GetPosition().x + 100,
-		m_mapImage["stats"]->GetPosition().y + 35,
-		m_mapImage["stats"]->GetPosition().x + 135,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+	RECT WBox;
+	SetRect(&WBox, 420, 742, 459, 742);
+	st_key.m_pWKey = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", WBox, string("W"));
 
-	// 사거리
-	m_mapTextMgr["AttackRange"]->Initialize_Text(
-		m_Stats.fAttackRange,
-		m_mapImage["stats"]->GetPosition().x + 33,
-		m_mapImage["stats"]->GetPosition().y + 58,
-		m_mapImage["stats"]->GetPosition().x,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+	RECT EBox;
+	SetRect(&EBox, 464, 742, 503, 742);
+	st_key.m_pEKey = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", EBox, string("E"));
 
-	// 재사용 대기시간 감소
-	m_mapTextMgr["SkillTimeRatio"]->Initialize_Text(
-		m_Stats.fSkillTimeRatio,
-		m_mapImage["stats"]->GetPosition().x + 100,
-		m_mapImage["stats"]->GetPosition().y + 58,
-		m_mapImage["stats"]->GetPosition().x + 135,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+	RECT RBox;
+	SetRect(&RBox, 508, 742, 547, 742);
+	st_key.m_pRKey = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", RBox, string("R"));
+}
 
-	// 치명타
-	m_mapTextMgr["CriticalRatio"]->Initialize_Text(
-		m_Stats.fCriticalRatio,
-		m_mapImage["stats"]->GetPosition().x + 33,
-		m_mapImage["stats"]->GetPosition().y + 80,
-		m_mapImage["stats"]->GetPosition().x,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+void cGameHUD::RenderKey()
+{
+	st_key.m_pQKey->m_pFont->DrawTextA(
+		NULL,
+		st_key.m_pQKey->m_sInfo.c_str(),
+		st_key.m_pQKey->m_sInfo.length(),
+		&st_key.m_pQKey->m_Rect,
+		DT_RIGHT | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
 
-	// 이동속도
-	m_mapTextMgr["MoveSpeed"]->Initialize_Text(
-		m_Stats.fMoveSpeed,
-		m_mapImage["stats"]->GetPosition().x + 100,
-		m_mapImage["stats"]->GetPosition().y + 80,
-		m_mapImage["stats"]->GetPosition().x + 135,
-		m_mapImage["stats"]->GetImageInfo().Height
-		+ m_mapImage["stats"]->GetPosition().y);
+	st_key.m_pWKey->m_pFont->DrawTextA(
+		NULL,
+		st_key.m_pWKey->m_sInfo.c_str(),
+		st_key.m_pWKey->m_sInfo.length(),
+		&st_key.m_pWKey->m_Rect,
+		DT_RIGHT | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+
+	st_key.m_pEKey->m_pFont->DrawTextA(
+		NULL,
+		st_key.m_pEKey->m_sInfo.c_str(),
+		st_key.m_pEKey->m_sInfo.length(),
+		&st_key.m_pEKey->m_Rect,
+		DT_RIGHT | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+
+	st_key.m_pRKey->m_pFont->DrawTextA(
+		NULL,
+		st_key.m_pRKey->m_sInfo.c_str(),
+		st_key.m_pRKey->m_sInfo.length(),
+		&st_key.m_pRKey->m_Rect,
+		DT_RIGHT | DT_NOCLIP,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
+}
+
+void cGameHUD::ReleaseKey()
+{
+	SAFE_DELETE(st_key.m_pQKey);
+	SAFE_DELETE(st_key.m_pWKey);
+	SAFE_DELETE(st_key.m_pEKey);
+	SAFE_DELETE(st_key.m_pRKey);
+}
+
+void cGameHUD::InitializeStats()
+{
+	// 능력치
+	{
+		// 공격력
+		m_mapStatsMgr["Base_Attack"]->InitializeStats(
+			m_Stats.fBase_Attack,
+			m_mapImage["stats"]->GetPosition().x + 33,
+			m_mapImage["stats"]->GetPosition().y + 13,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 마법력
+		m_mapStatsMgr["Magic_Attack"]->InitializeStats(
+			m_Stats.fMagic_Attack,
+			m_mapImage["stats"]->GetPosition().x + 100,
+			m_mapImage["stats"]->GetPosition().y + 13,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 방어력
+		m_mapStatsMgr["Base_Defence"]->InitializeStats(
+			m_Stats.fBase_Defence,
+			m_mapImage["stats"]->GetPosition().x + 33,
+			m_mapImage["stats"]->GetPosition().y + 36,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 마법저항력
+		m_mapStatsMgr["Magic_Defence"]->InitializeStats(
+			m_Stats.fMagic_Defence,
+			m_mapImage["stats"]->GetPosition().x + 100,
+			m_mapImage["stats"]->GetPosition().y + 35,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 사거리
+		m_mapStatsMgr["AttackRange"]->InitializeStats(
+			m_Stats.fAttackRange,
+			m_mapImage["stats"]->GetPosition().x + 33,
+			m_mapImage["stats"]->GetPosition().y + 58,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 재사용 대기시간 감소
+		m_mapStatsMgr["SkillTimeRatio"]->InitializeStats(
+			m_Stats.fSkillTimeRatio,
+			m_mapImage["stats"]->GetPosition().x + 100,
+			m_mapImage["stats"]->GetPosition().y + 58,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 치명타
+		m_mapStatsMgr["CriticalRatio"]->InitializeStats(
+			m_Stats.fCriticalRatio,
+			m_mapImage["stats"]->GetPosition().x + 33,
+			m_mapImage["stats"]->GetPosition().y + 80,
+			m_mapImage["stats"]->GetPosition().x,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+
+		// 이동속도
+		m_mapStatsMgr["MoveSpeed"]->InitializeStats(
+			m_Stats.fMoveSpeed,
+			m_mapImage["stats"]->GetPosition().x + 100,
+			m_mapImage["stats"]->GetPosition().y + 80,
+			m_mapImage["stats"]->GetPosition().x + 135,
+			m_mapImage["stats"]->GetImageInfo().Height
+			+ m_mapImage["stats"]->GetPosition().y);
+	}
 }
 
 void cGameHUD::Update_StateText()
 {
 
 	// 공격력
-	m_mapTextMgr["Base_Attack"]->SetText(m_Stats.fBase_Attack);
+	m_mapStatsMgr["Base_Attack"]->SetText(m_Stats.fBase_Attack);
 
 	// 마법력
-	m_mapTextMgr["Magic_Attack"]->SetText(m_Stats.fMagic_Attack);
+	m_mapStatsMgr["Magic_Attack"]->SetText(m_Stats.fMagic_Attack);
 
 	// 방어력
-	m_mapTextMgr["Base_Defence"]->SetText(m_Stats.fBase_Defence);
+	m_mapStatsMgr["Base_Defence"]->SetText(m_Stats.fBase_Defence);
 	// 마법저항력
-	m_mapTextMgr["Magic_Defence"]->SetText(m_Stats.fMagic_Defence);
+	m_mapStatsMgr["Magic_Defence"]->SetText(m_Stats.fMagic_Defence);
 	// 사거리
-	m_mapTextMgr["AttackRange"]->SetText(m_Stats.fAttackRange);
+	m_mapStatsMgr["AttackRange"]->SetText(m_Stats.fAttackRange);
 	// 재사용 대기시간 감소
-	m_mapTextMgr["SkillTimeRatio"]->SetText(m_Stats.fSkillTimeRatio);
+	m_mapStatsMgr["SkillTimeRatio"]->SetText(m_Stats.fSkillTimeRatio);
 	// 치명타
-	m_mapTextMgr["CriticalRatio"]->SetText(m_Stats.fCriticalRatio);
+	m_mapStatsMgr["CriticalRatio"]->SetText(m_Stats.fCriticalRatio);
 	// 이동속도
-	m_mapTextMgr["MoveSpeed"]->SetText(m_Stats.fMoveSpeed);
+	m_mapStatsMgr["MoveSpeed"]->SetText(m_Stats.fMoveSpeed);
 
 }
 
@@ -364,17 +498,17 @@ void cGameHUD::Progress_Minimap()
 	}
 }
 
-void cGameHUD::CheckMouse()
-{
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if (GET_SINGLE(C2DMouse)->IsClicked_Button(&(Ezreal.m_Skill[0])))
-		{
-			m_isLButtonDown = true;
-		}
-		else
-		{
-			m_isLButtonDown = false;
-		}
-	}
-}
+//void cGameHUD::CheckMouse()
+//{
+//	if (GetAsyncKeyState(VK_LBUTTON))
+//	{
+//		if (GET_SINGLE(C2DMouse)->IsClicked_Button(&(Ezreal.m_Skill[0])))
+//		{
+//			m_isLButtonDown = true;
+//		}
+//		else
+//		{
+//			m_isLButtonDown = false;
+//		}
+//	}
+//}

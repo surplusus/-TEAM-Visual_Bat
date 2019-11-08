@@ -148,8 +148,8 @@ void CTextMgr::Initialize()
 
 // >> jiyun's code
 
-// Initialize_Text(값, Rect 왼쪽, Rect 위, Rect 오른쪽, Rect 아래)
-void CTextMgr::Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom)
+// Initialize_Text(Rect 왼쪽, Rect 위, Rect 오른쪽, Rect 아래)
+void CTextMgr::InitializeStats(float val, int xLeft, int yTop, int xRight, int yBottom)
 {
 	// jiyun
 	RECT box;
@@ -164,17 +164,21 @@ void CTextMgr::Initialize_Text(float val, int xLeft, int yTop, int xRight, int y
 }
 
 // Render() 로 하면 오류나서 지우고 새로 Render_Text()라는 함수를 만듦
-void CTextMgr::Render_Text()
+void CTextMgr::RenderStats()
 {
-	m_StateBox->m_pFont->DrawTextA(
-		NULL,
-		m_StateBox->m_sInfo.c_str(),
-		m_StateBox->m_sInfo.length(),
-		&m_StateBox->m_Rect,
-		DT_LEFT | DT_NOCLIP,
-		D3DCOLOR_XRGB(255, 255, 0)
-	);
+	if (m_StateBox)
+	{
+		m_StateBox->m_pFont->DrawTextA(
+			NULL,
+			m_StateBox->m_sInfo.c_str(),
+			m_StateBox->m_sInfo.length(),
+			&m_StateBox->m_Rect,
+			DT_LEFT | DT_NOCLIP,
+			D3DCOLOR_XRGB(255, 255, 0)
+		);
+	}
 }
+
 void CTextMgr::SetText(float fVal)
 {
 	if (m_StateBox)
