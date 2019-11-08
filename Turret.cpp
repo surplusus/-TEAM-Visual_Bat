@@ -25,7 +25,14 @@ CTurret::~CTurret()
 
 HRESULT CTurret::Initialize()
 {
-	CloneMesh(GetDevice(), L"Blue_Turret", &m_pAnimationCtrl);
+	vector<TCHAR*> name(4);
+	name[0] = L"order_outer_Turret";
+	name[1] = L"order_iner_Turret";
+	name[2] = L"twins_left_Turret";
+	name[3] = L"twins_right_Turret";
+
+	for(size_t i = 0; i < name.size(); i++)
+		CloneMesh(GetDevice(), name[i], &m_pAnimationCtrl);
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
 

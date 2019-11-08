@@ -59,6 +59,8 @@ HRESULT CGameScene::Initialize()
 	}
 
 #pragma region 천->포탑, 억제기, 타워(order)
+	//////////////////////////////////////// < turret > /////////////////////////////////////////
+	//blue
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/", L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Turret Failed"); return E_FAIL;
@@ -68,12 +70,26 @@ HRESULT CGameScene::Initialize()
 	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f));
 	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f));
 	vecTurret[3] = new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f));
+	
 	for (size_t i = 0; i < vecTurret.size(); i++)
 	{
 		vecTurret[i]->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
 	}
+	GET_SINGLE(CObjMgr)->AddObject(L"order_outer_Turret", vecTurret[0]);
+	GET_SINGLE(CObjMgr)->AddObject(L"order_iner_Turret",  vecTurret[1]);
+	GET_SINGLE(CObjMgr)->AddObject(L"twins_left_Turret",  vecTurret[2]);
+	GET_SINGLE(CObjMgr)->AddObject(L"twins_right_Turret", vecTurret[3]);
+	//red
+	/*if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Red_Turret/", L"Chaos_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"Chaos_Turret Failed");
+	}
+	vector<CTurret*> vecChaos(1);
+	vecChaos[0] = new CTurret(D3DXVECTOR3(50.0f, 0.f, 20.f));
+	GET_SINGLE(CObjMgr)->AddObject(L"chaos_outer_Turret", vecChaos[0]);*/
+	//////////////////////////////////////// < turret end > /////////////////////////////////////////
 
+	//////////////////////////////////////// < inhibitor > /////////////////////////////////////////
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/", L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"inhibitor Failed"); return E_FAIL;
@@ -82,7 +98,9 @@ HRESULT CGameScene::Initialize()
 	pinhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
 	pinhibitor->Initialize();
 	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pinhibitor);
+	//////////////////////////////////////// < inhibitor end > /////////////////////////////////////////
 
+	//////////////////////////////////////// < Nexus > /////////////////////////////////////////
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/", L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"Nexus Failed"); return E_FAIL;
@@ -91,7 +109,7 @@ HRESULT CGameScene::Initialize()
 	pNexus = new CNexus(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
 	pNexus->Initialize();
 	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-
+	//////////////////////////////////////// < Nexus end > /////////////////////////////////////////
 #pragma endregion
 	
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
