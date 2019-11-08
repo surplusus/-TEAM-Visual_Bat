@@ -115,7 +115,7 @@ void CUdyr::Progress()
 		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
 	}
-	m_pCollider->Update(m_Info.vPos);
+	//m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
 	if (!m_pBehavior->GetBlackBoard().getBool("ChampIsOver"))
 		m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
