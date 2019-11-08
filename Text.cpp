@@ -3,7 +3,11 @@
 
 CText::~CText()
 {
+<<<<<<< HEAD
 	//SAFE_RELEASE(m_pFont);
+=======
+	//if(m_pFont)	m_pFont->Release();
+>>>>>>> origin/master
 }
 
 CText::CText(const CText & text)

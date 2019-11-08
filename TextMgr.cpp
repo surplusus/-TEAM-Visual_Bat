@@ -49,13 +49,19 @@ CTextMgr::CTextMgr()
 		Spell_name.m_heal = "È¸º¹";
 	}
 
+	m_pNotice = NULL;
+	m_pAlarm = NULL;
+	m_pTime = NULL;
+	m_StateBox = NULL;
+
 	m_vecNotice.push_back(string("123123123"));
-	m_sNotice = m_vecNotice[rand() % m_vecNotice.size()];
+	m_sNotice = m_vecNotice[rand() % m_vecNotice.size()];	
 }
 
 
 CTextMgr::~CTextMgr()
 {
+
 }
 
 void CTextMgr::Initialize()
@@ -405,21 +411,21 @@ void CTextMgr::LoadingNoticeRender()
 		D3DCOLOR_XRGB(0, 0, 0));
 }
 
-void CTextMgr::Reelase()
+void CTextMgr::Release()
 {
-	delete m_pNotice;
-	delete m_pTime;
-	delete m_pAlarm;
+	SAFE_DELETE(m_pNotice);
+	SAFE_DELETE(m_pTime);
+	SAFE_DELETE(m_pAlarm);
 
-	delete CtSpell_Info.m_pCleanse	;
-	delete CtSpell_Info.m_pExhaust	;
-	delete CtSpell_Info.m_pBarrier	;
-	delete CtSpell_Info.m_pFlash	;
-	delete CtSpell_Info.m_pGhost	;
-	delete CtSpell_Info.m_pHeal		;
-	delete CtSpell_Info.m_pIgnite	;
-	delete CtSpell_Info.m_pSmite	;
-	delete CtSpell_Info.m_pTeleport ;
+	SAFE_DELETE(CtSpell_Info.m_pCleanse);
+	SAFE_DELETE(CtSpell_Info.m_pExhaust);
+	SAFE_DELETE(CtSpell_Info.m_pBarrier);
+	SAFE_DELETE(CtSpell_Info.m_pFlash	);
+	SAFE_DELETE(CtSpell_Info.m_pGhost	);
+	SAFE_DELETE(CtSpell_Info.m_pHeal	);
+	SAFE_DELETE(CtSpell_Info.m_pIgnite	);
+	SAFE_DELETE(CtSpell_Info.m_pSmite	);
+	SAFE_DELETE(CtSpell_Info.m_pTeleport);
 
 	m_pNotice					= NULL;
 	m_pTime						= NULL;

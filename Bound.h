@@ -16,6 +16,7 @@ public:
 	virtual const D3DXVECTOR3* GetMax();
 	virtual const D3DXVECTOR3* GetCenter();
 	virtual const float		   GetRadius();
+	virtual void SetCenter(D3DXVECTOR3 p) { m_vCenter = p; }
 	LPD3DXMESH GetMesh() { return m_pMesh; }
 	void Release();
 };

@@ -25,9 +25,13 @@ private:
 private:
 	virtual void		ChangeAniSetByState() {};
 	void AddAttackLaizer();
-
+	void PaticleCollisionEvent(COLLISIONEVENT* Evt);
+	void OnFindPickingSphere(PICKSPHEREEVENT * evt);
+	
 
 public:
 	void SetPosition(D3DXVECTOR3 position) { m_Info.vPos = position; }
+
+	void UpdateCollisionList();
 };
 

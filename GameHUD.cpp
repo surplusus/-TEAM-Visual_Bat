@@ -149,8 +149,16 @@ void cGameHUD::Initialize()
 void cGameHUD::Progress()
 {
 	Progress_Minimap();
+<<<<<<< HEAD
 	GET_SINGLE(cCubePC)->Progress();
 	
+=======
+
+	//GET_SINGLE(cCubePC)->Progress();
+
+	CheckMouse();
+
+>>>>>>> origin/master
 	Update_StateText();
 
 	//CheckMouse();
@@ -174,7 +182,7 @@ void cGameHUD::Render()
 	m_mapImage["coin"]->Render();
 	m_mapImage["time"]->Render();
 
-	GET_SINGLE(cCubePC)->Render();
+	//GET_SINGLE(cCubePC)->Render();
 
 	Render_Skill();
 	RenderKey();
@@ -200,7 +208,7 @@ void cGameHUD::Release()
 	for (auto it = m_mapStatsMgr.begin();
 		it != m_mapStatsMgr.end(); it++)
 	{
-		it->second->Reelase();
+		it->second->Release();
 	}
 }
 
