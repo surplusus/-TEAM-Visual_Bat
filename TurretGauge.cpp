@@ -21,34 +21,34 @@ void CTurretGauge::Initialize()
 	SetLight();
 	//¾Æ·§ÂÊ »ï°¢Çü
 	VTXTEX v;
-	v.vPosition = D3DXVECTOR3(1.f, 1.f, 0);
+	v.vPosition = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(0, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(-1.f, 1.f, 0);
+	v.vPosition = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(0, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(1.f, 0.0f, 0.0f);
+	v.vPosition = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
 
 	//À­ÂÊ »ï°¢Çü
-	v.vPosition = D3DXVECTOR3(-1.0f, 0, 0.0f);
+	v.vPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(1.f, 0, 0.0f);
+	v.vPosition = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(1, 1);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
 
-	v.vPosition = D3DXVECTOR3(-1.0f, 1.f, 0.0f);
+	v.vPosition = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	v.vTexture = D3DXVECTOR2(0, 0);
 	v.vNormal = D3DXVECTOR3(0, 0, 1);
 	m_vecMultiVertex.push_back(v);
@@ -72,8 +72,8 @@ void CTurretGauge::Progress()
 
 void CTurretGauge::Render()
 {
-	RenderBlankGauge(m_vecMultiVertex,D3DXVECTOR3( m_stInfo.vPos.x, m_stInfo.vPos.y + 5.0f, 0.0f), D3DXVECTOR3(1.0f, 0.1f, 1.0f));
-	RenderCellGauge(m_vecMultiVertex, D3DXVECTOR3( m_stInfo.vPos.x, m_stInfo.vPos.y + 5.0f, 0.0f), D3DXVECTOR3(1.0f * m_fDmg, 0.1f, 1.0f), m_fDmg);
+	RenderBlankGauge(m_vecMultiVertex,m_stInfo.vPos.y + 5.0f, D3DXVECTOR3(3.0f, 0.1f, 1.0f));
+	RenderCellGauge(m_vecMultiVertex, m_stInfo.vPos.y + 5.0f, D3DXVECTOR3(3.0f, 0.1f, 1.0f), m_fDmg);
 }
 
 void CTurretGauge::Release()

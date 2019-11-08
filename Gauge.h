@@ -36,8 +36,8 @@ public:
 	void SufferDmg(float CurrentHP) { m_CurrentHP = CurrentHP; }
 
 protected:
-	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale);
-	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale, float fDmg);
+	void RenderBlankGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale);
+	void RenderCellGauge (vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale, float fDmg);
 
 private:
 	D3DXMATRIX						m_matParentWorld;

@@ -54,7 +54,7 @@ void CGauge::SetLight()
 	}
 }
 
-void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale)
 {
 	D3DXMATRIXA16 matView, matS,matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
@@ -69,8 +69,12 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	float x = m_matParentWorld._41;
 	float z = m_matParentWorld._43;
 
+
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, x, vPosition.y + 2.5f, z);
+	D3DXMatrixTranslation(&matT
+		, x - (vScale.x / 2.0f)
+		, y + 2.5f, z);
+	
 	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
@@ -88,7 +92,7 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	SetTexture(0, NULL);
 }
 
-void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale, float fDmg)
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale, float fDmg)
 {
 	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
@@ -103,8 +107,16 @@ void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositio
 	float x = m_matParentWorld._41;
 	float z = m_matParentWorld._43;
 
+
 	D3DXMatrixScaling(&matS, vScale.x * fDmg, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, x - ((vScale.x * fDmg) / 2.0f) - ((vScale.x - vScale.x * fDmg)) / 2.0f, vPosition.y + 2.5f, z);
+	D3DXMatrixTranslation(&matT
+		, x - (vScale.x / 2.0f)
+		, y + 2.5f, z);
+	
+	
+	//중심 좌표 x에서 스케일링된 크기만큼을 빼서 좌측으로 이동시킨다.
+	//(x - (2.0f * ((vScale.x * fDmg) / 2.0f)));
+	
 	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
