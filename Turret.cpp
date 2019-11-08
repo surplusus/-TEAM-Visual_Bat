@@ -10,7 +10,8 @@
 #include "TurretGauge.h"
 #include"TargetColider.h"
 #include"ParticleColider.h"
-#include"EventMgr.h"
+#include "EventMgr.h"
+#include "TurretMissle.h"
 CTurret::CTurret(D3DXVECTOR3 pos)
 	:m_pTexture(NULL), m_fStartTime(0), m_fEndTime(0), m_bDirty(true), m_bProgress(true), m_pTurretMissile(NULL)
 {
@@ -56,8 +57,12 @@ HRESULT CTurret::Initialize()
 	GET_SINGLE(EventMgr)->Subscribe(this, &CTurret::OnFindPickingSphere);	
 	
 	m_pGauge = new CTurretGauge;
-	m_pGauge->SetWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
+	m_pGauge->SetInfo(m_Info);
+	m_pGauge->SetParentWorld(m_Info.matWorld);
+	m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
+	m_pGauge->SufferDmg(m_StatusInfo.fHP);
+
 	m_bColl = false;
 	return S_OK;
 }
@@ -76,7 +81,8 @@ void CTurret::Progress()
 		{
 			AddAttackLaizer();
 		}
-		m_pGauge->SetPosition(m_Info.vPos);
+		m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
+		m_pGauge->SufferDmg(m_StatusInfo.fHP);
 		m_pGauge->Progress();
 		UpdateWorldMatrix();
 	}
@@ -162,7 +168,12 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 
 void CTurret::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
-	
+	if (!m_pTurretMissile)
+	{
+		m_pTurretMissile = new CTurretMissle(m_Info,10.0f,D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
+		m_pTurretMissile->Initalize();
+		GET_SINGLE(CParticleMgr)->AddParticle(this, m_pTurretMissile);
+	}
 }
 
 

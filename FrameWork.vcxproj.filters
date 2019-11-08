@@ -709,7 +709,7 @@
       <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\TargetColider</Filter>
     </ClInclude>
     <ClInclude Include="TurretMissle.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1065,7 +1065,7 @@
       <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\TargetColider</Filter>
     </ClCompile>
     <ClCompile Include="TurretMissle.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

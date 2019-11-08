@@ -47,7 +47,6 @@ HRESULT CInhibitor::Initialize()
 
 
 	m_pGauge = new CInhibitorGauge;
-	m_pGauge->SetWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
 
 
@@ -58,7 +57,6 @@ void CInhibitor::Progress()
 {
 	m_pAnimationCtrl->FrameMove(L"Inhibitor", g_fDeltaTime);
 	Animation_Set();
-	m_pGauge->SetPosition(m_Info.vPos);
 }
 
 void CInhibitor::Render()

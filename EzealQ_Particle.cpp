@@ -69,9 +69,8 @@ bool CEzealQ_Particle::Progress()
 	Update_Particle();
 	if (m_bCol)
 		return false;
+	if (!AddTail()) return false;
 
-	if (!AddTail())
-		return false;
 	return true;
 
 }
@@ -333,7 +332,6 @@ bool CEzealQ_Particle::AddTail()
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
 		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 		m_vecVertexParticle.push_back(m_VerTexInfo);
-
 	}
 	if (m_vecVertexParticle.empty()) {
 		return false;

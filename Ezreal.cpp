@@ -151,8 +151,6 @@ void CEzreal::Progress()
 	if(m_pColider)	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
 	GET_SINGLE(cGameHUD)->SetInfoChamp(m_StatusInfo);
-	
-	
 }
 void CEzreal::AddSkill_Q()
 {	
@@ -160,7 +158,6 @@ void CEzreal::AddSkill_Q()
 	D3DXVECTOR3 vPos;
 	GetBoneMatrix(TestMeshName, "Armature_L_hand", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
-	m_MouseHitPoint;
 	if (SearchCurMousePointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap()))
 	{
 		TurnSlowly(&m_CurMousePoint, 1.0f);
@@ -409,6 +406,7 @@ CHAMPION_STATETYPE CEzreal::SettingSpell1_Motion()
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 		m_ChangeMotion = false;
+	
 		//시간이 다 지나을때에 대한 모션
 		if (m_fStartTime >= m_fEndTime) {
 			InitAnimationState();
@@ -448,10 +446,7 @@ CHAMPION_STATETYPE CEzreal::SettingAttack_Motion()
 		}
 		m_fStartTime += 1;
 		return CHAMPION_STATETYPE_ATTACK1;
-
 	}
-
-
 	return CHAMPION_STATETYPE_IDLE1;
 }
 

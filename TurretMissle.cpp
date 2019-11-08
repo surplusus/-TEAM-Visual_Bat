@@ -22,7 +22,7 @@ void CTurretMissle::Initalize()
 
 bool CTurretMissle::Progress()
 {
-	return false;
+	return true;
 }
 
 void CTurretMissle::Render()
@@ -49,8 +49,8 @@ void CTurretMissle::SetUp_Particle()
 void CTurretMissle::Setup_MultiTexture()
 {
 
-	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_R_trail.dds", &m_pTex0);
-	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_Q_mis_trail.dds", &m_pTex1);
+	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/common_Flare-Rainbow_blue_green_02.dds", &m_pTex0);
+	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_R_Bow_Arrow.dds", &m_pTex1);
 	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particle/Ezreal_Base_Z_solar_tag.dds", &m_pTex2);
 
 	PARTICLE_VERTEX v;
@@ -250,4 +250,9 @@ void CTurretMissle::InitRenderState()
 	GetDevice()->GetRenderState(D3DRS_LIGHTING, &pWord); m_vecRenderInitData.push_back(pWord);
 	GetDevice()->GetRenderState(D3DRS_ZWRITEENABLE, &pWord); m_vecRenderInitData.push_back(pWord);
 
+}
+
+bool CTurretMissle::AddTail()
+{
+	return false;
 }
