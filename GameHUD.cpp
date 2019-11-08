@@ -149,16 +149,7 @@ void cGameHUD::Initialize()
 void cGameHUD::Progress()
 {
 	Progress_Minimap();
-<<<<<<< HEAD
 	GET_SINGLE(cCubePC)->Progress();
-	
-=======
-
-	//GET_SINGLE(cCubePC)->Progress();
-
-	CheckMouse();
-
->>>>>>> origin/master
 	Update_StateText();
 
 	//CheckMouse();

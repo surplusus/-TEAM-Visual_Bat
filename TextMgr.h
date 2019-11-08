@@ -52,8 +52,8 @@ struct  CTEXT_NAME
 	CText*				m_pBarrier_name	=NULL;
 };
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 // jiyun
 struct ST_STATE_BOX {
 	CText * m_pA = NULL;
@@ -67,7 +67,7 @@ struct ST_STATE_STRING {
 	string m_sC;
 };
 
->>>>>>> origin/master
+//>>>>>>> origin/master
 class CTextMgr
 {
 public:
@@ -118,14 +118,11 @@ private:
 public:
 	int value;
 
-<<<<<<< HEAD
 	void InitializeStats(float val, int xLeft, int yTop, int xRight, int yBottom);
 	void RenderStats();
-=======
-	void Initialize_Text(float val, int xLeft, int yTop, int xRight, int yBottom);
-	void Render_Text();
+
 	void Release();
->>>>>>> origin/master
+
 	void SetText(float fVal);
 };
 
