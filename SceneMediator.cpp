@@ -96,9 +96,10 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 		}
 		else if (member == m_pGuhyunScene) {
 			m_pGuhyunScene->GetMinionMgr(&m_mapVoidPointer["MinionMgr"]);
+			m_pGuhyunScene->GetCursor(&m_mapVoidPointer["Cursor"]);
 		}
 		else if (member == m_pInGameScene) {
-
+			m_pInGameScene->GetMinionMgr(&m_mapVoidPointer["MinionMgr"]);
 		}
 	}	break;
 	default:

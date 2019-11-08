@@ -687,6 +687,9 @@
     <ClInclude Include="CollisionMgr.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BehaviorEzreal.h">
+      <Filter>System\Behavior</Filter>
+    </ClInclude>
     <ClInclude Include="Ezreal_W_Particle.h">
       <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
     </ClInclude>
@@ -1026,6 +1029,9 @@
       <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorMinion.cpp">
+      <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorEzreal.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="Ezreal_W_Particle.cpp">

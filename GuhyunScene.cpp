@@ -10,7 +10,7 @@
 #include "GameHUD.h"
 #include "CollisionMgr.h"
 #include "ParticleMgr.h"
-
+#include "Cursor.h"
 #include "SoundMgr.h"
 #include "Udyr.h"
 #include "Ezreal.h"
@@ -39,6 +39,8 @@ HRESULT GuhyunScene::Initialize()
 		return E_FAIL;
 
 	LetObjectKnowHeightMap();
+
+	m_pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
 
 	return S_OK;
 }
@@ -136,4 +138,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 void GuhyunScene::GetMinionMgr(void ** pMinionMgr)
 {
 	m_pMinionMgr = reinterpret_cast<CMinionMgr*>(*pMinionMgr);
+}
+
+void GuhyunScene::GetCursor(void ** pCursor)
+{
+	m_pCursor = reinterpret_cast<CCursor*>(*pCursor);
 }
