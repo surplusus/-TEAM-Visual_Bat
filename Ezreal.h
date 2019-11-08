@@ -27,12 +27,8 @@ public:
 		m_fAngle[ANGLE_Y] = 0;
 		m_fAngle[ANGLE_Z] = 0;		
 		m_strAnimationState = AnimationState; 
-
-		m_Champ_State.resize(CHAMPION_STATETYPE_END_ANIMSTATE);
-		for (int i = 0; i <CHAMPION_STATETYPE_END_ANIMSTATE; i++)
-		{
-			m_Champ_State[i] = false;
-		}
+		
+		InitAnimationState();
 		TestMeshName = L"Ezreal2";
 
 	}
@@ -81,9 +77,9 @@ private:
 	string m_strAnimationState;
 	bool m_bProgress = true;
 
-	void SettingFrameAnimation();//현재 실행할 애니메이션 설정
 	void KeyCheck();
 	void SettingAnimationSort();//상태에 따른 애니메이션 순서를 정해준다.
+	void SettingFrameAnimation();//현재 실행할 애니메이션 설정
 	void InitAnimationState();
 
 	void InitUpdate();

@@ -16,7 +16,7 @@ CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle
 {
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
-	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
+	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_Z] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
 	
 }
@@ -331,7 +331,7 @@ bool CEzealQ_Particle::AddTail()
 		}
 		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
-		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p,m_Info.matWorld);
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 		m_vecVertexParticle.push_back(m_VerTexInfo);
 
 	}

@@ -5,7 +5,13 @@
 #include "HeightMap.h"
 #include "SoundMgr.h"
 #include "NexusGauge.h"
-
+#include"ObjectColider.h"
+#include"BoundingBox.h"
+#include"PickingSphereMgr.h"
+#include "TurretGauge.h"
+#include"EventMgr.h"
+#include"ParticleMgr.h"
+#include"CollisionMgr.h"
 CNexus::CNexus(D3DXVECTOR3 pos)
 {
 	m_fSize = 1.0f;
@@ -31,9 +37,20 @@ HRESULT CNexus::Initialize()
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
+	m_pColider = new CObjectColider(this);
+	m_pColider->SetUp(m_Info, 2.0f, new CBoundingBox);
+	m_ColiderList.push_back(m_pColider);
+	InsertObjSphereColider(this, &m_ColiderList);
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pColider->GetSphere());
+	GET_SINGLE(EventMgr)->Subscribe(this, &CNexus::PaticleCollisionEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CNexus::OnFindPickingSphere);
+
+
+
 	m_pGauge = new CNexusGauge;
 	m_pGauge->SetWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
+
 	return S_OK;
 }
 
@@ -58,6 +75,14 @@ void CNexus::Render()
 void CNexus::Release()
 {
 	SAFE_RELEASE(m_pAnimationCtrl);
+}
+
+void CNexus::PaticleCollisionEvent(COLLISIONEVENT * Evt)
+{
+}
+
+void CNexus::OnFindPickingSphere(PICKSPHEREEVENT * evt)
+{
 }
 
 bool CNexus::AnimationSet()

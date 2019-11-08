@@ -14,7 +14,7 @@ CParticleColider::~CParticleColider()
 	Release();
 }
 
-void CParticleColider::Update(D3DXVECTOR3 vPos, D3DXMATRIX matWorld)
+void CParticleColider::Update(D3DXVECTOR3 vPos)
 {
 
 	m_Info.vPos = vPos;

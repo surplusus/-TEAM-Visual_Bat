@@ -1,6 +1,8 @@
 #ifndef _SYSTEMFUNC_H
 #define _SYSTEMFUNC_H
 #include"BaseInclude.h"
+class ColiderComponent;
+class CObj;
 //=============== Device ===============//
 extern	HRESULT		InitDevice(HWND hWnd, WINMODE Mode, const UINT& iWinCX, const UINT& iWinCY);
 extern  void		Begin_Render(void);
@@ -42,4 +44,7 @@ extern bool			CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVEC
 
 //=============== System Relase ======================//
 extern void		System_Release(void);
+
+//SphereColiderBoxRegister
+extern void		InsertObjSphereColider(CObj*pObj, std::list<ColiderComponent*>* ColList);
 #endif

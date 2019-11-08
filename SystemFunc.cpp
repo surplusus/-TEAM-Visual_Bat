@@ -3,6 +3,8 @@
 #include "Device.h"
 #include "TimeMgr.h"
 #include "Input.h"
+#include "CollisionMgr.h"
+#include"ParticleMgr.h"
 
 extern  HRESULT InitDevice(HWND hWnd, WINMODE Mode
 	, const UINT& iWinCX
@@ -182,4 +184,10 @@ extern  void System_Release(void)
 	(*(CDevice::GetInstance()))->DestroyInstance();
 	(*(CTimeMgr::GetInstance()))->DestroyInstance();
 	(*(CInput::GetInstance()))->DestroyInstance();
+}
+
+void InsertObjSphereColider(CObj * pObj, list<ColiderComponent*>* ColList)
+{
+	GET_SINGLE(CParticleMgr)->InsertColList(pObj, ColList);
+	GET_SINGLE(CCollisionMgr)->InsertColistion(pObj, ColList);
 }

@@ -56,10 +56,8 @@ void CGauge::SetLight()
 
 void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS,matT, matWorld, matR;
-	D3DXMatrixIdentity(&matView);
+	D3DXMATRIXA16 matS,matT, matWorld, matR;
 	D3DXMatrixIdentity(&matR);
-	SetBillBoard();
 	float radian = D3DXToRadian(60.0f );
 	D3DXMatrixRotationZ(&matR, radian);
 	float xradian = D3DXToRadian(30.0f );
@@ -86,11 +84,8 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 
 void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
 {
-	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
-	D3DXMatrixIdentity(&matView);
+	D3DXMATRIXA16 matS, matT, matWorld, matR;
 	D3DXMatrixIdentity(&matR);
-	SetBillBoard();
-
 	float radian = D3DXToRadian(60.0f);
 	D3DXMatrixRotationZ(&matR, radian);
 	float xradian = D3DXToRadian(30.0f);

@@ -19,7 +19,7 @@
 #include"BaseAttack.h"
 #include"ParticleColider.h"
 #include"GameHUD.h"
-#include"Input.h"
+
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
@@ -85,7 +85,8 @@ bool CEzreal::MouseCheck()
 	// 방향전환
 	if (MyGetMouseState().rgbButtons[0]) {
 		m_bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
-	}	
+	}
+
 	return m_bPicked;
 }
 
@@ -130,9 +131,7 @@ HRESULT CEzreal::Initialize()
 	//스킬레벨 설정
 	m_SkillLevel.resize(4);
 	m_SkillLevel = { SKILL_LEVEL1,SKILL_LEVEL0 ,SKILL_LEVEL0 ,SKILL_LEVEL0 };
-	StatusInitalize();
-	
-	
+	StatusInitalize();	
 	return S_OK;
 }
 
@@ -149,7 +148,7 @@ void CEzreal::Progress()
 	if ( !(m_Champ_State[CHAMPION_STATETYPE_DEATH] && m_fStartTime >= m_fEndTime)) {
 		m_pAnimationCtrl->FrameMove(TestMeshName, g_fDeltaTime);
 	}
-	if(m_pColider)	m_pColider->Update(m_Info.vPos,m_Info.matWorld);
+	if(m_pColider)	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
 	GET_SINGLE(cGameHUD)->SetInfoChamp(m_StatusInfo);
 	
@@ -161,6 +160,12 @@ void CEzreal::AddSkill_Q()
 	D3DXVECTOR3 vPos;
 	GetBoneMatrix(TestMeshName, "Armature_L_hand", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
+	m_MouseHitPoint;
+	if (SearchCurMousePointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap()))
+	{
+		TurnSlowly(&m_CurMousePoint, 1.0f);
+		UpdateWorldMatrix();
+	}
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
 	float fMana =0;
@@ -270,7 +275,7 @@ void CEzreal::SettingFrameAnimation()
 
 void CEzreal::KeyCheck()
 {
-	if (GetAsyncKeyState(VK_LBUTTON) )
+	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		if (MouseCheck())
 		{
@@ -512,7 +517,7 @@ void CEzreal::StatusInitalize()
 	m_StatusInfo.fMoveSpeed = 200;
 	m_StatusInfo.fAttackRange = 200;
 	m_StatusInfo.fHP = 150;
-	m_StatusInfo.fMana = 300;
+	m_StatusInfo.fMana = 3000;
 	m_StatusInfo.fBase_Defence = 5;
 	m_StatusInfo.fMagic_Defence = 5;
 	m_StatusInfo.fCriticalRatio = 0;

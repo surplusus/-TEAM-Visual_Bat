@@ -7,6 +7,7 @@ class SoundMgr;
 class GuhyunScene;
 class CPaticle;
 class ColiderComponent;
+class CParticleObj;
 typedef struct _tagEvent
 {
 } EVENT;
@@ -45,6 +46,13 @@ typedef struct _tagCollisionEvent : EVENT
 		{}
 	ColiderComponent* m_pOriCol;
 	CObj* m_pOriObj;
-	
-
 } COLLISIONEVENT;
+
+typedef struct _tagCollisionTarget : EVENT
+{
+	_tagCollisionTarget(CObj* pOri, CObj* pTarget)
+		:m_pOri(pOri),m_pTarget(pTarget)
+	{}
+	CObj* m_pOri;
+	CObj* m_pTarget;
+}COLLISIONTARGETEVNET;

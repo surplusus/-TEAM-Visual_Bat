@@ -160,6 +160,8 @@ typedef struct tagStateInfo
 	float fHP				=0;
 	float fSkillTimeRatio	=0;
 	float fAttackRange		=0;
+	float fMaxHP			=0;
+	float fMaxMP			=0;
 	
 	friend tagStateInfo operator+(tagStateInfo Info,  tagStateInfo tInfo);
 	friend tagStateInfo operator-(tagStateInfo Info,  tagStateInfo& tInfo);
