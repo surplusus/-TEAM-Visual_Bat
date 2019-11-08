@@ -54,7 +54,7 @@ void MinionBT::MinionBTHandler::SetUpBlackBoard()
 	m_BlackBoard->setFloat("fAttackRange", m_pMinionInst->m_stStatusInfo.fAttackRange);
 }
 
-void MinionBT::MinionBTHandler::AddTask(int eSequenceType, function<void(void)> pFunc)
+void MinionBT::MinionBTHandler::SetUpTask(int eSequenceType, function<void(void)> pFunc)
 {
 	switch (eSequenceType)
 	{

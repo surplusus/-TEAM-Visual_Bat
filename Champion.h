@@ -35,13 +35,12 @@ public:
 	virtual void		Render()		PURE;
 	virtual void		Release()		PURE;
 public:		// 챔피언이면 만들어야 되는 함수들
-	virtual void		ChangeAniSetByState()	PURE;
 	void				SetHeightMap(CHeightMap* pHeightMap);
 	STATUSINFO	*		GetStatusInfo() { return &m_StatusInfo; }
 	CHAMPION_STATETYPE	GetStateType() { return m_CurStateType; }
-protected:
+public:
 	STATUSINFO m_StatusInfo;
-	
+
 
 };
 

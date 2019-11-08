@@ -14,6 +14,7 @@
 #include "MeleeMinion.h"
 #include "CannonMinion.h"
 #include "MinionMgr.h"
+#include "Cursor.h"
 
 CLoadingFunctor::CLoadingFunctor()
 	: m_iFuncSize(0)
@@ -111,15 +112,26 @@ bool CLoadingFunctor::SetMeshInfoThruFile()
 
 bool CLoadingFunctor::FuncDefaultMgrSetUp()
 {
-	// Set up Sounds
-	GET_SINGLE(SoundMgr)->SetUp();
-	printf("sound set up\n");
-	// Make Bound
-	if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
-	{
-		ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+	{	// Set up Sounds
+		//GET_SINGLE(SoundMgr)->SetUp();
+		//printf("sound set up\n");
 	}
-	printf("BoundingBox On!\n");
+	
+	{	// Make Bound
+		if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+		{
+			ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+		}
+		printf("BoundingBox On!\n");
+	}
+
+	{	// Make Cursor
+		CCursor* pCursor = new CCursor();
+		pCursor->InitCursor();
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("Cursor", reinterpret_cast<void**>(&pCursor));
+		pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
+		printf("Make Hand Cursor\n");
+	}
 	return true;
 }
 
