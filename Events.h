@@ -48,3 +48,11 @@ typedef struct _tagCollisionEvent : EVENT
 	
 
 } COLLISIONEVENT;
+
+typedef struct _tagPhysicalAttackEvent : EVENT
+{
+	_tagPhysicalAttackEvent(D3DXVECTOR3* vecAttackPos, STATUSINFO* infoDemage)
+	: m_vecAttackPos(*vecAttackPos), m_infoDemage(*infoDemage){}
+	D3DXVECTOR3 m_vecAttackPos;
+	STATUSINFO m_infoDemage;
+} PHYSICALATTACKEVENT;

@@ -15,7 +15,6 @@ protected:
 	D3DXVECTOR3				m_MouseHitPoint;
 	bool					m_bPicked;
 	SPHERE					m_SphereForPick;
-	LPD3DXMESH				m_pMeshSphere;
 	CHAMPION_STATETYPE m_CurStateType;
 
 protected:

@@ -12,6 +12,7 @@
 #include "InGameScene.h"
 #include <functional>
 #include "LoadingFunctor.h"
+#include "MakingTowerFunctor.h"
 #include "ProgressBarFunctor.h"
 
 CLoadingScene::CLoadingScene()
@@ -21,6 +22,7 @@ CLoadingScene::CLoadingScene()
 	, m_pSpell_1(nullptr)
 	, m_pSpell_2(nullptr)
 	, m_pLoadingFunctor(nullptr)
+	, m_pMakingTowerFunctor(nullptr)
 	, m_pProgressBarFunctor(nullptr)
 	, m_bLoadingComplete(false)
 	, m_bOnSwitch(true)
@@ -45,12 +47,8 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// SetUp Functors
 		m_pLoadingFunctor = new CLoadingFunctor;
+		m_pMakingTowerFunctor = new CMakingTowerFunctor;
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
-		{	// 로딩 functor에게 정보를 넣어준다.(수정요)
-			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-			if (sChampName == "")	sChampName = "Udyr";
-			m_pLoadingFunctor->m_SelectedChamp = sChampName;
-		}
 	}
 
 	return S_OK;
@@ -64,7 +62,9 @@ void CLoadingScene::Progress()
 	static float fFake = 0;
 	fFake += g_fDeltaTime;
 	if (fFake >= 1.f) {
-		m_bLoadingComplete = (*m_pLoadingFunctor)();
+		if (!(*m_pLoadingFunctor)())
+			if(!(*m_pMakingTowerFunctor)())
+				m_bLoadingComplete = true;
 		fFake = 0.f;
 	}
 	

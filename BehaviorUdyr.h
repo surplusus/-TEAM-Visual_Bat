@@ -18,7 +18,6 @@ namespace UdyrBT
 		friend class CUdyr;
 	public:
 		UdyrBTHandler(CUdyr* pInst);
-		UdyrBTHandler() {}
 		~UdyrBTHandler();
 		CUdyr*							m_pInst;
 		vector<shared_ptr<Sequence>>	m_vSequnece;
@@ -65,6 +64,8 @@ namespace UdyrBT
 		map<string, MemberFunc> m_Funcs;
 		// 밑에서 받아쓸 함수
 		void ChangeAnySet(string key);
+		D3DXVECTOR3& GetChampMousePickPos() { return m_pInst->m_MouseHitPoint; }
+		STATUSINFO& GetStatusInfo() const { return m_pInst->m_stStatusInfo; }
 	};
 
 #pragma region DECORATOR
@@ -79,11 +80,20 @@ namespace UdyrBT
 	class WhenTillEnd : public Decorator
 	{
 	public:
-		WhenTillEnd(int iLimit = 0) : m_iLimit(iLimit) {}
+		WhenTillEnd(string sKey, int iLimit = 0) 
+			: m_sKey(sKey), m_iLimit(iLimit) {}
 		virtual bool Ask() override {
-			return (m_iLimit > 0 && ++m_iCount <= m_iLimit);
+			if (!m_bStartSign)
+				m_bStartSign = m_BlackBoard->getBool(m_sKey);
+			else
+				if (m_iLimit > 0 && ++m_iCount <= m_iLimit)
+					return true;
+			m_bStartSign = false;
+			return false;
 		}
 	protected:
+		string m_sKey;
+		bool m_bStartSign = false;
 		int m_iLimit;
 		int m_iCount = 0;
 	};
@@ -137,62 +147,64 @@ namespace UdyrBT
 #pragma region UdyrTask 자식 클래스들
 	struct UdyrDeath : public UdyrAccessor
 	{
+		int iCntAni = 0;
+		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
 	};
 	struct UdyrHealth : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		virtual void Do() override;
 	};
 	struct UdyrBeaten : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		
+		virtual void Init() override;
+		virtual void Do() override;
 	};
 	struct UdyrAttack : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		int iCntAni = 0;
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrIdle : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		bool bDirty = false;
+		virtual void Init() override;
+		virtual void Do() override;
 	};
 	struct UdyrQAction : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrTargeting : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		D3DXVECTOR3 vecPrevTargetPos;
+		bool bNewTarget = true;
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrSetCoord : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrRun : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		bool bRunning = false;
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrTurn : public UdyrAccessor
 	{
-		virtual void Init() override {}
-		virtual void Do() override {}
-		virtual void Terminate() override {};
+		virtual void Do() override;
 	};
 #pragma endregion
 }

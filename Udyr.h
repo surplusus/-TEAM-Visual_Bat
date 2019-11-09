@@ -15,13 +15,12 @@ public:
 private:
 	vector<string>		m_AniSetNameList;
 	STATUSINFO			m_stStatusInfo;
+	SPHERE*				m_sphereTarget;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
-	// >> : Behavior
 	// << : Collision
 	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColiderList;
-	// >> : Collision
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -36,8 +35,12 @@ public:
 private:
 	void			ChangeAniSetByKey(string key);
 	void			SetUpAniSetNameList();
+	void			DoOnMouseRButton();
+	void			DoOnMouseLButton();
+	void			QWERControl();
+	// Event Functions
 	void			OperateOnFindPickingSphere(PICKSPHEREEVENT* evt);
 	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
-
+	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
 };
 

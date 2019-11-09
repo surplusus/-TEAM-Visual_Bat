@@ -84,7 +84,9 @@
     </ClInclude>
     <ClInclude Include="InhibitorGauge.h" />
     <ClInclude Include="LoadingFunctor.h" />
+    <ClInclude Include="LoadingFunctorBase.h" />
     <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="MakingTowerFunctor.h" />
     <ClInclude Include="MeleeMinion.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionGauge.h" />
@@ -251,7 +253,9 @@
     </ClCompile>
     <ClCompile Include="InhibitorGauge.cpp" />
     <ClCompile Include="LoadingFunctor.cpp" />
+    <ClCompile Include="LoadingFunctorBase.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="MakingTowerFunctor.cpp" />
     <ClCompile Include="MeleeMinion.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionGauge.cpp" />

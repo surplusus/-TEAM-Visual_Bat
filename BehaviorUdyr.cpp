@@ -1,6 +1,8 @@
 #include "BaseInclude.h"
 #include "BehaviorUdyr.h"
 #include "Udyr.h"
+#include "SoundMgr.h"
+#include "EventMgr.h"
 
 UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * pInst)
 	: m_pInst(pInst)
@@ -104,10 +106,14 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 	{	// Initialize (StatusInfo에 없는 내용)
 		m_BlackBoard->setBool("Beaten", false);
 		m_BlackBoard->setBool("QAction", false);
+		m_BlackBoard->setBool("WAction", false);
+		m_BlackBoard->setBool("EAction", false);
+		m_BlackBoard->setBool("RAction", false);
 		m_BlackBoard->setBool("OnTarget", false);
 		m_BlackBoard->setBool("HasCoord", false);
 		m_BlackBoard->setFloat("Distance", 0.f);
 		m_BlackBoard->setFloat("Direction", 0.f);
+
 	}
 }
 
@@ -129,14 +135,8 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 	}
 
 	{	// Initialize (StatusInfo에 없는 내용)
-		if (CheckPushKeyOneTime(VK_Q))
-			m_BlackBoard->setBool("QAction", false);
-		if (CheckPushKeyOneTime(VK_W))
-			m_BlackBoard->setBool("Beaten", false);
-		if (CheckPushKeyOneTime(VK_W))
-		m_BlackBoard->setBool("HasCoord", false);
-		m_BlackBoard->setFloat("Distance", 0.f);
-		m_BlackBoard->setFloat("Direction", 0.f);
+		//m_BlackBoard->setFloat("Distance", 0.f);
+		//m_BlackBoard->setFloat("Direction", 0.f);
 	}
 }
 #pragma region 예전 TASK
@@ -230,16 +230,163 @@ void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 }
 
 #pragma region 자식 TASK 정의
+// Death
+void UdyrBT::UdyrDeath::Init()
+{
+	m_BlackBoard->setBool("Dying", true);
+}
 
 void UdyrBT::UdyrDeath::Do()
 {
-	ChangeAnySet("Death");
+	if (iCntAni == 0)
+		ChangeAnySet("Death");
+	++iCntAni;
+	if (iCntAni >= 100) {
+		iCntAni = 0;
+		m_status = TERMINATED;
+	}
 }
 
 void UdyrBT::UdyrDeath::Terminate()
 {
+	m_BlackBoard->setBool("Dying", false);
+	m_BlackBoard->setBool("ChampIsOver", true);
+}
+
+void UdyrBT::UdyrHealth::Do()
+{
+	// 체력은 외부에서 바꿔야하지 않을까?
+}
+
+void UdyrBT::UdyrBeaten::Init()
+{
+	m_BlackBoard->setBool("Beaten", false);
+}
+
+void UdyrBT::UdyrBeaten::Do()
+{
+	//GetStatusInfo().fHP
+	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Beaten);
+}
+
+void UdyrBT::UdyrAttack::Init()
+{
+	m_BlackBoard->setBool("Beaten", false);
+}
+
+void UdyrBT::UdyrAttack::Do()
+{
+	if (iCntAni == 0)
+		ChangeAnySet("Attack_Left");
+	++iCntAni;
+	// 카격 시점 30 = 0.5초
+	if (iCntAni == 30) {
+		STATUSINFO infoDemage;	infoDemage.fBase_Attack = 10.f;
+		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(), infoDemage));
+	}
+	// 애니메이션 끝나는 시점 60:25 = iCntAni:25
+	if (iCntAni >= 60) {
+		iCntAni = 0;
+		m_status = TERMINATED;
+	}
+}
+
+void UdyrBT::UdyrAttack::Terminate()
+{
 	ChangeAnySet("Idle");
 }
 
+void UdyrBT::UdyrIdle::Init()
+{
+	bDirty = true;
+}
+
+void UdyrBT::UdyrIdle::Do()
+{
+	if (bDirty)
+		ChangeAnySet("Idle");
+	bDirty = false;
+}
+
+void UdyrBT::UdyrQAction::Init()
+{
+	m_BlackBoard->setBool("QAction", false);
+}
+
+void UdyrBT::UdyrQAction::Do()
+{
+	// 스킬 사용하는 애니메이션
+
+	// 스킬을 사용 행동.
+
+	// 스킬 사용 사운드
+}
+
+void UdyrBT::UdyrQAction::Terminate()
+{
+	ChangeAnySet("Idle");
+}
+
+void UdyrBT::UdyrTargeting::Init()
+{
+	if (vecPrevTargetPos != GetChampMousePickPos())
+	{
+		vecPrevTargetPos = GetChampMousePickPos();
+		bNewTarget = true;
+	}
+}
+
+void UdyrBT::UdyrTargeting::Do()
+{
+	if (bNewTarget)
+	{
+		cout << "새로운애 찍혔다.\n";
+		bNewTarget = false;
+	}
+	// 뭘 해야되는거지?
+}
+
+void UdyrBT::UdyrTargeting::Terminate()
+{
+	m_BlackBoard->setBool("OnTarget", false);
+}
+
+void UdyrBT::UdyrSetCoord::Init()
+{
+}
+
+void UdyrBT::UdyrSetCoord::Do()
+{
+}
+
+void UdyrBT::UdyrSetCoord::Terminate()
+{
+}
+
+void UdyrBT::UdyrRun::Init()
+{
+	ChangeAnySet("Run");
+}
+
+void UdyrBT::UdyrRun::Do()
+{
+	m_BlackBoard->setFloat("Distance", D3DXVec3Length(GetChampMousePickPos() - m_pInst->GetInfo()->vPos));
+	bool bDest = m_pInst->Update_vPos_ByDestPoint(&GetChampMousePickPos(), m_BlackBoard->getFloat("fMoveSpeed"));
+	if (!bDest)
+		m_status = TERMINATED;
+}
+
+void UdyrBT::UdyrRun::Terminate()
+{
+	ChangeAnySet("Idle");
+}
+
+void UdyrBT::UdyrTurn::Do()
+{
+	m_BlackBoard->setFloat("Direction", D3DXVec3Length(GetChampMousePickPos() - m_pInst->GetInfo()->vPos));
+	bool bTurning = m_pInst->TurnSlowly(GetChampMousePickPos(), fMoveSpeed);
+	if (!bTurning)
+		m_Status = TERMINATED;
+}
 
 #pragma endregion

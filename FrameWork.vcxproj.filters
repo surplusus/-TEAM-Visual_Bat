@@ -693,6 +693,21 @@
     <ClInclude Include="Ezreal_W_Particle.h">
       <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
     </ClInclude>
+    <ClInclude Include="InhibitorGauge.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusGauge.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretGauge.h">
+      <Filter>소스 파일\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingFunctorBase.h">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
+    <ClInclude Include="MakingTowerFunctor.h">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.cpp">
@@ -1036,6 +1051,21 @@
     </ClCompile>
     <ClCompile Include="Ezreal_W_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
+    </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusGauge.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretGauge.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingFunctorBase.cpp">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="MakingTowerFunctor.cpp">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
