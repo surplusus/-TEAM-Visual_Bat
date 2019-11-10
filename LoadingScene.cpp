@@ -47,7 +47,7 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// SetUp Functors
 		m_pLoadingFunctor = new CLoadingFunctor;
-		m_pMakingTowerFunctor = new CMakingTowerFunctor;
+		//m_pMakingTowerFunctor = new CMakingTowerFunctor;
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
 	}
 
@@ -59,14 +59,7 @@ void CLoadingScene::Progress()
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 	
-	static float fFake = 0;
-	fFake += g_fDeltaTime;
-	if (fFake >= 1.f) {
-		if (!(*m_pLoadingFunctor)())
-			if(!(*m_pMakingTowerFunctor)())
-				m_bLoadingComplete = true;
-		fFake = 0.f;
-	}
+	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
 		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
@@ -122,4 +115,30 @@ bool CLoadingScene::OperateLoadingFunctorThruThread()
 	}
 
 	return m_bLoadingComplete;
+}
+
+bool CLoadingScene::Progress_LoadingFunctors()
+{
+	static float fCntOneSec = 0;
+	bool bFunc1Complate, bFunc2Complate;
+	//bFunc1Complate = bFunc2Complate = false;
+	fCntOneSec += g_fDeltaTime;
+	if (fCntOneSec >= 1.f) {
+		if (m_pLoadingFunctor != nullptr)
+			bFunc1Complate = !(*m_pLoadingFunctor)();
+		else
+			bFunc1Complate = true;
+		
+		if (m_pMakingTowerFunctor != nullptr) {
+			if (bFunc1Complate)
+				bFunc2Complate = !(*m_pMakingTowerFunctor)();
+		}
+		else
+			bFunc2Complate = true;
+		
+		if (bFunc1Complate && bFunc2Complate)
+			m_bLoadingComplete = true;
+		fCntOneSec = 0.f;
+	}
+	return true;
 }

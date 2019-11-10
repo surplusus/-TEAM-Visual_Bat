@@ -301,9 +301,6 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
       <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\최종 합치는 Scene">
-      <UniqueIdentifier>{c6f2c965-162b-46c0-b00d-334575d3ce7f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\InGameUI">
       <UniqueIdentifier>{de4a51c1-d4a8-40ee-b80d-3b60b3fc2add}</UniqueIdentifier>
     </Filter>

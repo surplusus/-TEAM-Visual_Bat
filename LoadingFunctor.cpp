@@ -2,6 +2,8 @@
 #include "LoadingFunctor.h"
 #include "SoundMgr.h"
 #include "SceneMgr.h"
+#include "CollisionMgr.h"
+#include "ParticleMgr.h"
 
 #include "Udyr.h"
 #include "Ezreal.h"
@@ -51,7 +53,10 @@ bool CLoadingFunctor::FuncDefaultMgrSetUp()
 		//GET_SINGLE(SoundMgr)->SetUp();
 		//printf("sound set up\n");
 	}
-	
+	{	// Create ColliderMgr & ParticleMgr
+		GET_SINGLE(CParticleMgr)->Initalize();
+		GET_SINGLE(CCollisionMgr)->Progress();
+	}
 	{	// Make Bound
 		if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
 		{

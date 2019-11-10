@@ -1,16 +1,19 @@
 #include "BaseInclude.h"
 #include "CollisionMgr.h"
-#include"ColiderComponent.h"
-#include"EventMgr.h"
-#include"Obj.h"
-#include"Input.h"
+#include "ColiderComponent.h"
+#include "EventMgr.h"
+#include "Obj.h"
+#include "Input.h"
+
 CCollisionMgr::CCollisionMgr()
 {
+	GET_SINGLE(EventMgr)->Subscribe(this, &CCollisionMgr::InsertColliderList);
 }
 
 
 CCollisionMgr::~CCollisionMgr()
 {
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CCollisionMgr::InsertColliderList);
 }
 
 void CCollisionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
@@ -114,5 +117,69 @@ void CCollisionMgr::UpdateCollisionList(CObj * pObj, list<ColiderComponent*>* pL
 	{
 		iter->second = pList;
 	}
+}
+
+void CCollisionMgr::InsertColliderList(INSERTCOLLIDEREVENT * evt)
+{
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pNewObj);
+	auto list = reinterpret_cast<std::list<ColiderComponent*>*>(*evt->m_pNewList);
+	InsertColistion(obj, list);
+}
+
+bool CCollisionMgr::IsCloseObjInRadius(OUT vector<CObj*>* vCloseObj, IN CObj* pMe, IN const D3DXVECTOR3 * vecMyPos, IN float fRadius)
+{
+	if (vCloseObj == nullptr || vecMyPos == nullptr)
+		return false;
+
+	for (auto & it : m_ColMap)
+	{
+		if (it.first == pMe)
+			continue;
+
+		for (auto & jt : *it.second)
+		{
+			SPHERE* spOthers = jt->GetSphere();
+			//auto a = (spOthers->vpCenter);
+			//float dx = (*vecMyPos).x - (spOthers->vpCenter).x;
+			//float dy = (*vecMyPos).y - (spOthers->vpCenter).y;
+			//float dz = (*vecMyPos).z - (spOthers->vpCenter).z;
+			D3DXVECTOR3 vecDist = (*vecMyPos) - (*spOthers->vpCenter);
+			float distance = D3DXVec3Length(&vecDist);
+			if (fRadius >= distance)
+				vCloseObj->push_back(it.first);
+		}
+	}
+
+	if (vCloseObj->size() == 0)
+		return false;
+
+	return true;
+}
+
+
+bool CCollisionMgr::IsCloseSphereInRadius(OUT vector<SPHERE*>* vCloseSphere, IN CObj * pMe, IN const D3DXVECTOR3 * vecMyPos, IN float fRadius)
+{
+	if (vCloseSphere == nullptr || vecMyPos == nullptr)
+		return false;
+
+	for (auto & it : m_ColMap)
+	{
+		if (it.first == pMe)
+			continue;
+
+		for (auto & jt : *it.second)
+		{
+			SPHERE* spOthers = jt->GetSphere();
+			D3DXVECTOR3 vecDist = (*vecMyPos) - (*spOthers->vpCenter);
+			float distance = D3DXVec3Length(&vecDist);
+			if (fRadius >= distance)
+				vCloseSphere->push_back(spOthers);
+		}
+	}
+
+	if (vCloseSphere->size() == 0)
+		return false;
+
+	return true;
 }
 

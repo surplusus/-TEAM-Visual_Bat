@@ -1,10 +1,11 @@
 #include "BaseInclude.h"
 #include "ColiderComponent.h"
+#include "EventMgr.h"
 
 ColiderComponent::ColiderComponent()
 	:m_pBoxMesh(NULL),m_bColision(false), m_fRadius(0), m_SphereMesh(NULL), m_bErase(false)
 {
-
+	GET_SINGLE(EventMgr)->Subscribe(this, &ColiderComponent::OperateOnPaticleCollisionEvent);
 }
 ColiderComponent::~ColiderComponent()
 {
@@ -26,7 +27,8 @@ void ColiderComponent::SetUp(INFO tInfo, float fRadius, CBound* pMesh)
 	m_fAngle[ANGLE_Y] = 0;
 	m_fAngle[ANGLE_Z] = 0;
 	m_vCenter = *m_SphereMesh->GetCenter()+m_Info.vPos;
-	cout << m_vCenter.x << m_vCenter.y << m_vCenter.z;
+	printf("Collider pos : (%f, %f, %f)\n", m_vCenter.x, m_vCenter.y, m_vCenter.z);
+	cout << m_vCenter.x << m_vCenter.y << m_vCenter.z << '\n';
 	m_vCenter.y = 0;
 	m_SphereInfo.fRadius = m_SphereMesh->GetRadius();
 	m_SphereInfo.pMesh = m_SphereMesh->GetMesh();
@@ -75,6 +77,7 @@ void ColiderComponent::Release()
 	SAFE_DELETE(m_SphereMesh);	m_SphereMesh = NULL;
 	SAFE_DELETE(m_pBoxMesh);	m_pBoxMesh = NULL;
 	m_VerTexBuffer.clear();
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &ColiderComponent::OperateOnPaticleCollisionEvent);
 }
 
 void ColiderComponent::WorldSetting()
@@ -88,4 +91,9 @@ void ColiderComponent::WorldSetting()
 	D3DXMatrixScaling(&matScale, 1.0f, 1.0f, 1.0f);
 	m_Info.matWorld = matScale*matRotX*matRotY*matRotZ*matTrans;
 	
+}
+
+void ColiderComponent::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
+{
+
 }

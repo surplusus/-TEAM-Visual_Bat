@@ -21,6 +21,7 @@ private:
 	class CCursor*			m_pCursor = nullptr;
 private:
 	HRESULT Setup();
+	void SetUp_Light();
 	void SoundUpdate();
 	void LetObjectKnowHeightMap();
 public:

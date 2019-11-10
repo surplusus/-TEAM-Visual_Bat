@@ -39,5 +39,6 @@ public:
 private:
 	bool						m_bLoadingComplete;
 	bool OperateLoadingFunctorThruThread();
+	bool Progress_LoadingFunctors();
 };
 

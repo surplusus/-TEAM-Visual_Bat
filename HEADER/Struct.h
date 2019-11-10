@@ -135,7 +135,7 @@ typedef struct tagSphere
 	LPD3DXMESH		pMesh = nullptr;
 	tagSphere() : fRadius(0.0f), vpCenter(nullptr) {}
 	tagSphere(const float r, D3DXVECTOR3* v) : fRadius(r), vpCenter(v) {}
-	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter), isPicked(sph.siPicked), pMesh(sph.pMesh) {}
+	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter), isPicked(sph.isPicked), pMesh(sph.pMesh) {}
 	~tagSphere(){ SAFE_RELEASE(pMesh); }
 }SPHERE;
 
@@ -166,16 +166,17 @@ typedef struct tagStateInfo
 	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
 	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
 	void PrintAll() {
-		std::cout << "fBase_Attack	  : " << fBase_Attack << '\n';
-		std::cout << "fMagic_Attack	  : " << fMagic_Attack << '\n';
-		std::cout << "fBase_Defence	  : " << fBase_Defence << '\n';
+		system("cls");
+		std::cout << "fBase_Attack    : " << fBase_Attack << '\n';
+		std::cout << "fMagic_Attack   : " << fMagic_Attack << '\n';
+		std::cout << "fBase_Defence   : " << fBase_Defence << '\n';
 		std::cout << "fMagic_Defence  : " << fMagic_Defence << '\n';
 		std::cout << "fCriticalRatio  : " << fCriticalRatio << '\n';
-		std::cout << "fMoveSpeed	  : " << fMoveSpeed << '\n';
-		std::cout << "fMana			  : " << fMana << '\n';
-		std::cout << "fHP			  : " << fHP << '\n';
+		std::cout << "fMoveSpeed      : " << fMoveSpeed << '\n';
+		std::cout << "fMana           : " << fMana << '\n';
+		std::cout << "fHP             : " << fHP << '\n';
 		std::cout << "fSkillTimeRatio : " << fSkillTimeRatio << '\n';
-		std::cout << "fAttackRange	  : " << fAttackRange << '\n';
+		std::cout << "fAttackRange    : " << fAttackRange << '\n';
 	}
 	tagStateInfo() {}
 	tagStateInfo(const tagStateInfo& rhs) {

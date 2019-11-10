@@ -7,11 +7,12 @@ namespace UdyrBT
 {
 	using namespace BehaviorTree;
 	
-	enum {SEQUENCE_LIFE, SEQUENCE_MOVE, SEQUENCE_EARTH, SEQUENCE_ENEMY, SEQUENCE_SKILL, SEQUENCE_END};
-	enum {SELECTOR_DEATH, SELECTOR_INPUT, SELECTOR_TARGET, SELECTOR_AGGRESSIVE, SELECTOR_END};
+	enum {SEQUENCE_LIFE, SEQUENCE_MOVE, SEQUENCE_END};
+	enum {SELECTOR_DEATH, SELECTOR_INPUT, SELECTOR_SKILL, SELECTOR_ENEMY, SELECTOR_AGGRESSIVE, SELECTOR_END};
 	//enum {DECORATOR_YES, DECORATOR_REPEAT, DECORATOR_BOOLON, DECORATOR_FLOATLOW, DECORATOR_FLOATABOVE, DECORATOR_END};
-	enum {TASK_DEATH, TASK_HEATH, TASK_BEATEN, TASK_ATTACK, TASK_IDLE, TASK_QACTION
-		, TASK_TARGETING, TASK_SETCOORD, TASK_RUN, TASK_TURN, TASK_END};
+	enum {TASK_DEATH, TASK_BEATEN, CONDITION_ONTARGET, CONDITION_HASCOORD
+		, TASK_ATTACK, TASK_IDLE, TASK_QACTION
+		, TASK_RUN, TASK_TURN, TASK_END};
 	class UdyrBTHandler : public BehaviorTreeHandler
 	{
 	private:
@@ -64,8 +65,11 @@ namespace UdyrBT
 		map<string, MemberFunc> m_Funcs;
 		// 밑에서 받아쓸 함수
 		void ChangeAnySet(string key);
-		D3DXVECTOR3& GetChampMousePickPos() { return m_pInst->m_MouseHitPoint; }
-		STATUSINFO& GetStatusInfo() const { return m_pInst->m_stStatusInfo; }
+		bool TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate);
+		D3DXVECTOR3& GetChampMousePickPos();
+		STATUSINFO& GetStatusInfo() const;
+		UdyrBTHandler*	GetBehaviorTree();
+		SPHERE* GetEnemySphere();
 	};
 
 #pragma region DECORATOR
@@ -118,13 +122,36 @@ namespace UdyrBT
 			: m_bKey(sKey), m_fLimit(fLimit) {}
 		virtual bool Ask() override {
 			float fValue = m_BlackBoard->getFloat(m_bKey);
-			if (fValue >= m_fLimit)
+			if (fValue <= m_fLimit)
 				return true;
 			return false;
 		}
 	private:
 		string m_bKey;
 		float m_fLimit;
+	};
+
+	class WhenFloatChecked : public Decorator
+	{
+	public:
+		WhenFloatChecked(string sInputKey, string sStdKey, bool bLesserThan = true)
+			: m_sInputKey(sInputKey), m_sStdKey(sStdKey), bLesserThan(bLesserThan) {}
+		virtual bool Ask() override {
+			float fStdValue = m_BlackBoard->getFloat(m_sStdKey);
+			float fInputValue = m_BlackBoard->getFloat(m_sInputKey);
+			bool result = true;
+			if (fInputValue <= fStdValue)
+				result = true;
+			else
+				result = false;
+			if (bLesserThan = false)
+				result = ~result;
+			return result;
+		}
+	private:
+		string m_sInputKey;
+		string m_sStdKey;
+		bool bLesserThan;
 	};
 
 	class WhenFloatAbove : public Decorator
@@ -134,7 +161,7 @@ namespace UdyrBT
 			: m_bKey(sKey), m_fLimit(fLimit) {}
 		virtual bool Ask() override {
 			float fValue =  fabs(m_BlackBoard->getFloat(m_bKey));
-			if (fValue < m_fLimit)
+			if (fValue >= m_fLimit)
 				return true;
 			return false;
 		}
@@ -152,15 +179,26 @@ namespace UdyrBT
 		virtual void Do() override;
 		virtual void Terminate() override;
 	};
-	struct UdyrHealth : public UdyrAccessor
-	{
-		virtual void Do() override;
-	};
 	struct UdyrBeaten : public UdyrAccessor
 	{
-		
+		virtual void Do() override;
+		virtual void Terminate() override;
+	};
+	struct UdyrOnTarget : public UdyrAccessor
+	{
+		SPHERE*	spEnemy = nullptr;
+		bool bNewTarget = false;
 		virtual void Init() override;
 		virtual void Do() override;
+		virtual void Terminate() override;
+	};
+	struct UdyrHasCoord : public UdyrAccessor
+	{
+		D3DXVECTOR3	vecPrevPos;
+		bool bNewPos = false;
+		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 	struct UdyrAttack : public UdyrAccessor
 	{
@@ -171,7 +209,6 @@ namespace UdyrBT
 	};
 	struct UdyrIdle : public UdyrAccessor
 	{
-		bool bDirty = false;
 		virtual void Init() override;
 		virtual void Do() override;
 	};

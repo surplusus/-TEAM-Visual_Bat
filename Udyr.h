@@ -20,7 +20,7 @@ private:
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	// << : Collision
 	ColiderComponent*  m_pCollider;
-	list<ColiderComponent*> m_ColiderList;
+	list<ColiderComponent*> m_ColliderList;
 public:
 	virtual HRESULT Initialize() override;
 	virtual void	Progress()   override;
@@ -32,7 +32,10 @@ public:
 	void			WriteOnBlackBoard(string sKey, float fValue);
 	void			WriteOnBlackBoard(string sKey, double llValue);
 	void			WriteOnBlackBoard(string sKey, string sValue);
+public:
+	bool			IsEnemyNearInSphere(float fRadius);
 private:
+	UdyrBT::UdyrBTHandler*	GetBehaviorTree();
 	void			ChangeAniSetByKey(string key);
 	void			SetUpAniSetNameList();
 	void			DoOnMouseRButton();
