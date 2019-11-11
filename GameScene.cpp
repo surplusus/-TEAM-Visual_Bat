@@ -60,34 +60,66 @@ HRESULT CGameScene::Initialize()
 
 #pragma region 천->포탑, 억제기, 타워(order)
 	//////////////////////////////////////// < turret > /////////////////////////////////////////
+	
 	//blue
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/", L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+	vector<TCHAR*> vecOrderName;
+	vecOrderName.push_back(L"order_outer_Turret");
+	vecOrderName.push_back(L"order_iner_Turret");
+	vecOrderName.push_back(L"order_twins_left_Turret");
+	vecOrderName.push_back(L"order_twins_right_Turret");
+
+	for (size_t i = 0; i < vecOrderName.size(); i++)
 	{
-		ERR_MSG(g_hWnd, L"Turret Failed"); return E_FAIL;
+		if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/", L"order_Turret.x", vecOrderName[i], MESHTYPE_DYNAMIC)))
+		{
+			ERR_MSG(g_hWnd, L"Order Turret Failed"); return E_FAIL;
+		}
 	}
+	
 	vector<CTurret*> vecTurret(4);
-	vecTurret[0] = new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f));
-	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f));
-	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f));
-	vecTurret[3] = new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f));
+	vecTurret[0] = new CTurret(D3DXVECTOR3(23.0f, 0.0f, 22.5f), vecOrderName[0]);
+	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.0f, 14.3f), vecOrderName[1]);
+	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.0f, 0.9f),   vecOrderName[2]);
+	vecTurret[3] = new CTurret(D3DXVECTOR3(1.0f, 0.0f, 4.7f),   vecOrderName[3]);
 	
 	for (size_t i = 0; i < vecTurret.size(); i++)
 	{
 		vecTurret[i]->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(vecTurret[i]->GetName(), vecTurret[i]);
 	}
-	GET_SINGLE(CObjMgr)->AddObject(L"order_outer_Turret", vecTurret[0]);
-	GET_SINGLE(CObjMgr)->AddObject(L"order_iner_Turret",  vecTurret[1]);
-	GET_SINGLE(CObjMgr)->AddObject(L"twins_left_Turret",  vecTurret[2]);
-	GET_SINGLE(CObjMgr)->AddObject(L"twins_right_Turret", vecTurret[3]);
+//==========================================================================================================================================================\\
 	//red
-	/*if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Red_Turret/", L"Chaos_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+	vector<TCHAR*> vecChaosName;
+	vecChaosName.push_back(L"chaos_outer_Turret");
+	vecChaosName.push_back(L"chaos_iner_Turret");
+	vecChaosName.push_back(L"chaos_twins_left_Turret");
+	vecChaosName.push_back(L"chaos_twins_right_Turret");
+
+	for (size_t i = 0; i < vecChaosName.size(); i++)
 	{
-		ERR_MSG(g_hWnd, L"Chaos_Turret Failed");
+		if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Red_Turret/", L"Chaos_Turret.x", vecChaosName[i], MESHTYPE_DYNAMIC)))
+		{
+			ERR_MSG(g_hWnd, L"Chaos_Turret Failed"); break; return E_FAIL;
+		}
 	}
-	vector<CTurret*> vecChaos(1);
-	vecChaos[0] = new CTurret(D3DXVECTOR3(50.0f, 0.f, 20.f));
-	GET_SINGLE(CObjMgr)->AddObject(L"chaos_outer_Turret", vecChaos[0]);*/
+
+	vector<CTurret*> vecChaos(4);
+	vecChaos[0] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 22.5f),  vecChaosName[0]);
+	vecChaos[1] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 14.3f),  vecChaosName[1]);
+	vecChaos[2] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 0.9f),	vecChaosName[2]);
+	vecChaos[3] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 4.7f),	vecChaosName[3]);
+
+	for (size_t i = 0; i < vecChaos.size(); i++)
+	{
+		vecChaos[i]->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(vecChaos[i]->GetName(), vecChaos[i]);
+	}
+#pragma region 카오스 포탑 위치 좌표 맞춰주고 애니메이션 확인해야함
+#pragma endregion
+#pragma endregion
 	//////////////////////////////////////// < turret end > /////////////////////////////////////////
+
+
 
 	//////////////////////////////////////// < inhibitor > /////////////////////////////////////////
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/", L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))

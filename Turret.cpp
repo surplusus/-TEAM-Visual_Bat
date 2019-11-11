@@ -5,7 +5,8 @@
 #include"EzealQ_Particle.h"
 #include"AnimationCtrl.h"
 #include "TurretGauge.h"
-CTurret::CTurret(D3DXVECTOR3 pos)
+CTurret::CTurret(D3DXVECTOR3 pos, TCHAR* TurretName)
+	:m_name(TurretName)
 {
 	m_fSize = 1.0f;
 
@@ -25,14 +26,8 @@ CTurret::~CTurret()
 
 HRESULT CTurret::Initialize()
 {
-	vector<TCHAR*> name(4);
-	name[0] = L"order_outer_Turret";
-	name[1] = L"order_iner_Turret";
-	name[2] = L"twins_left_Turret";
-	name[3] = L"twins_right_Turret";
+	CloneMesh(GetDevice(),m_name, &m_pAnimationCtrl);
 
-	for(size_t i = 0; i < name.size(); i++)
-		CloneMesh(GetDevice(), name[i], &m_pAnimationCtrl);
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
 
@@ -49,7 +44,7 @@ HRESULT CTurret::Initialize()
 
 void CTurret::Progress()
 {
-	m_pAnimationCtrl->FrameMove(L"Blue_Turret", g_fDeltaTime);
+	m_pAnimationCtrl->FrameMove(m_name, g_fDeltaTime);
 
 	if (GetAsyncKeyState(VK_LEFT))
 		Animation_Break();
@@ -64,7 +59,8 @@ void CTurret::Progress()
 void CTurret::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	Mesh_Render(GetDevice(), L"Blue_Turret");
+
+	Mesh_Render(GetDevice(), m_name);
 	m_pGauge->Render();
 }
 
@@ -92,7 +88,9 @@ void CTurret::AddAttackLaizer()
  	vPos.y = 6.3f;
 	tInfo.vPos = vPos;
 
-	CParticle * p = new CEzealQ_Particle(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
+	CParticle * p = 
+		new CEzealQ_Particle
+		(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
 	p->Initalize();
 	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
 	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);

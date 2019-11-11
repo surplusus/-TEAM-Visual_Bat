@@ -113,10 +113,6 @@ void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3
 		, x - (vScale.x / 2.0f)
 		, y + 2.5f, z);
 	
-	
-	//중심 좌표 x에서 스케일링된 크기만큼을 빼서 좌측으로 이동시킨다.
-	//(x - (2.0f * ((vScale.x * fDmg) / 2.0f)));
-	
 	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);

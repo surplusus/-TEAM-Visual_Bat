@@ -6,7 +6,7 @@ class CTurret :
 {
 public:
 	CTurret() {}
-	CTurret(D3DXVECTOR3 pos);
+	CTurret(D3DXVECTOR3 pos, TCHAR* TurretName);
 	virtual ~CTurret();
 public:
 	virtual HRESULT	Initialize() override;
@@ -17,17 +17,18 @@ private:
 	bool Animation_Break();
 
 public:
-	list<ColiderComponent*> m_ColiderList;
+	list<ColiderComponent*>				m_ColiderList;
 
 private:
-	LPDIRECT3DTEXTURE9				m_pTexture;
+	LPDIRECT3DTEXTURE9					m_pTexture;
 
 private:
 	virtual void		ChangeAniSetByState() {};
 	void AddAttackLaizer();
-
+	TCHAR*							m_name;
 
 public:
 	void SetPosition(D3DXVECTOR3 position) { m_Info.vPos = position; }
+	TCHAR* GetName()	{ return m_name; }
 };
 
