@@ -17,6 +17,7 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * pInst)
 		InsertDecorate<WhenAlive>(InsertTask<UdyrBeaten>());
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrOnTarget>(), "OnTarget");
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrHasCoord>(), "HasCoord");
+		InsertDecorate<WhenBoolOn>(InsertTask<UdyrAggressive>(), "Aggressive");
 		InsertDecorate<WhenFloatChecked>(InsertTask<UdyrAttack>(), "TargetAt", "fAttackRange", true);
 		InsertDecorate<WhenAlive>(InsertTask<UdyrIdle>());
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrQAction>(), "QAction");
@@ -39,6 +40,11 @@ UdyrBT::UdyrBTHandler::~UdyrBTHandler()
 
 void UdyrBT::UdyrBTHandler::MakeTree()
 {
+	// Move Module
+	{
+		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
+		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
+	}
 	// Task를 BehaviorTree에 매단다
 	{
 		m_vSelector[SELECTOR_DEATH]->AddNode(m_vDecorator[TASK_DEATH].get());
@@ -56,26 +62,22 @@ void UdyrBT::UdyrBTHandler::MakeTree()
 					m_vSelector[SELECTOR_ENEMY]->AddNode(m_vDecorator[TASK_ATTACK].get());
 					m_vSelector[SELECTOR_ENEMY]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
 					{
-						m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
-						m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
+						// Move Module
 					}
 				}
-				m_vSequnece[SELECTOR_INPUT]->AddNode(m_vDecorator[CONDITION_HASCOORD].get());// HasCoord
+				m_vSelector[SELECTOR_INPUT]->AddNode(m_vDecorator[CONDITION_HASCOORD].get());// HasCoord
 				{
-					// 이미 SEQUENCE_MOVE에 넣어놨음
-					//m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
-					//m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
+					// Move Module
+					// UdyrHasCoord 내부에 들어있음
 				}
-			}
-			m_vSelector[SEQUENCE_LIFE]->AddNode(m_vSelector[SELECTOR_AGGRESSIVE].get());
-			{
-				m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
+				m_vSelector[SELECTOR_INPUT]->AddNode(m_vSelector[SELECTOR_AGGRESSIVE].get());
 				{
-					// 이미 SEQUENCE_MOVE에 넣어놨음
-					//m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
-					//m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
+					m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
+					{
+						// Move Module
+					}
+					m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vDecorator[TASK_IDLE].get());
 				}
-				m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vDecorator[TASK_IDLE].get());
 			}
 		}
 	}
@@ -106,6 +108,7 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 		m_BlackBoard->setFloat("TargetAt", 1000.f);
 		m_BlackBoard->setBool("OnTarget", false);
 		m_BlackBoard->setBool("HasCoord", false);
+		m_BlackBoard->setBool("Aggressive", false);
 		m_BlackBoard->setFloat("Distance", 0.f);
 		m_BlackBoard->setFloat("Direction", 0.f);
 	}
@@ -159,7 +162,7 @@ STATUSINFO & UdyrBT::UdyrAccessor::GetStatusInfo() const
 	return m_pInst->m_stStatusInfo;
 }
 
-UdyrBT::UdyrBTHandler * UdyrBT::UdyrAccessor::GetBehaviorTree()
+const UdyrBT::UdyrBTHandler * UdyrBT::UdyrAccessor::GetBehaviorTree()
 {
 	return m_pInst->GetBehaviorTree();
 }
@@ -234,6 +237,11 @@ void UdyrBT::UdyrHasCoord::Terminate()
 {
 	vecPrevPos = D3DXVECTOR3(0,0,0);
 	bNewPos = false;
+}
+//////////// Aggressive /////////////
+void UdyrBT::UdyrAggressive::Do()
+{
+	GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
 }
 //////////// Attack /////////////
 void UdyrBT::UdyrAttack::Init()

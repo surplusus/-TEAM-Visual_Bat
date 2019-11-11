@@ -35,7 +35,7 @@ public:
 public:
 	bool			IsEnemyNearInSphere(float fRadius);
 private:
-	UdyrBT::UdyrBTHandler*	GetBehaviorTree();
+	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
 	void			ChangeAniSetByKey(string key);
 	void			SetUpAniSetNameList();
 	void			DoOnMouseRButton();

@@ -10,7 +10,7 @@ namespace UdyrBT
 	enum {SEQUENCE_LIFE, SEQUENCE_MOVE, SEQUENCE_END};
 	enum {SELECTOR_DEATH, SELECTOR_INPUT, SELECTOR_SKILL, SELECTOR_ENEMY, SELECTOR_AGGRESSIVE, SELECTOR_END};
 	//enum {DECORATOR_YES, DECORATOR_REPEAT, DECORATOR_BOOLON, DECORATOR_FLOATLOW, DECORATOR_FLOATABOVE, DECORATOR_END};
-	enum {TASK_DEATH, TASK_BEATEN, CONDITION_ONTARGET, CONDITION_HASCOORD
+	enum {TASK_DEATH, TASK_BEATEN, CONDITION_ONTARGET, CONDITION_HASCOORD, CONDITION_AGGRESSIVE
 		, TASK_ATTACK, TASK_IDLE, TASK_QACTION
 		, TASK_RUN, TASK_TURN, TASK_END};
 	class UdyrBTHandler : public BehaviorTreeHandler
@@ -68,7 +68,7 @@ namespace UdyrBT
 		bool TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate);
 		D3DXVECTOR3& GetChampMousePickPos();
 		STATUSINFO& GetStatusInfo() const;
-		UdyrBTHandler*	GetBehaviorTree();
+		const UdyrBTHandler*	GetBehaviorTree();
 		SPHERE* GetEnemySphere();
 	};
 
@@ -199,6 +199,10 @@ namespace UdyrBT
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
+	};
+	struct UdyrAggressive : public UdyrAccessor
+	{
+		virtual void Do() override;
 	};
 	struct UdyrAttack : public UdyrAccessor
 	{

@@ -143,7 +143,7 @@ void CUdyr::Render()
 	//Render_PickingShere();
 }
 
-UdyrBT::UdyrBTHandler * CUdyr::GetBehaviorTree()
+const UdyrBT::UdyrBTHandler * CUdyr::GetBehaviorTree()
 {
 	return m_pBehavior;
 }
@@ -269,18 +269,18 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 //
 void CUdyr::QWERControl()
 {
-	if (CheckPushKeyOneTime(VK_Q)) {
-		WriteOnBlackBoard("QAction", true);
-	}
-	if (CheckPushKeyOneTime(VK_W)) {
-		WriteOnBlackBoard("WAction", true);
-	}
-	if (CheckPushKeyOneTime(VK_E)) {
-		WriteOnBlackBoard("EAction", true);
-	}
-	if (CheckPushKeyOneTime(VK_R)) {
-		WriteOnBlackBoard("RAction", true);
-	}
+	//if (CheckPushKeyOneTime(VK_Q)) {
+	//	WriteOnBlackBoard("QAction", true);
+	//}
+	//if (CheckPushKeyOneTime(VK_W)) {
+	//	WriteOnBlackBoard("WAction", true);
+	//}
+	//if (CheckPushKeyOneTime(VK_E)) {
+	//	WriteOnBlackBoard("EAction", true);
+	//}
+	//if (CheckPushKeyOneTime(VK_R)) {
+	//	WriteOnBlackBoard("RAction", true);
+	//}
 	// sound check
 	//if (CheckPushKeyOneTime(VK_1))
 	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
