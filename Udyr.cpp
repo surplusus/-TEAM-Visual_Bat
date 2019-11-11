@@ -60,6 +60,12 @@ bool CUdyr::IsEnemyNearInSphere(float fRadius)
 	return result;
 }
 
+void CUdyr::UpdatePickPointToEnemySphereCenter()
+{
+	float distance = D3DXVec3Length(&(m_Info.vPos - m_MouseHitPoint));
+	WriteOnBlackBoard("TargetAt", distance);
+}
+
 HRESULT CUdyr::Initialize()
 {
 	CloneMesh(GetDevice(), L"Udyr", &m_pAnimationCtrl);
@@ -129,6 +135,8 @@ void CUdyr::Progress()
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
+		//cout << "Onterget : " << (bool)m_pBehavior->m_BlackBoard->getBool("OnTarget")
+		//	<< " HasCoord :  " << (bool)m_pBehavior->m_BlackBoard->getBool("HasCoord") << endl;
 	}
 	//m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
@@ -182,8 +190,6 @@ void CUdyr::DoOnMouseRButton()
 		if (GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &m_sphereTarget))
 		{
 			WriteOnBlackBoard("OnTarget", true);
-			WriteOnBlackBoard("HasCoord", false);
-			m_MouseHitPoint = *m_sphereTarget->vpCenter;
 			float distance = D3DXVec3Length(&(m_Info.vPos - m_MouseHitPoint));
 			WriteOnBlackBoard("TargetAt", distance);
 			return;
@@ -191,12 +197,12 @@ void CUdyr::DoOnMouseRButton()
 		else
 		{
 			WriteOnBlackBoard("OnTarget", false);
+			WriteOnBlackBoard("TargetAt", 4000.f);
 		}
 
 		if (SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap()))
 		{
 			WriteOnBlackBoard("HasCoord", true);
-			WriteOnBlackBoard("OnTarget", false);
 			//m_MouseHitPoint = /////m_MouseHitPoint 로직이 SearchPickingPointInHeightMap안에 있음
 		}
 		else

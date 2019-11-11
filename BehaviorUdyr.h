@@ -13,6 +13,7 @@ namespace UdyrBT
 	enum {TASK_DEATH, TASK_BEATEN, CONDITION_ONTARGET, CONDITION_HASCOORD, CONDITION_AGGRESSIVE
 		, TASK_ATTACK, TASK_IDLE, TASK_QACTION
 		, TASK_RUN, TASK_TURN, TASK_END};
+
 	class UdyrBTHandler : public BehaviorTreeHandler
 	{
 	private:
@@ -60,6 +61,7 @@ namespace UdyrBT
 		void SetMemberFunc(string key, function<void(void)> func) { 
 			m_Funcs.insert(make_pair(key, func));
 		}
+		CUdyr* AccessChampInstPrivately();
 	protected:
 		CUdyr*	m_pInst = nullptr;
 		map<string, MemberFunc> m_Funcs;

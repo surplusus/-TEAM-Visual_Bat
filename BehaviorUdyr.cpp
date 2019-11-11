@@ -137,6 +137,11 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 	}
 }
 
+CUdyr * UdyrBT::UdyrAccessor::AccessChampInstPrivately()
+{
+	return m_pInst;
+}
+
 void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 {
 	auto it = find(m_pInst->m_AniSetNameList.begin(), m_pInst->m_AniSetNameList.end(), key);
@@ -207,14 +212,24 @@ void UdyrBT::UdyrBeaten::Terminate()
 //////////// OnTarget /////////////
 void UdyrBT::UdyrOnTarget::Init()
 {
+	m_BlackBoard->setBool("HasCoord", false);
 	if (GetEnemySphere() != spEnemy) {
 		spEnemy = GetEnemySphere();
 		bNewTarget = true;
 	}
+	
 }
 void UdyrBT::UdyrOnTarget::Do()
 {
+	cout << "Onterget : " << (bool)m_BlackBoard->getBool("OnTarget")
+		<< " HasCoord :  " << (bool)m_BlackBoard->getBool("HasCoord") << endl;
+	
+	D3DXVECTOR3& vecPickPos = GetChampMousePickPos();
+	vecPickPos = *spEnemy->vpCenter;
+
 	GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
+	if (m_BlackBoard->getBool("OnTarget") == false)
+		m_status = TERMINATED;
 }
 void UdyrBT::UdyrOnTarget::Terminate()
 {
@@ -224,6 +239,7 @@ void UdyrBT::UdyrOnTarget::Terminate()
 //////////// hasCoord /////////////
 void UdyrBT::UdyrHasCoord::Init()
 {
+	m_BlackBoard->setBool("OnTarget", false);
 	if (UdyrAccessor::GetChampMousePickPos() != vecPrevPos) {
 		vecPrevPos = UdyrAccessor::GetChampMousePickPos();
 		bNewPos = true;
@@ -231,7 +247,11 @@ void UdyrBT::UdyrHasCoord::Init()
 }
 void UdyrBT::UdyrHasCoord::Do()
 {
+	cout << "Onterget : " << (bool)m_BlackBoard->getBool("OnTarget")
+	<< " HasCoord :  " << (bool)m_BlackBoard->getBool("HasCoord") << endl;
 	GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
+	if (m_BlackBoard->getBool("HasCoord") == false)
+		m_status = TERMINATED;
 }
 void UdyrBT::UdyrHasCoord::Terminate()
 {
@@ -241,7 +261,7 @@ void UdyrBT::UdyrHasCoord::Terminate()
 //////////// Aggressive /////////////
 void UdyrBT::UdyrAggressive::Do()
 {
-	GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
+	//GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
 }
 //////////// Attack /////////////
 void UdyrBT::UdyrAttack::Init()
@@ -264,7 +284,7 @@ void UdyrBT::UdyrAttack::Do()
 }
 void UdyrBT::UdyrAttack::Terminate()
 {
-	m_BlackBoard->setBool("Attack", false);
+	m_BlackBoard->setBool("OnTarget", false);
 	ChangeAnySet("Idle");
 }
 //////////// Idle /////////////
@@ -295,41 +315,6 @@ void UdyrBT::UdyrQAction::Terminate()
 {
 	ChangeAnySet("Idle");
 }
-//////////// Targeting /////////////
-void UdyrBT::UdyrTargeting::Init()
-{
-	if (vecPrevTargetPos != GetChampMousePickPos())
-	{
-		vecPrevTargetPos = GetChampMousePickPos();
-		bNewTarget = true;
-	}
-}
-void UdyrBT::UdyrTargeting::Do()
-{
-	// 적 공격 Selector를 (실행한다) 매단다
-	GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
-
-	if (bNewTarget)
-	{
-		cout << "새로운애 찍혔다.\n";
-		bNewTarget = false;
-		m_status = TERMINATED;
-	}
-}
-void UdyrBT::UdyrTargeting::Terminate()
-{
-	m_BlackBoard->setBool("OnTarget", false);
-}
-//////////// SetCoord /////////////
-void UdyrBT::UdyrSetCoord::Init()
-{
-}
-void UdyrBT::UdyrSetCoord::Do()
-{
-}
-void UdyrBT::UdyrSetCoord::Terminate()
-{
-}
 //////////// Run /////////////
 void UdyrBT::UdyrRun::Init()
 {
@@ -339,8 +324,10 @@ void UdyrBT::UdyrRun::Do()
 {
 	m_BlackBoard->setFloat("Distance", D3DXVec3Length(&(GetChampMousePickPos() - m_pInst->GetInfo()->vPos)));
 	bool bDest = m_pInst->Update_vPos_ByDestPoint(&GetChampMousePickPos(), m_BlackBoard->getFloat("fMoveSpeed"));
-	if (!bDest)
+	if (!bDest) {
 		m_status = TERMINATED;
+		m_BlackBoard->setBool("HasCoord", false);
+	}
 }
 void UdyrBT::UdyrRun::Terminate()
 {

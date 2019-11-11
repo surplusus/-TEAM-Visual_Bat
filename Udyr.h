@@ -8,7 +8,7 @@ class CUdyr : public CChampion
 {
 	friend class UdyrBT::UdyrBTHandler;
 	friend class UdyrBT::UdyrAccessor;
-	friend class BehaviorTree::Decorator;
+	//friend class BehaviorTree::Decorator;
 public:
 	CUdyr();
 	virtual ~CUdyr();
@@ -34,6 +34,7 @@ public:
 	void			WriteOnBlackBoard(string sKey, string sValue);
 public:
 	bool			IsEnemyNearInSphere(float fRadius);
+	void			UpdatePickPointToEnemySphereCenter();
 private:
 	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
 	void			ChangeAniSetByKey(string key);
