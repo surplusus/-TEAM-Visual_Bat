@@ -24,11 +24,12 @@ protected:
 
 	virtual void		ChangeAniSetByState() {};
 	void AddAttackLaizer();
-	TCHAR*							m_name;
+	const TCHAR*							m_MeshName;
 	float							m_RotRadian;
 
 public:
 	void SetPosition(D3DXVECTOR3 position) { m_Info.vPos = position; }
-	TCHAR* GetName()	{ return m_name; }
+	const TCHAR* GetName()	{ return m_MeshName; }
+	void SetMeshName(const TCHAR* MeshName) { m_MeshName = MeshName; }
 };
 

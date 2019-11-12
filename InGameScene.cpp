@@ -184,19 +184,19 @@ bool CInGameScene::InitAddObject()
 {
 	//≈Õ∑ø
 	vector<CTurret*>	vecTurret(4);
-	vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f))); vecTurret[0]->SetMeshName(L"Blue_Turret1");
-	vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));vecTurret[1]->SetMeshName(L"Blue_Turret2");
-	vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));	 vecTurret[2]->SetMeshName(L"Blue_Turret3");
-	vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));	 vecTurret[3]->SetMeshName(L"Blue_Turret4");
+	vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f), L"order_outer_Turret", 50.0f)); vecTurret[0]->SetMeshName(L"Blue_Turret1");
+	vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f), L"order_iner_Turret", 50.0f));vecTurret[1]->SetMeshName(L"Blue_Turret2");
+	vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f), L"order_twins_left_Turret", 50.0f));	 vecTurret[2]->SetMeshName(L"Blue_Turret3");
+	vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f), L"order_twins_right_Turret", 50.0f));	 vecTurret[3]->SetMeshName(L"Blue_Turret4");
 	for (size_t i = 0; i < vecTurret.size(); i++)
 	{
 		vecTurret[i]->Initialize();
 	}
 
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret1", vecTurret[0]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret2", vecTurret[1]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret3", vecTurret[2]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret4", vecTurret[3]);
+	GET_SINGLE(CObjMgr)->AddObject(L"order_outer_Turret", vecTurret[0]);
+	GET_SINGLE(CObjMgr)->AddObject(L"order_iner_Turret", vecTurret[1]);
+	GET_SINGLE(CObjMgr)->AddObject(L"order_twins_left_Turret", vecTurret[2]);
+	GET_SINGLE(CObjMgr)->AddObject(L"order_twins_right_Turret", vecTurret[3]);
 	//æÔ¡¶±‚
 	CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
 	pInhibitor->Initialize();

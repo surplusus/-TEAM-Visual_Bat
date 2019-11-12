@@ -37,6 +37,7 @@ HRESULT CChaosTurret::Initialize()
 	m_pGauge->SetInfo(m_Info);
 	m_pGauge->SetParentWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
+
 	return S_OK;
 }
 

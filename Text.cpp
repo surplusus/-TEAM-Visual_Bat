@@ -3,7 +3,6 @@
 
 CText::~CText()
 {
-	SAFE_DELETE(m_pFont);
 	m_pFont = NULL;
 }
 

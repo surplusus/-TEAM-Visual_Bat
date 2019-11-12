@@ -6,7 +6,7 @@
 #include"AnimationCtrl.h"
 #include "TurretGauge.h"
 CTurret::CTurret(D3DXVECTOR3 pos, TCHAR* TurretName, float Rotation_Radian)
-	:m_name(TurretName), m_RotRadian(Rotation_Radian)
+	:m_MeshName(TurretName), m_RotRadian(Rotation_Radian)
 {
 	m_fSize = 1.0f;
 
@@ -26,7 +26,7 @@ CTurret::~CTurret()
 
 HRESULT CTurret::Initialize()
 {
-	CloneMesh(GetDevice(),m_name, &m_pAnimationCtrl);
+	CloneMesh(GetDevice(),m_MeshName, &m_pAnimationCtrl);
 
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
@@ -44,7 +44,7 @@ HRESULT CTurret::Initialize()
 
 void CTurret::Progress()
 {
-	m_pAnimationCtrl->FrameMove(m_name, g_fDeltaTime);
+	m_pAnimationCtrl->FrameMove(m_MeshName, g_fDeltaTime);
 
 	if (GetAsyncKeyState(VK_LEFT))
 		Animation_Break();
@@ -59,7 +59,7 @@ void CTurret::Progress()
 void CTurret::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-	Mesh_Render(GetDevice(), m_name);
+	Mesh_Render(GetDevice(), m_MeshName);
 	m_pGauge->Render();
 }
 
@@ -80,7 +80,7 @@ void CTurret::AddAttackLaizer()
 {
 	D3DXMATRIX matWorld;
 	D3DXVECTOR3 vPos;
-	GetBoneMatrix(L"Blue_Turret", "Armature_bone_HA_OrderTurret_Damage10", &matWorld);
+	GetBoneMatrix(m_MeshName, "Armature_bone_HA_OrderTurret_Damage10", &matWorld);
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	vPos.z = 2.5f;

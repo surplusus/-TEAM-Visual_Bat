@@ -114,11 +114,8 @@ HRESULT CGameScene::Initialize()
 		vecChaos[i]->Initialize();
 		GET_SINGLE(CObjMgr)->AddObject(vecChaos[i]->GetName(), vecChaos[i]);
 	}*/
-#pragma region 카오스 포탑 위치 좌표 맞춰주고 애니메이션 확인해야함
-#pragma endregion
-#pragma endregion
 	//////////////////////////////////////// < turret end > /////////////////////////////////////////
-
+#pragma endregion
 
 
 	//////////////////////////////////////// < inhibitor > /////////////////////////////////////////
@@ -149,11 +146,7 @@ HRESULT CGameScene::Initialize()
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;
 
-	CObj* p = new CEzreal("IDLE1", false);
-	p->Initialize();
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
-		return E_FAIL;
-
+	
 //	if (FAILED(m_pObjMgr->AddObject(L"Udyr", CFactory<CObj, CUdyr >::CreateObject())))
 //		return E_FAIL;
 
