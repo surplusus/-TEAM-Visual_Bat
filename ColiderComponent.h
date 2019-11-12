@@ -35,5 +35,7 @@ public:
 	void Release();
 	void WorldSetting();
 	SPHERE* GetSphere() { return &m_SphereInfo; }
+	// 구현이 새로 제안하는 Collision 처리
+	void OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
 };
 

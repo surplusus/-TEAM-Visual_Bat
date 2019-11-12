@@ -135,7 +135,8 @@ typedef struct tagSphere
 	LPD3DXMESH		pMesh = nullptr;
 	tagSphere() : fRadius(0.0f), vpCenter(nullptr) {}
 	tagSphere(const float r, D3DXVECTOR3* v) : fRadius(r), vpCenter(v) {}
-	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter) {}
+	tagSphere(const tagSphere& sph) : fRadius(sph.fRadius), vpCenter(sph.vpCenter), isPicked(sph.isPicked), pMesh(sph.pMesh) {}
+	~tagSphere(){ SAFE_RELEASE(pMesh); }
 }SPHERE;
 
 
@@ -149,7 +150,6 @@ const DWORD VTXFVF_PARTICLE = D3DFVF_XYZ | D3DFVF_DIFFUSE;
 
 typedef struct tagStateInfo
 {
-
 	float fBase_Attack		=0;
 	float fMagic_Attack		=0;
 	float fBase_Defence		=0;
@@ -168,16 +168,30 @@ typedef struct tagStateInfo
 	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
 	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
 	void PrintAll() {
-		std::cout << "fBase_Attack	 : " << fBase_Attack << '\n';
-		std::cout << "fMagic_Attack	 : " << fMagic_Attack << '\n';
-		std::cout << "fBase_Defence	 : " << fBase_Defence << '\n';
-		std::cout << "fMagic_Defence	 : " << fMagic_Defence << '\n';
-		std::cout << "fCriticalRatio	 : " << fCriticalRatio << '\n';
-		std::cout << "fMoveSpeed		 : " << fMoveSpeed << '\n';
-		std::cout << "fMana			 : " << fMana << '\n';
-		std::cout << "fHP			 : " << fHP << '\n';
+		system("cls");
+		std::cout << "fBase_Attack    : " << fBase_Attack << '\n';
+		std::cout << "fMagic_Attack   : " << fMagic_Attack << '\n';
+		std::cout << "fBase_Defence   : " << fBase_Defence << '\n';
+		std::cout << "fMagic_Defence  : " << fMagic_Defence << '\n';
+		std::cout << "fCriticalRatio  : " << fCriticalRatio << '\n';
+		std::cout << "fMoveSpeed      : " << fMoveSpeed << '\n';
+		std::cout << "fMana           : " << fMana << '\n';
+		std::cout << "fHP             : " << fHP << '\n';
 		std::cout << "fSkillTimeRatio : " << fSkillTimeRatio << '\n';
-		std::cout << "fAttackRange	 : " << fAttackRange << '\n';
+		std::cout << "fAttackRange    : " << fAttackRange << '\n';
+	}
+	tagStateInfo() {}
+	tagStateInfo(const tagStateInfo& rhs) {
+		fBase_Attack	= rhs.fBase_Attack;
+		fMagic_Attack	= rhs.fMagic_Attack;
+		fBase_Defence	= rhs.fBase_Defence;
+		fMagic_Defence	= rhs.fMagic_Defence;
+		fCriticalRatio	= rhs.fCriticalRatio;
+		fMoveSpeed		= rhs.fMoveSpeed;
+		fMana			= rhs.fMana;
+		fHP				= rhs.fHP;
+		fSkillTimeRatio = rhs.fSkillTimeRatio;
+		fAttackRange	= rhs.fAttackRange;
 	}
 }STATUSINFO;
 typedef enum SkILL_LEVEL
@@ -208,16 +222,16 @@ STATUSINFO operator-(const tagStateInfo Info, tagStateInfo& tInfo)
 {
 	
 	STATUSINFO info;
-	info.fBase_Attack		= Info.fBase_Attack + tInfo.fBase_Attack;
-	info.fMagic_Attack		= Info.fMagic_Attack + tInfo.fMagic_Attack;
-	info.fBase_Defence		= Info.fBase_Defence + tInfo.fBase_Defence;
-	info.fMagic_Defence		= Info.fMagic_Defence + tInfo.fMagic_Defence;
-	info.fCriticalRatio		= Info.fCriticalRatio + tInfo.fCriticalRatio;
-	info.fMoveSpeed			= Info.fMoveSpeed + tInfo.fMoveSpeed;
-	info.fMana				= Info.fMana + tInfo.fMana;
-	info.fHP				= Info.fHP + tInfo.fHP;
-	info.fSkillTimeRatio	= Info.fSkillTimeRatio + tInfo.fSkillTimeRatio;
-	info.fAttackRange		= Info.fAttackRange + tInfo.fAttackRange;
+	info.fBase_Attack		= Info.fBase_Attack		- tInfo.fBase_Attack;
+	info.fMagic_Attack		= Info.fMagic_Attack	- tInfo.fMagic_Attack;
+	info.fBase_Defence		= Info.fBase_Defence	- tInfo.fBase_Defence;
+	info.fMagic_Defence		= Info.fMagic_Defence	- tInfo.fMagic_Defence;
+	info.fCriticalRatio		= Info.fCriticalRatio	- tInfo.fCriticalRatio;
+	info.fMoveSpeed			= Info.fMoveSpeed		- tInfo.fMoveSpeed;
+	info.fMana				= Info.fMana			- tInfo.fMana;
+	info.fHP				= Info.fHP				- tInfo.fHP;
+	info.fSkillTimeRatio	= Info.fSkillTimeRatio	- tInfo.fSkillTimeRatio;
+	info.fAttackRange		= Info.fAttackRange		- tInfo.fAttackRange;
 	return info;	
 }
 STATUSINFO operator+=(tagStateInfo& Info, tagStateInfo tInfo)
