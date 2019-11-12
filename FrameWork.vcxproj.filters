@@ -322,9 +322,6 @@
     <Filter Include="소스 파일\Maneger\Skill\EzrealW">
       <UniqueIdentifier>{3bb4cb12-3cec-424d-a3c4-45d2605e3fdb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\TargetColider">
-      <UniqueIdentifier>{e8cc80e2-39af-4e55-bea9-9eeeaa9d3020}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Maneger\Skill\TurretMissile">
       <UniqueIdentifier>{b4bd0c60-c0c7-4c72-99c9-92c7a01ca590}</UniqueIdentifier>
     </Filter>
@@ -461,9 +458,6 @@
     </ClInclude>
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>소스 파일\DesignPattern\FactoryMethod</Filter>
@@ -708,9 +702,6 @@
     <ClInclude Include="TurretGauge.h">
       <Filter>소스 파일\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="TargetColider.h">
-      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\TargetColider</Filter>
-    </ClInclude>
     <ClInclude Include="TurretMissle.h">
       <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     </ClInclude>
@@ -832,9 +823,6 @@
     </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
@@ -1066,9 +1054,6 @@
     </ClCompile>
     <ClCompile Include="TurretGauge.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetColider.cpp">
-      <Filter>소스 파일\Maneger\ColiderMgr\Colidercomponent\TargetColider</Filter>
     </ClCompile>
     <ClCompile Include="TurretMissle.cpp">
       <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>

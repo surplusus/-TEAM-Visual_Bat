@@ -56,7 +56,6 @@ void CEzealQ_Particle::Initalize()
 	Setup_MultiTexture();
 	SetUp_Particle();
 	InitRenderState();
-	D3DXMATRIX matWorld;
 	
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);

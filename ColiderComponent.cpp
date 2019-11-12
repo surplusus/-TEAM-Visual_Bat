@@ -65,7 +65,6 @@ bool ColiderComponent::CheckColision(ColiderComponent* pEnemy)
 
 void ColiderComponent::Update(D3DXVECTOR3 vPos)
 {
-
 	m_Info.vPos = vPos;
 	WorldSetting();
 }

@@ -45,10 +45,6 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Ezreal.x", L"Ezreal2", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;

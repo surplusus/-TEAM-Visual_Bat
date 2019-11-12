@@ -39,6 +39,7 @@ void CCollisionMgr::Render()
 	{
 		list<ColiderComponent*>::iterator ListIter1 = m_ColMap[iter1->first]->begin();
 		for(ListIter1; ListIter1 != m_ColMap[iter1->first]->end(); ListIter1++) {			
+			if((*ListIter1)!=NULL)
 			(*ListIter1)->Render();
 		}
 	}
@@ -52,16 +53,15 @@ void CCollisionMgr::UpdateColistion()
 		iter1 != m_ColMap.end(); ++iter1)
 	{
 		for (list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
-			pOrigin != m_ColMap[iter1->first]->end();pOrigin++)
+			pOrigin != m_ColMap[iter1->first]->end(); pOrigin++)
 		{
 			bool bCol = false;
-		for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin()
-			;iter2 != m_ColMap.end(); ++iter2)
-		{
-			if (iter1->first == iter2->first)		
-				continue;		
+			for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin()
+				; iter2 != m_ColMap.end(); ++iter2)
+			{
+				if (iter1->first == iter2->first)
+					continue;
 
-			
 				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
 					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
@@ -71,28 +71,16 @@ void CCollisionMgr::UpdateColistion()
 					{
 						pTarget++;	continue;
 					}
+					if (*pTarget == NULL) continue;
 
 					//origin이 파티클 임
-					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE)
-					{//target이 오브젝트임(챔피언)
-						if ((*pOrigin)->CheckColision(*pTarget))
-						{									//iter1 = origin , iter2 : Target
-							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT((iter2->first), (*pOrigin)));							
-						}					
+					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE && (*pTarget)->GetType() == COLISION_TYPE_PARTICLE)
+						continue;
+					if ((*pOrigin)->CheckColision(*pTarget))
+					{									//iter1 = origin , iter2 : Target
+						GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT( (iter1->first), (*pOrigin),(iter2->first),(*pTarget)));
 					}
-					//추적하는 요소의 콜라이션을 가진 객체
-					if ((*pOrigin)->GetType() == COLISION_TYPE_TARGETCHASE)
-					{
-						//어떤 오브젝트 타입의 물채
-						if ((*pTarget)->GetType() == COLISION_TYPE_OBJECT)
-						{
-							if ((*pOrigin)->CheckColision(*pTarget))
-							{
-								GET_SINGLE(EventMgr)->Publish(new PICKSPHEREEVENT(iter2->first));
-							}
-						}
-					}
-				}			
+				}
 			}
 		}
 	}

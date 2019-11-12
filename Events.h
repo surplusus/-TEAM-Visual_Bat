@@ -41,11 +41,15 @@ typedef struct _tagPickingSphere : EVENT
 
 typedef struct _tagCollisionEvent : EVENT
 {
-	_tagCollisionEvent(CObj* pOri,ColiderComponent* pOriCol)
-		: m_pOriObj(pOri),m_pOriCol(pOriCol)
+	_tagCollisionEvent(CObj* pOri,ColiderComponent* pOriCol,
+		CObj* pTarget =NULL, ColiderComponent* pTargetCol =NULL)
+		: m_pOriObj(pOri),m_pOriCol(pOriCol),m_pTarget(pTarget),m_pTargetCol(pTargetCol)
 		{}
 	ColiderComponent* m_pOriCol;
+	ColiderComponent* m_pTargetCol;
 	CObj* m_pOriObj;
+	CObj* m_pTarget;
+	
 } COLLISIONEVENT;
 
 typedef struct _tagCollisionTarget : EVENT

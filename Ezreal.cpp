@@ -298,6 +298,10 @@ void CEzreal::KeyCheck()
 		m_fEndTime = 25;
 		m_bDirty = true;
 	}	
+	else if (GetAsyncKeyState(VK_F1))
+	{
+		m_pColider->SetStateCol(true);
+	}
 	
 }
 
@@ -367,8 +371,10 @@ void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
 	if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH) 
 	{
-		CParticleColider * pColider =(dynamic_cast<CParticleColider*>(Evt->m_pOriCol));
+		//내가 맞은 콜라이더
+		CParticleColider * pColider =(dynamic_cast<CParticleColider*>(Evt->m_pTargetCol));
 		if (pColider) {
+			//해당 콜라이더의 파티클
 			CParticleObj * pParticle = pColider->GetParticle();
 			if (pParticle)
 			{
@@ -389,7 +395,6 @@ void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 	}
 	else m_bColl = false;
 	GET_SINGLE(CCollisionMgr)->UpdateCollisionList(this, &m_ColiderList);
-
 	std::cout <<"HP" <<m_StatusInfo.fHP<<endl;
 }
 
