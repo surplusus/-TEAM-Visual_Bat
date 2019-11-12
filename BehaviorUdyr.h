@@ -208,6 +208,7 @@ namespace UdyrBT
 	struct UdyrAttack : public UdyrAccessor
 	{
 		int iCntAni = 0;
+		int iSoundSec = 21;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;

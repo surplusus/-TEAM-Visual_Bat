@@ -219,9 +219,6 @@ void UdyrBT::UdyrOnTarget::Init()
 }
 void UdyrBT::UdyrOnTarget::Do()
 {
-	cout << "Onterget : " << (bool)m_BlackBoard->getBool("OnTarget")
-		<< " HasCoord :  " << (bool)m_BlackBoard->getBool("HasCoord") << endl;
-	
 	D3DXVECTOR3& vecPickPos = GetChampMousePickPos();
 	vecPickPos = *spEnemy->vpCenter;
 
@@ -231,7 +228,7 @@ void UdyrBT::UdyrOnTarget::Do()
 		GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
 	//else
 	//	m_BlackBoard->setBool("Attack", true);
-
+	
 
 	if (m_BlackBoard->getBool("OnTarget") == false)
 		m_status = TERMINATED;
@@ -252,8 +249,6 @@ void UdyrBT::UdyrHasCoord::Init()
 }
 void UdyrBT::UdyrHasCoord::Do()
 {
-	cout << "Onterget : " << (bool)m_BlackBoard->getBool("OnTarget")
-	<< " HasCoord :  " << (bool)m_BlackBoard->getBool("HasCoord") << endl;
 	GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
 	if (m_BlackBoard->getBool("HasCoord") == false)
 		m_status = TERMINATED;
@@ -276,10 +271,17 @@ void UdyrBT::UdyrAttack::Init()
 }
 void UdyrBT::UdyrAttack::Do()
 {
+	if (m_BlackBoard->getBool("OnTarget") == false) {
+		m_status = TERMINATED;
+		ChangeAnySet("Run");
+		return;
+	}
+
 	++iCntAni;
 	// 카격 시점 30 = 0.5초
-	if (iCntAni == 30) {
+	if (iCntAni == iSoundSec) {
 		STATUSINFO infoDemage;	infoDemage.fBase_Attack = 10.f;
+		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
 		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(), &infoDemage));
 	}
 	// 애니메이션 끝나는 시점 60:25 = iCntAni:25
@@ -290,7 +292,8 @@ void UdyrBT::UdyrAttack::Do()
 }
 void UdyrBT::UdyrAttack::Terminate()
 {
-	m_BlackBoard->setBool("OnTarget", false);
+	//m_BlackBoard->setBool("OnTarget", false);
+	iCntAni = 0;
 	m_status = INVALID;
 }
 //////////// Idle /////////////

@@ -10,12 +10,13 @@
 #include "MinionMgr.h"
 #include "Cursor.h"
 
-CLoadingFunctor::CLoadingFunctor()
+CLoadingFunctor::CLoadingFunctor(string sFileName)
 	: m_iFuncSize(0)
 	, m_iFuncIdx(0)
+	, m_sFileName(sFileName)
 {
 	{
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(m_sFileName); });
 		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
@@ -52,7 +53,7 @@ bool CLoadingFunctor::FuncDefaultMgrSetUp()
 {
 	{	// Set up Sounds
 		GET_SINGLE(SoundMgr)->SetUp();
-		//printf("sound set up\n");
+		printf("sound set up\n");
 	}
 	{	// Create ColliderMgr & ParticleMgr
 		GET_SINGLE(CParticleMgr)->Initalize();

@@ -6,7 +6,7 @@
 3 ./Resource/Sound/createminion.wav
 4 
 # Udyr
-5 ./Resource/Sound/Udyr1.mp3
+5 ./Resource/Sound/udyr_attack.mp3
 6 ./Resource/Sound/Udyr2.mp3
 7 ./Resource/Sound/Udyr3.mp3
 8 ./Resource/Sound/Udyr4.mp3

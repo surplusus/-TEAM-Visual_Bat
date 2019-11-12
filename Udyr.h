@@ -28,6 +28,7 @@ private:
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
+	int forsync = 0;
 	// << : Collision
 	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColliderList;

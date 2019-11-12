@@ -17,9 +17,10 @@
 #include "Nexus.h"
 
 
-bool CLoadingFunctorBase::SetMeshInfoThruFile()
+bool CLoadingFunctorBase::SetMeshInfoThruFile(string sFileName)
 {
-	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	string sFilePath = "./Resource/" + sFileName;
+	ifstream file(sFilePath, ifstream::in);
 	//ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {

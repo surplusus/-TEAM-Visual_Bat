@@ -4,7 +4,7 @@
 class CLoadingFunctor : public CLoadingFunctorBase
 {
 public:
-	CLoadingFunctor();
+	CLoadingFunctor(string sFileName);
 	virtual ~CLoadingFunctor();
 	bool operator() ();
 private:
@@ -12,6 +12,7 @@ private:
 	int								m_iFuncIdx;
 	queue<function<bool(void)>>		m_queFunc;
 	string							m_SelectedChamp;
+	string							m_sFileName;
 public:
 	bool FuncDefaultMgrSetUp();
 	bool FuncLoadMap();
