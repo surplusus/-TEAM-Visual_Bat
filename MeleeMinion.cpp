@@ -14,8 +14,8 @@ CMeleeMinion::~CMeleeMinion()
 
 HRESULT CMeleeMinion::Initialize()
 {
-	HRESULT res = CloneMesh(GetDevice(), L"MeleeMinion", &m_pAnimationCtrl);
-	
+	HRESULT res = CloneMesh(GetDevice(), m_MeshName, &m_pAnimationCtrl);
+	SetUpAniSetNameList();
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");

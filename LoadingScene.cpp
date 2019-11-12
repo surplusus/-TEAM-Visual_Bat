@@ -62,8 +62,8 @@ void CLoadingScene::Progress()
 	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
-		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+		//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
 
@@ -123,6 +123,8 @@ bool CLoadingScene::Progress_LoadingFunctors()
 	bool bFunc1Complate, bFunc2Complate;
 	//bFunc1Complate = bFunc2Complate = false;
 	fCntOneSec += g_fDeltaTime;
+
+
 	if (fCntOneSec >= 1.f) {
 		if (m_pLoadingFunctor != nullptr)
 			bFunc1Complate = !(*m_pLoadingFunctor)();
@@ -136,9 +138,12 @@ bool CLoadingScene::Progress_LoadingFunctors()
 		else
 			bFunc2Complate = true;
 		
-		if (bFunc1Complate && bFunc2Complate)
-			m_bLoadingComplete = true;
-		fCntOneSec = 0.f;
+		if (bFunc1Complate && bFunc2Complate) {
+			if (fCntOneSec >= 2.f)
+				m_bLoadingComplete = true;
+		}
+		else 
+			fCntOneSec = 0.f;
 	}
 	return true;
 }

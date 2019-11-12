@@ -30,15 +30,15 @@ FolderPath ./Resource/choen/Tower/Blue_Turret/
 FileName order_Turret.x
 ConsoleText "Blue_Turret File Loaded"
 MeshType 1
--Inhibitor-
-ObjName Inhibitor
-FolderPath ./Resource/choen/Tower/inhibitor/
-FileName inhibitor.x
-ConsoleText "Inhibitor File Loaded"
-MeshType 1
--Nexus-
-ObjName Nexus
-FolderPath ./Resource/choen/Tower/Nexus/
-FileName Nexus.x
-ConsoleText "Nexus File Loaded"
-MeshType 1
+#-Inhibitor-
+#ObjName Inhibitor
+#FolderPath ./Resource/choen/Tower/inhibitor/
+#FileName inhibitor.x
+#ConsoleText "Inhibitor File Loaded"
+#MeshType 1
+#-Nexus-
+#ObjName Nexus
+#FolderPath ./Resource/choen/Tower/Nexus/
+#FileName Nexus.x
+#ConsoleText "Nexus File Loaded"
+#MeshType 1

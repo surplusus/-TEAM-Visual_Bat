@@ -26,9 +26,6 @@ CMinion::CMinion()
 
 		m_NextPoint = m_vNextPoints[0];
 	}
-	{	//<< : SetUp m_AniSetNameList;
-		SetUpAniSetNameList();
-	}
 	{	//<< : Collision
 		m_pCollider = new CObjectColider(this);
 		m_pCollider->SetUp(m_Info, 1.0f, new CBoundingBox);

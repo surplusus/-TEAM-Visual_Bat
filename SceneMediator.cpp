@@ -100,6 +100,7 @@ void CSceneMediator::MediateInfo(MEDIATETYPE type, CScene * member)
 		}
 		else if (member == m_pInGameScene) {
 			m_pInGameScene->GetMinionMgr(&m_mapVoidPointer["MinionMgr"]);
+			m_pInGameScene->GetCursor(&m_mapVoidPointer["Cursor"]);
 		}
 	}	break;
 	default:

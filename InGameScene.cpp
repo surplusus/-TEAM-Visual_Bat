@@ -36,7 +36,7 @@ CInGameScene::~CInGameScene()
 HRESULT CInGameScene::Initialize()
 {
 	// ÀıµÎÃ¼ Setup
-	GET_SINGLE(CFrustum)->InitFrustum();
+	//GET_SINGLE(CFrustum)->InitFrustum();
 	// Make Light
 	//Setup_Light();
 	// make Dynamic Camera
@@ -48,8 +48,8 @@ HRESULT CInGameScene::Initialize()
 		// ³ôÀÌ¸ÊÀÌ ÇÊ¿äÇÑ Object¿¡°Ô eHightMap Æ÷ÀÎÅÍ ¾Ë·ÁÁÖ±â
 		LetObjectKnowHeightMap();
 	}
-	InitAsset();
-	InitAddObject();
+	//InitAsset();
+	//InitAddObject();
 	return S_OK;
 }
 
@@ -67,7 +67,7 @@ void CInGameScene::Progress()
 
 void CInGameScene::Render()
 {
-	SetRenderState(D3DRS_LIGHTING, false);
+	SetRenderState(D3DRS_LIGHTING, false);// ºûÀ» ²¨ºÃ´Ù
 	m_pObjMgr->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
