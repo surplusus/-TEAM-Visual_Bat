@@ -1,8 +1,11 @@
 #include "BaseInclude.h"
 #include "TurretMissle.h"
-
-CTurretMissle::CTurretMissle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle)
-	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f), m_BaseDamge(30.0f)
+#include"Obj.h"
+#include"ParticleColider.h"
+#include"BoundingBox.h"
+#include"MathMgr.h"
+CTurretMissle::CTurretMissle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle,CObj* pTarget)
+	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(0.1f), m_fLength(1.0f), m_BaseDamge(30.0f), m_pTarget(pTarget)
 {
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
@@ -18,15 +21,33 @@ CTurretMissle::~CTurretMissle()
 
 void CTurretMissle::Initalize()
 {
+
+	Setup_MultiTexture();
+	InitRenderState();
+	D3DXMATRIX matWorld;
+
+	//콜라이더 설정
+	m_pColider = new CParticleColider(this);
+	m_pColider->SetUp(m_Info, 0.5f, new CBoundingBox);
+	UpdateParticleDirection();
+	AddTail();
 }
 
 bool CTurretMissle::Progress()
 {
+
+	if(m_pTarget)
+		Move_Chase(&m_pTarget->GetInfo()->vPos, 2.0f);
+	UpdateMatrix();
+	UpdateParticleDirection();
+	Update_Particle();
+
 	return true;
 }
 
 void CTurretMissle::Render()
 {
+	Render_Particle();
 }
 
 void CTurretMissle::Release()
@@ -254,5 +275,58 @@ void CTurretMissle::InitRenderState()
 
 bool CTurretMissle::AddTail()
 {
-	return false;
+
+	if (!m_pTarget) return false;
+	D3DXVECTOR3 vDirection = m_Info.vPos - m_pTarget->GetInfo()->vPos;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	m_VerTexInfo.p = vDirection;
+	m_vecVertexParticle.push_back(m_VerTexInfo);
+	vDirection.y = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		m_VerTexInfo.p = m_vecVertexParticle[i].p*(m_fSpeed);
+		m_vecVertexParticle.push_back(m_VerTexInfo);	
+	}
+	reverse(m_vecVertexParticle.begin(), m_vecVertexParticle.end());
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);	
+	
+	if (m_vecVertexParticle.empty())	return false;
+
+	return true;
+}
+
+bool CTurretMissle::UpdateParticleDirection()
+{
+	D3DXVECTOR3 vDirection = m_pTarget->GetInfo()->vPos- m_Info.vPos ;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vDirection.y;
+	float fDot = D3DXVec3Dot(&m_Info.vDir, &vDirection);
+	float fRadian = acos(fDot);
+	float fDirLerped = fRadian / 1.0f;
+
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+		return false;
+	}
+	D3DXVECTOR3 vLeft;
+	D3DXVec3Cross(&vLeft, &m_Info.vDir, &vDirection);
+	if (D3DXVec3Dot(&vDirection, &vLeft) > 0)
+	{
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+
+	}
+	else
+	{
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+	}
+	//for (int i = 0; i < 30; i++)
+	//{
+	//	CMathMgr::Rotation_Y(&m_vecVertexParticle[i].p, &m_vecVertexParticle[i].p, m_fAngle[ANGLE_Y]);
+	//}
+	return true;
+
 }

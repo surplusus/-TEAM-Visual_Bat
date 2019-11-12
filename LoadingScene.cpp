@@ -62,8 +62,8 @@ void CLoadingScene::Progress()
 	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
-		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	//	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
 
