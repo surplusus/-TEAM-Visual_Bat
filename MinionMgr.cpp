@@ -33,6 +33,9 @@ void CMinionMgr::CreateMinions()
 		}
 	}
 
+	//CAnimationCtrl*
+	//res = CloneMesh(GET_DEVICE, L"MeleeMinion1", &m_vMinion[0]->GetAnimationCtrl())
+
 	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion0", m_vMinion[0]);
 	if (FAILED(res))
 		ERR_MSG(g_hWnd, L"Fail : Register On Minion0");

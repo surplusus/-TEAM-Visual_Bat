@@ -16,8 +16,12 @@ protected:
 	D3DXVECTOR3				m_CurMousePoint;//현재 마우스가 어디있는지;
 	bool					m_bPicked;
 	SPHERE					m_SphereForPick;
+<<<<<<< .merge_file_a09288
+	CHAMPION_STATETYPE m_CurStateType;
+=======
 	LPD3DXMESH				m_pMeshSphere;
 	CHAMPION_STATETYPE		m_CurStateType;
+>>>>>>> .merge_file_a07228
 
 protected:
 	bool				TurnSlowly(const D3DXVECTOR3* destPos,float fLerpRate = 7.0f);

@@ -301,9 +301,6 @@
     <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
       <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene\최종 합치는 Scene">
-      <UniqueIdentifier>{c6f2c965-162b-46c0-b00d-334575d3ce7f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\InGameUI">
       <UniqueIdentifier>{de4a51c1-d4a8-40ee-b80d-3b60b3fc2add}</UniqueIdentifier>
     </Filter>
@@ -318,6 +315,12 @@
     </Filter>
     <Filter Include="소스 파일\Maneger\Skill\Ezreal_평타">
       <UniqueIdentifier>{7e850720-c575-450f-8a07-c71195c683a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\Skill\EzrealW">
+      <UniqueIdentifier>{3bb4cb12-3cec-424d-a3c4-45d2605e3fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Maneger\Skill\TurretMissile">
+      <UniqueIdentifier>{b4bd0c60-c0c7-4c72-99c9-92c7a01ca590}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -660,9 +663,6 @@
     <ClInclude Include="BehaviorUdyr.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="Cursor.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="HP.h">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClInclude>
@@ -681,17 +681,35 @@
     <ClInclude Include="BehaviorMinion.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionMgr.h">
-      <Filter>소스 파일\헤더 파일</Filter>
+    <ClInclude Include="BehaviorEzreal.h">
+      <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="TurretGauge.h">
-      <Filter>Gauge</Filter>
+    <ClInclude Include="Ezreal_W_Particle.h">
+      <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
     </ClInclude>
-    <ClInclude Include="NexusGauge.h">
-      <Filter>Gauge</Filter>
+    <ClInclude Include="LoadingFunctorBase.h">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
+    <ClInclude Include="MakingTowerFunctor.h">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="InhibitorGauge.h">
-      <Filter>Gauge</Filter>
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusGauge.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretGauge.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretMissle.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1007,9 +1025,6 @@
     <ClCompile Include="BehaviorUdyr.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="HP.cpp">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClCompile>
@@ -1031,14 +1046,32 @@
     <ClCompile Include="BehaviorMinion.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="TurretGauge.cpp">
-      <Filter>Gauge</Filter>
+    <ClCompile Include="BehaviorEzreal.cpp">
+      <Filter>System\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="NexusGauge.cpp">
-      <Filter>Gauge</Filter>
+    <ClCompile Include="Ezreal_W_Particle.cpp">
+      <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingFunctorBase.cpp">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="MakingTowerFunctor.cpp">
+      <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretMissle.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
     </ClCompile>
     <ClCompile Include="InhibitorGauge.cpp">
-      <Filter>Gauge</Filter>
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusGauge.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretGauge.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

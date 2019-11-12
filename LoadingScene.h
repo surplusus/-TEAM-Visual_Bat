@@ -7,6 +7,7 @@ class CSelectedSpells;
 class CUI;
 class CTextMgr;
 class CLoadingFunctor;
+class CMakingTowerFunctor;
 class CProgressBarFunctor;
 class CLoadingScene :	public CScene
 {
@@ -31,11 +32,13 @@ private:
 public:
 	// << :: Functor
 	CLoadingFunctor*			m_pLoadingFunctor;
+	CMakingTowerFunctor*		m_pMakingTowerFunctor;
 	CProgressBarFunctor*		m_pProgressBarFunctor;
 	atomic<bool>				m_bOnSwitch;
 	shared_future<bool>			m_future;
 private:
 	bool						m_bLoadingComplete;
 	bool OperateLoadingFunctorThruThread();
+	bool Progress_LoadingFunctors();
 };
 

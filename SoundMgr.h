@@ -3,7 +3,9 @@ enum T_SOUND
 {
 	ANNOUNCER_Welcome = 1,	ANNOUNCER_Left30sec,	ANNOUNCER_Createminion, ANNOUNCER_END = 4,
 	Udyr_Attack_Left,	Udyr_Idle,	Udyr_Search,	Udyr_Run,
-	Udyr_Taunt,	Udyr_Dance,	Udyr_Death, Udyr_END = 12,
+	Udyr_Taunt,	Udyr_Dance,	Udyr_Death, 
+	// 만들어야 하는 소리들
+	Udyr_Beaten, Udyr_END = 12,
 	Ezreal_Idle1,	Ezreal_Idle2,	Ezreal_Idel3,
 	Ezreal_Attack1,	Ezreal_Attack2, Ezreal_Run, Ezreal_Death,
 	Ezreal_Spell1,	Ezreal_Spell2,	Ezreal_Spell3,	Ezreal_Spell4,	Ezreal_END = 24

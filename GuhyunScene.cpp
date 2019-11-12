@@ -10,7 +10,7 @@
 #include "GameHUD.h"
 #include "CollisionMgr.h"
 #include "ParticleMgr.h"
-
+#include "Cursor.h"
 #include "SoundMgr.h"
 #include "Udyr.h"
 #include "Ezreal.h"
@@ -39,6 +39,8 @@ HRESULT GuhyunScene::Initialize()
 		return E_FAIL;
 
 	LetObjectKnowHeightMap();
+
+	m_pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
 
 	return S_OK;
 }
@@ -77,22 +79,26 @@ void GuhyunScene::Release()
 
 HRESULT GuhyunScene::Setup()
 {
-	{	// Make Light
-		D3DLIGHT9 stLight;
-		ZeroMemory(&stLight, sizeof(D3DLIGHT9));
-		stLight.Type = D3DLIGHT_DIRECTIONAL;
-		stLight.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		stLight.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		stLight.Specular = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		D3DXVECTOR3 vDir(1.f, -1.f, 1.f);
-		D3DXVec3Normalize(&vDir, &vDir);
-		stLight.Direction = vDir;
-		GET_DEVICE->SetLight(0, &stLight);
-		GET_DEVICE->LightEnable(0, true);
-		GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		SetRenderState(D3DRS_LIGHTING, true);
-	}
+	// Make Light
+	SetUp_Light();
 	return S_OK;
+}
+
+void GuhyunScene::SetUp_Light()
+{
+	D3DLIGHT9 stLight;
+	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	stLight.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Specular = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	D3DXVECTOR3 vDir(1.f, 1.f, 1.f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	GET_DEVICE->SetLight(0, &stLight);
+	GET_DEVICE->LightEnable(0, true);
+	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void GuhyunScene::SoundUpdate()
@@ -120,7 +126,8 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	// for Minion
-	m_pMinionMgr->SetHeightMap(&m_pHeightMap);
+	if(m_pMinionMgr != nullptr)
+		m_pMinionMgr->SetHeightMap(&m_pHeightMap);
 	// for Champion
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
@@ -136,4 +143,9 @@ void GuhyunScene::LetObjectKnowHeightMap()
 void GuhyunScene::GetMinionMgr(void ** pMinionMgr)
 {
 	m_pMinionMgr = reinterpret_cast<CMinionMgr*>(*pMinionMgr);
+}
+
+void GuhyunScene::GetCursor(void ** pCursor)
+{
+	m_pCursor = reinterpret_cast<CCursor*>(*pCursor);
 }

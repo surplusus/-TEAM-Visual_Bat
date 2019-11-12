@@ -14,6 +14,7 @@ struct ST_ABILITY
 
 class CObjMgr;
 class CHeightMap;
+class ColiderComponent;
 //>>champion -> dyanmic으로 나중에 코드 정리후 상속관계변경 필요
 class CGauge;
 class CTower
@@ -34,6 +35,7 @@ protected:
 	void				UpdateWorldMatrix(float radian = 0);
 	const VTXTEX*		GetVertexInHeightMap();
 	DWORD&				GetVertexNumInHeightMap();
+	ColiderComponent*	m_pColider;
 public:
 	virtual	HRESULT		Initialize()	 = 0;
 	virtual void		Progress()		 = 0;
