@@ -7,6 +7,7 @@ class SoundMgr;
 class GuhyunScene;
 class CPaticle;
 class ColiderComponent;
+class CParticleObj;
 typedef struct _tagEvent
 {
 } EVENT;

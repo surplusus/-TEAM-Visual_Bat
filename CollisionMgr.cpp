@@ -83,6 +83,18 @@ void CCollisionMgr::UpdateColistion()
 							GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT((iter2->first), (*pOrigin)));							
 						}					
 					}
+					//추적하는 요소의 콜라이션을 가진 객체
+					if ((*pOrigin)->GetType() == COLISION_TYPE_TARGETCHASE)
+					{
+						//어떤 오브젝트 타입의 물채
+						if ((*pTarget)->GetType() == COLISION_TYPE_OBJECT)
+						{
+							if ((*pOrigin)->CheckColision(*pTarget))
+							{
+								GET_SINGLE(EventMgr)->Publish(new PICKSPHEREEVENT(iter2->first));
+							}
+						}
+					}
 				}			
 			}
 		}

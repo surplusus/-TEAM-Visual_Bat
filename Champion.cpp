@@ -138,6 +138,26 @@ bool CChampion::SearchPickingPointInHeightMap(int number, const VTXTEX * vtx)
 	return false;
 }
 
+bool CChampion::SearchCurMousePointInHeightMap(int number, const VTXTEX * vtx)
+{
+	CRay m_Ray;		POINT pt;
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+	m_Ray = CRay::RayAtWorldSpace(pt.x, pt.y);
+
+	for (int i = 0; i < number; i += 3) {
+		D3DXVECTOR3 V0 = vtx[i].vPosition;
+		D3DXVECTOR3 V1 = vtx[i + 1].vPosition;
+		D3DXVECTOR3 V2 = vtx[i + 2].vPosition;
+
+		if (m_Ray.IsPicked(m_CurMousePoint, V0, V1, V2))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void CChampion::SetHeightMap(CHeightMap * pHeightMap)
 {
 	m_pHeightMap = pHeightMap;

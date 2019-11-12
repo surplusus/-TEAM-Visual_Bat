@@ -22,7 +22,7 @@ private:
 public:
 	virtual void SetUp(INFO tInfo, float fRadius, CBound* pMesh);
 	virtual void Render();
-	virtual void Update(D3DXVECTOR3 vPos, D3DXMATRIX matWorld);
+	virtual void Update(D3DXVECTOR3 vPos);
 
 
 	virtual bool CheckColision(ColiderComponent* pEnemy);

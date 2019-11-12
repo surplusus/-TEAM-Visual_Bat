@@ -14,7 +14,7 @@ CObjectColider::~CObjectColider()
 	Release();
 }
 
-void CObjectColider::Update(D3DXVECTOR3 vPos, D3DXMATRIX matWorld)
+void CObjectColider::Update(D3DXVECTOR3 vPos)
 {
 	m_Info.vPos = vPos;
 	WorldSetting();
