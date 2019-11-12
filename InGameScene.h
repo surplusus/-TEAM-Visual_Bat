@@ -28,6 +28,9 @@ private:
 	HRESULT Setup_Camera();
 	void SoundUpdate();
 	void LetObjectKnowHeightMap();
+	bool InitAsset();
+	bool InitAddObject();
+
 public:
 	void GetMinionMgr(void** pMinionMgr);
 	void GetCursor(void** pCursor);

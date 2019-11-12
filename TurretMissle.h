@@ -4,7 +4,7 @@ class CTurretMissle :
 	public CParticleObj
 {
 public:
-	CTurretMissle(INFO tInfo, float Radius, D3DXVECTOR3 vAngle);
+	CTurretMissle(INFO tInfo, float Radius, D3DXVECTOR3 vAngle,CObj* pTarget);
 	~CTurretMissle();
 
 public:
@@ -14,7 +14,6 @@ public:
 	virtual void Release() 	 ;
 private:
 	float m_fRadius;
-	float m_fAngle[ANGLE_END];
 	float m_fSize;
 	float m_fMaxDistance;
 	float m_fSpeed;
@@ -22,6 +21,7 @@ private:
 	CUSTOMVERTEX m_VerTexInfo;
 	D3DXMATRIX m_matWorld;
 private:
+	CObj* m_pTarget;
 	float m_BaseDamge;
 private:
 	virtual void SetUp_Particle()		override;
@@ -29,6 +29,9 @@ private:
 	virtual void Render_Particle()		override;
 	virtual void RenderEnd_Particle()	override;
 	virtual void InitRenderState()		override;
+	
+private:
 	bool AddTail();
+	bool UpdateParticleDirection();
 };
 

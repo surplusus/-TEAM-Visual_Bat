@@ -29,7 +29,6 @@ CLoadingFunctor::CLoadingFunctor()
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
-
 		m_mapMeshInfo.clear();
 	}
 }
@@ -61,8 +60,8 @@ bool CLoadingFunctor::operator()()
 
 bool CLoadingFunctor::SetMeshInfoThruFile()
 {
-	//ifstream file("./Resource/MeshPathList.dat", ifstream::in);
-	ifstream file("./Resource/Test/test.dat", ifstream::in);
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+//	ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {
 		cout << "Error Opening File\n";
@@ -113,7 +112,7 @@ bool CLoadingFunctor::SetMeshInfoThruFile()
 bool CLoadingFunctor::FuncDefaultMgrSetUp()
 {
 	{	// Set up Sounds
-		//GET_SINGLE(SoundMgr)->SetUp();
+		GET_SINGLE(SoundMgr)->SetUp();
 		//printf("sound set up\n");
 	}
 	

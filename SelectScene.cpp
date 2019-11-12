@@ -78,6 +78,8 @@ HRESULT CSelectScene::Initialize()
 			(*iter2)->Initialize();
 		}
 	}
+	m_pTextMgr = new CTextMgr;
+	m_pTextMgr->Initialize();
 	return E_NOTIMPL;
 }
 void CSelectScene::Progress()
