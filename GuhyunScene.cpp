@@ -126,7 +126,8 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	// for Minion
-	m_pMinionMgr->SetHeightMap(&m_pHeightMap);
+	if(m_pMinionMgr != nullptr)
+		m_pMinionMgr->SetHeightMap(&m_pHeightMap);
 	// for Champion
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));

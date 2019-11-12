@@ -45,17 +45,18 @@ protected:
 	list<ColiderComponent*> m_ColliderList;
 	// >> : Collision
 protected:
-	void				ChangeNextPoint();
-	void				UpdateWorldMatrix();
-	bool				SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
-	bool				Render_PickingShere();
-	void				SetDirectionToNextPoint();
-	void				SetUpAniSetNameList();
-	bool				TurnSlowly(const D3DXVECTOR3* destPos, float fLerpRate = 7.0f);
+	void			ChangeNextPoint();
+	void			UpdateWorldMatrix();
+	bool			SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
+	bool			Render_PickingShere();
+	void			SetDirectionToNextPoint();
+	void			SetUpAniSetNameList();
+	bool			TurnSlowly(const D3DXVECTOR3* destPos, float fLerpRate = 7.0f);
 public:
-	void				SetPosition(const D3DXVECTOR3* pos);
-	void				SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
-	void				SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
+	CAnimationCtrl* GetAnimationCtrl() { return m_pAnimationCtrl; }
+	void			SetPosition(const D3DXVECTOR3* pos);
+	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
+	void			SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
 private:
 	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);

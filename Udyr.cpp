@@ -131,6 +131,10 @@ void CUdyr::Progress()
 			m_stStatusInfo.fHP = 0.f;
 
 	}
+	// Collider Update
+	if (m_pCollider)
+		m_pCollider->Update(m_Info.vPos, m_Info.matWorld);
+
 	{
 		DoOnMouseLButton();
 		DoOnMouseRButton();
@@ -235,43 +239,6 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 	}
 }
 
-
-//void CUdyr::MouseControl()
-//{
-//	{	// 방향전환
-//		bool bPicked = false;
-//		if (CheckMouseButtonDownOneTime(MOUSEBUTTON0)) {
-//			bPicked = SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap());
-//		}
-//
-//		if (bPicked) {
-//			m_iStateFlag = 0;
-//			m_iStateFlag |= 1 << STATETYPE_RUN;
-//			m_iStateFlag |= 1 << STATETYPE_TURNING;
-//		}
-//
-//	}
-//	{	// 적 타켓팅(Sphere 픽킹)
-//		if (CheckMouseButtonDownOneTime(MOUSEBUTTON2)) {
-//			m_iStateFlag = 0;
-//			m_iStateFlag |= 1 << STATETYPE_ATTACK;
-//		}
-//	}
-//	{	// Sphere 픽킹
-//		if (CheckMouseButtonDownOneTime(MOUSEBUTTON2)) {
-//
-//			SPHERE* spherePicked = nullptr;
-//			bool bPickSphere = GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &spherePicked);
-//			if (bPickSphere) {
-//				spherePicked->isPicked = !spherePicked->isPicked;
-//				m_iStateFlag = 0;
-//				m_iStateFlag |= 1 << STATETYPE_AGRESSIVE;
-//			}
-//
-//		}
-//	}
-//}
-//
 void CUdyr::QWERControl()
 {
 	//if (CheckPushKeyOneTime(VK_Q)) {
@@ -289,6 +256,20 @@ void CUdyr::QWERControl()
 	// sound check
 	//if (CheckPushKeyOneTime(VK_1))
 	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
+}
+
+void CUdyr::UpdateColliderList()
+{
+	// 아직 안씀
+	list<ColiderComponent*>::iterator iter = m_ColliderList.begin();
+	for (iter; iter != m_ColliderList.end();)
+	{
+		if ((*iter)->GetStateCol())
+		{
+			iter = m_ColliderList.erase(iter);
+		}
+		else iter++;
+	}
 }
 
 //void CUdyr::ControlFlag()

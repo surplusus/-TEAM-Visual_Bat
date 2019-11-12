@@ -51,6 +51,7 @@ private:
 	void			DoOnMouseRButton();
 	void			DoOnMouseLButton();
 	void			QWERControl();
+	void			UpdateColliderList();
 	// Event Functions
 	void			OperateOnFindPickingSphere(PICKSPHEREEVENT* evt);
 	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
