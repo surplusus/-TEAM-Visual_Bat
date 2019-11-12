@@ -139,6 +139,9 @@
     <ClInclude Include="MathMgr.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshMgr.h" />
+    <ClInclude Include="Mouse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="NormalTexture.h" />
     <ClInclude Include="Obj.h" />
@@ -300,6 +303,9 @@
     <ClCompile Include="MathMgr.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshMgr.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />

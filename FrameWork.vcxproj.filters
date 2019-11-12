@@ -456,6 +456,9 @@
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>소스 파일\DesignPattern\FactoryMethod</Filter>
     </ClInclude>
@@ -660,9 +663,6 @@
     <ClInclude Include="BehaviorUdyr.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="Cursor.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="HP.h">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClInclude>
@@ -681,31 +681,35 @@
     <ClInclude Include="BehaviorMinion.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionMgr.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviorEzreal.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Ezreal_W_Particle.h">
       <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
     </ClInclude>
-    <ClInclude Include="InhibitorGauge.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="NexusGauge.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TurretGauge.h">
-      <Filter>소스 파일\헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TurretMissle.h">
-      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     <ClInclude Include="LoadingFunctorBase.h">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClInclude>
     <ClInclude Include="MakingTowerFunctor.h">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClInclude>
+    <ClInclude Include="Cursor.h">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="InhibitorGauge.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="NexusGauge.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretGauge.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretMissle.h">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -825,6 +829,9 @@
     </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>
@@ -1018,9 +1025,6 @@
     <ClCompile Include="BehaviorUdyr.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="HP.cpp">
       <Filter>소스 파일\InGameUI\HPBAR</Filter>
     </ClCompile>
@@ -1048,22 +1052,26 @@
     <ClCompile Include="Ezreal_W_Particle.cpp">
       <Filter>소스 파일\Maneger\Skill\EzrealW</Filter>
     </ClCompile>
-    <ClCompile Include="InhibitorGauge.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="NexusGauge.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TurretGauge.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="LoadingFunctorBase.cpp">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
     </ClCompile>
     <ClCompile Include="MakingTowerFunctor.cpp">
       <Filter>소스 파일\Scene\LoadScene\LoadingFunctor</Filter>
+    </ClCompile>
+    <ClCompile Include="Cursor.cpp">
+      <Filter>소스 파일\Maneger\Mouse</Filter>
+    </ClCompile>
     <ClCompile Include="TurretMissle.cpp">
-      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="InhibitorGauge.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="NexusGauge.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretGauge.cpp">
+      <Filter>소스 파일\Scene\cheon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

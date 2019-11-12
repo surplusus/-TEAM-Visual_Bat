@@ -41,9 +41,40 @@ bool CMakingTowerFunctor::operator()()
 
 bool CMakingTowerFunctor::FuncLoadTurret()
 {
-	if (!OperateAddMeshByKey("Blue_Turret")) {
-		ERR_MSG(g_hWnd, L"포탑로드 실패");
+	string key = "Blue_Turret";
+	if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
 		return false;
+	auto info = m_mapMeshInfo[key];
+
+	{
+		HRESULT re = true;
+		bool bSignFalse = false;
+		re = AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"Blue_Turret1", info->m_MeshType);
+		if (SUCCEEDED(re))
+			printf("1 : %s\n", info->m_ConsoleText.c_str());
+		else
+			bSignFalse = true;
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"Blue_Turret2", info->m_MeshType)))
+			if (SUCCEEDED(re))
+				printf("2 : %s\n", info->m_ConsoleText.c_str());
+			else
+				bSignFalse = true;
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"Blue_Turret3", info->m_MeshType)))
+			if (SUCCEEDED(re))
+				printf("3 : %s\n", info->m_ConsoleText.c_str());
+			else
+				bSignFalse = true;
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"Blue_Turret4", info->m_MeshType)))
+			if (SUCCEEDED(re))
+				printf("4 : %s\n", info->m_ConsoleText.c_str());
+			else
+				bSignFalse = true;
+		if (bSignFalse) {
+			basic_string<TCHAR> sTCHAR(info->m_szObjName);
+			string name(sTCHAR.begin(), sTCHAR.end());
+			cout << name << " 매쉬 로딩 실패\n";
+			return false;
+		}
 	}
 	{
 		//터렛
@@ -51,11 +82,19 @@ bool CMakingTowerFunctor::FuncLoadTurret()
 		m_vTurret.emplace_back(new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
 		m_vTurret.emplace_back(new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
 		m_vTurret.emplace_back(new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+
+		m_vTurret[0]->SetMeshName(L"Blue_Turret1");
+		m_vTurret[1]->SetMeshName(L"Blue_Turret2");
+		m_vTurret[2]->SetMeshName(L"Blue_Turret3");
+		m_vTurret[3]->SetMeshName(L"Blue_Turret4");
+		
 		for (size_t i = 0; i < m_vTurret.size(); i++)
-		{
 			m_vTurret[i]->Initialize();
-			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", m_vTurret[i]);
-		}
+		
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret1", m_vTurret[0]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret2", m_vTurret[1]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret3", m_vTurret[2]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret4", m_vTurret[3]);
 	}
 	return true;
 }
@@ -89,3 +128,6 @@ bool CMakingTowerFunctor::FuncLoadNexus()
 	}
 	return true;
 }
+
+
+

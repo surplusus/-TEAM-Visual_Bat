@@ -19,7 +19,7 @@ CLoadingFunctor::CLoadingFunctor()
 		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
-		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+		//m_queFunc.push([this]() {return this->FuncLoadMinion(); });
 		m_mapMeshInfo.clear();
 	}
 	{	// SceneMediator가 functor에게 정보를 넣어준다.

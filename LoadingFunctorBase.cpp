@@ -19,8 +19,8 @@
 
 bool CLoadingFunctorBase::SetMeshInfoThruFile()
 {
-	//ifstream file("./Resource/MeshPathList.dat", ifstream::in);
-	ifstream file("./Resource/Test/test.dat", ifstream::in);
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+	//ifstream file("./Resource/Test/test.dat", ifstream::in);
 
 	if (!file.is_open()) {
 		cout << "Error Opening File\n";
