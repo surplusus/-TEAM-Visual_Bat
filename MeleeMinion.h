@@ -12,8 +12,6 @@ public:
 	virtual void		Progress()	 override;
 	virtual void		Render()	 override;
 	virtual void		Release()	 override;
-private:
-
 public:
 	void SetPosition(const D3DXVECTOR3* pos);
 };

@@ -6,9 +6,18 @@ class ColiderComponent;
 class CParticle;
 class CUdyr : public CChampion
 {
+#pragma region 무더기 친구들
+	friend struct UdyrBT::UdyrOnTarget;
+	friend struct UdyrBT::UdyrHasCoord;
+	friend struct UdyrBT::UdyrAttack;
+	friend struct UdyrBT::UdyrTargeting;
+	friend struct UdyrBT::UdyrSetCoord;
+	friend struct UdyrBT::UdyrRun;
+	friend struct UdyrBT::UdyrTurn;
 	friend class UdyrBT::UdyrBTHandler;
 	friend class UdyrBT::UdyrAccessor;
 	//friend class BehaviorTree::Decorator;
+#pragma endregion
 public:
 	CUdyr();
 	virtual ~CUdyr();
@@ -18,6 +27,7 @@ private:
 	SPHERE*				m_sphereTarget;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
+	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
 	// << : Collision
 	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColliderList;
@@ -36,7 +46,6 @@ public:
 	bool			IsEnemyNearInSphere(float fRadius);
 	void			UpdatePickPointToEnemySphereCenter();
 private:
-	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
 	void			ChangeAniSetByKey(string key);
 	void			SetUpAniSetNameList();
 	void			DoOnMouseRButton();

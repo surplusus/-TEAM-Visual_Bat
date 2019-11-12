@@ -22,7 +22,7 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * pInst)
 		InsertDecorate<WhenAlive>(InsertTask<UdyrIdle>());
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrQAction>(), "QAction");
 		InsertDecorate<WhenFloatAbove>(InsertTask<UdyrRun>(), "Distance", D3DX_16F_EPSILON);
-		InsertDecorate<WhenFloatAbove>(InsertTask<UdyrTurn>(), "Direction", D3DX_16F_EPSILON);
+		InsertDecorate<WhenBoolOn>(InsertTask<UdyrTurn>(), "Turn");
 	}
 	// Set Root
 	m_Root = m_vSelector[SELECTOR_DEATH].get();
@@ -110,7 +110,7 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 		m_BlackBoard->setBool("HasCoord", false);
 		m_BlackBoard->setBool("Aggressive", false);
 		m_BlackBoard->setFloat("Distance", 0.f);
-		m_BlackBoard->setFloat("Direction", 0.f);
+		m_BlackBoard->setBool("Turn", false);
 	}
 }
 
@@ -137,11 +137,6 @@ void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 	}
 }
 
-CUdyr * UdyrBT::UdyrAccessor::AccessChampInstPrivately()
-{
-	return m_pInst;
-}
-
 void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 {
 	auto it = find(m_pInst->m_AniSetNameList.begin(), m_pInst->m_AniSetNameList.end(), key);
@@ -152,6 +147,7 @@ void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 	m_pInst->m_pAnimationCtrl->BlendAnimationSet(key);
 }
 
+#pragma region 리펙토링 대상
 bool UdyrBT::UdyrAccessor::TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate)
 {
 	return m_pInst->TurnSlowly(destPos,fLerpRate);
@@ -176,6 +172,8 @@ SPHERE * UdyrBT::UdyrAccessor::GetEnemySphere()
 {
 	return m_pInst->m_sphereTarget;
 }
+#pragma endregion
+
 
 #pragma region 자식 TASK 정의
 //////////// Death /////////////
@@ -195,7 +193,7 @@ void UdyrBT::UdyrDeath::Do()
 void UdyrBT::UdyrDeath::Terminate()
 {
 	m_BlackBoard->setBool("Dying", false);
-	m_BlackBoard->setBool("ChampIsOver", true);
+	m_BlackBoard->setBool("Alive", false);
 }
 //////////// Beaten /////////////
 void UdyrBT::UdyrBeaten::Do()
@@ -227,7 +225,14 @@ void UdyrBT::UdyrOnTarget::Do()
 	D3DXVECTOR3& vecPickPos = GetChampMousePickPos();
 	vecPickPos = *spEnemy->vpCenter;
 
-	GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
+	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - m_pInst->m_MouseHitPoint));
+	m_BlackBoard->setFloat("TargetAt", dist);
+	//if (dist > m_pInst->m_stStatusInfo.fAttackRange)
+		GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
+	//else
+	//	m_BlackBoard->setBool("Attack", true);
+
+
 	if (m_BlackBoard->getBool("OnTarget") == false)
 		m_status = TERMINATED;
 }
@@ -266,6 +271,7 @@ void UdyrBT::UdyrAggressive::Do()
 //////////// Attack /////////////
 void UdyrBT::UdyrAttack::Init()
 {
+
 	ChangeAnySet("Attack_Left");
 }
 void UdyrBT::UdyrAttack::Do()
@@ -285,7 +291,7 @@ void UdyrBT::UdyrAttack::Do()
 void UdyrBT::UdyrAttack::Terminate()
 {
 	m_BlackBoard->setBool("OnTarget", false);
-	ChangeAnySet("Idle");
+	m_status = INVALID;
 }
 //////////// Idle /////////////
 void UdyrBT::UdyrIdle::Init()
@@ -301,7 +307,7 @@ void UdyrBT::UdyrQAction::Init()
 {
 	m_BlackBoard->setBool("QAction", false);
 	// Q 스킬 관련 애니메이션
-
+	ChangeAnySet("Taunt");
 }
 void UdyrBT::UdyrQAction::Do()
 {
@@ -319,6 +325,7 @@ void UdyrBT::UdyrQAction::Terminate()
 void UdyrBT::UdyrRun::Init()
 {
 	ChangeAnySet("Run");
+	m_BlackBoard->setBool("Turn", true);
 }
 void UdyrBT::UdyrRun::Do()
 {
@@ -331,15 +338,18 @@ void UdyrBT::UdyrRun::Do()
 }
 void UdyrBT::UdyrRun::Terminate()
 {
-	ChangeAnySet("Idle");
+	//ChangeAnySet("Idle");
 }
 //////////// Turn /////////////
 void UdyrBT::UdyrTurn::Do()
 {
-	m_BlackBoard->setFloat("Direction", D3DXVec3Length(&(GetChampMousePickPos() - m_pInst->GetInfo()->vPos)));
-	bool bTurning = TurnSlowly(&GetChampMousePickPos(), m_BlackBoard->getFloat("fMoveSpeed"));
+	//m_BlackBoard->setFloat("Direction", m_pInst->m_fAngle[ANGLE_Y]);
+	bool bTurning = m_pInst->TurnSlowly(&m_pInst->m_MouseHitPoint);
 	if (!bTurning)
-		m_status = TERMINATED;
+		m_status = INVALID;
 }
-
+void UdyrBT::UdyrTurn::Terminate()
+{
+	m_BlackBoard->setBool("Turn", false);
+}
 #pragma endregion

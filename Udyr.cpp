@@ -82,7 +82,8 @@ HRESULT CUdyr::Initialize()
 	{	//<< : SetUp StatusInfo
 		m_stStatusInfo.fHP = 100.f;
 		m_stStatusInfo.fBase_Attack = 10.f;
-		m_stStatusInfo.fMoveSpeed = 1.f;
+		m_stStatusInfo.fMoveSpeed = 4.f;
+		m_stStatusInfo.fAttackRange = 2.f;
 	}
 	{	//<< : SetUp m_AniSetNameList;
 		SetUpAniSetNameList();
@@ -118,15 +119,17 @@ void CUdyr::Progress()
 			cout << "OnTarget : " << m_pBehavior->m_BlackBoard->getBool("OnTarget") << '\n';
 		}
 		if (CheckPushKeyOneTime(VK_2)) {
-			STATUSINFO info; info.fBase_Attack = 200.f;
+			STATUSINFO info; info.fBase_Attack = 25.f;
+			cout << "Beaten : " << info.fBase_Attack << endl;
 			GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &info));
 		}
 		if (CheckPushKeyOneTime(VK_4))
 			m_stStatusInfo.fMoveSpeed += 0.1f;
-		if (CheckPushKeyOneTime(VK_5)) {
-			bool b = m_pBehavior->GetBlackBoard().getBool("Die");
-			m_pBehavior->GetBlackBoard().setBool("Die", !b);
-		}
+		if (CheckPushKeyOneTime(VK_5))
+			m_stStatusInfo.fMoveSpeed -= 0.1f;
+		if (CheckPushKeyOneTime(VK_6))
+			m_stStatusInfo.fHP = 0.f;
+
 	}
 	{
 		DoOnMouseLButton();
@@ -140,7 +143,7 @@ void CUdyr::Progress()
 	}
 	//m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
-	if (m_pBehavior->GetBlackBoard().getBool("Alive") == false)
+	if (m_pBehavior->GetBlackBoard().getBool("Alive") == true)
 		m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
 }
 
@@ -174,35 +177,26 @@ void CUdyr::SetUpAniSetNameList()
 
 void CUdyr::DoOnMouseLButton()
 {
-	if (CheckMouseButtonDownOneTime(MOUSEBUTTON0))
-	{
-		//if (GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &m_sphereTarget))
-		//{
-		//	WriteOnBlackBoard("OnTarget", true);
-		//}
-	}
-}
-
-void CUdyr::DoOnMouseRButton()
-{
-	if (CheckMouseButtonDown(MOUSEBUTTON1))
+	if (CheckMouseButtonDown(MOUSEBUTTON0))
 	{
 		if (GET_SINGLE(CPickingSphereMgr)->GetSpherePicked(this, &m_sphereTarget))
 		{
 			WriteOnBlackBoard("OnTarget", true);
 			float distance = D3DXVec3Length(&(m_Info.vPos - m_MouseHitPoint));
-			WriteOnBlackBoard("TargetAt", distance);
+			WriteOnBlackBoard("Distance", distance);
 			return;
 		}
 		else
 		{
 			WriteOnBlackBoard("OnTarget", false);
-			WriteOnBlackBoard("TargetAt", 4000.f);
+			WriteOnBlackBoard("Distance", 0.f);
 		}
 
 		if (SearchPickingPointInHeightMap(GetVertexNumInHeightMap(), GetVertexInHeightMap()))
 		{
 			WriteOnBlackBoard("HasCoord", true);
+			float distance = D3DXVec3Length(&(m_Info.vPos - m_MouseHitPoint));
+			WriteOnBlackBoard("Distance", distance);
 			//m_MouseHitPoint = /////m_MouseHitPoint 로직이 SearchPickingPointInHeightMap안에 있음
 		}
 		else
@@ -210,6 +204,11 @@ void CUdyr::DoOnMouseRButton()
 			WriteOnBlackBoard("HasCoord", false);
 		}
 	}
+}
+
+void CUdyr::DoOnMouseRButton()
+{
+
 }
 
 void CUdyr::OperateOnFindPickingSphere(PICKSPHEREEVENT * evt)
@@ -220,7 +219,7 @@ void CUdyr::OperateOnFindPickingSphere(PICKSPHEREEVENT * evt)
 
 void CUdyr::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 {
-	WriteOnBlackBoard("Beaten", true);
+	m_pBehavior->m_BlackBoard->setBool("Beaten", true);
 	//m_stStatusInfo -= dynamic_cast<CChampion*>(evt->)->m_StatusInfo;
 }
 
@@ -228,11 +227,11 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 {
 	SPHERE stSphere = *m_pCollider->GetSphere();
 	D3DXVECTOR3 distance = *stSphere.vpCenter - evt->m_vecAttackPos;
-	
+	float distFrom = D3DXVec3Length(&distance);
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (D3DXVec3Length(&distance) <= stSphere.fRadius) {
-		WriteOnBlackBoard("Beaten", true);
-		WriteOnBlackBoard("AttackFrom", distance);
+	if (distFrom <= stSphere.fRadius) {
+		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
+		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
 	}
 }
 

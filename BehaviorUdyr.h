@@ -61,7 +61,6 @@ namespace UdyrBT
 		void SetMemberFunc(string key, function<void(void)> func) { 
 			m_Funcs.insert(make_pair(key, func));
 		}
-		CUdyr* AccessChampInstPrivately();
 	protected:
 		CUdyr*	m_pInst = nullptr;
 		map<string, MemberFunc> m_Funcs;
@@ -240,7 +239,7 @@ namespace UdyrBT
 	};
 	struct UdyrRun : public UdyrAccessor
 	{
-		bool bRunning = false;
+		//bool bRunning = false;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
@@ -248,6 +247,7 @@ namespace UdyrBT
 	struct UdyrTurn : public UdyrAccessor
 	{
 		virtual void Do() override;
+		virtual void Terminate() override;
 	};
 #pragma endregion
 }
