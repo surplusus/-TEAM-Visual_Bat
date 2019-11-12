@@ -133,6 +133,11 @@ void CUdyr::Progress()
 		if (CheckPushKeyOneTime(VK_6))
 			m_StatusInfo.fHP = 0.f;
 
+
+		if (CheckPushKeyOneTime(VK_H)) {
+			forsync++;
+			cout << "시간 카운트 : " << forsync << endl;
+		}
 	}
 	// Collider Update
 	if (m_pCollider != nullptr)
@@ -248,21 +253,27 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 
 void CUdyr::QWERControl()
 {
-	//if (CheckPushKeyOneTime(VK_Q)) {
-	//	WriteOnBlackBoard("QAction", true);
-	//}
-	//if (CheckPushKeyOneTime(VK_W)) {
-	//	WriteOnBlackBoard("WAction", true);
-	//}
-	//if (CheckPushKeyOneTime(VK_E)) {
-	//	WriteOnBlackBoard("EAction", true);
-	//}
-	//if (CheckPushKeyOneTime(VK_R)) {
-	//	WriteOnBlackBoard("RAction", true);
-	//}
-	// sound check
-	//if (CheckPushKeyOneTime(VK_1))
-	//	GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
+	bool bKeyPush = false;
+	if (CheckPushKeyOneTime(VK_Q)) {
+		WriteOnBlackBoard("QAction", true);
+		bKeyPush = true;
+	}
+	if (CheckPushKeyOneTime(VK_W)) {
+		WriteOnBlackBoard("WAction", true);
+		bKeyPush = true;
+	}
+	if (CheckPushKeyOneTime(VK_E)) {
+		WriteOnBlackBoard("EAction", true);
+		bKeyPush = true;
+	}
+	if (CheckPushKeyOneTime(VK_R)) {
+		WriteOnBlackBoard("RAction", true);
+		bKeyPush = true;
+	}
+	if (bKeyPush) {
+		m_pBehavior->m_BlackBoard->setBool("OnTarget", false);
+		m_pBehavior->m_BlackBoard->setBool("HasCoord", false);
+	}
 }
 
 void CUdyr::UpdateColliderList()

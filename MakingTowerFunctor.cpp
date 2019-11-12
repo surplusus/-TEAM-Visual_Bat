@@ -5,12 +5,13 @@
 #include "Inhibitor.h"
 #include "Nexus.h"
 
-CMakingTowerFunctor::CMakingTowerFunctor()
+CMakingTowerFunctor::CMakingTowerFunctor(string sFilePath)
+	: m_sFilePath(sFilePath)
 {
 	m_mapMeshInfo.clear();
 
 	{	// lampda를 queue에 넣어주기
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(m_sFilePath); });
 		m_queFunc.push([this]() {return this->FuncLoadTurret(); });
 		m_queFunc.push([this]() {return this->FuncLoadInhibitor(); });
 		m_queFunc.push([this]() {return this->FuncLoadNexus(); });

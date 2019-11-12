@@ -51,7 +51,7 @@ void CMinionMgr::SetHeightMap(CHeightMap ** pHeightMap)
 
 CMinion * CMinionMgr::GetMinion(int nIndex)
 {
-	if (nIndex >= m_vMinion.size())
+	if (nIndex >= (int)m_vMinion.size())
 		return nullptr;
 	return m_vMinion[nIndex];
 }

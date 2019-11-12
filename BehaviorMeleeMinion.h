@@ -1,8 +1,8 @@
 #pragma once
 #include "Behavior.h"
-class CMinion;
+class CMeleeMinion;
 
-namespace MinionBT
+namespace MeleeMinionBT
 {
 	using namespace BehaviorTree;
 
@@ -16,9 +16,9 @@ namespace MinionBT
 	class MinionBTHandler : public BehaviorTreeHandler
 	{
 	public:
-		MinionBTHandler(CMinion* pInst);
+		MinionBTHandler(CMeleeMinion* pInst);
 		~MinionBTHandler();
-		CMinion*						m_pInst;
+		CMeleeMinion*						m_pInst;
 		vector<shared_ptr<Sequence>>	m_vSequnece;
 		vector<shared_ptr<Selector>>	m_vSelector;
 		vector<shared_ptr<Decorator>>	m_vDecorator;
@@ -54,12 +54,12 @@ namespace MinionBT
 		virtual void Init() override {}
 		virtual void Do() override = 0;
 		virtual void Terminate() override {}
-		void SetMemberInst(CMinion* pInst) { m_pInst = pInst; }
+		void SetMemberInst(CMeleeMinion* pInst) { m_pInst = pInst; }
 		void SetMemberFunc(string key, function<void(void)> func) {
 			m_Funcs.insert(make_pair(key, func));
 		}
 	protected:
-		CMinion*	m_pInst = nullptr;
+		CMeleeMinion*	m_pInst = nullptr;
 		map<string, MemberFunc> m_Funcs;
 		void ChangeAnySet(string key);
 	};
@@ -116,8 +116,9 @@ namespace MinionBT
 				result = true;
 			else
 				result = false;
-			if (bLesserThan = false)
-				result = ~result;
+
+			if (bLesserThan == false)
+				result = !result;
 			return result;
 		}
 	private:

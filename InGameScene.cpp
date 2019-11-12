@@ -178,6 +178,7 @@ bool CInGameScene::InitAsset()
 	{
 		ERR_MSG(g_hWnd, L"넥서스 로드 실패"); return E_FAIL;
 	}	
+	return true;
 }
 
 bool CInGameScene::InitAddObject()
