@@ -47,8 +47,16 @@ HRESULT CLoadingScene::Initialize()
 
 	{	// SetUp Functors
 		m_pLoadingFunctor = new CLoadingFunctor;
-		m_pMakingTowerFunctor = new CMakingTowerFunctor;
+		//m_pMakingTowerFunctor = new CMakingTowerFunctor;
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
+<<<<<<< HEAD
+=======
+		{	// 로딩 functor에게 정보를 넣어준다.(수정요)
+			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
+		//	if (sChampName == "")	sChampName = "Udyr";
+			m_pLoadingFunctor->m_SelectedChamp = sChampName;
+		}
+>>>>>>> origin/master
 	}
 
 	return S_OK;
@@ -62,8 +70,8 @@ void CLoadingScene::Progress()
 	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
-		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	//	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
 

@@ -15,7 +15,6 @@ CChampion::CChampion()
 	, m_fSize(1.f)
 	, m_MouseHitPoint(0.f,0.f,0.f)
 	, m_bPicked(false)
-	, m_pMeshSphere(nullptr)
 {
 	m_ObjMgr = GET_SINGLE(CObjMgr);
 	
@@ -97,7 +96,7 @@ bool CChampion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 		m_SphereForPick.vpCenter = &m_Info.vPos;
 	}
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, &m_SphereForPick);
-	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_pMeshSphere, NULL);
+	HRESULT result = D3DXCreateSphere(GET_DEVICE, r, 10, 10, &m_SphereForPick.pMesh, NULL);
 	return true;
 }
 
@@ -112,8 +111,8 @@ bool CChampion::Render_PickingShere()
 
 	GET_DEVICE->SetTexture(0, NULL);
 	GET_DEVICE->SetMaterial(&mtrl);
-	if (m_pMeshSphere != NULL) {
-		m_pMeshSphere->DrawSubset(0);
+	if (m_SphereForPick.pMesh != NULL) {
+		m_SphereForPick.pMesh->DrawSubset(0);
 		return true;
 	}
 	return false;

@@ -28,7 +28,7 @@
     </ClInclude>
     <ClInclude Include="BehaviorEzreal.h" />
     <ClInclude Include="BehaviorMinion.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BehaviorUdyr.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -84,7 +84,9 @@
     </ClInclude>
     <ClInclude Include="InhibitorGauge.h" />
     <ClInclude Include="LoadingFunctor.h" />
+    <ClInclude Include="LoadingFunctorBase.h" />
     <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="MakingTowerFunctor.h" />
     <ClInclude Include="MeleeMinion.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="MinionGauge.h" />
@@ -137,6 +139,9 @@
     <ClInclude Include="MathMgr.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshMgr.h" />
+    <ClInclude Include="Mouse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="NormalTexture.h" />
     <ClInclude Include="Obj.h" />
@@ -199,7 +204,7 @@
     </ClCompile>
     <ClCompile Include="BehaviorEzreal.cpp" />
     <ClCompile Include="BehaviorMinion.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BehaviorUdyr.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -249,7 +254,9 @@
     </ClCompile>
     <ClCompile Include="InhibitorGauge.cpp" />
     <ClCompile Include="LoadingFunctor.cpp" />
+    <ClCompile Include="LoadingFunctorBase.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="MakingTowerFunctor.cpp" />
     <ClCompile Include="MeleeMinion.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="MinionGauge.cpp" />
@@ -296,6 +303,9 @@
     <ClCompile Include="MathMgr.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshMgr.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="NormalTexture.cpp" />
     <ClCompile Include="ObjMgr.cpp" />

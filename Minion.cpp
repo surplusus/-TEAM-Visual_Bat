@@ -2,23 +2,62 @@
 #include "Minion.h"
 #include "MinionMgr.h"
 #include "PickingSphereMgr.h"
+#include "EventMgr.h"
+#include "CollisionMgr.h"
+#include "ObjectColider.h"
+#include "BoundingBox.h"
+#include "ParticleMgr.h"
+#include "BehaviorMinion.h"
 
 CMinion::CMinion()
 	: m_pMinionMgr(nullptr)
 	, m_pHeightMap(nullptr)
 	, m_fSize(1.f)
 	, m_SphereForPick(1.f, &m_Info.vPos)
-	, m_pMeshSphere(nullptr)
+	, m_sphereTarget(nullptr)
+	, m_pBehavior(nullptr)
+	, m_pCollider(nullptr)
 {
+	{	// waypoint set up
+		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, 15.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, 15.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, -15.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, -15.f));
+
+		m_NextPoint = m_vNextPoints[0];
+	}
+	{	//<< : SetUp m_AniSetNameList;
+		SetUpAniSetNameList();
+	}
+	{	//<< : Collision
+		m_pCollider = new CObjectColider(this);
+		m_pCollider->SetUp(m_Info, 1.0f, new CBoundingBox);
+		m_ColliderList.push_back(m_pCollider);
+		auto obj = this;		auto list = &m_ColliderList;
+		GET_SINGLE(EventMgr)->Publish(new INSERTCOLLIDEREVENT(
+			reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&list)));
+	}
+	{	//<< : PickingSphere
+		//SetUpPickingShere(1.f);
+		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
+		//GET_SINGLE(EventMgr)->Subscribe(this, &CMinion::OperateOnFindPickingSphere);
+	}
+	{	//<< : Behavior Tree
+		m_pBehavior = new MinionBT::MinionBTHandler(this);
+
+		GET_SINGLE(EventMgr)->Subscribe(this, &CMinion::OperateOnPhysicalAttackEvent);
+	}
 }
 
 CMinion::~CMinion()
 {
 }
 
-void CMinion::UpdateBlackBoard()
+void CMinion::ChangeNextPoint()
 {
-
+	static size_t idxNextPoint = 1;
+	++idxNextPoint;
+	m_NextPoint = m_vNextPoints[idxNextPoint];
 }
 
 void CMinion::UpdateWorldMatrix()
@@ -47,7 +86,7 @@ bool CMinion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 bool CMinion::Render_PickingShere()
 {
 	SetRenderState(D3DRS_LIGHTING, true);
-	if (m_pMeshSphere != nullptr) {
+	if (m_SphereForPick.pMesh != nullptr) {
 		D3DMATERIAL9 mtrl;
 		ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
 		if (m_SphereForPick.isPicked) {
@@ -71,7 +110,7 @@ bool CMinion::Render_PickingShere()
 		//GET_DEVICE->SetTexture(0, texture);
 		GET_DEVICE->SetMaterial(&mtrl);
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMeshSphere->DrawSubset(0);
+		m_SphereForPick.pMesh->DrawSubset(0);
 		//GET_DEVICE->SetTexture(0, NULL);
 		//texture->Release();
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -85,8 +124,43 @@ bool CMinion::Render_PickingShere()
 void CMinion::SetDirectionToNextPoint()
 {
 	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
-	m_Info.vDir = m_Info.vPos - m_vNextPoint;
+	m_Info.vDir = m_Info.vPos - m_NextPoint;
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
+}
+
+void CMinion::SetUpAniSetNameList()
+{
+	m_pAnimationCtrl->GetAnimationNames(m_AniSetNameList);
+}
+
+bool CMinion::TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate)
+{
+	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
+	D3DXVECTOR3 vMouseNor;
+	D3DXVec3Normalize(&vMouseNor, &vMousePos);
+	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vMouseNor.y;
+	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
+	float fRadian = acosf(fDot);
+	float fDirLerped = fRadian / fLerpRate;
+
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+		return false;
+	}
+
+	D3DXVECTOR3 vLeft;
+	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
+	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+	}
+	else {
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+	}
+
+	return true;
 }
 
 void CMinion::SetPosition(const D3DXVECTOR3 * pos)
@@ -94,4 +168,21 @@ void CMinion::SetPosition(const D3DXVECTOR3 * pos)
 	m_Info.vPos.x = pos->x;
 	m_Info.vPos.y = pos->y;
 	m_Info.vPos.z = pos->z;
+}
+
+void CMinion::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
+{
+	m_pBehavior->m_BlackBoard->setBool("Beaten", true);
+}
+
+void CMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
+{
+	SPHERE stSphere = *m_pCollider->GetSphere();
+	D3DXVECTOR3 distance = *stSphere.vpCenter - evt->m_vecAttackPos;
+	float distFrom = D3DXVec3Length(&distance);
+	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
+	if (distFrom <= stSphere.fRadius) {
+		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
+		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
+	}
 }

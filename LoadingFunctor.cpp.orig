@@ -19,8 +19,8 @@ CLoadingFunctor::CLoadingFunctor()
 		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
+<<<<<<< HEAD
 		//m_queFunc.push([this]() {return this->FuncLoadMinion(); });
-		m_mapMeshInfo.clear();
 	}
 	{	// SceneMediator가 functor에게 정보를 넣어준다.
 		m_SelectedChamp = "";
@@ -29,6 +29,10 @@ CLoadingFunctor::CLoadingFunctor()
 			m_SelectedChamp = "Udyr";
 			printf("SceneMeditor에 ChampName이 없어 Udyr를 Functor에 넣었습니다.\n");
 		}
+=======
+		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+		m_mapMeshInfo.clear();
+>>>>>>> origin/master
 	}
 }
 
@@ -45,6 +49,59 @@ bool CLoadingFunctor::operator()()
 	bool re = fp();
 	++m_iFuncIdx;
 	m_queFunc.pop();
+<<<<<<< HEAD
+=======
+	return false;
+}
+
+bool CLoadingFunctor::SetMeshInfoThruFile()
+{
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+//	ifstream file("./Resource/Test/test.dat", ifstream::in);
+
+	if (!file.is_open()) {
+		cout << "Error Opening File\n";
+		SendMessage(NULL, WM_QUIT, 0, 0);
+		return false;
+	}
+
+	string name;
+	while (file)
+	{
+		vector<string> token;
+		string s, t;
+		getline(file, s);
+
+		if (s == "")	break;
+
+		for (stringstream ss(s); (ss >> t);)
+			token.push_back(t);
+
+		if (token[0][0] == '#') {
+			continue;
+		}
+		else if (token[0][0] == '-') {
+			name = token[0].substr(1, token[0].size() - 2);
+			m_mapMeshInfo[name];
+		}
+		else if (token[0] == "bComplete")
+			m_mapMeshInfo[name].m_bComplete = (token[1][0] == 't') ? true : false;
+		else if (token[0] == "ObjName")
+			m_mapMeshInfo[name].m_ObjName = token[1];
+		else if (token[0] == "FolderPath")
+			m_mapMeshInfo[name].m_FolderPath = token[1];
+		else if (token[0] == "FileName")
+			m_mapMeshInfo[name].m_FileName = token[1];
+		else if (token[0] == "ConsoleText")
+			for (int i = 1; i < token.size(); ++i)
+				m_mapMeshInfo[name].m_ConsoleText += token[i] + " ";
+		else if (token[0] == "MeshType")
+			m_mapMeshInfo[name].m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
+		if (file.eof())	break;
+	}
+	file.close();
+	cout << "파일 로딩 끝\n";
+>>>>>>> origin/master
 	return true;
 }
 
