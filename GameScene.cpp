@@ -58,6 +58,7 @@ HRESULT CGameScene::Initialize()
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
 
+#pragma region 타워
 #pragma region 천->포탑, 억제기, 타워(order)
 	//////////////////////////////////////// < turret > /////////////////////////////////////////
 	
