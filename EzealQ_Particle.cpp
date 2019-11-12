@@ -17,8 +17,7 @@ CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_Z] = vAngle.z;
-	m_VerTexInfo.p = m_Info.vPos;
-	
+	m_VerTexInfo.p = m_Info.vPos;	
 }
 
 

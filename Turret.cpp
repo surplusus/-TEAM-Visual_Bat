@@ -48,6 +48,10 @@ HRESULT CTurret::Initialize()
 	//>>콜라이더 생성
 	m_pColider = new CObjectColider(this);
 	m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
+	m_pAttackRangeCol = new CObjectColider(this);
+	m_pAttackRangeCol->SetUp(m_Info, 2.0f, new CBoundingBox);
+
+	m_ColiderList.push_back(m_pAttackRangeCol);
 	m_ColiderList.push_back(m_pColider);
 	InsertObjSphereColider(this, &m_ColiderList);
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(  this, m_pColider->GetSphere());	
@@ -133,7 +137,7 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 {
 	
 	if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH
-		&& Evt->m_pOriObj!= this)
+		&& Evt->m_pOriObj != this)
 	{
 		//때린 객체에 대한 콜라이더
 		CParticleColider * pColider = (dynamic_cast<CParticleColider*>(Evt->m_pOriCol));
@@ -151,7 +155,7 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 					if (m_fStartTime <= 0)		m_fStartTime = 0;
 					m_bProgress = false;
 				}
-				if (m_StatusInfo.fHP <2500)
+				if (m_StatusInfo.fHP < 2500)
 				{//부셔지는 애니메이션
 					InitAnimationState();
 					m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
@@ -161,15 +165,9 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 				//list<ColiderComponent*>::iterator iter = find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
 				//if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 			}
-		}
-		else 
-		{
-
-			CTurret* m_pTurret = dynamic_cast<CTurret*>(Evt->m_pOriObj);
-			if(m_pTurret)
-				m_pTurret->AddLaizer(Evt->m_pTarget);
-		}
-	}	
+		}		
+	}
+	
 	m_bColl = false;
 	std::cout << "HP" << dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP << endl;
 }

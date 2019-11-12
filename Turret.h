@@ -17,6 +17,7 @@ private:
 	bool Animation_Break();
 private:
 	list<ColiderComponent*> m_ColiderList;
+	ColiderComponent* m_pAttackRangeCol;//공격범위에 대한 충돌검사
 	float m_fStart_NewMissleTime;
 	const float m_fEnd_NewMissleTime;
 	const TCHAR* m_MeshName;
@@ -30,6 +31,7 @@ private:
 	bool							m_ChangeMotion;
 	string							m_strAnimationState;
 	CObj*							m_pTarget;
+
 private:
 	virtual void					ChangeAniSetByState() {};
 	void							AddAttackLaizer();

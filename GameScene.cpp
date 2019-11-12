@@ -28,6 +28,7 @@ CGameScene::CGameScene()
 
 CGameScene::~CGameScene()
 {
+
 }
 
 HRESULT CGameScene::Initialize()
@@ -49,12 +50,6 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	//if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC)))
-	//{
-	//	ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	//}
-
-
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
 		, L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
 	{
@@ -76,22 +71,17 @@ HRESULT CGameScene::Initialize()
 	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 		return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
-		return E_FAIL;
+		return E_FAIL;	
 	
-	//CObj* p = new CEzreal("IDLE1", false);
-	//p->Initialize();
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
-	//	return E_FAIL;
-
 	//////////////// ÆÄ¶ûÆÀ Æ÷Å¾
 
 	{
 		//ÅÍ·¿
 		vector<CTurret*>	vecTurret(4);
-		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
-		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
-		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
-		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f))); vecTurret[0]->SetMeshName(L"Blue_Turret");
+		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));vecTurret[1]->SetMeshName(L"Blue_Turret");
+		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));	 vecTurret[2]->SetMeshName(L"Blue_Turret");
+		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));	 vecTurret[3]->SetMeshName(L"Blue_Turret");
 		for (size_t i = 0; i < vecTurret.size(); i++)
 		{
 			vecTurret[i]->Initialize();
@@ -101,8 +91,6 @@ HRESULT CGameScene::Initialize()
 		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
 		pInhibitor->Initialize();
 		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-	
-	
 	
 		CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
 		pNexus->Initialize();
