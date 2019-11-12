@@ -136,11 +136,14 @@ void CSelectScene::Progress()
 		if (isChecked_2 == true)
 			Selected_2();
 
-		if (GetAsyncKeyState(VK_LBUTTON))
+		if (m_ChampName != "")
 		{
-			if (GET_SINGLE(C2DMouse)->IsClicked_Button(m_ReddyButton))
+			if (GetAsyncKeyState(VK_LBUTTON))
 			{
-				m_Reddy = true;
+				if (GET_SINGLE(C2DMouse)->IsClicked_Button(m_ReddyButton))
+				{
+					m_Reddy = true;
+				}
 			}
 		}
 		if (m_Reddy)

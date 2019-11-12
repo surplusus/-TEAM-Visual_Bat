@@ -5,8 +5,8 @@
 #include"EzealQ_Particle.h"
 #include"AnimationCtrl.h"
 #include "TurretGauge.h"
-CTurret::CTurret(D3DXVECTOR3 pos, TCHAR* TurretName)
-	:m_name(TurretName)
+CTurret::CTurret(D3DXVECTOR3 pos, TCHAR* TurretName, float Rotation_Radian)
+	:m_name(TurretName), m_RotRadian(Rotation_Radian)
 {
 	m_fSize = 1.0f;
 
@@ -31,7 +31,7 @@ HRESULT CTurret::Initialize()
 	if (!m_pAnimationCtrl)
 		return S_FALSE;
 
-	UpdateWorldMatrix();
+	UpdateWorldMatrix(m_RotRadian);
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
 	m_pGauge = new CTurretGauge;
@@ -59,7 +59,6 @@ void CTurret::Progress()
 void CTurret::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
-
 	Mesh_Render(GetDevice(), m_name);
 	m_pGauge->Render();
 }
@@ -72,7 +71,7 @@ void CTurret::Release()
 
 bool CTurret::Animation_Break()
 {
-	m_pAnimationCtrl->BlendAnimationSet("Idle_Break");
+	m_pAnimationCtrl->BlendAnimationSet("Break1");
 	return true;
 }
 

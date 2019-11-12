@@ -77,10 +77,10 @@ HRESULT CGameScene::Initialize()
 	}
 	
 	vector<CTurret*> vecTurret(4);
-	vecTurret[0] = new CTurret(D3DXVECTOR3(23.0f, 0.0f, 22.5f), vecOrderName[0]);
-	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.0f, 14.3f), vecOrderName[1]);
-	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.0f, 0.9f),   vecOrderName[2]);
-	vecTurret[3] = new CTurret(D3DXVECTOR3(1.0f, 0.0f, 4.7f),   vecOrderName[3]);
+	vecTurret[0] = new CTurret(D3DXVECTOR3(23.0f, 0.0f, 22.5f), vecOrderName[0], 50.0f);
+	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.0f, 14.3f), vecOrderName[1], 50.0f);
+	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.0f, 0.9f),   vecOrderName[2], 50.0f);
+	vecTurret[3] = new CTurret(D3DXVECTOR3(1.0f, 0.0f, 4.7f),   vecOrderName[3], 50.0f);
 	
 	for (size_t i = 0; i < vecTurret.size(); i++)
 	{
@@ -89,7 +89,7 @@ HRESULT CGameScene::Initialize()
 	}
 //==========================================================================================================================================================\\
 	//red
-	vector<TCHAR*> vecChaosName;
+	/*vector<TCHAR*> vecChaosName;
 	vecChaosName.push_back(L"chaos_outer_Turret");
 	vecChaosName.push_back(L"chaos_iner_Turret");
 	vecChaosName.push_back(L"chaos_twins_left_Turret");
@@ -104,16 +104,16 @@ HRESULT CGameScene::Initialize()
 	}
 
 	vector<CTurret*> vecChaos(4);
-	vecChaos[0] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 22.5f),  vecChaosName[0]);
-	vecChaos[1] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 14.3f),  vecChaosName[1]);
-	vecChaos[2] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 0.9f),	vecChaosName[2]);
-	vecChaos[3] = new CTurret(D3DXVECTOR3(55.0f, 0.0f, 4.7f),	vecChaosName[3]);
+	vecChaos[0] = new CTurret(D3DXVECTOR3(46.5f, 0.0f, 44.7f),  vecChaosName[0], -130.0f);
+	vecChaos[1] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 14.3f),  vecChaosName[1], -130.0f);
+	vecChaos[2] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 0.9f),	vecChaosName[2], -130.0f);
+	vecChaos[3] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 4.7f),	vecChaosName[3], -130.0f);
 
 	for (size_t i = 0; i < vecChaos.size(); i++)
 	{
 		vecChaos[i]->Initialize();
 		GET_SINGLE(CObjMgr)->AddObject(vecChaos[i]->GetName(), vecChaos[i]);
-	}
+	}*/
 #pragma region 카오스 포탑 위치 좌표 맞춰주고 애니메이션 확인해야함
 #pragma endregion
 #pragma endregion

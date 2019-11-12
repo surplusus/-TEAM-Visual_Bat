@@ -31,7 +31,7 @@ protected:
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
 protected:
-	void				UpdateWorldMatrix();
+	void				UpdateWorldMatrix(float radian = 0);
 	const VTXTEX*		GetVertexInHeightMap();
 	DWORD&				GetVertexNumInHeightMap();
 public:
