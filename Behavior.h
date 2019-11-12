@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <cassert>
+#include <deque>
 namespace BehaviorTree
 {
 	class Node;
@@ -12,14 +13,15 @@ namespace BehaviorTree
 	{
 		INVALID,
 		SUCCESS,
-		FAILURE,
-		RUNNING
+		RUNNING,
+		TERMINATED,
 	};
 
 	class Node {
 	public:
 		BlackBoard* m_BlackBoard;
 		virtual bool Run() = 0;
+		Status m_status = INVALID;
 	};
 
 	using ManyNodes = vector<Node*>;
@@ -100,28 +102,68 @@ namespace BehaviorTree
 		}
 	};
 
-	// Condition & Task (Decorator)
+	// Decorator & Task
 	class Task : public Node
 	{
 	public:
-		Task* m_pChild;
-	public:
-		Task(Task* child)
-			: m_pChild(child) {}
+		Task(Task* pChild) : m_pChild(pChild) {}
 		virtual ~Task() {}
 		virtual bool Run() override {
-			if (Condition())
-				return m_pChild->Do();
-			return false;
+			if (m_status == SUCCESS)
+				Init();
+			Do();
+			if (m_status != RUNNING) {
+				if (m_status == TERMINATED)
+					Terminate();
+				return false;
+			} 
 		}
-		virtual bool Condition() = 0;
-		virtual bool Do() = 0;
+		void SetStatus(Status status) { m_status = status; }
+	private:
+		virtual void Init() = 0;
+		virtual void Do() = 0;
+		virtual void Terminate() = 0;
+		Task* m_pChild;
 	};
+
+	class Decorator : public Node
+	{
+	public:
+		virtual ~Decorator() {}
+		virtual bool Ask() = 0;
+		bool Run() override {
+			bool bAsk = Ask();
+			WriteStatusInTask(bAsk);
+			if (m_pTask->m_status == INVALID)
+				return false;
+			m_pTask->Run();
+			return true;
+		}
+		void WriteStatusInTask(bool bSuccess) {
+			if (!bSuccess) {
+				if (m_pTask->m_status == TERMINATED)
+					m_pTask->m_status = INVALID;
+				if (m_pTask->m_status != INVALID)
+					m_pTask->m_status = TERMINATED;
+				return;
+			}
+			if (m_pTask->m_status == SUCCESS)
+				m_pTask->m_status = RUNNING;
+			if (m_pTask->m_status == INVALID)
+				m_pTask->m_status = SUCCESS;
+		}
+		void SetTask(Node* pTask) { 
+			m_pTask = pTask; 
+			m_pTask->m_BlackBoard = m_BlackBoard; }
+		bool HasTask() const { return m_pTask != nullptr; }
+	protected:
+		Node* m_pTask = nullptr;
+	};
+
 	
 	// BlackBoard
 	class BlackBoard
 	{
-		
 	public:
 		void setBool(std::string key, bool value) { bools[key] = value; }
 		bool getBool(std::string key)	{
@@ -178,8 +220,8 @@ namespace BehaviorTree
 	class BehaviorTreeHandler
 	{
 	public:
-		Node* m_Root;
-		sharedpBlackBoard m_BlackBoard;
+		Node*				m_Root;
+		sharedpBlackBoard	m_BlackBoard;
 	public:
 		BehaviorTreeHandler() {
 			m_BlackBoard = make_shared<BlackBoard>();

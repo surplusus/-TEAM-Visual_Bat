@@ -1,71 +1,78 @@
 #include "BaseInclude.h"
-#include "BaseAttack.h"
-#include"ColiderComponent.h"
+#include "TurretMissle.h"
+#include"Obj.h"
 #include"ParticleColider.h"
 #include"BoundingBox.h"
-CBaseAttack::CBaseAttack(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle,STATUSINFO status)
-	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(2.0f), m_fLength(1.0f)
+#include"MathMgr.h"
+CTurretMissle::CTurretMissle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle,CObj* pTarget)
+	:m_fRadius(fRadius), m_fSize(5.0f), m_fMaxDistance(2.0f), m_fSpeed(0.1f), m_fLength(1.0f), m_BaseDamge(30.0f), m_pTarget(pTarget)
 {
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
-	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
+	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_Z] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
-	m_StatusInfo = status;
-	m_fBaseDamage = m_StatusInfo.fBase_Attack;
+
 }
 
 
-
-CBaseAttack::~CBaseAttack()
+CTurretMissle::~CTurretMissle()
 {
-	Release();
 }
 
-void CBaseAttack::Initalize()
+void CTurretMissle::Initalize()
 {
+
 	Setup_MultiTexture();
-	SetUp_Particle();
 	InitRenderState();
-	m_vMax = *(GetMax(BOUNDTYPE_CUBE));
-	m_vMin = *(GetMin(BOUNDTYPE_CUBE));
+	D3DXMATRIX matWorld;
 
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
 	m_pColider->SetUp(m_Info, 0.5f, new CBoundingBox);
-
+	UpdateParticleDirection();
+	AddTail();
 }
 
-bool CBaseAttack::Progress()
+bool CTurretMissle::Progress()
 {
+
+	if(m_pTarget)
+		Move_Chase(&m_pTarget->GetInfo()->vPos, 2.0f);
+	UpdateMatrix();
+	UpdateParticleDirection();
 	Update_Particle();
-	if (m_bCol)
-		return false;
 
-	if (!AddTail())
-		return false;
 	return true;
-
 }
 
-void CBaseAttack::Render()
+void CTurretMissle::Render()
 {
 	Render_Particle();
 }
 
-void CBaseAttack::Release()
+void CTurretMissle::Release()
 {
+
 	if (m_pColider) { SAFE_DELETE(m_pColider);	m_pColider = NULL; }
 	if (m_pTex0) { m_pTex0->Release();		m_pTex0 = NULL; }
 	if (m_pTex1) { m_pTex1->Release();		m_pTex1 = NULL; }
 	if (m_pTex2) { m_pTex2->Release();		m_pTex2 = NULL; }
-
 }
 
-void CBaseAttack::Setup_MultiTexture()
+void CTurretMissle::SetUp_Particle()
 {
-	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_BA_glow.dds", &m_pTex0);
-	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/common_glow-soft.dds", &m_pTex1);
-	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_BA_mis.dds", &m_pTex2);
+
+	D3DXMATRIXA16 matR, matWorld, matTrans, matScale;
+	m_VerTexInfo.c = D3DCOLOR_ARGB(255, 100, 70, 20);
+	m_vecVertexParticle.push_back(m_VerTexInfo);
+}
+
+void CTurretMissle::Setup_MultiTexture()
+{
+
+	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/common_Flare-Rainbow_blue_green_02.dds", &m_pTex0);
+	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particles/Ezreal_Base_R_Bow_Arrow.dds", &m_pTex1);
+	D3DXCreateTextureFromFileA(GetDevice(), "./Resource/Ez/Particle/Ezreal_Base_Z_solar_tag.dds", &m_pTex2);
 
 	PARTICLE_VERTEX v;
 	v.p = D3DXVECTOR3(0, 0, 0);
@@ -95,14 +102,7 @@ void CBaseAttack::Setup_MultiTexture()
 	m_vecVertex_Multi.push_back(v);
 }
 
-void CBaseAttack::SetUp_Particle()
-{
-	D3DXMATRIXA16 matR, matWorld, matTrans, matScale;
-	m_VerTexInfo.c = D3DCOLOR_ARGB(255, 100, 70, 20);
-	m_vecVertexParticle.push_back(m_VerTexInfo);
-}
-
-void CBaseAttack::Render_Particle()
+void CTurretMissle::Render_Particle()
 {
 	if (m_vecVertexParticle.empty())
 		return;
@@ -114,9 +114,8 @@ void CBaseAttack::Render_Particle()
 		GetDevice()->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
 		GetDevice()->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-		GetDevice()->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-		GetDevice()->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-		GetDevice()->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+		GetDevice()->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADD);
+		GetDevice()->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 		GetDevice()->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
 
 	}
@@ -126,26 +125,24 @@ void CBaseAttack::Render_Particle()
 		GetDevice()->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
 		GetDevice()->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
-		GetDevice()->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-		GetDevice()->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		GetDevice()->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_ADD);
+		GetDevice()->SetTextureStageState(1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 		GetDevice()->SetTextureStageState(1, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-		GetDevice()->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
 
 	}
 	{
 		//Stage3
 		GetDevice()->SetSamplerState(2, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 		GetDevice()->SetSamplerState(2, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		GetDevice()->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
-		GetDevice()->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MULTIPLYADD);
-		GetDevice()->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-		GetDevice()->SetTextureStageState(2, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-		GetDevice()->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
+		GetDevice()->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
+		GetDevice()->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_ADD);
+		GetDevice()->SetTextureStageState(2, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		GetDevice()->SetTextureStageState(2, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
 	}
-	GetDevice()->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	GetDevice()->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
 
 	{
 		SetRenderState(D3DRS_POINTSCALEENABLE, true);
@@ -181,7 +178,7 @@ void CBaseAttack::Render_Particle()
 	SetTexture(0, NULL);	SetTexture(1, NULL);	SetTexture(2, NULL);
 }
 
-void CBaseAttack::RenderEnd_Particle()
+void CTurretMissle::RenderEnd_Particle()
 {
 	int i = 0;
 	GetDevice()->SetSamplerState(0, D3DSAMP_MINFILTER, m_vecRenderInitData[i++]);
@@ -225,11 +222,11 @@ void CBaseAttack::RenderEnd_Particle()
 	SetRenderState(D3DRS_LIGHTING, m_vecRenderInitData[i++]);
 	SetRenderState(D3DRS_ZWRITEENABLE, true);
 	SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+
 }
 
-void CBaseAttack::InitRenderState()
+void CTurretMissle::InitRenderState()
 {
-
 	DWORD pWord;
 
 	GetDevice()->GetSamplerState(0, D3DSAMP_MINFILTER, &pWord); m_vecRenderInitData.push_back(pWord);
@@ -273,39 +270,63 @@ void CBaseAttack::InitRenderState()
 	GetDevice()->GetRenderState(D3DRS_POINTSIZE_MAX, &pWord); m_vecRenderInitData.push_back(pWord);
 	GetDevice()->GetRenderState(D3DRS_LIGHTING, &pWord); m_vecRenderInitData.push_back(pWord);
 	GetDevice()->GetRenderState(D3DRS_ZWRITEENABLE, &pWord); m_vecRenderInitData.push_back(pWord);
+
 }
 
-bool CBaseAttack::AddTail()
+bool CTurretMissle::AddTail()
 {
-	D3DXVECTOR3 vDirection = m_VerTexInfo.p - m_Info.vPos;
-	float fDistance = D3DXVec3Length(&vDirection);
 
-	if (fDistance > m_fMaxDistance)
+	if (!m_pTarget) return false;
+	D3DXVECTOR3 vDirection = m_Info.vPos - m_pTarget->GetInfo()->vPos;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	m_VerTexInfo.p = vDirection;
+	m_vecVertexParticle.push_back(m_VerTexInfo);
+	vDirection.y = 0;
+	for (int i = 0; i < 10; i++)
 	{
-		if (m_vecVertexParticle.empty()) {
-			return false;
-		}
-		m_vecVertexParticle.erase(m_vecVertexParticle.begin());
-		m_fSize -= 0.1f;
+		m_VerTexInfo.p = m_vecVertexParticle[i].p*(m_fSpeed);
+		m_vecVertexParticle.push_back(m_VerTexInfo);	
+	}
+	reverse(m_vecVertexParticle.begin(), m_vecVertexParticle.end());
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);	
+	
+	if (m_vecVertexParticle.empty())	return false;
+
+	return true;
+}
+
+bool CTurretMissle::UpdateParticleDirection()
+{
+	D3DXVECTOR3 vDirection = m_pTarget->GetInfo()->vPos- m_Info.vPos ;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vDirection.y;
+	float fDot = D3DXVec3Dot(&m_Info.vDir, &vDirection);
+	float fRadian = acos(fDot);
+	float fDirLerped = fRadian / 1.0f;
+
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+		return false;
+	}
+	D3DXVECTOR3 vLeft;
+	D3DXVec3Cross(&vLeft, &m_Info.vDir, &vDirection);
+	if (D3DXVec3Dot(&vDirection, &vLeft) > 0)
+	{
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+
 	}
 	else
 	{
-		int size = m_vecVertexParticle.size();
-		m_fLength -= 0.1f;
-		for (int i = 0; i < size; i++)
-		{
-			m_vecVertexParticle[i].p += (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
-		}
-		m_VerTexInfo.p = m_vecVertexParticle[size - 1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
-		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
-		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
-
-		m_vecVertexParticle.push_back(m_VerTexInfo);
-
-
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
 	}
-	if (m_vecVertexParticle.empty()) {
-		return false;
-	}
+	//for (int i = 0; i < 30; i++)
+	//{
+	//	CMathMgr::Rotation_Y(&m_vecVertexParticle[i].p, &m_vecVertexParticle[i].p, m_fAngle[ANGLE_Y]);
+	//}
 	return true;
+
 }

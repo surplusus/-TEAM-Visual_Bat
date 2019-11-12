@@ -7,7 +7,6 @@ CGauge::CGauge()
 	, m_pCell(NULL)
 	, m_MAXHP(0)
 	, m_MAXMP(0)
-	, m_vPosition(0, 0, 0)
 {
 }
 
@@ -19,20 +18,21 @@ CGauge::~CGauge()
 void CGauge::SetBillBoard()
 {
 	D3DXMATRIXA16	matView,matBillBoard;
-	D3DXMatrixIdentity(&matBillBoard);
-	
-	GetDevice()->GetTransform(D3DTS_VIEW, &matView);
-	m_matBillBoard._41 = 0.0f;
-	m_matBillBoard._42 = 0.0f;
-	m_matBillBoard._43 = 0.0f;
+	D3DXMatrixIdentity(&matView);
 
-	//y축 회전행렬 만 가지게 만든다.
+	GetDevice()->GetTransform(D3DTS_VIEW, &matView);
+	m_matBillBoard = matView;
+	m_matBillBoard._41 = 0.f;
+	m_matBillBoard._42 = 0.f;
+	m_matBillBoard._43 = 0.f;
+
 	m_matBillBoard._11 = matView._11;
 	m_matBillBoard._31 = matView._31;
 	m_matBillBoard._13 = matView._13;
 	m_matBillBoard._33 = matView._33;
 	D3DXMatrixInverse(&m_matBillBoard, 0, &m_matBillBoard);
 
+	//*Matrix = matBillBoard;
 }
 
 void CGauge::SetLight()
@@ -54,20 +54,28 @@ void CGauge::SetLight()
 	}
 }
 
-void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale)
 {
 	D3DXMATRIXA16 matView, matS,matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
 	D3DXMatrixIdentity(&matR);
 	SetBillBoard();
-	float radian = D3DXToRadian(60.0f );
-	D3DXMatrixRotationZ(&matR, radian);
-	float xradian = D3DXToRadian(30.0f );
-	D3DXMatrixRotationX(&matR, xradian);
 	
+	float radian;
+	radian = D3DXToRadian(60.0f);
+	D3DXMatrixRotationX(&matR, radian);
+
+
+	float x = m_matParentWorld._41;
+	float z = m_matParentWorld._43;
+
+
 	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR	* matT* m_matWorld;
+	D3DXMatrixTranslation(&matT
+		, x - (vScale.x / 2.0f)
+		, y + 2.5f, z);
+	
+	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 
@@ -84,22 +92,32 @@ void CGauge::RenderBlankGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPositi
 	SetTexture(0, NULL);
 }
 
-void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, D3DXVECTOR3 vPosition, D3DXVECTOR3 vScale)
+void CGauge::RenderCellGauge(vector<VTXTEX> vecMultiVertex, float y, D3DXVECTOR3 vScale, float fDmg)
 {
 	D3DXMATRIXA16 matView, matS, matT, matWorld, matR;
 	D3DXMatrixIdentity(&matView);
 	D3DXMatrixIdentity(&matR);
 	SetBillBoard();
+	
+	float radian;
+	radian = D3DXToRadian(60.0f);
+	D3DXMatrixRotationX(&matR, radian);
 
-	float radian = D3DXToRadian(60.0f);
-	D3DXMatrixRotationZ(&matR, radian);
-	float xradian = D3DXToRadian(30.0f);
-	D3DXMatrixRotationX(&matR, xradian);
 
-	D3DXMatrixScaling(&matS, vScale.x, vScale.y, vScale.z);
-	D3DXMatrixTranslation(&matT, 0, vPosition.y + 2.5f, 0);
-	matWorld = matS * matR *matT* m_matWorld;
+	float x = m_matParentWorld._41;
+	float z = m_matParentWorld._43;
 
+
+	D3DXMatrixScaling(&matS, vScale.x * fDmg, vScale.y, vScale.z);
+	D3DXMatrixTranslation(&matT
+		, x - (vScale.x / 2.0f)
+		, y + 2.5f, z);
+	
+	
+	//중심 좌표 x에서 스케일링된 크기만큼을 빼서 좌측으로 이동시킨다.
+	//(x - (2.0f * ((vScale.x * fDmg) / 2.0f)));
+	
+	matWorld = matS * matR * matT;
 
 	SetTransform(D3DTS_WORLD, &matWorld);
 

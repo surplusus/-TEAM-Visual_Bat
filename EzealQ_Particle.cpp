@@ -16,7 +16,7 @@ CEzealQ_Particle::CEzealQ_Particle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle
 {
 	m_pTex0 = NULL; m_pTex1 = NULL; m_pTex2 = NULL;	m_pColider = NULL;
 	m_Info = tInfo;
-	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_X] = vAngle.z;
+	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_Z] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
 	
 }
@@ -56,7 +56,6 @@ void CEzealQ_Particle::Initalize()
 	Setup_MultiTexture();
 	SetUp_Particle();
 	InitRenderState();
-	D3DXMATRIX matWorld;
 	
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
@@ -69,9 +68,8 @@ bool CEzealQ_Particle::Progress()
 	Update_Particle();
 	if (m_bCol)
 		return false;
+	if (!AddTail()) return false;
 
-	if (!AddTail())
-		return false;
 	return true;
 
 }
@@ -331,9 +329,8 @@ bool CEzealQ_Particle::AddTail()
 		}
 		m_VerTexInfo.p = m_vecVertexParticle[size -1].p + (m_Info.vLook * g_fDeltaTime* (m_fSpeed));
 		m_Info.vPos += (m_Info.vLook * g_fDeltaTime*m_fSpeed);
-		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p,m_Info.matWorld);
+		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 		m_vecVertexParticle.push_back(m_VerTexInfo);
-
 	}
 	if (m_vecVertexParticle.empty()) {
 		return false;

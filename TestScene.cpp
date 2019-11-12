@@ -12,14 +12,12 @@
 #include <sstream>
 #include "SoundMgr.h"
 #include "Amumu.h"
-#include "Zealot.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"
 #include "HeightMap.h"
 #include "LoadingScene.h"
 #include "SceneMediator.h"
-#include "Turret.h"
 
 
 CTestScene::CTestScene()
@@ -60,14 +58,6 @@ HRESULT CTestScene::Initialize()
 		GET_SINGLE(CObjMgr)->AddObject(L"Map_Floor", CFactory<CObj, CSummonTerrain >::CreateObject());
 	else
 		ERR_MSG(g_hWnd, L"MapSummon Load Failed");
-
-
-	if (SUCCEEDED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"blue_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
-		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", CFactory<CObj, CTurret>::CreateObject());
-	else
-		ERR_MSG(g_hWnd, L"Blue_Turret Load Failed");
-
 	return S_OK;
 }
 
@@ -107,7 +97,6 @@ HRESULT CTestScene::Setup()
 	}
 	return S_OK;
 }
-
 
 void CTestScene::SoundUpdate()
 {

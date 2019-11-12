@@ -48,7 +48,7 @@ HRESULT CLoadingScene::Initialize()
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
 		{	// 로딩 functor에게 정보를 넣어준다.(수정요)
 			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-			if (sChampName == "")	sChampName = "Udyr";
+		//	if (sChampName == "")	sChampName = "Udyr";
 			m_pLoadingFunctor->m_SelectedChamp = sChampName;
 		}
 	}
@@ -61,12 +61,16 @@ void CLoadingScene::Progress()
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 	
-	if (CheckPushKeyOneTime(VK_SPACE))
+	static float fFake = 0;
+	fFake += g_fDeltaTime;
+	if (fFake >= 1.f) {
 		m_bLoadingComplete = (*m_pLoadingFunctor)();
+		fFake = 0.f;
+	}
 	
 	if (m_bLoadingComplete) {
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
-		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+	//	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
 
