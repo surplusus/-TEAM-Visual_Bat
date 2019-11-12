@@ -41,13 +41,22 @@ typedef struct _tagPickingSphere : EVENT
 
 typedef struct _tagCollisionEvent : EVENT
 {
+<<<<<<< HEAD
 	_tagCollisionEvent(CObj* pOri,ColiderComponent* pOriCol)
 		: m_pOriObj(pOri),m_pOriCol(pOriCol){}
+=======
+	_tagCollisionEvent(CObj* pOri,ColiderComponent* pOriCol,
+		CObj* pTarget =NULL, ColiderComponent* pTargetCol =NULL)
+		: m_pOriObj(pOri),m_pOriCol(pOriCol),m_pTarget(pTarget),m_pTargetCol(pTargetCol)
+		{}
+>>>>>>> origin/master
 	ColiderComponent* m_pOriCol;
+	ColiderComponent* m_pTargetCol;
 	CObj* m_pOriObj;
+	CObj* m_pTarget;
+	
 } COLLISIONEVENT;
 
-<<<<<<< HEAD
 typedef struct _tagInsertColliderEvent : EVENT
 {
 	_tagInsertColliderEvent(void** pNewObj, void** pNewList)
@@ -63,13 +72,3 @@ typedef struct _tagPhysicalAttackEvent : EVENT
 	D3DXVECTOR3 m_vecAttackPos;
 	STATUSINFO m_infoDemage;
 } PHYSICALATTACKEVENT;
-=======
-typedef struct _tagCollisionTarget : EVENT
-{
-	_tagCollisionTarget(CObj* pOri, CObj* pTarget)
-		:m_pOri(pOri),m_pTarget(pTarget)
-	{}
-	CObj* m_pOri;
-	CObj* m_pTarget;
-}COLLISIONTARGETEVNET;
->>>>>>> origin/master

@@ -1,0 +1,183 @@
+#include "BaseInclude.h"
+#include "LoadingFunctor.h"
+#include "SoundMgr.h"
+#include "SceneMgr.h"
+#include "CollisionMgr.h"
+#include "ParticleMgr.h"
+
+#include "Udyr.h"
+#include "Ezreal.h"
+#include "MinionMgr.h"
+#include "Cursor.h"
+
+CLoadingFunctor::CLoadingFunctor()
+	: m_iFuncSize(0)
+	, m_iFuncIdx(0)
+{
+	{
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
+		m_queFunc.push([this]() {return this->FuncLoadMap(); });
+		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
+<<<<<<< HEAD
+		//m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+	}
+	{	// SceneMediator가 functor에게 정보를 넣어준다.
+		m_SelectedChamp = "";
+		m_SelectedChamp = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
+		if (m_SelectedChamp == "") {
+			m_SelectedChamp = "Udyr";
+			printf("SceneMeditor에 ChampName이 없어 Udyr를 Functor에 넣었습니다.\n");
+		}
+=======
+		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+		m_mapMeshInfo.clear();
+>>>>>>> origin/master
+	}
+}
+
+CLoadingFunctor::~CLoadingFunctor()
+{
+}
+
+bool CLoadingFunctor::operator()()
+{
+	using FUNC = function<bool(void)>;
+	if (m_queFunc.empty())
+		return false;
+	FUNC fp = m_queFunc.front();
+	bool re = fp();
+	++m_iFuncIdx;
+	m_queFunc.pop();
+<<<<<<< HEAD
+=======
+	return false;
+}
+
+bool CLoadingFunctor::SetMeshInfoThruFile()
+{
+	ifstream file("./Resource/MeshPathList.dat", ifstream::in);
+//	ifstream file("./Resource/Test/test.dat", ifstream::in);
+
+	if (!file.is_open()) {
+		cout << "Error Opening File\n";
+		SendMessage(NULL, WM_QUIT, 0, 0);
+		return false;
+	}
+
+	string name;
+	while (file)
+	{
+		vector<string> token;
+		string s, t;
+		getline(file, s);
+
+		if (s == "")	break;
+
+		for (stringstream ss(s); (ss >> t);)
+			token.push_back(t);
+
+		if (token[0][0] == '#') {
+			continue;
+		}
+		else if (token[0][0] == '-') {
+			name = token[0].substr(1, token[0].size() - 2);
+			m_mapMeshInfo[name];
+		}
+		else if (token[0] == "bComplete")
+			m_mapMeshInfo[name].m_bComplete = (token[1][0] == 't') ? true : false;
+		else if (token[0] == "ObjName")
+			m_mapMeshInfo[name].m_ObjName = token[1];
+		else if (token[0] == "FolderPath")
+			m_mapMeshInfo[name].m_FolderPath = token[1];
+		else if (token[0] == "FileName")
+			m_mapMeshInfo[name].m_FileName = token[1];
+		else if (token[0] == "ConsoleText")
+			for (int i = 1; i < token.size(); ++i)
+				m_mapMeshInfo[name].m_ConsoleText += token[i] + " ";
+		else if (token[0] == "MeshType")
+			m_mapMeshInfo[name].m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
+		if (file.eof())	break;
+	}
+	file.close();
+	cout << "파일 로딩 끝\n";
+>>>>>>> origin/master
+	return true;
+}
+
+bool CLoadingFunctor::FuncDefaultMgrSetUp()
+{
+	{	// Set up Sounds
+		GET_SINGLE(SoundMgr)->SetUp();
+		//printf("sound set up\n");
+	}
+	{	// Create ColliderMgr & ParticleMgr
+		GET_SINGLE(CParticleMgr)->Initalize();
+		GET_SINGLE(CCollisionMgr)->Progress();
+	}
+	{	// Make Bound
+		if (FAILED(AddBounding(GetDevice(), BOUNDTYPE_CUBE)))
+		{
+			ERR_MSG(g_hWnd, L"BoundingBox Load Failed");
+		}
+		printf("BoundingBox On!\n");
+	}
+
+	{	// Make Cursor
+		CCursor* pCursor = new CCursor();
+		pCursor->InitCursor();
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("Cursor", reinterpret_cast<void**>(&pCursor));
+		pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
+		printf("Make Hand Cursor\n");
+	}
+	return true;
+}
+
+bool CLoadingFunctor::FuncLoadMap()
+{
+	if (!OperateAddMeshByKey("Map")) {
+		printf("맵 매쉬 로딩 실패\n");
+		return false;
+	}
+	
+	if (!RegisterCloneObjectByKey("Map"))
+		ERR_MSG(g_hWnd, L"Champ Register Error");
+	return true;
+}
+
+bool CLoadingFunctor::FuncLoadChamp()
+{
+	
+	if (!OperateAddMeshByKey(m_SelectedChamp)) {
+		printf("챔피언 매쉬 로딩 실패\n");
+		return false;
+	}
+
+	if (!RegisterCloneObjectByKey(m_SelectedChamp))
+		ERR_MSG(g_hWnd, L"Champ Register Error");
+
+	//{	//Ezreal dummy
+	//	if (!OperateAddMeshByKey("Ezreal")) {
+	//		printf("Ezreal 매쉬 로딩 실패\n");
+	//		return false;
+	//	}
+	//	OperateAddObjectByKey("Ezreal");
+	//}
+	return true;
+}
+
+bool CLoadingFunctor::FuncLoadMinion()
+{
+	if (!OperateAddMeshByKey("MeleeMinion")) {
+		printf("미니언 매쉬 로딩 실패\n");
+		return false;
+	}
+
+	CMinionMgr* pMinionMgr = new CMinionMgr;
+	pMinionMgr->CreateMinions();
+	GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr",
+		reinterpret_cast<void**>(&pMinionMgr));
+	printf("Minion Manager register 완료\n");
+
+	return true;
+}
