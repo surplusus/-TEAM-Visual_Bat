@@ -86,16 +86,16 @@ void UdyrBT::UdyrBTHandler::MakeTree()
 void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 {
 	{	// stStatusInfo
-		m_BlackBoard->setFloat("fBase_Attack", m_pInst->m_stStatusInfo.fBase_Attack);
-		m_BlackBoard->setFloat("fMagic_Attack", m_pInst->m_stStatusInfo.fMagic_Attack);
-		m_BlackBoard->setFloat("fBase_Defence", m_pInst->m_stStatusInfo.fBase_Defence);
-		m_BlackBoard->setFloat("fMagic_Defence", m_pInst->m_stStatusInfo.fMagic_Defence);
-		m_BlackBoard->setFloat("fCriticalRatio", m_pInst->m_stStatusInfo.fCriticalRatio);
-		m_BlackBoard->setFloat("fMoveSpeed", m_pInst->m_stStatusInfo.fMoveSpeed);
-		m_BlackBoard->setFloat("fMana", m_pInst->m_stStatusInfo.fMana);
-		m_BlackBoard->setFloat("fHP", m_pInst->m_stStatusInfo.fHP);
-		m_BlackBoard->setFloat("fSkillTimeRatio", m_pInst->m_stStatusInfo.fSkillTimeRatio);
-		m_BlackBoard->setFloat("fAttackRange", m_pInst->m_stStatusInfo.fAttackRange);
+		m_BlackBoard->setFloat("fBase_Attack", m_pInst->m_StatusInfo.fBase_Attack);
+		m_BlackBoard->setFloat("fMagic_Attack", m_pInst->m_StatusInfo.fMagic_Attack);
+		m_BlackBoard->setFloat("fBase_Defence", m_pInst->m_StatusInfo.fBase_Defence);
+		m_BlackBoard->setFloat("fMagic_Defence", m_pInst->m_StatusInfo.fMagic_Defence);
+		m_BlackBoard->setFloat("fCriticalRatio", m_pInst->m_StatusInfo.fCriticalRatio);
+		m_BlackBoard->setFloat("fMoveSpeed", m_pInst->m_StatusInfo.fMoveSpeed);
+		m_BlackBoard->setFloat("fMana", m_pInst->m_StatusInfo.fMana);
+		m_BlackBoard->setFloat("fHP", m_pInst->m_StatusInfo.fHP);
+		m_BlackBoard->setFloat("fSkillTimeRatio", m_pInst->m_StatusInfo.fSkillTimeRatio);
+		m_BlackBoard->setFloat("fAttackRange", m_pInst->m_StatusInfo.fAttackRange);
 	}
 	{	// Initialize (StatusInfo에 없는 내용)
 		m_BlackBoard->setBool("Alive", true);
@@ -116,7 +116,7 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 
 void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 {
-	STATUSINFO& Info = m_pInst->m_stStatusInfo;
+	STATUSINFO& Info = m_pInst->m_StatusInfo;
 	
 	{	// stStatusInfo
 		m_BlackBoard->setFloat("fBase_Attack", Info.fBase_Attack);
@@ -160,7 +160,7 @@ D3DXVECTOR3 & UdyrBT::UdyrAccessor::GetChampMousePickPos()
 
 STATUSINFO & UdyrBT::UdyrAccessor::GetStatusInfo() const
 {
-	return m_pInst->m_stStatusInfo;
+	return m_pInst->m_StatusInfo;
 }
 
 const UdyrBT::UdyrBTHandler * UdyrBT::UdyrAccessor::GetBehaviorTree()
@@ -227,7 +227,7 @@ void UdyrBT::UdyrOnTarget::Do()
 
 	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - m_pInst->m_MouseHitPoint));
 	m_BlackBoard->setFloat("TargetAt", dist);
-	//if (dist > m_pInst->m_stStatusInfo.fAttackRange)
+	//if (dist > m_pInst->m_StatusInfo.fAttackRange)
 		GetBehaviorTree()->m_vSelector[SELECTOR_ENEMY]->Run();
 	//else
 	//	m_BlackBoard->setBool("Attack", true);

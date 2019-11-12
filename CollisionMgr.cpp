@@ -156,7 +156,7 @@ bool CCollisionMgr::IsCloseObjInRadius(OUT vector<CObj*>* vCloseObj, IN CObj* pM
 			//float dy = (*vecMyPos).y - (spOthers->vpCenter).y;
 			//float dz = (*vecMyPos).z - (spOthers->vpCenter).z;
 			D3DXVECTOR3 vecDist = (*vecMyPos) - (*spOthers->vpCenter);
-			float distance = D3DXVec3Length(&vecDist);
+		float distance = D3DXVec3Length(&vecDist);
 			if (fRadius >= distance)
 				vCloseObj->push_back(it.first);
 		}

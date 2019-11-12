@@ -80,10 +80,10 @@ HRESULT CUdyr::Initialize()
 	m_Info.vPos = D3DXVECTOR3(0.f, 0.f, 0.f);
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 	{	//<< : SetUp StatusInfo
-		m_stStatusInfo.fHP = 100.f;
-		m_stStatusInfo.fBase_Attack = 10.f;
-		m_stStatusInfo.fMoveSpeed = 4.f;
-		m_stStatusInfo.fAttackRange = 2.f;
+		m_StatusInfo.fHP = 100.f;
+		m_StatusInfo.fBase_Attack = 10.f;
+		m_StatusInfo.fMoveSpeed = 4.f;
+		m_StatusInfo.fAttackRange = 2.f;
 	}
 	{	//<< : SetUp m_AniSetNameList;
 		SetUpAniSetNameList();
@@ -111,29 +111,35 @@ HRESULT CUdyr::Initialize()
 
 void CUdyr::Progress()
 {
+	UpdateColliderList();
+
 	{	// test
 		if (CheckPushKeyOneTime(VK_N))
 			m_pAnimationCtrl->DisplayAniSetNameOnConsole();
 		if (CheckPushKeyOneTime(VK_1)) {
-			m_stStatusInfo.PrintAll();
+			m_StatusInfo.PrintAll();
 			cout << "OnTarget : " << m_pBehavior->m_BlackBoard->getBool("OnTarget") << '\n';
 		}
 		if (CheckPushKeyOneTime(VK_2)) {
 			STATUSINFO info; info.fBase_Attack = 25.f;
 			cout << "Beaten : " << info.fBase_Attack << endl;
 			GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &info));
+			m_StatusInfo.fHP -= 25.f;
 		}
 		if (CheckPushKeyOneTime(VK_4))
-			m_stStatusInfo.fMoveSpeed += 0.1f;
+			m_StatusInfo.fMoveSpeed += 0.1f;
 		if (CheckPushKeyOneTime(VK_5))
-			m_stStatusInfo.fMoveSpeed -= 0.1f;
+			m_StatusInfo.fMoveSpeed -= 0.1f;
 		if (CheckPushKeyOneTime(VK_6))
-			m_stStatusInfo.fHP = 0.f;
+			m_StatusInfo.fHP = 0.f;
 
 	}
 	// Collider Update
-	if (m_pCollider)
-		m_pCollider->Update(m_Info.vPos, m_Info.matWorld);
+	if (m_pCollider != nullptr)
+		m_pCollider->Update(m_Info.vPos);
+	else
+		m_StatusInfo.fHP = 0.f;
+
 
 	{
 		DoOnMouseLButton();
@@ -223,8 +229,9 @@ void CUdyr::OperateOnFindPickingSphere(PICKSPHEREEVENT * evt)
 
 void CUdyr::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 {
+	
 	m_pBehavior->m_BlackBoard->setBool("Beaten", true);
-	//m_stStatusInfo -= dynamic_cast<CChampion*>(evt->)->m_StatusInfo;
+	//m_StatusInfo -= dynamic_cast<CChampion*>(evt->)->m_StatusInfo;
 }
 
 void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
