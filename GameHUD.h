@@ -5,6 +5,7 @@
 class CTextMgr;
 
 #define SkillCount 4
+#define KeyCount 4
 
 struct SkillList {
 	CImage_Loader m_Skill[SkillCount];
@@ -15,6 +16,14 @@ struct KeyTextList {
 	CText * m_pWKey;
 	CText * m_pEKey;
 	CText * m_pRKey;
+};
+
+enum KeyType
+{
+	Q = 0,
+	W,
+	E,
+	R
 };
 
 class cGameHUD
@@ -38,8 +47,7 @@ private:
 
 	KeyTextList st_key;
 
-	SkillList Ezreal;
-	SkillList Ezreal_copy;
+	bool m_isKeyDown[KeyCount];
 
 	map<string, CTextMgr *> m_mapStatsMgr;
 	STATUSINFO m_Stats;
@@ -58,9 +66,11 @@ public:
 	void Update_StateText();
 
 	void InitializeKey();
+	void ProgressKey();
 	void RenderKey();
 	void ReleaseKey();
 
 	//void CheckMouse();
+	void CheckKeyDown();
 };
 

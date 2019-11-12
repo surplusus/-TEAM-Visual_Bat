@@ -13,6 +13,11 @@ cGameHUD::cGameHUD()
 {
 	m_isLButtonDown = false;
 	m_Stats.fBase_Attack = NULL;
+
+	for (int i = 0; i < KeyCount; i++)
+	{
+		m_isKeyDown[i] = false;
+	}
 }
 
 
@@ -153,6 +158,8 @@ void cGameHUD::Progress()
 	Update_StateText();
 
 	//CheckMouse();
+
+	ProgressKey();
 }
 
 void cGameHUD::Render()
@@ -177,7 +184,7 @@ void cGameHUD::Render()
 
 	Render_Skill();
 	RenderKey();
-
+		
 	for (auto it = m_mapStatsMgr.begin();
 		it != m_mapStatsMgr.end(); it++)
 	{
@@ -234,6 +241,9 @@ void cGameHUD::Initialize_Skill()
 	//	D3DXVECTOR3(376, 660, 0),
 	//	D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 
+	// Ezreal_copy
+
+
 	//Udyr
 	m_MapSkill.insert(make_pair("Udyr", new SkillList));
 
@@ -256,14 +266,28 @@ void cGameHUD::Initialize_Skill()
 		"Resource/jiyun/skill/Udyr/Phoenix_Stance.png", 
 		D3DXVECTOR3(508, 713, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
-	
+
+	// Udyr Copy
+	m_MapSkill.insert(make_pair("UdyrCopy", new SkillList));
+
+	m_MapSkill["UdyrCopy"]->m_Skill[Q] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Tiger_Stance.png",
+		D3DXVECTOR3(376, 660, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["UdyrCopy"]->m_Skill[W] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Turtle_Stance.png",
+		D3DXVECTOR3(420, 660, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
 	for (int i = 0; i < SkillCount; i++)
 	{
 		m_MapSkill["Ezreal"]->m_Skill[i].Initialize();
 		m_MapSkill["Udyr"]->m_Skill[i].Initialize();
 	}
 
-	//Ezreal_copy.m_Skill[0].Initialize();
+	m_MapSkill["UdyrCopy"]->m_Skill[Q].Initialize();
+	m_MapSkill["UdyrCopy"]->m_Skill[W].Initialize();
 }
 
 void cGameHUD::Render_Skill()
@@ -272,13 +296,9 @@ void cGameHUD::Render_Skill()
 	{
 		//m_MapSkill["Ezreal"]->m_Skill[i].Render();
 		m_MapSkill["Udyr"]->m_Skill[i].Render();
-		//Ezreal.m_Skill[i].Render();
 	}
-		
-	/*if (m_isLButtonDown == true)
-	{
-		Ezreal_copy.m_Skill[0].Render();
-	}*/
+
+	CheckKeyDown();
 }
 
 void cGameHUD::Release_Skill()
@@ -288,6 +308,9 @@ void cGameHUD::Release_Skill()
 		//m_MapSkill["Ezreal"]->m_Skill[i].Release();
 		m_MapSkill["Udyr"]->m_Skill[i].Release();
 	}
+
+	m_MapSkill["UdyrCopy"]->m_Skill[Q].Release();
+	m_MapSkill["UdyrCopy"]->m_Skill[W].Release();
 }
 
 void cGameHUD::InitializeKey()
@@ -307,6 +330,45 @@ void cGameHUD::InitializeKey()
 	RECT RBox;
 	SetRect(&RBox, 508, 742, 547, 742);
 	st_key.m_pRKey = new CText("Resource/Fonts/BeaufortforLOL-Bold.ttf", 10, 4, L"Beaufort for LOL", RBox, string("R"));
+}
+
+void cGameHUD::ProgressKey()
+{
+	if (GetAsyncKeyState('Q') & 0x8000)
+	{
+		m_isKeyDown[Q] = true;
+	}
+	else
+	{
+		m_isKeyDown[Q] = false;
+	}
+	
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		m_isKeyDown[W] = true;
+	}
+	else
+	{
+		m_isKeyDown[W] = false;
+	}
+
+	if (GetAsyncKeyState('E') & 0x8000)
+	{
+		m_isKeyDown[E] = true;
+	}
+	else
+	{
+		m_isKeyDown[E] = false;
+	}
+
+	if (GetAsyncKeyState('R') & 0x8000)
+	{
+		m_isKeyDown[R] = true;
+	}
+	else
+	{
+		m_isKeyDown[R] = false;
+	}
 }
 
 void cGameHUD::RenderKey()
@@ -511,3 +573,16 @@ void cGameHUD::Progress_Minimap()
 //		}
 //	}
 //}
+
+void cGameHUD::CheckKeyDown()
+{
+	if (m_isKeyDown[Q])
+	{
+		m_MapSkill["UdyrCopy"]->m_Skill[Q].Render();
+	}
+	
+	if (m_isKeyDown[W])
+	{
+		m_MapSkill["UdyrCopy"]->m_Skill[W].Render();
+	}
+}
