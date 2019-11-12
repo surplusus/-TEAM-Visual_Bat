@@ -27,6 +27,7 @@ public:
 	virtual void		Release() PURE;
 
 	vector<string>		m_AniSetNameList;
+	const TCHAR*		m_MeshName;
 protected:
 	CMinionMgr*			m_pMinionMgr;
 	CHeightMap*			m_pHeightMap;
@@ -50,13 +51,14 @@ protected:
 	bool			SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
 	bool			Render_PickingShere();
 	void			SetDirectionToNextPoint();
-	void			SetUpAniSetNameList();
 	bool			TurnSlowly(const D3DXVECTOR3* destPos, float fLerpRate = 7.0f);
 public:
+	void			SetUpAniSetNameList();
 	CAnimationCtrl* GetAnimationCtrl() { return m_pAnimationCtrl; }
 	void			SetPosition(const D3DXVECTOR3* pos);
 	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
 	void			SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
+	void			SetMeshName(const TCHAR* str) { m_MeshName = str; }
 private:
 	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);

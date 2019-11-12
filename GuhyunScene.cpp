@@ -47,6 +47,11 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
+	RECT r;
+	GetWindowRect(g_hWnd, &r);
+	//GetClientRect(g_hWnd, &r);
+	ClipCursor(&r);
+
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -98,7 +103,7 @@ void GuhyunScene::SetUp_Light()
 	GET_DEVICE->SetLight(0, &stLight);
 	GET_DEVICE->LightEnable(0, true);
 	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	SetRenderState(D3DRS_LIGHTING, true);
+	SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void GuhyunScene::SoundUpdate()

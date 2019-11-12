@@ -21,32 +21,19 @@ void CMinionMgr::CreateMinions()
 {
 	HRESULT res;
 	for (size_t i = 0; i < 3; ++i)
-	{
 		m_vMinion.emplace_back(new CMeleeMinion());
-		m_vMinion[i]->SetMinionMgr(this);;
-		if (FAILED(m_vMinion[i]->Initialize()))
-			ERR_MSG(g_hWnd, L"Fail : Minion Initialize");
+	m_vMinion[0]->SetMeshName(L"MeleeMinion1");
+	m_vMinion[1]->SetMeshName(L"MeleeMinion2");
+	m_vMinion[2]->SetMeshName(L"MeleeMinion3");
+
+	for (size_t i = 0; i < 3; ++i) {
+		m_vMinion[i]->SetMinionMgr(this);
+		res = GET_SINGLE(CObjMgr)->AddObject(m_vMinion[i]->m_MeshName, m_vMinion[i]);
 		
-		{	// 미니언 처음 위치 설정 (바꾸어야 됨)
-			int iPos = rand() % 5;
-			SetFirstPositions(m_vMinion[i], &D3DXVECTOR3((float)iPos, 0, (float)iPos));
-		}
+		if (FAILED(res))
+			ERR_MSG(g_hWnd, L"Fail : Register On Minion1");
+		//m_vMinion.push_back(new CMeleeMinion());
 	}
-
-	//CAnimationCtrl*
-	//res = CloneMesh(GET_DEVICE, L"MeleeMinion1", &m_vMinion[0]->GetAnimationCtrl())
-
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion0", m_vMinion[0]);
-	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion0");
-	m_vMinion.push_back(new CMeleeMinion());
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion1", m_vMinion[1]);
-	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion1");
-	m_vMinion.push_back(new CMeleeMinion());
-	res = GET_SINGLE(CObjMgr)->AddObject(L"Minion2", m_vMinion[2]);
-	if (FAILED(res))
-		ERR_MSG(g_hWnd, L"Fail : Register On Minion2");
 	
 	this->Initialize();
 }
@@ -71,6 +58,8 @@ CMinion * CMinionMgr::GetMinion(int nIndex)
 
 void CMinionMgr::Initialize()
 {
+	for (auto & it : m_vMinion)
+		it->Initialize();
 	//GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
 }
 
