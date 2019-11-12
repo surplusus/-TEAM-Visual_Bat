@@ -235,7 +235,7 @@ void UdyrBT::UdyrOnTarget::Do()
 }
 void UdyrBT::UdyrOnTarget::Terminate()
 {
-	spEnemy == nullptr;
+	spEnemy = nullptr;
 	bNewTarget = false;
 }
 //////////// hasCoord /////////////

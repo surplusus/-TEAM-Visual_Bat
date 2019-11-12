@@ -56,7 +56,7 @@ bool CLoadingFunctorBase::SetMeshInfoThruFile(string sFileName)
 		else if (token[0] == "FileName")
 			m_mapMeshInfo[name]->m_FileName = basic_string<TCHAR>(token[1].begin(), token[1].end());
 		else if (token[0] == "ConsoleText")
-			for (int i = 1; i < token.size(); ++i)
+			for (size_t i = 1; i < token.size(); ++i)
 				m_mapMeshInfo[name]->m_ConsoleText += token[i] + " ";
 		else if (token[0] == "MeshType")
 			m_mapMeshInfo[name]->m_MeshType = static_cast<MESHTYPE>(stoi(token[1]));
@@ -75,6 +75,8 @@ bool CLoadingFunctorBase::RegisterCloneObjectByKey(string key)
 		return OperateAddObjectByKey<CEzreal>(key);
 	if (key == "Map")
 		return OperateAddObjectByKey<CSummonTerrain>(key);
+	printf("CloneObject호 선택된게 없네요....\n");
+	return false;
 }
 
 bool CLoadingFunctorBase::OperateAddMeshByKey(string key)

@@ -1,5 +1,4 @@
 #pragma once
-
 class EventFunc {
 public:
 	void Execute(EVENT* evt) {

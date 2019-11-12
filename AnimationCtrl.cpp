@@ -220,7 +220,6 @@ void CAnimationCtrl::FrameMove(const TCHAR * pMeshKey, float fTime)
 void CAnimationCtrl::DisplayAniSetNameOnConsole()
 {
 	UINT nCntAni = m_pAniCtrl->GetNumAnimationSets();
-	UINT nAniNum;
 	LPD3DXANIMATIONSET pAniSet;
 	m_pAniCtrl->GetTrackAnimationSet(0, &pAniSet);
 	//m_pAniCtrl->GetAnimationSetByName("Stand", &pAniSet);

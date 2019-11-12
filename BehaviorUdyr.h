@@ -146,7 +146,7 @@ namespace UdyrBT
 			else
 				result = false;
 			if (bLesserThan = false)
-				result = ~result;
+				result = !result;
 			return result;
 		}
 	private:

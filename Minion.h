@@ -1,22 +1,11 @@
 #pragma once
 #include "Dynamic.h"
-#include "BehaviorMinion.h"
 
 class CHeightMap;
 class CMinionMgr;
 class ColiderComponent;
 class CMinion : public CDynamic
 {
-#pragma region 무더기 친구들
-	friend class MinionBT::MinionBTHandler;
-	friend class MinionBT::MinionAccessor;
-	friend struct MinionBT::MinionDeath;
-	friend struct MinionBT::MinionBeaten;
-	friend struct MinionBT::MinionAggressive;
-	friend struct MinionBT::MinionAttack;
-	friend struct MinionBT::MinionRun;
-	friend struct MinionBT::MinionTurn;
-#pragma endregion
 public:
 	CMinion();
 	virtual ~CMinion();
@@ -38,13 +27,7 @@ protected:
 	vector<D3DXVECTOR3>	m_vNextPoints;
 	STATUSINFO			m_stStatusInfo;
 	SPHERE*				m_sphereTarget;	// Enemy
-	// << : Behavior
-	MinionBT::MinionBTHandler*	m_pBehavior;
-	// >> : Behavior
-	// << : Collision
-	ColiderComponent*  m_pCollider;
-	list<ColiderComponent*> m_ColliderList;
-	// >> : Collision
+
 protected:
 	void			ChangeNextPoint();
 	void			UpdateWorldMatrix();
@@ -59,8 +42,6 @@ public:
 	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
 	void			SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
 	void			SetMeshName(const TCHAR* str) { m_MeshName = str; }
-private:
-	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
-	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
+
 };
 

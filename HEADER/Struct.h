@@ -165,7 +165,7 @@ typedef struct tagStateInfo
 	
 	friend tagStateInfo operator+(tagStateInfo Info,  tagStateInfo tInfo);
 	friend tagStateInfo operator-(tagStateInfo Info,  tagStateInfo& tInfo);
-	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo) ;
+	friend tagStateInfo operator+=(tagStateInfo& Info,tagStateInfo tInfo);
 	friend tagStateInfo operator-=(tagStateInfo& Info,tagStateInfo tInfo);
 	void PrintAll() {
 		system("cls");
@@ -181,18 +181,18 @@ typedef struct tagStateInfo
 		std::cout << "fAttackRange    : " << fAttackRange << '\n';
 	}
 	tagStateInfo() {}
-	tagStateInfo(const tagStateInfo& rhs) {
-		fBase_Attack	= rhs.fBase_Attack;
-		fMagic_Attack	= rhs.fMagic_Attack;
-		fBase_Defence	= rhs.fBase_Defence;
-		fMagic_Defence	= rhs.fMagic_Defence;
-		fCriticalRatio	= rhs.fCriticalRatio;
-		fMoveSpeed		= rhs.fMoveSpeed;
-		fMana			= rhs.fMana;
-		fHP				= rhs.fHP;
-		fSkillTimeRatio = rhs.fSkillTimeRatio;
-		fAttackRange	= rhs.fAttackRange;
-	}
+	//tagStateInfo(const tagStateInfo& rhs) {
+	//	fBase_Attack	= rhs.fBase_Attack;
+	//	fMagic_Attack	= rhs.fMagic_Attack;
+	//	fBase_Defence	= rhs.fBase_Defence;
+	//	fMagic_Defence	= rhs.fMagic_Defence;
+	//	fCriticalRatio	= rhs.fCriticalRatio;
+	//	fMoveSpeed		= rhs.fMoveSpeed;
+	//	fMana			= rhs.fMana;
+	//	fHP				= rhs.fHP;
+	//	fSkillTimeRatio = rhs.fSkillTimeRatio;
+	//	fAttackRange	= rhs.fAttackRange;
+	//}
 }STATUSINFO;
 typedef enum SkILL_LEVEL
 {
@@ -202,7 +202,7 @@ typedef enum SkILL_LEVEL
 	SKILL_LEVEL3,
 	SKILL_LEVEL4,
 }SKILL_LEVEL;
-STATUSINFO operator+(tagStateInfo Info, tagStateInfo tInfo)
+tagStateInfo operator+(tagStateInfo Info, tagStateInfo tInfo)
 {
 	
 	STATUSINFO info;
@@ -218,7 +218,7 @@ STATUSINFO operator+(tagStateInfo Info, tagStateInfo tInfo)
 	info.fAttackRange		= Info.fAttackRange		+ tInfo.fAttackRange;
 	return info;
 }
-STATUSINFO operator-(const tagStateInfo Info, tagStateInfo& tInfo)
+tagStateInfo operator-(const tagStateInfo Info, tagStateInfo& tInfo)
 {
 	
 	STATUSINFO info;
@@ -234,7 +234,7 @@ STATUSINFO operator-(const tagStateInfo Info, tagStateInfo& tInfo)
 	info.fAttackRange		= Info.fAttackRange		- tInfo.fAttackRange;
 	return info;	
 }
-STATUSINFO operator+=(tagStateInfo& Info, tagStateInfo tInfo)
+tagStateInfo operator+=(tagStateInfo& Info, tagStateInfo tInfo)
 {
 	
 	Info.fBase_Attack		+= tInfo.fBase_Attack;
@@ -249,7 +249,7 @@ STATUSINFO operator+=(tagStateInfo& Info, tagStateInfo tInfo)
 	Info.fAttackRange		+= tInfo.fAttackRange;	
 	return Info;
 }
-STATUSINFO operator-=(tagStateInfo& Info, tagStateInfo tInfo)
+tagStateInfo operator-=(tagStateInfo& Info, tagStateInfo tInfo)
 {
 	
 	Info.fBase_Attack		-= tInfo.fBase_Attack;

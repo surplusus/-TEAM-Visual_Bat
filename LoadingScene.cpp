@@ -46,9 +46,8 @@ HRESULT CLoadingScene::Initialize()
 	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// SetUp Functors
-		string sFilePath = "Test/test.dat";
-		//string sFilePath = "MeshPathList.dat.dat";
-		//m_pLoadingFunctor = new CLoadingFunctor("MeshPathList.dat.dat");
+		//string sFilePath = "Test/test.dat";
+		string sFilePath = "MeshPathList.dat";
 		m_pLoadingFunctor = new CLoadingFunctor(sFilePath);
 		m_pMakingTowerFunctor = new CMakingTowerFunctor(sFilePath);
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
@@ -93,31 +92,6 @@ void CLoadingScene::Release()
 
 	SAFE_DELETE(m_pLoadingFunctor);
 	SAFE_DELETE(m_pProgressBarFunctor);
-}
-
-bool CLoadingScene::OperateLoadingFunctorThruThread()
-{
-	try{
-		//m_bLoadingComplete = (g_future.wait_for(chrono::milliseconds(0)) == future_status::ready);
-		//g_status = g_future.wait_for(chrono::milliseconds(0));
-		//if (g_status == std::future_status::deferred) {
-		//	std::cout << "deferred\n";
-		//}
-		//else if (g_status == std::future_status::timeout) {
-		//	std::cout << "timeout\n";
-		//}
-		//else if (g_status == std::future_status::ready) {
-		//	std::cout << "ready!\n";
-		//}
-		//if (m_bLoadingComplete)
-		//cout << " 결과는요 : " << g_future.get() << '\n';
-	}
-	catch (const std::exception& e)
-	{
-		cout << e.what() << '\n';
-	}
-
-	return m_bLoadingComplete;
 }
 
 bool CLoadingScene::Progress_LoadingFunctors()
