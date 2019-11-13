@@ -13,7 +13,7 @@
 #include "TurretMissle.h"
 CTurret::CTurret(D3DXVECTOR3 pos)
 	:m_pTexture(NULL), m_fStartTime(0), m_fEndTime(0), m_bDirty(true), m_bProgress(true)
-	, m_fEnd_NewMissleTime(10), m_fStart_NewMissleTime(0)
+	, m_fEnd_NewMissleTime(5), m_fStart_NewMissleTime(0)
 {
 	m_fSize = 1.0f;
 	m_fAngle[ANGLE_X] = 0;
@@ -48,8 +48,10 @@ HRESULT CTurret::Initialize()
 	//>>콜라이더 생성
 	m_pColider = new CObjectColider(this);
 	m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
+	m_pAttackRangeCol = new CObjectColider(this); m_pAttackRangeCol->SetUp(m_Info,3.0f, new CBoundingBox);
 	m_ColiderList.push_back(m_pColider);
-	InsertObjSphereColider(this, &m_ColiderList);
+	m_ColiderList.push_back(m_pAttackRangeCol);
+
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(  this, m_pColider->GetSphere());	
 	GET_SINGLE(EventMgr)->Subscribe(this, &CTurret::PaticleCollisionEvent);
 	GET_SINGLE(EventMgr)->Subscribe(this, &CTurret::OnFindPickingSphere);	
@@ -69,16 +71,15 @@ void CTurret::Progress()
 {
 	if (m_bProgress) {
 		UpdateCollisionList();
+		{
+			GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
+			GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
+		}
 		SettingAnimationSort();
 		SettingFrameAnimation();
 		m_pAnimationCtrl->FrameMove(m_MeshName, g_fDeltaTime);
 
-		if (GetAsyncKeyState(VK_LEFT))
-			Animation_Break();
-		if (GetAsyncKeyState(VK_SPACE))
-		{
-			AddAttackLaizer();
-		}
+		
 		m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
 		m_pGauge->SufferDmg(m_StatusInfo.fHP);
 		m_pGauge->Progress();
@@ -95,7 +96,7 @@ void CTurret::Render()
 		m_pAnimationCtrl->BlendAnimationSet(m_strAnimationState);
 		m_bDirty = false;
 	}
-	Mesh_Render(GetDevice(), m_MeshName);
+//	Mesh_Render(GetDevice(), m_MeshName);
 	m_pGauge->Render();
 	SetTexture(0, NULL);
 }
@@ -111,68 +112,57 @@ bool CTurret::Animation_Break()
 	m_pAnimationCtrl->BlendAnimationSet("Idle_Break");
 	return true;
 }
-
-
-void CTurret::AddAttackLaizer()
-{
-	D3DXMATRIX matWorld;
-	D3DXVECTOR3 vPos;
-	GetBoneMatrix(L"Blue_Turret", "Armature_bone_HA_OrderTurret_Damage10", &matWorld);
-	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
-	INFO tInfo = m_Info; 
-	tInfo.vPos = vPos;
-	CParticle * p = new CEzealQ_Particle(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
-	p->Initalize();
-	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
-	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
-	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
-	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
-}
-
 void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 {
 	
-	//if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH
-	//	&& Evt->m_pOriObj!= this)
-	//{
-	//	//때린 객체에 대한 콜라이더
-	//	CParticleColider * pColider = (dynamic_cast<CParticleColider*>(Evt->m_pOriCol));
-	//	if (pColider) {
-	//		CParticleObj * pParticle = pColider->GetParticle();
-	//		if (pParticle)
-	//		{
-	//			pParticle->SetStateCol(true);
-	//			//타겟의 hp에서 때리는 객체의 공격을 빼준다.
-	//			float fHp = dynamic_cast<CChampion*>(Evt->m_pTarget)->GetStatusInfo()->fHP - pParticle->GetStatus().fBase_Attack;
-	//			dynamic_cast<CChampion*>(Evt->m_pTarget)->GetStatusInfo()->fHP = fHp;
-	//			if (m_StatusInfo.fHP < 0)
-	//			{
-	//				m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
-	//				if (m_fStartTime <= 0)		m_fStartTime = 0;
-	//				m_bProgress = false;
-	//			}
-	//			if (m_StatusInfo.fHP <2500)
-	//			{//부셔지는 애니메이션
-	//				InitAnimationState();
-	//				m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
-	//				m_Champ_State[CHAMPION_STATETYPE_IDLE2] = true;
-	//			}
-	//			m_bColl = true;
-	//			//list<ColiderComponent*>::iterator iter = find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
-	//			//if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
-	//		}
-	//	}
-	//	else 
-	//	{
+	//iter1 = origin , iter2 : Target
+	//Target(챔피언)이 origin(포탑)에 충돌
+	if (Evt->m_pOriCol->GetType() == COLISION_TYPE_PARTICLE)//포탑에 hp를 감소시키는 로직
+	{
+		CChampion* pOri = dynamic_cast<CChampion*>(Evt->m_pTarget);
+		if (pOri)
+		{
+			
+			CParticleObj*pParticle  = dynamic_cast<CParticleObj*>(Evt->m_pTargetCol);
+			if (pParticle)
+			{
+				pOri->GetStatusInfo()->fHP -= pParticle->GetStatus().fBase_Attack;
+			}
+		}
+	}
+	else if (Evt->m_pTargetCol->GetType() == COLISION_TYPE_OBJECT)// 챔피언이 범위 내에 들어왔을 때의 행동
+	{
+		//ori 가 터렛
+		//충돌체가 터렛의 범위와 같아야됌
+		CTurret* pOri = dynamic_cast<CTurret*>(Evt->m_pOriObj);
+		if(pOri){
+			//
+			if (pOri->m_pAttackRangeCol == Evt->m_pOriCol)
+			{
+				CChampion* pTarget = dynamic_cast<CChampion*>(Evt->m_pTarget);
 
-	//		CTurret* m_pTurret = dynamic_cast<CTurret*>(Evt->m_pOriObj);
-	//		if(m_pTurret)
-	//			m_pTurret->AddLaizer(Evt->m_pTarget);
-	//	}
-	//}	
-	//m_bColl = false;
-	//std::cout << "HP" << dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP << endl;
+				if (pTarget)
+				{
+					
+						INFO Info;
+						Info.vPos = Evt->m_pOriObj->GetInfo()->vPos;
+						Info.vLook = Evt->m_pOriObj->GetInfo()->vLook;
+						Info.vDir = Evt->m_pOriObj->GetInfo()->vDir;
+						Info.matWorld = Evt->m_pOriObj->GetInfo()->matWorld;
+						CTurretMissle* pMissle = new CTurretMissle(Info, 1.0f, D3DXVECTOR3(0,0,0),Evt->m_pTarget);
+						pMissle->Initalize();
+						pOri->m_ColiderList.push_back(pMissle->GetColider());
+						GET_SINGLE(CParticleMgr)->AddParticle(Evt->m_pOriObj, pMissle);
+						m_fStart_NewMissleTime = 1;
+						cout << "new Misslze" << endl;					
+				}
+			}			
+		}	
+	}
 }
+
+
+
 
 void CTurret::OnFindPickingSphere(PICKSPHEREEVENT * evt)
 {
@@ -273,6 +263,7 @@ void CTurret::UpdateCollisionList()
 	list<ColiderComponent*>::iterator iter = m_ColiderList.begin();
 	for (iter; iter != m_ColiderList.end();)
 	{
+		if (*iter == NULL) continue;
 		if ((*iter)->GetStateCol())
 		{
 			iter = m_ColiderList.erase(iter);

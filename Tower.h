@@ -18,7 +18,7 @@ class ColiderComponent;
 //>>champion -> dyanmic으로 나중에 코드 정리후 상속관계변경 필요
 class CGauge;
 class CTower
-	: public CChampion
+	: public CDynamic
 {
 public:
 	CTower();
@@ -31,6 +31,10 @@ protected:
 	bool					m_bPicked;
 	SPHERE					m_SphereForPick;
 	LPD3DXMESH				m_pMeshSphere;
+	CHAMPION_STATETYPE		m_CurStateType;
+	STATUSINFO m_StatusInfo;
+
+
 protected:
 	void				UpdateWorldMatrix();
 	const VTXTEX*		GetVertexInHeightMap();
@@ -45,5 +49,8 @@ public:
 
 protected:
 	CGauge*					m_pGauge;
+public:
+	STATUSINFO	*		GetStatusInfo() { return &m_StatusInfo; }
+	CHAMPION_STATETYPE	GetStateType() { return m_CurStateType; }
 };
 

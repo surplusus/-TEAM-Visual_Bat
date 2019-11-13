@@ -27,8 +27,6 @@ void ColiderComponent::SetUp(INFO tInfo, float fRadius, CBound* pMesh)
 	m_fAngle[ANGLE_Y] = 0;
 	m_fAngle[ANGLE_Z] = 0;
 	m_vCenter = *m_SphereMesh->GetCenter()+m_Info.vPos;
-	printf("Collider pos : (%f, %f, %f)\n", m_vCenter.x, m_vCenter.y, m_vCenter.z);
-	cout << m_vCenter.x << m_vCenter.y << m_vCenter.z << '\n';
 	m_vCenter.y = 0;
 	m_SphereInfo.fRadius = m_SphereMesh->GetRadius();
 	m_SphereInfo.pMesh = m_SphereMesh->GetMesh();
