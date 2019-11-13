@@ -3,12 +3,14 @@
 #include "MinionMgr.h"
 #include "PickingSphereMgr.h"
 
+
+
 CMinion::CMinion()
 	: m_pMinionMgr(nullptr)
 	, m_pHeightMap(nullptr)
 	, m_fSize(1.f)
 	, m_SphereForPick(1.f, &m_Info.vPos)
-	, m_pMeshSphere(nullptr)
+	, m_sphereTarget(nullptr)
 {
 }
 
@@ -16,9 +18,11 @@ CMinion::~CMinion()
 {
 }
 
-void CMinion::UpdateBlackBoard()
+void CMinion::ChangeNextPoint()
 {
-
+	static size_t idxNextPoint = 1;
+	++idxNextPoint;
+	m_NextPoint = m_vNextPoints[idxNextPoint];
 }
 
 void CMinion::UpdateWorldMatrix()
@@ -47,7 +51,7 @@ bool CMinion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 bool CMinion::Render_PickingShere()
 {
 	SetRenderState(D3DRS_LIGHTING, true);
-	if (m_pMeshSphere != nullptr) {
+	if (m_SphereForPick.pMesh != nullptr) {
 		D3DMATERIAL9 mtrl;
 		ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
 		if (m_SphereForPick.isPicked) {
@@ -71,7 +75,7 @@ bool CMinion::Render_PickingShere()
 		//GET_DEVICE->SetTexture(0, texture);
 		GET_DEVICE->SetMaterial(&mtrl);
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMeshSphere->DrawSubset(0);
+		m_SphereForPick.pMesh->DrawSubset(0);
 		//GET_DEVICE->SetTexture(0, NULL);
 		//texture->Release();
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -85,8 +89,43 @@ bool CMinion::Render_PickingShere()
 void CMinion::SetDirectionToNextPoint()
 {
 	D3DXVECTOR3 vUp = { 0, 1.f, 0.f };
-	m_Info.vDir = m_Info.vPos - m_vNextPoint;
+	m_Info.vDir = m_Info.vPos - m_NextPoint;
 	D3DXVec3Normalize(&m_Info.vDir, &m_Info.vDir);
+}
+
+void CMinion::SetUpAniSetNameList()
+{
+	m_pAnimationCtrl->GetAnimationNames(m_AniSetNameList);
+}
+
+bool CMinion::TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate)
+{
+	D3DXVECTOR3 vMousePos = *destPos - m_Info.vPos; vMousePos.y = m_fHeight;
+	D3DXVECTOR3 vMouseNor;
+	D3DXVec3Normalize(&vMouseNor, &vMousePos);
+	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vMouseNor.y;
+	float fDot = D3DXVec3Dot(&m_Info.vDir, &vMouseNor);
+	float fRadian = acosf(fDot);
+	float fDirLerped = fRadian / fLerpRate;
+
+	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
+		return false;
+	}
+
+	D3DXVECTOR3 vLeft;
+	D3DXVec3Cross(&vLeft, &m_Info.vDir, &D3DXVECTOR3(0.f, 1.f, 0.f));
+	if (D3DXVec3Dot(&vMouseNor, &vLeft) > 0) {
+		m_fAngle[ANGLE_Y] -= fDirLerped;
+		if (m_fAngle[ANGLE_Y] < D3DX_PI)
+			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
+	}
+	else {
+		m_fAngle[ANGLE_Y] += fDirLerped;
+		if (m_fAngle[ANGLE_Y] > D3DX_PI)
+			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
+	}
+
+	return true;
 }
 
 void CMinion::SetPosition(const D3DXVECTOR3 * pos)

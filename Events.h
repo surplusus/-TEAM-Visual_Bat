@@ -52,11 +52,18 @@ typedef struct _tagCollisionEvent : EVENT
 	
 } COLLISIONEVENT;
 
-typedef struct _tagCollisionTarget : EVENT
+typedef struct _tagInsertColliderEvent : EVENT
 {
-	_tagCollisionTarget(CObj* pOri, CObj* pTarget)
-		:m_pOri(pOri),m_pTarget(pTarget)
-	{}
-	CObj* m_pOri;
-	CObj* m_pTarget;
-}COLLISIONTARGETEVNET;
+	_tagInsertColliderEvent(void** pNewObj, void** pNewList)
+		: m_pNewObj(pNewObj), m_pNewList(pNewList) {}
+	void** m_pNewObj;
+	void** m_pNewList;
+} INSERTCOLLIDEREVENT;
+
+typedef struct _tagPhysicalAttackEvent : EVENT
+{
+	_tagPhysicalAttackEvent(D3DXVECTOR3* vecAttackPos, STATUSINFO* infoDemage)
+	: m_vecAttackPos(*vecAttackPos), m_infoDemage(*infoDemage){}
+	D3DXVECTOR3 m_vecAttackPos;
+	STATUSINFO m_infoDemage;
+} PHYSICALATTACKEVENT;

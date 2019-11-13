@@ -12,6 +12,7 @@
 #include "InGameScene.h"
 #include <functional>
 #include "LoadingFunctor.h"
+#include "MakingTowerFunctor.h"
 #include "ProgressBarFunctor.h"
 
 CLoadingScene::CLoadingScene()
@@ -21,6 +22,7 @@ CLoadingScene::CLoadingScene()
 	, m_pSpell_1(nullptr)
 	, m_pSpell_2(nullptr)
 	, m_pLoadingFunctor(nullptr)
+	, m_pMakingTowerFunctor(nullptr)
 	, m_pProgressBarFunctor(nullptr)
 	, m_bLoadingComplete(false)
 	, m_bOnSwitch(true)
@@ -44,13 +46,11 @@ HRESULT CLoadingScene::Initialize()
 	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// SetUp Functors
-		m_pLoadingFunctor = new CLoadingFunctor;
+		//string sFilePath = "Test/test.dat";
+		string sFilePath = "MeshPathList.dat";
+		m_pLoadingFunctor = new CLoadingFunctor(sFilePath);
+		m_pMakingTowerFunctor = new CMakingTowerFunctor(sFilePath);
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
-		{	// 로딩 functor에게 정보를 넣어준다.(수정요)
-			string sChampName = GET_SINGLE(CSceneMgr)->GetSceneMediator()->Get_ST_ChampInfo().m_ChampName;
-		//	if (sChampName == "")	sChampName = "Udyr";
-			m_pLoadingFunctor->m_SelectedChamp = sChampName;
-		}
 	}
 
 	return S_OK;
@@ -61,15 +61,10 @@ void CLoadingScene::Progress()
 	if (GetAsyncKeyState(VK_LEFT))
 		GET_SINGLE(CSceneMgr)->SetState(new CSelectScene);
 	
-	static float fFake = 0;
-	fFake += g_fDeltaTime;
-	if (fFake >= 1.f) {
-		m_bLoadingComplete = (*m_pLoadingFunctor)();
-		fFake = 0.f;
-	}
+	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
-	//	GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
 		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
@@ -99,27 +94,33 @@ void CLoadingScene::Release()
 	SAFE_DELETE(m_pProgressBarFunctor);
 }
 
-bool CLoadingScene::OperateLoadingFunctorThruThread()
+bool CLoadingScene::Progress_LoadingFunctors()
 {
-	try{
-		//m_bLoadingComplete = (g_future.wait_for(chrono::milliseconds(0)) == future_status::ready);
-		//g_status = g_future.wait_for(chrono::milliseconds(0));
-		//if (g_status == std::future_status::deferred) {
-		//	std::cout << "deferred\n";
-		//}
-		//else if (g_status == std::future_status::timeout) {
-		//	std::cout << "timeout\n";
-		//}
-		//else if (g_status == std::future_status::ready) {
-		//	std::cout << "ready!\n";
-		//}
-		//if (m_bLoadingComplete)
-		//cout << " 결과는요 : " << g_future.get() << '\n';
-	}
-	catch (const std::exception& e)
-	{
-		cout << e.what() << '\n';
-	}
+	static float fCntOneSec = 0;
+	bool bFunc1Complate, bFunc2Complate;
+	//bFunc1Complate = bFunc2Complate = false;
+	fCntOneSec += g_fDeltaTime;
 
-	return m_bLoadingComplete;
+
+	if (fCntOneSec >= 1.f) {
+		if (m_pLoadingFunctor != nullptr)
+			bFunc1Complate = !(*m_pLoadingFunctor)();
+		else
+			bFunc1Complate = true;
+		
+		if (m_pMakingTowerFunctor != nullptr) {
+			if (bFunc1Complate)
+				bFunc2Complate = !(*m_pMakingTowerFunctor)();
+		}
+		else
+			bFunc2Complate = true;
+		
+		if (bFunc1Complate && bFunc2Complate) {
+			if (fCntOneSec >= 2.f)
+				m_bLoadingComplete = true;
+		}
+		else 
+			fCntOneSec = 0.f;
+	}
+	return true;
 }

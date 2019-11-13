@@ -67,7 +67,8 @@ namespace BehaviorTree
 	public :
 		virtual bool Run() override {
 			for (Node* it : GetComposites())
-				if (it->Run())	return true;
+				if (it->Run())	
+					return true;
 			return false;
 		}
 	};
@@ -112,11 +113,12 @@ namespace BehaviorTree
 			if (m_status == SUCCESS)
 				Init();
 			Do();
-			if (m_status != RUNNING) {
+			if (m_status == TERMINATED || m_status == INVALID) {
 				if (m_status == TERMINATED)
 					Terminate();
 				return false;
 			} 
+			return true;
 		}
 		void SetStatus(Status status) { m_status = status; }
 	private:

@@ -17,7 +17,7 @@ private:
 	DWORD m_dwCurrentAniSet;//현재 애니메이션 set
 
 	//x파일 내에서 제공해주는 애니메이션 Set갯수
-	int		m_fDurationTime;
+	float	m_fDurationTime;
 	int		m_numAnimationSets;
 	string	m_sAnimationSets;
 	bool	m_bIsBlending = false;

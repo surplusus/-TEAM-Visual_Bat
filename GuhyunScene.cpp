@@ -47,6 +47,11 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
+	RECT r;
+	GetWindowRect(g_hWnd, &r);
+	//GetClientRect(g_hWnd, &r);
+	ClipCursor(&r);
+
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -55,17 +60,18 @@ void GuhyunScene::Progress()
 	GET_SINGLE(CFrustum)->InitFrustum();
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
-	SoundUpdate();
 }
 
 void GuhyunScene::Render()
 {
+	SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
+	SoundUpdate();
 }
 
 void GuhyunScene::Release()
@@ -79,22 +85,26 @@ void GuhyunScene::Release()
 
 HRESULT GuhyunScene::Setup()
 {
-	{	// Make Light
-		D3DLIGHT9 stLight;
-		ZeroMemory(&stLight, sizeof(D3DLIGHT9));
-		stLight.Type = D3DLIGHT_DIRECTIONAL;
-		stLight.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		stLight.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		stLight.Specular = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
-		D3DXVECTOR3 vDir(1.f, -1.f, 1.f);
-		D3DXVec3Normalize(&vDir, &vDir);
-		stLight.Direction = vDir;
-		GET_DEVICE->SetLight(0, &stLight);
-		GET_DEVICE->LightEnable(0, true);
-		GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-		SetRenderState(D3DRS_LIGHTING, true);
-	}
+	// Make Light
+	SetUp_Light();
 	return S_OK;
+}
+
+void GuhyunScene::SetUp_Light()
+{
+	D3DLIGHT9 stLight;
+	ZeroMemory(&stLight, sizeof(D3DLIGHT9));
+	stLight.Type = D3DLIGHT_DIRECTIONAL;
+	stLight.Ambient = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Diffuse = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	stLight.Specular = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	D3DXVECTOR3 vDir(1.f, 1.f, 1.f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	stLight.Direction = vDir;
+	GET_DEVICE->SetLight(0, &stLight);
+	GET_DEVICE->LightEnable(0, true);
+	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+	SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void GuhyunScene::SoundUpdate()
@@ -122,7 +132,8 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
 	// for Minion
-	m_pMinionMgr->SetHeightMap(&m_pHeightMap);
+	if(m_pMinionMgr != nullptr)
+		m_pMinionMgr->SetHeightMap(&m_pHeightMap);
 	// for Champion
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
