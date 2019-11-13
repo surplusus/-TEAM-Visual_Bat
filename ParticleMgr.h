@@ -23,5 +23,6 @@ public:
 	// 구현이 새로 제안하는 Collision 처리
 private:
 	void InsertColliderList(INSERTCOLLIDEREVENT* evt);
+	void EraseColliderInList(OBJDIEEVENT * evt);
 };
 

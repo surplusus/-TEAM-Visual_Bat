@@ -156,6 +156,13 @@ bool SoundMgr::PlayEzrealSound(T_SOUND type)
 	return PlaySoundRegistered(type, m_pEzrealChannel);
 }
 
+bool SoundMgr::PlayMinionSound(T_SOUND type)
+{
+	if (type >= T_SOUND::ANNOUNCER_END)
+		return false;
+	return PlaySoundRegistered(type, m_pMinionChannel);
+}
+
 bool SoundMgr::PlayAnnouncerMention(T_SOUND type)
 {
 	if (type >= T_SOUND::ANNOUNCER_END)

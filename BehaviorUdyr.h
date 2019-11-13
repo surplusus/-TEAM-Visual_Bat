@@ -82,25 +82,16 @@ namespace UdyrBT
 			return true; }
 	};
 
-	class WhenTillEnd : public Decorator
+	class WhenEnemyNear : public Decorator
 	{
 	public:
-		WhenTillEnd(string sKey, int iLimit = 0) 
-			: m_sKey(sKey), m_iLimit(iLimit) {}
-		virtual bool Ask() override {
-			if (!m_bStartSign)
-				m_bStartSign = m_BlackBoard->getBool(m_sKey);
-			else
-				if (m_iLimit > 0 && ++m_iCount <= m_iLimit)
-					return true;
-			m_bStartSign = false;
-			return false;
-		}
+		WhenEnemyNear(CUdyr* me, float fSearchRange)
+			: m_MyInst(me), m_fSearchRange(fSearchRange) {}
+		virtual bool Ask() override;
 	protected:
-		string m_sKey;
-		bool m_bStartSign = false;
-		int m_iLimit;
-		int m_iCount = 0;
+		SPHERE* m_spTarget;
+		CUdyr* m_MyInst;
+		float m_fSearchRange;
 	};
 
 	class WhenBoolOn : public Decorator
@@ -176,6 +167,7 @@ namespace UdyrBT
 	struct UdyrDeath : public UdyrAccessor
 	{
 		int iCntAni = 0;
+		int iSoundSec = 5;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;

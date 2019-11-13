@@ -14,8 +14,7 @@ public:
 	void Progress();
 	void Render();
 	void Release();
-	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-	
+	void WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);	
 	HRESULT SetState(CScene* pState);
 
 	CSceneMediator* GetSceneMediator();

@@ -58,6 +58,8 @@ void CInGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 
 	m_pObjMgr->Progress();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
 
 	GET_SINGLE(CParticleMgr)->Progress();
 	GET_SINGLE(CCollisionMgr)->Progress();
@@ -67,8 +69,9 @@ void CInGameScene::Progress()
 
 void CInGameScene::Render()
 {
-	SetRenderState(D3DRS_LIGHTING, false);// 빛을 꺼봤다
 	m_pObjMgr->Render();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
 	GET_SINGLE(CParticleMgr)->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(cGameHUD)->Render();
@@ -123,8 +126,8 @@ void CInGameScene::SoundUpdate()
 		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	}
 	if (GET_SINGLE(SoundMgr)->PlayOnTime(10.f, 2)) {
-		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Left30sec);
-		cout << "미니언 생성까지 30초 남았습니다." << endl;
+		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
+		cout << "미니언 생성되었습니다." << endl;
 	}
 	GET_SINGLE(SoundMgr)->Update();
 }

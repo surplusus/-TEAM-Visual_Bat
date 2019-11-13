@@ -4,7 +4,7 @@
 #include "BaseInclude.h"
 #include"PipeLine.h"
 #include "ObjMgr.h"
-#include "Ray.h"
+#include "Ray.h""
 #include"ParticleMgr.h"
 #include"EzealQ_Particle.h"
 #include"ObjectColider.h"
@@ -20,11 +20,12 @@
 #include"ParticleColider.h"
 #include"GameHUD.h"
 
+
 D3DXVECTOR3 CEzreal::g_MouseHitPoint = D3DXVECTOR3(0, 0, 0);
 std::atomic<bool> CEzreal::g_bMouseHitPoint = false;
 
 CEzreal::CEzreal()
-	:m_bDirty(true),m_pMesh(NULL), m_fStartTime(0)
+	:m_bDirty(true), m_pMesh(NULL), m_fStartTime(0)
 {
 
 	m_CurStateType = CHAMPION_STATETYPE_IDLE1;
@@ -57,11 +58,11 @@ void CEzreal::SetContantTable()
 	D3DXMATRIX		matView, matProj;
 	GetTransform(D3DTS_VIEW, &matView);
 	GetTransform(D3DTS_PROJECTION, &matProj);
-	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1] && m_fStartTime ==1) {
+	if (m_Champ_State[CHAMPION_STATETYPE_SPELL1] && m_fStartTime == 1) {
 		AddSkill_Q();
 	}
 	if (m_Champ_State[CHAMPION_STATETYPE_ATTACK1] && m_fStartTime == 1) {
-		TurnSlowly(&m_MouseHitPoint,1.0f);
+		TurnSlowly(&m_MouseHitPoint, 1.0f);
 		UpdateWorldMatrix();
 		AddBaseAttack();
 
@@ -114,24 +115,24 @@ HRESULT CEzreal::Initialize()
 	D3DXMATRIX BonMatrix;
 	GetBoneMatrix(TestMeshName, "Armature_root", &BonMatrix);
 	m_pAnimationCtrl->GetAniCtrl();
-	
+
 	g_MouseHitPoint = m_Info.vPos;
-	
+
 	WorldSetting();
 
 	m_pColider = new CObjectColider(this);
 	//>> 콜라이더 생성
-	m_pColider->SetUp(m_Info, 1.0f,new CBoundingBox);
+	m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
 	m_ColiderList.push_back(m_pColider);
-	GET_SINGLE(CParticleMgr)->InsertColList(this,&m_ColiderList);
+	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
 	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
-	GET_SINGLE(EventMgr)->Subscribe(this,&CEzreal::PaticleCollisionEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CEzreal::PaticleCollisionEvent);
 	GET_SINGLE(EventMgr)->Subscribe(this, &CEzreal::OnFindPickingSphere);
 	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pColider->GetSphere());
 	//스킬레벨 설정
 	m_SkillLevel.resize(4);
 	m_SkillLevel = { SKILL_LEVEL1,SKILL_LEVEL0 ,SKILL_LEVEL0 ,SKILL_LEVEL0 };
-	StatusInitalize();	
+	StatusInitalize();
 	return S_OK;
 }
 
@@ -145,15 +146,15 @@ void CEzreal::Progress()
 	SettingFrameAnimation();
 	UpdateWorldMatrix();
 
-	if ( !(m_Champ_State[CHAMPION_STATETYPE_DEATH] && m_fStartTime >= m_fEndTime)) {
+	if (!(m_Champ_State[CHAMPION_STATETYPE_DEATH] && m_fStartTime >= m_fEndTime)) {
 		m_pAnimationCtrl->FrameMove(TestMeshName, g_fDeltaTime);
 	}
-	if(m_pColider)	m_pColider->Update(m_Info.vPos);
+	if (m_pColider)	m_pColider->Update(m_Info.vPos);
 	SetContantTable();
 	GET_SINGLE(cGameHUD)->SetInfoChamp(m_StatusInfo);
 }
 void CEzreal::AddSkill_Q()
-{	
+{
 	D3DXMATRIX matWorld;
 	D3DXVECTOR3 vPos;
 	GetBoneMatrix(TestMeshName, "Armature_L_hand", &matWorld);
@@ -165,7 +166,7 @@ void CEzreal::AddSkill_Q()
 	}
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
-	float fMana =0;
+	float fMana = 0;
 	switch (m_SkillLevel[SKILL_Q])
 	{
 	case SKILL_LEVEL0: return;
@@ -183,7 +184,7 @@ void CEzreal::AddSkill_Q()
 			GET_SINGLE(CParticleMgr)->AddParticle(this, p);
 		}
 	}
-	std::cout <<"마나량" <<m_StatusInfo.fMana<<endl;
+	std::cout << "마나량" << m_StatusInfo.fMana << endl;
 }
 
 void CEzreal::AddBaseAttack()
@@ -194,7 +195,7 @@ void CEzreal::AddBaseAttack()
 	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
 	INFO tInfo = m_Info;
 	tInfo.vPos = vPos;
-	CParticle * p = new CBaseAttack(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]),m_StatusInfo);
+	CParticle * p = new CBaseAttack(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]), m_StatusInfo);
 	p->Initalize();
 	m_ColiderList.push_back(dynamic_cast<CBaseAttack*>(p)->GetColider());
 	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
@@ -210,10 +211,10 @@ void CEzreal::Render()
 		m_pAnimationCtrl->SetAnimationSet(m_strAnimationState);
 		m_bDirty = false;
 	}
-	
+
 	Mesh_Render(GetDevice(), TestMeshName);
-	SetTexture(0,NULL);	
-	
+	SetTexture(0, NULL);
+
 }
 
 void CEzreal::Release()
@@ -234,16 +235,16 @@ void CEzreal::SettingFrameAnimation()
 {
 	if (m_CurStateType == CHAMPION_STATETYPE_DEATH)
 	{
-		m_strAnimationState = "Death";		
-		
+		m_strAnimationState = "Death";
+
 		return;
 	}
-	
+
 	switch (m_CurStateType)
 	{
 	case CHAMPION_STATETYPE_IDLE1:
 		m_strAnimationState = "IDLE1"; break;
-	case CHAMPION_STATETYPE_IDLE2:			
+	case CHAMPION_STATETYPE_IDLE2:
 		m_strAnimationState = "IDLE2"; break;
 	case CHAMPION_STATETYPE_IDLE3:
 		m_strAnimationState = "IDLE3"; break;
@@ -251,15 +252,15 @@ void CEzreal::SettingFrameAnimation()
 		m_strAnimationState = "Attack1"; break;
 	case CHAMPION_STATETYPE_ATTACK2:
 		m_strAnimationState = "Attack2"; break;
-	case CHAMPION_STATETYPE_SPELL1:	
+	case CHAMPION_STATETYPE_SPELL1:
 		m_strAnimationState = "Spell1"; break;
-	case CHAMPION_STATETYPE_SPELL2: 		
+	case CHAMPION_STATETYPE_SPELL2:
 		m_strAnimationState = "Spell2"; break;
-	case CHAMPION_STATETYPE_SPELL3: 
+	case CHAMPION_STATETYPE_SPELL3:
 		m_strAnimationState = "Spell3"; break;
 	case CHAMPION_STATETYPE_SPELL4:
 		m_strAnimationState = "Spell4"; break;
-	case CHAMPION_STATETYPE_RUN:	
+	case CHAMPION_STATETYPE_RUN:
 		m_strAnimationState = "Run"; break;
 	case CHAMPION_STATETYPE_DEATH:
 		m_strAnimationState = "Death"; break;
@@ -281,8 +282,8 @@ void CEzreal::KeyCheck()
 			D3DXVECTOR3 vPos = m_Info.vPos - m_MouseHitPoint;
 			vPos.y = 0;
 			float fDistance = D3DXVec3Length(&vPos);
-			float fMaxDistnace = m_StatusInfo.fAttackRange / 50;			
-			if (bPickSphere && (fDistance <=fMaxDistnace))
+			float fMaxDistnace = m_StatusInfo.fAttackRange / 50;
+			if (bPickSphere && (fDistance <= fMaxDistnace))
 				m_Champ_State[CHAMPION_STATETYPE_ATTACK1] = true;
 			else m_Champ_State[CHAMPION_STATETYPE_RUN] = true;
 
@@ -297,20 +298,20 @@ void CEzreal::KeyCheck()
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 		m_fEndTime = 25;
 		m_bDirty = true;
-	}	
+	}
 	else if (GetAsyncKeyState(VK_F1))
 	{
 		m_pColider->SetStateCol(true);
 	}
-	
+
 }
 
 void CEzreal::SettingAnimationSort()
 {
 
 	CHAMPION_STATETYPE Check = CHAMPION_STATETYPE_IDLE1;
-	
-	if (SettingDeath_Motion()==CHAMPION_STATETYPE_DEATH)
+
+	if (SettingDeath_Motion() == CHAMPION_STATETYPE_DEATH)
 	{
 		m_bDirty = true;
 		m_CurStateType = CHAMPION_STATETYPE_DEATH;
@@ -324,10 +325,10 @@ void CEzreal::SettingAnimationSort()
 	if (!m_Champ_State[CHAMPION_STATETYPE_IDLE1])
 	{
 
-		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingSpell1_Motion();
-		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingAttack_Motion();
-		if(Check == CHAMPION_STATETYPE_IDLE1) Check =SettingRun_Motion();
-		
+		if (Check == CHAMPION_STATETYPE_IDLE1) Check = SettingSpell1_Motion();
+		if (Check == CHAMPION_STATETYPE_IDLE1) Check = SettingAttack_Motion();
+		if (Check == CHAMPION_STATETYPE_IDLE1) Check = SettingRun_Motion();
+
 		if (m_CurStateType != Check)
 		{
 			m_fStartTime = 0.f;
@@ -341,7 +342,7 @@ void CEzreal::SettingAnimationSort()
 	{
 		InitAnimationState();
 		m_bDirty = true;
-		m_ChangeMotion = false;		
+		m_ChangeMotion = false;
 	}
 }
 
@@ -369,33 +370,40 @@ void CEzreal::InitUpdate()
 
 void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
-	if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH) 
-	{
+
+	//if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH)
+	//{
 		//내가 맞은 콜라이더
-		CParticleColider * pColider =(dynamic_cast<CParticleColider*>(Evt->m_pTargetCol));
+		CParticleColider * pColider = (dynamic_cast<CParticleColider*>(Evt->m_pTargetCol));
 		if (pColider) {
 			//해당 콜라이더의 파티클
 			CParticleObj * pParticle = pColider->GetParticle();
 			if (pParticle)
 			{
 				pParticle->SetStateCol(true);
-				dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP -= pParticle->GetStatus().fBase_Attack;
-				if (m_StatusInfo.fHP < 0)
+				CChampion * pChamp = dynamic_cast<CChampion*>(Evt->m_pOriObj);
+				if (pChamp) 
 				{
-					m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
-					if (m_fStartTime <= 0)		m_fStartTime = 0;
-					m_bProgress = false;
-					m_bDirty = true;
+					float fMyHp = dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP;
+					float Damage = pParticle->GetStatus().fBase_Attack;
+					dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP = fMyHp - Damage;
+					if (m_StatusInfo.fHP < 0)
+					{
+						m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
+						if (m_fStartTime <= 0)		m_fStartTime = 0;
+						m_bProgress = false;
+						m_bDirty = true;
+					}
+					m_bColl = true;
+					list<ColiderComponent*>::iterator iter = find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
+					if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 				}
-				m_bColl = true;
-				list<ColiderComponent*>::iterator iter =find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
-				if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 			}
 		}
-	}
+	//}
 	else m_bColl = false;
 	GET_SINGLE(CCollisionMgr)->UpdateCollisionList(this, &m_ColiderList);
-	std::cout <<"HP" <<m_StatusInfo.fHP<<endl;
+	std::cout << "HP" << m_StatusInfo.fHP << endl;
 }
 
 void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)
@@ -411,7 +419,7 @@ CHAMPION_STATETYPE CEzreal::SettingSpell1_Motion()
 		m_Champ_State[CHAMPION_STATETYPE_SPELL1] = true;
 		m_Champ_State[CHAMPION_STATETYPE_IDLE1] = false;
 		m_ChangeMotion = false;
-	
+
 		//시간이 다 지나을때에 대한 모션
 		if (m_fStartTime >= m_fEndTime) {
 			InitAnimationState();

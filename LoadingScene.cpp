@@ -46,8 +46,8 @@ HRESULT CLoadingScene::Initialize()
 	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// SetUp Functors
-		//string sFilePath = "Test/test.dat";
-		string sFilePath = "MeshPathList.dat";
+		string sFilePath = "Test/test.dat";
+		//string sFilePath = "MeshPathList.dat";
 		m_pLoadingFunctor = new CLoadingFunctor(sFilePath);
 		m_pMakingTowerFunctor = new CMakingTowerFunctor(sFilePath);
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);

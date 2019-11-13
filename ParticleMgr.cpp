@@ -6,12 +6,14 @@
 CParticleMgr::CParticleMgr()
 {
 	GET_SINGLE(EventMgr)->Subscribe(this, &CParticleMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CParticleMgr::EraseColliderInList);
 }
 
 
 CParticleMgr::~CParticleMgr()
 {
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CParticleMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CParticleMgr::EraseColliderInList);
 }
 
 void CParticleMgr::AddParticle(CObj* pObjectName, CParticle * pParticle)
@@ -108,4 +110,19 @@ void CParticleMgr::InsertColliderList(INSERTCOLLIDEREVENT * evt)
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pNewObj);
 	auto list = reinterpret_cast<std::list<ColiderComponent*>*>(*evt->m_pNewList);
 	InsertColList(obj, list);
+}
+
+void CParticleMgr::EraseColliderInList(OBJDIEEVENT * evt)
+{
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	auto part_it = m_MapParticle.find(obj);
+	auto coll_it = m_pColiderMap.find(obj);
+
+	if ((part_it == m_MapParticle.end()) && (coll_it == m_pColiderMap.end()))
+		cout << "콜라이더 지울게 없어용~\n";
+	
+	if (part_it != m_MapParticle.end())
+		m_MapParticle.erase(obj);
+	if (coll_it != m_pColiderMap.end())
+		m_pColiderMap.erase(obj);
 }
