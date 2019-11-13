@@ -34,8 +34,6 @@ void CMinionMgr::CreateMinions()
 			ERR_MSG(g_hWnd, L"Fail : Register On Minion1");
 		//m_vMinion.push_back(new CMeleeMinion());
 	}
-	
-	this->Initialize();
 }
 
 void CMinionMgr::SetFirstPositions(CMinion *pMinion, const D3DXVECTOR3 * pos)
@@ -65,14 +63,28 @@ void CMinionMgr::Initialize()
 
 void CMinionMgr::Progress()
 {
-	for (auto & it : m_vMinion)
-		it->Progress();
+	//for (auto & it : m_vMinion)
+	//	it->Progress();
+	static int cnt = 0;
+	if (cnt >= 200)
+		return;
+	++cnt;
+	if (cnt == 200)
+	{
+		for (auto & it : m_vMinion)
+			it->Initialize();
+		{	// 초기 위치를 여기서 잡아야됨
+			m_vMinion[0]->SetPos(&D3DXVECTOR3(5.f, 0.f, 5.f));
+			m_vMinion[1]->SetPos(&D3DXVECTOR3(-5.f, 0.f, 5.f));
+			m_vMinion[2]->SetPos(&D3DXVECTOR3(5.f, 0.f, -5.f));
+		}
+	}
 }
 
 void CMinionMgr::Render()
 {
-	for (auto & it : m_vMinion)
-		it->Render();
+	//for (auto & it : m_vMinion)
+	//	it->Render();
 }
 
 void CMinionMgr::Release()

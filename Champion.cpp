@@ -111,11 +111,14 @@ bool CChampion::Render_PickingShere()
 
 	GET_DEVICE->SetTexture(0, NULL);
 	GET_DEVICE->SetMaterial(&mtrl);
+	bool re = false;
 	if (m_SphereForPick.pMesh != NULL) {
 		m_SphereForPick.pMesh->DrawSubset(0);
-		return true;
+		re = true;
 	}
-	return false;
+	GET_DEVICE->SetTexture(0, NULL);
+	//GET_DEVICE->SetMaterial(NULL);
+	return re;
 }
 
 bool CChampion::SearchPickingPointInHeightMap(int number, const VTXTEX * vtx)

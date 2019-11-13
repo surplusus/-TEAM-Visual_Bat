@@ -47,11 +47,12 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
-	RECT r;
-	GetWindowRect(g_hWnd, &r);
+	//RECT r;
+	//GetWindowRect(g_hWnd, &r);
 	//GetClientRect(g_hWnd, &r);
-	ClipCursor(&r);
-
+	//ClipCursor(&r);
+	if (CheckPushKeyOneTime(VK_Q))
+		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionDie);
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -60,18 +61,17 @@ void GuhyunScene::Progress()
 	GET_SINGLE(CFrustum)->InitFrustum();
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
+	SoundUpdate();
 }
 
 void GuhyunScene::Render()
 {
-	SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
-	GET_SINGLE(CCollisionMgr)->Render();
-	GET_SINGLE(CParticleMgr)->Render();
+	//GET_SINGLE(CCollisionMgr)->Render();
+	//GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
-	SoundUpdate();
 }
 
 void GuhyunScene::Release()
@@ -103,26 +103,21 @@ void GuhyunScene::SetUp_Light()
 	stLight.Direction = vDir;
 	GET_DEVICE->SetLight(0, &stLight);
 	GET_DEVICE->LightEnable(0, true);
-	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-	SetRenderState(D3DRS_LIGHTING, false);
+	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+	SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void GuhyunScene::SoundUpdate()
 {
-	m_fSceneTime += GetTime();
-	float time[3] = { 0.2f, 4.f, 5.f };
+	//m_fSceneTime += GetTime();
+	//float time[3] = { 0.2f, 4.f, 5.f };
 	//if (GET_SINGLE(SoundMgr)->PlayOnTime(1.f, 1)) {
-	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("welcome");
+	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Welcome);
 	//	cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	//}
 	//if (GET_SINGLE(SoundMgr)->PlayOnTime(10.f, 2)) {
-	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("left30sec");
-	//	cout << "미니언 생성까지 30초 남았습니다." << endl;
-	//}
-	//
-	//if (GET_SINGLE(SoundMgr)->PlayOnTime(40.f, 3)) {
-	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention("createminion");
-	//	cout << "미니언이 생성되었습니다." << endl;
+	//	GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
+	//	cout << "미니언 생성되었습니다." << endl;
 	//}
 	GET_SINGLE(SoundMgr)->Update();
 }

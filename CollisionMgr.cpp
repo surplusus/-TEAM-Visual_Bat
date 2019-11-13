@@ -8,12 +8,14 @@
 CCollisionMgr::CCollisionMgr()
 {
 	GET_SINGLE(EventMgr)->Subscribe(this, &CCollisionMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CCollisionMgr::EraseColliderInList);
 }
 
 
 CCollisionMgr::~CCollisionMgr()
 {
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CCollisionMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CCollisionMgr::EraseColliderInList);
 }
 
 void CCollisionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
@@ -127,6 +129,16 @@ void CCollisionMgr::InsertColliderList(INSERTCOLLIDEREVENT * evt)
 	InsertColistion(obj, list);
 }
 
+void CCollisionMgr::EraseColliderInList(OBJDIEEVENT * evt)
+{
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	auto it = m_ColMap.find(obj);
+	if (it != m_ColMap.end())
+		m_ColMap.erase(obj);
+	else
+		cout << "콜라이더 지울게 없어용~\n";
+}
+
 bool CCollisionMgr::IsCloseObjInRadius(OUT vector<CObj*>* vCloseObj, IN CObj* pMe, IN const D3DXVECTOR3 * vecMyPos, IN float fRadius)
 {
 	if (vCloseObj == nullptr || vecMyPos == nullptr)
@@ -139,15 +151,10 @@ bool CCollisionMgr::IsCloseObjInRadius(OUT vector<CObj*>* vCloseObj, IN CObj* pM
 
 		for (auto & jt : *it.second)
 		{
-			SPHERE* spOthers = jt->GetSphere();
-			//auto a = (spOthers->vpCenter);
-			//float dx = (*vecMyPos).x - (spOthers->vpCenter).x;
-			//float dy = (*vecMyPos).y - (spOthers->vpCenter).y;
-			//float dz = (*vecMyPos).z - (spOthers->vpCenter).z;
-			D3DXVECTOR3 vecDist = (*vecMyPos) - (*spOthers->vpCenter);
-		float distance = D3DXVec3Length(&vecDist);
-			if (fRadius >= distance)
-				vCloseObj->push_back(it.first);
+			auto pos = it.first->GetInfo()->vPos;
+			float distance = D3DXVec3Length(&((*vecMyPos) - pos));
+				if (fRadius >= distance)
+					vCloseObj->push_back(it.first);
 		}
 	}
 

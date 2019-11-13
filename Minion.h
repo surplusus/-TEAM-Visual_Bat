@@ -25,9 +25,8 @@ protected:
 	//LPD3DXMESH			m_pMeshSphere;
 	D3DXVECTOR3			m_NextPoint;
 	vector<D3DXVECTOR3>	m_vNextPoints;
-	STATUSINFO			m_stStatusInfo;
+	STATUSINFO			m_StatusInfo;
 	SPHERE*				m_sphereTarget;	// Enemy
-
 protected:
 	void			ChangeNextPoint();
 	void			UpdateWorldMatrix();
@@ -42,6 +41,6 @@ public:
 	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
 	void			SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
 	void			SetMeshName(const TCHAR* str) { m_MeshName = str; }
-
+	void			SetPos(const D3DXVECTOR3* vecPos) { m_Info.vPos = *vecPos; }
 };
 

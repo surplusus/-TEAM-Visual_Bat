@@ -123,8 +123,8 @@ void CInGameScene::SoundUpdate()
 		cout << "소환사의 협곡에 오신것을 환영합니다." << endl;
 	}
 	if (GET_SINGLE(SoundMgr)->PlayOnTime(10.f, 2)) {
-		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Left30sec);
-		cout << "미니언 생성까지 30초 남았습니다." << endl;
+		GET_SINGLE(SoundMgr)->PlayAnnouncerMention(T_SOUND::ANNOUNCER_Createminion);
+		cout << "미니언 생성되었습니다." << endl;
 	}
 	GET_SINGLE(SoundMgr)->Update();
 }

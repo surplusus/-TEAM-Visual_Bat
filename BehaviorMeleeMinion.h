@@ -10,7 +10,7 @@ namespace MeleeMinionBT
 	enum { SELECTOR_DEATH, SELECTOR_FOLLOW, SELECTOR_AGGRESSIVE, SELECTOR_END };
 	enum {
 		TASK_DEATH, TASK_BEATEN, TASK_ATTACK, DECORATOR_AGGRESSIVE
-		, TASK_RUN, TASK_TURN, TASK_IDLE, TASK_END
+		, TASK_NEXTPOS, TASK_RUN, TASK_TURN, TASK_IDLE, TASK_END
 	};
 
 	class MinionBTHandler : public BehaviorTreeHandler
@@ -18,7 +18,7 @@ namespace MeleeMinionBT
 	public:
 		MinionBTHandler(CMeleeMinion* pInst);
 		~MinionBTHandler();
-		CMeleeMinion*						m_pInst;
+		CMeleeMinion*					m_pInst;
 		vector<shared_ptr<Sequence>>	m_vSequnece;
 		vector<shared_ptr<Selector>>	m_vSelector;
 		vector<shared_ptr<Decorator>>	m_vDecorator;
@@ -73,7 +73,19 @@ namespace MeleeMinionBT
 			return true;
 		}
 	};
-	
+
+	class WhenEnemyNear : public Decorator
+	{
+	public:
+		WhenEnemyNear(CMeleeMinion* me, float fSearchRange)
+			: m_MyInst(me), m_fSearchRange(fSearchRange) {}
+		virtual bool Ask() override;
+	protected:
+		SPHERE* m_spTarget;
+		CMeleeMinion* m_MyInst;
+		float m_fSearchRange;
+	};
+
 	class WhenBoolOn : public Decorator
 	{
 	public:
@@ -149,6 +161,7 @@ namespace MeleeMinionBT
 	struct MinionDeath : public MinionAccessor
 	{
 		int iCntAni = 0;
+		int iSoundSec = 3;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
@@ -170,6 +183,12 @@ namespace MeleeMinionBT
 		SPHERE*	spEnemy = nullptr;
 		bool bNewTarget = false;
 		virtual void Init() override;
+		virtual void Do() override;
+		virtual void Terminate() override;
+	};
+	struct MinionNextPos : public MinionAccessor
+	{
+		size_t m_Idx = 0;
 		virtual void Do() override;
 		virtual void Terminate() override;
 	};
