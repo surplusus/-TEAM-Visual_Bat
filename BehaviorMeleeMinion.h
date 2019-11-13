@@ -180,7 +180,7 @@ namespace MeleeMinionBT
 	};
 	struct MinionAggressive : public MinionAccessor
 	{
-		SPHERE*	spEnemy = nullptr;
+		D3DXVECTOR3 	vecEnemy = D3DXVECTOR3(0,0,0);
 		bool bNewTarget = false;
 		virtual void Init() override;
 		virtual void Do() override;

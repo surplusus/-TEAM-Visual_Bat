@@ -37,10 +37,10 @@ HRESULT CMeleeMinion::Initialize()
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 
 	{	// waypoint set up
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, -15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, -15.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(17.f, 0.f, 16.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(34.f, 0.f, 32.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(51.f, 0.f, 48.f));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(68.5f, 0.f, 66.5f));
 
 		m_NextPoint = m_vNextPoints[0];
 	}
@@ -53,13 +53,13 @@ HRESULT CMeleeMinion::Initialize()
 			reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&list)));
 	}
 	{	//<< : Behavior Tree
-		m_pBehavior = new MeleeMinionBT::MinionBTHandler(this);
-		GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
-
 		m_StatusInfo.fHP = 100.f;
 		m_StatusInfo.fBase_Attack = 10.f;
-		m_StatusInfo.fMoveSpeed = 0.1f;
-		m_StatusInfo.fAttackRange = 2.f;
+		m_StatusInfo.fMoveSpeed = 0.2f;
+		m_StatusInfo.fAttackRange = 7.f;
+
+		m_pBehavior = new MeleeMinionBT::MinionBTHandler(this);
+		GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
 	}
 
 	UpdateWorldMatrix();

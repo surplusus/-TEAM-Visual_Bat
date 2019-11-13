@@ -4,6 +4,7 @@
 
 class ColiderComponent;
 class CParticle;
+class CTurretGauge;
 class CUdyr : public CChampion
 {
 #pragma region 무더기 친구들
@@ -26,6 +27,7 @@ private:
 	vector<string>		m_AniSetNameList;
 	SPHERE*				m_sphereTarget;
 	SPHERE*				m_sphereMe;
+	CTurretGauge*		m_pGauge;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();

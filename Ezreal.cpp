@@ -403,7 +403,7 @@ void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 	//}
 	else m_bColl = false;
 	GET_SINGLE(CCollisionMgr)->UpdateCollisionList(this, &m_ColiderList);
-	std::cout << "HP" << m_StatusInfo.fHP << endl;
+	//std::cout << "HP" << m_StatusInfo.fHP << endl;
 }
 
 void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)

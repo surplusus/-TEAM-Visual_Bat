@@ -217,16 +217,20 @@ void MeleeMinionBT::MinionAttack::Terminate()
 void MeleeMinionBT::MinionAggressive::Init()
 {
 	m_BlackBoard->setBool("Aggressive", false);
-	if (m_pInst->m_sphereTarget != spEnemy) {
-		spEnemy = m_pInst->m_sphereTarget;
+	if (!m_pInst->m_sphereTarget)
+		return;
+	D3DXVECTOR3 posEnemy = *m_pInst->m_sphereTarget->vpCenter;
+	if (fabsf(vecEnemy.x - posEnemy.x) >= 0.1f ||
+		fabsf(vecEnemy.y - posEnemy.y) >= 0.1f || 
+		fabsf(vecEnemy.z - posEnemy.z) >= 0.1f) 
+	{
+		vecEnemy = posEnemy;
 		bNewTarget = true;
 	}
 }
 void MeleeMinionBT::MinionAggressive::Do()
 {
-	D3DXVECTOR3 vecPickPos = *spEnemy->vpCenter;
-
-	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - vecPickPos));
+	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - vecEnemy));
 	m_BlackBoard->setFloat("TargetAt", dist);
 	m_pInst->m_pBehavior->m_vSelector[SELECTOR_AGGRESSIVE]->Run();
 
@@ -235,7 +239,6 @@ void MeleeMinionBT::MinionAggressive::Do()
 }
 void MeleeMinionBT::MinionAggressive::Terminate()
 {
-	spEnemy = nullptr;
 	bNewTarget = false;
 }
 //////////// NextPos /////////////

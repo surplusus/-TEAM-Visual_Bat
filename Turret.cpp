@@ -177,7 +177,7 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 			}
 		}
 		m_bColl = false;
-		std::cout << "HP" << dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP << endl;
+		//std::cout << "HP" << dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP << endl;
 	}
 	
 }
