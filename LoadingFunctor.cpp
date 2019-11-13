@@ -8,6 +8,7 @@
 #include "Udyr.h"
 #include "Ezreal.h"
 #include "MinionMgr.h"
+#include "Minion.h"
 #include "Cursor.h"
 
 CLoadingFunctor::CLoadingFunctor(string sFileName)
@@ -112,30 +113,33 @@ bool CLoadingFunctor::FuncLoadChamp()
 
 bool CLoadingFunctor::FuncLoadMinion()
 {
-	/*if (!OperateAddMeshByKey("MeleeMinion")) {
-		printf("미니언 매쉬 로딩 실패\n");
-		return false;
-	}*/
-
 	{	// 리펙토링 대상
 		string key = "MeleeMinion";
 		if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
 			return false;
 		auto info = m_mapMeshInfo[key];
 
+		// 미니언 매니저 생성
+		CMinionMgr* pMinionMgr = new CMinionMgr;
+		// 미니언 생성&이름 넣어주고
+		pMinionMgr->CreateMinions();
+		// 매니저 Mediator에 저장하고
+		GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr",
+			reinterpret_cast<void**>(&pMinionMgr));
+
 		HRESULT re = true;
 		bool bSignFalse = false;
-		re = AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion1", info->m_MeshType);
+		re = AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), pMinionMgr->GetMinion(0)->GetMeshName(), info->m_MeshType);
 		if (SUCCEEDED(re))
 			printf("1 : %s\n", info->m_ConsoleText.c_str());
 		else
 			bSignFalse = true;
-		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion2", info->m_MeshType)))
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), pMinionMgr->GetMinion(1)->GetMeshName(), info->m_MeshType)))
 			if (SUCCEEDED(re))
 				printf("2 : %s\n", info->m_ConsoleText.c_str());
 			else
 				bSignFalse = true;
-		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion3", info->m_MeshType)))
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), pMinionMgr->GetMinion(2)->GetMeshName(), info->m_MeshType)))
 			if (SUCCEEDED(re))
 				printf("3 : %s\n", info->m_ConsoleText.c_str());
 			else
@@ -148,10 +152,7 @@ bool CLoadingFunctor::FuncLoadMinion()
 		}
 	}
 
-	CMinionMgr* pMinionMgr = new CMinionMgr;
-	pMinionMgr->CreateMinions();
-	GET_SINGLE(CSceneMgr)->GetSceneMediator()->SetVoidPointerMap("MinionMgr",
-		reinterpret_cast<void**>(&pMinionMgr));
+
 	printf("Minion Manager register 완료\n");
 
 	return true;

@@ -5,6 +5,7 @@
 #include "SoundMgr.h"
 #include "CollisionMgr.h"
 #include "PickingSphereMgr.h"
+#include "Champion.h"
 
 MeleeMinionBT::MinionBTHandler::MinionBTHandler(CMeleeMinion* pInst)
 	: m_pInst(pInst)
@@ -18,7 +19,7 @@ MeleeMinionBT::MinionBTHandler::MinionBTHandler(CMeleeMinion* pInst)
 		InsertDecorate<WhenFloatLow>(InsertTask<MinionDeath>(), "fHP", 0.f);
 		InsertDecorate<WhenAlive>(InsertTask<MinionBeaten>());
 		InsertDecorate<WhenFloatChecked>(InsertTask<MinionAttack>(), "TargetAt", "fAttackRange", true);
-		InsertDecorate<WhenEnemyNear>(InsertTask<MinionAggressive>(), m_pInst, m_pInst->m_StatusInfo.fAttackRange);
+		InsertDecorate<WhenBoolOn>(InsertTask<MinionAggressive>(), "Aggressive");
 		InsertDecorate<WhenAlive>(InsertTask<MinionNextPos>());
 		InsertDecorate<WhenFloatAbove>(InsertTask<MinionRun>(), "Distance", D3DX_16F_EPSILON);
 		InsertDecorate<WhenBoolOn>(InsertTask<MinionTurn>(), "Turn");
@@ -43,7 +44,7 @@ void MeleeMinionBT::MinionBTHandler::MakeTree()
 {
 	// Move Module
 	{
-		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
+		//m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_ATTACK].get());
 		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
 		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
 	}
@@ -64,9 +65,6 @@ void MeleeMinionBT::MinionBTHandler::MakeTree()
 					}
 				}
 				m_vSelector[SELECTOR_FOLLOW]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
-				{
-					// Move Module
-				}
 			}
 		}
 	}
@@ -127,7 +125,6 @@ void MeleeMinionBT::MinionAccessor::ChangeAnySet(string key)
 bool MeleeMinionBT::WhenEnemyNear::Ask()
 {
 	vector<CObj*> vEnemyNear;
-	// 어그로 당하는 범위 퉁쳐서 4.f
 	D3DXVECTOR3 mypos = m_MyInst->GetInfo()->vPos;
 	GET_SINGLE(CCollisionMgr)->IsCloseObjInRadius(&vEnemyNear, m_MyInst
 		, &mypos, m_fSearchRange);
@@ -136,18 +133,32 @@ bool MeleeMinionBT::WhenEnemyNear::Ask()
 		float dist = 100000.f;
 		for (size_t i = 0; i < vEnemyNear.size(); ++i)
 		{
-			auto enemyinfo = *vEnemyNear[i]->GetInfo();
-			float newdist = D3DXVec3Length(&(mypos - enemyinfo.vPos));
-			if (dist < newdist)
+			if (vEnemyNear[i] == m_MyInst)
+				continue;
+			if (dynamic_cast<CChampion*>(vEnemyNear[i]) != nullptr)
 			{
-				GET_SINGLE(CPickingSphereMgr)->GetSphereByKeyOfCObjptr(&vEnemyNear[i], &m_spTarget);
-				dist = newdist;
+				auto enemyinfo = *vEnemyNear[i]->GetInfo();
+				float newdist = D3DXVec3Length(&(mypos - enemyinfo.vPos));
+				if (dist > newdist)
+				{
+					GET_SINGLE(CPickingSphereMgr)->GetSphereByKeyOfCObjptr(&vEnemyNear[i], &m_spTarget);
+					dist = newdist;
+				}
 			}
 		}
+	}
+	if (m_spTarget != nullptr) 
+	{
 		m_MyInst->m_sphereTarget = m_spTarget;
+		m_spTarget = nullptr;
+		m_BlackBoard->setBool("OnTarget", true);
 		return true;
 	}
-	return false;
+	else
+	{
+		m_BlackBoard->setBool("OnTarget", false);
+		return false;
+	}
 }
 
 
@@ -163,23 +174,27 @@ void MeleeMinionBT::MinionDeath::Init()
 }
 void MeleeMinionBT::MinionDeath::Do()
 {
-	++iCntAni;
-	if (iCntAni == iSoundSec) {
+	fDelta += g_fDeltaTime;
+	if (fDelta >= 0.1f && bAniReady) {
+		bAniReady = false;
 		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionDie);
 	}
-	if (iCntAni >= 170) {
-		iCntAni = 0;
+	if (fDelta >= 1.2f) {
+		fDelta = 0.f;
 		m_status = TERMINATED;
 	}
 }
 void MeleeMinionBT::MinionDeath::Terminate()
 {
+	bAniReady = true;
 	m_BlackBoard->setBool("Dying", false);
 	m_BlackBoard->setBool("Alive", false);
 }
 //////////// Beaten /////////////
 void MeleeMinionBT::MinionBeaten::Do()
 {
+	if (m_BlackBoard->getBool("Dying") == true)
+		return;
 	if (m_BlackBoard->getBool("Beaten")) {
 		m_status = TERMINATED;
 	}
@@ -195,51 +210,57 @@ void MeleeMinionBT::MinionAttack::Init()
 }
 void MeleeMinionBT::MinionAttack::Do()
 {
-	++iCntAni;
-	if (iCntAni == 24) {
+	fDelta += g_fDeltaTime;
+
+	if (fDelta >= 0.4f && bAniReady) {
 		STATUSINFO infoDemage; infoDemage.fBase_Attack = m_pInst->m_StatusInfo.fBase_Attack;
 		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionAttack);
 		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_pInst->m_Info.vPos)
 			, &D3DXVECTOR3(*m_pInst->m_sphereTarget->vpCenter), &infoDemage));
 	}
 	// 애니메이션 끝나는 시점 60:20 = iCntAni:20
-	if (iCntAni >= 48) {
-		iCntAni = 0;
+	if (fDelta >= 0.8f) {
 		m_status = TERMINATED;
 	}
 }
 void MeleeMinionBT::MinionAttack::Terminate()
 {
-	m_BlackBoard->setBool("OnTarget", false);
+	fDelta = 0.f;
+	bAniReady = true;
 	m_status = INVALID;
 }
 //////////// Aggressive /////////////
 void MeleeMinionBT::MinionAggressive::Init()
 {
-	m_BlackBoard->setBool("Aggressive", false);
-	if (!m_pInst->m_sphereTarget)
-		return;
-	D3DXVECTOR3 posEnemy = *m_pInst->m_sphereTarget->vpCenter;
-	if (fabsf(vecEnemy.x - posEnemy.x) >= 0.1f ||
-		fabsf(vecEnemy.y - posEnemy.y) >= 0.1f || 
-		fabsf(vecEnemy.z - posEnemy.z) >= 0.1f) 
+	if (m_pInst->m_sphereTarget == nullptr)
 	{
-		vecEnemy = posEnemy;
-		bNewTarget = true;
+		m_status = TERMINATED;
+		return;
+	}
+	if (m_vecEnemy == nullptr)
+	{
+		m_vecEnemy = m_pInst->m_sphereTarget->vpCenter;
+		m_bNewTarget = true;
 	}
 }
 void MeleeMinionBT::MinionAggressive::Do()
 {
-	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - vecEnemy));
-	m_BlackBoard->setFloat("TargetAt", dist);
-	m_pInst->m_pBehavior->m_vSelector[SELECTOR_AGGRESSIVE]->Run();
-
+	if (m_pInst->m_sphereTarget == nullptr)
+	{
+		m_status = TERMINATED;
+		return;
+	}
+	//float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - *m_vecEnemy));
 	if (m_BlackBoard->getBool("OnTarget") == false)
 		m_status = TERMINATED;
+
+	m_pInst->m_pBehavior->m_vSelector[SELECTOR_AGGRESSIVE]->Run();
 }
 void MeleeMinionBT::MinionAggressive::Terminate()
 {
-	bNewTarget = false;
+	m_vecEnemy = nullptr;
+	m_status = INVALID;
+	m_bNewTarget = false;
 }
 //////////// NextPos /////////////
 void MeleeMinionBT::MinionNextPos::Do()
@@ -260,13 +281,13 @@ void MeleeMinionBT::MinionRun::Init()
 {
 	ChangeAnySet("Run");
 	m_BlackBoard->setBool("Turn", true);
+}
+void MeleeMinionBT::MinionRun::Do()
+{
 	if (m_BlackBoard->getBool("OnTarget") == true)
 		m_vecNextPos = *m_pInst->m_sphereTarget->vpCenter;
 	else
 		m_vecNextPos = m_pInst->m_NextPoint;
-}
-void MeleeMinionBT::MinionRun::Do()
-{
 	m_BlackBoard->setFloat("Distance", D3DXVec3Length(&(m_vecNextPos - m_pInst->m_Info.vPos)));
 	bool bDest = m_pInst->Update_vPos_ByDestPoint(&m_vecNextPos, m_BlackBoard->getFloat("fMoveSpeed"));
 	if (!bDest) {
@@ -288,7 +309,7 @@ void MeleeMinionBT::MinionTurn::Init()
 void MeleeMinionBT::MinionTurn::Do()
 {
 	//m_BlackBoard->setFloat("Direction", m_pInst->m_fAngle[ANGLE_Y]);
-	bool bTurning = m_pInst->TurnSlowly(&m_vecNextPos);
+	bool bTurning = m_pInst->TurnSlowly(&m_vecNextPos, 2.f);
 	if (!bTurning)
 		m_status = INVALID;
 }

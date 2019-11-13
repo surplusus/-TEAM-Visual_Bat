@@ -51,14 +51,13 @@ void GuhyunScene::Progress()
 	//GetWindowRect(g_hWnd, &r);
 	//GetClientRect(g_hWnd, &r);
 	//ClipCursor(&r);
-	if (CheckPushKeyOneTime(VK_Q))
-		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionDie);
+
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
 
 	GET_SINGLE(CCameraMgr)->Progress();
-	GET_SINGLE(CFrustum)->InitFrustum();
+	//GET_SINGLE(CFrustum)->InitFrustum();
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
 	SoundUpdate();
@@ -69,17 +68,23 @@ void GuhyunScene::Render()
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
-	//GET_SINGLE(CCollisionMgr)->Render();
-	//GET_SINGLE(CParticleMgr)->Render();
-	//m_pHeightMap->Render();
+	if (CheckPushKeyOneTime(VK_C))
+	{
+		GET_SINGLE(CCollisionMgr)->Render();
+		GET_SINGLE(CParticleMgr)->Render();
+		m_pHeightMap->Render();
+	}
 }
 
 void GuhyunScene::Release()
 {
 	GET_SINGLE(CObjMgr)->Release();
 	GET_SINGLE(CFrustum)->DestroyInstance();
-	SAFE_DELETE(m_pMinionMgr);
 	GET_SINGLE(CCameraMgr)->Release();
+	GET_SINGLE(CCollisionMgr)->DestroyInstance();
+	GET_SINGLE(CParticleMgr)->DestroyInstance();
+	GET_SINGLE(cGameHUD)->Release();
+	SAFE_DELETE(m_pMinionMgr);
 	SAFE_DELETE(m_pHeightMap);
 }
 
@@ -133,11 +138,11 @@ void GuhyunScene::LetObjectKnowHeightMap()
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr) {
-		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+		dynamic_cast<CChampion*>(pObj)->SetHeightMap(m_pHeightMap);
 	}
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
 	if (pObj != nullptr) {
-		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+		dynamic_cast<CChampion*>(pObj)->SetHeightMap(m_pHeightMap);
 	}
 }
 

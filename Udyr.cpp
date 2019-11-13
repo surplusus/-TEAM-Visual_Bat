@@ -147,14 +147,6 @@ void CUdyr::Progress()
 			m_StatusInfo.fMoveSpeed += 0.1f;
 		if (CheckPushKeyOneTime(VK_5))
 			m_StatusInfo.fMoveSpeed -= 0.1f;
-		if (CheckPushKeyOneTime(VK_6))
-			m_StatusInfo.fHP = 0.f;
-
-
-		if (CheckPushKeyOneTime(VK_H)) {
-			forsync++;
-			cout << "시간 카운트 : " << forsync << endl;
-		}
 	}
 
 	{
@@ -163,7 +155,8 @@ void CUdyr::Progress()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
-		m_pBehavior->Run();
+		if (m_pBehavior->m_BlackBoard->getBool("Alive") == true)
+			m_pBehavior->Run();
 		//cout << "Onterget : " << (bool)m_pBehavior->m_BlackBoard->getBool("OnTarget")
 		//	<< " HasCoord :  " << (bool)m_pBehavior->m_BlackBoard->getBool("HasCoord") << endl;
 	}
@@ -280,6 +273,8 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 void CUdyr::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 {
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	if (obj == this)
+		return;
 	auto posEnemy = reinterpret_cast<D3DXVECTOR3*>(*evt->m_pPos);
 	auto dist = D3DXVec3Length(&(*m_sphereTarget->vpCenter - *posEnemy));
 	if (dist <= 1.f)

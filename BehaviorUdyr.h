@@ -166,8 +166,8 @@ namespace UdyrBT
 #pragma region UdyrTask 자식 클래스들
 	struct UdyrDeath : public UdyrAccessor
 	{
-		int iCntAni = 0;
-		int iSoundSec = 5;
+		float fDelta = 0.f;
+		bool bAniReady = true;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
@@ -199,8 +199,8 @@ namespace UdyrBT
 	};
 	struct UdyrAttack : public UdyrAccessor
 	{
-		int iCntAni = 0;
-		int iSoundSec = 21;
+		float fDelta = 0;
+		bool bAniReady = true;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
