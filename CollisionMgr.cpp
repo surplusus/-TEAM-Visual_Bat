@@ -58,13 +58,13 @@ void CCollisionMgr::UpdateColistion()
 		for (list<ColiderComponent*>::iterator pOrigin = m_ColMap[iter1->first]->begin();
 			pOrigin != m_ColMap[iter1->first]->end(); pOrigin++)
 		{
-			bool bCol = false;
 			for (map<CObj*, list<ColiderComponent*>*>::iterator iter2 = m_ColMap.begin()
 				; iter2 != m_ColMap.end(); ++iter2)
 			{
 				if (iter1->first == iter2->first)
 					continue;
 
+				
 				for (list<ColiderComponent*>::iterator pTarget = m_ColMap[iter2->first]->begin();
 					pTarget != m_ColMap[iter2->first]->end(); pTarget++)
 				{
@@ -80,7 +80,8 @@ void CCollisionMgr::UpdateColistion()
 					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE && (*pTarget)->GetType() == COLISION_TYPE_PARTICLE)
 						continue;
 					if ((*pOrigin)->CheckColision(*pTarget))
-					{									//iter1 = origin , iter2 : Target
+					{						
+						//iter1 = origin , iter2 : Target
 						GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT( (iter1->first), (*pOrigin),(iter2->first),(*pTarget)));
 					}
 				}

@@ -28,6 +28,7 @@ CGameScene::CGameScene()
 
 CGameScene::~CGameScene()
 {
+
 }
 
 HRESULT CGameScene::Initialize()
@@ -45,18 +46,27 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
-	//if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC)))
-	//{
-	//	ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	//}
-
-
+//	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+//	{
+//		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+//	}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret", MESHTYPE_DYNAMIC)))
+		, L"order_Turret.x", L"Blue_Turret1", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret2", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret3", MESHTYPE_DYNAMIC)))
+	{
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
+	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret4", MESHTYPE_DYNAMIC)))
 	{
 		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
 	}
@@ -73,36 +83,33 @@ HRESULT CGameScene::Initialize()
 #pragma region 객체 생성
 
 	//>>객체 생성 
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
-	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
-		return E_FAIL;
-	
-	//CObj* p = new CEzreal("IDLE1", false);
-	//p->Initialize();
-	//if (FAILED(m_pObjMgr->AddObject(L"Ezreal2", p)))
+	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
 	//	return E_FAIL;
-
+	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
+		return E_FAIL;	
+	
 	//////////////// 파랑팀 포탑
 
 	{
 		//터렛
 		vector<CTurret*>	vecTurret(4);
-		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f)));
-		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));
-		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));
-		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));
+		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f))); vecTurret[0]->SetMeshName(L"Blue_Turret1");
+		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));vecTurret[1]->SetMeshName(L"Blue_Turret2");
+		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));	 vecTurret[2]->SetMeshName(L"Blue_Turret3");
+		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));	 vecTurret[3]->SetMeshName(L"Blue_Turret4");
 		for (size_t i = 0; i < vecTurret.size(); i++)
 		{
 			vecTurret[i]->Initialize();
-			GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret", vecTurret[i]);
 		}
+
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret1", vecTurret[0]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret2", vecTurret[1]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret3", vecTurret[2]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret4", vecTurret[3]);
 		//억제기
 		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
 		pInhibitor->Initialize();
 		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-	
-	
 	
 		CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
 		pNexus->Initialize();
@@ -185,10 +192,6 @@ void CGameScene::LetObjectKnowHeightMap()
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}	
-	//pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
-	//if (pObj != nullptr) {
-	//	dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	//}
-
+	
 	return;
 }

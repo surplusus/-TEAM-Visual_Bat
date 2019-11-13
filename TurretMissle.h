@@ -20,6 +20,7 @@ private:
 	float m_fLength;
 	CUSTOMVERTEX m_VerTexInfo;
 	D3DXMATRIX m_matWorld;
+	float m_fDamge;
 private:
 	CObj* m_pTarget;
 	float m_BaseDamge;
@@ -31,7 +32,8 @@ private:
 	virtual void InitRenderState()		override;
 	
 private:
-	bool AddTail();
+	virtual bool Move_Chase(const D3DXVECTOR3* pDestPoint, const float& fSpeed);
 	bool UpdateParticleDirection();
+	void InitTail();
 };
 
