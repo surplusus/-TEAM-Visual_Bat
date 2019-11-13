@@ -3,6 +3,7 @@
 #include "Udyr.h"
 #include "SoundMgr.h"
 #include "EventMgr.h"
+#include "CollisionMgr.h"
 
 UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * pInst)
 	: m_pInst(pInst)
@@ -17,7 +18,7 @@ UdyrBT::UdyrBTHandler::UdyrBTHandler(CUdyr * pInst)
 		InsertDecorate<WhenAlive>(InsertTask<UdyrBeaten>());
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrOnTarget>(), "OnTarget");
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrHasCoord>(), "HasCoord");
-		InsertDecorate<WhenBoolOn>(InsertTask<UdyrAggressive>(), "Aggressive");
+		InsertDecorate<WhenEnemyNear>(InsertTask<UdyrAggressive>(), m_pInst, m_pInst->m_StatusInfo.fAttackRange);
 		InsertDecorate<WhenFloatChecked>(InsertTask<UdyrAttack>(), "TargetAt", "fAttackRange", true);
 		InsertDecorate<WhenAlive>(InsertTask<UdyrIdle>());
 		InsertDecorate<WhenBoolOn>(InsertTask<UdyrQAction>(), "QAction");
@@ -113,7 +114,6 @@ void UdyrBT::UdyrBTHandler::SetUpBlackBoard()
 		m_BlackBoard->setBool("Turn", false);
 	}
 }
-
 void UdyrBT::UdyrBTHandler::UpdateBlackBoard()
 {
 	STATUSINFO& Info = m_pInst->m_StatusInfo;
@@ -147,6 +147,30 @@ void UdyrBT::UdyrAccessor::ChangeAnySet(string key)
 	m_pInst->m_pAnimationCtrl->BlendAnimationSet(key);
 }
 
+bool UdyrBT::WhenEnemyNear::Ask()
+{
+	vector<SPHERE*> vEnemyNear;
+	// 어그로 당하는 범위 퉁쳐서 4.f
+	D3DXVECTOR3 mypos = m_MyInst->GetInfo()->vPos;
+	GET_SINGLE(CCollisionMgr)->IsCloseSphereInRadius(&vEnemyNear, m_MyInst
+		, &mypos, m_fSearchRange);
+	if (vEnemyNear.size() != 0)
+	{
+		float dist = 100000.f;
+		for (size_t i = 0; i < vEnemyNear.size(); i++)
+		{
+			float newdist = D3DXVec3Length(&(mypos - *vEnemyNear[i]->vpCenter));
+			if (dist < newdist)
+			{
+				m_spTarget = vEnemyNear[i];
+				dist = newdist;
+			}
+		}
+		m_MyInst->m_sphereTarget = m_spTarget;
+		return true;
+	}
+	return false;
+}
 #pragma region 리펙토링 대상
 bool UdyrBT::UdyrAccessor::TurnSlowly(const D3DXVECTOR3 * destPos, float fLerpRate)
 {
@@ -174,7 +198,6 @@ SPHERE * UdyrBT::UdyrAccessor::GetEnemySphere()
 }
 #pragma endregion
 
-
 #pragma region 자식 TASK 정의
 //////////// Death /////////////
 void UdyrBT::UdyrDeath::Init()
@@ -185,7 +208,10 @@ void UdyrBT::UdyrDeath::Init()
 void UdyrBT::UdyrDeath::Do()
 {
 	++iCntAni;
-	if (iCntAni >= 168) {
+	if (iCntAni == iSoundSec) {
+		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Death);
+	}
+	if (iCntAni >= 162) {
 		iCntAni = 0;
 		m_status = TERMINATED;
 	}
@@ -261,6 +287,7 @@ void UdyrBT::UdyrHasCoord::Terminate()
 //////////// Aggressive /////////////
 void UdyrBT::UdyrAggressive::Do()
 {
+	cout << "어크로 끌림.\n";
 	//GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
 }
 //////////// Attack /////////////
@@ -280,12 +307,13 @@ void UdyrBT::UdyrAttack::Do()
 	++iCntAni;
 	// 카격 시점 30 = 0.5초
 	if (iCntAni == iSoundSec) {
-		STATUSINFO infoDemage;	infoDemage.fBase_Attack = 10.f;
 		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
-		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(), &infoDemage));
 	}
 	// 애니메이션 끝나는 시점 60:25 = iCntAni:25
 	if (iCntAni >= 60) {
+		STATUSINFO infoDemage;	infoDemage.fBase_Attack = m_pInst->m_StatusInfo.fBase_Attack;
+		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_pInst->m_Info.vPos)
+			, &D3DXVECTOR3(m_pInst->m_MouseHitPoint), &infoDemage));
 		iCntAni = 0;
 		m_status = TERMINATED;
 	}
@@ -293,7 +321,7 @@ void UdyrBT::UdyrAttack::Do()
 void UdyrBT::UdyrAttack::Terminate()
 {
 	//m_BlackBoard->setBool("OnTarget", false);
-	iCntAni = 0;
+	//iCntAni = 0;
 	m_status = INVALID;
 }
 //////////// Idle /////////////
@@ -341,7 +369,7 @@ void UdyrBT::UdyrRun::Do()
 }
 void UdyrBT::UdyrRun::Terminate()
 {
-	//ChangeAnySet("Idle");
+	m_status = INVALID;
 }
 //////////// Turn /////////////
 void UdyrBT::UdyrTurn::Do()

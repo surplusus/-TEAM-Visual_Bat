@@ -8,10 +8,14 @@ class CMeleeMinion : public CMinion
 	friend class MeleeMinionBT::MinionAccessor;
 	friend struct MeleeMinionBT::MinionDeath;
 	friend struct MeleeMinionBT::MinionBeaten;
-	friend struct MeleeMinionBT::MinionAggressive;
 	friend struct MeleeMinionBT::MinionAttack;
+	friend struct MeleeMinionBT::MinionAggressive;
+	friend struct MeleeMinionBT::MinionNextPos;
 	friend struct MeleeMinionBT::MinionRun;
 	friend struct MeleeMinionBT::MinionTurn;
+	friend struct MeleeMinionBT::MinionIdle;
+	friend struct MeleeMinionBT::WhenEnemyNear;
+	friend class CMinionMgr;
 #pragma endregion
 public:
 	CMeleeMinion();
@@ -27,10 +31,14 @@ private:
 	// << : Collision
 	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColliderList;
+	int m_iDelaySec = 590;
+	int m_iCntSec = 0;
+	bool m_bStartRender = false;
 public:
 	void SetPosition(const D3DXVECTOR3* pos);
 private:
-	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
-	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
+	void OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
+	void OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
+	void SearchNearBy();
 };
 

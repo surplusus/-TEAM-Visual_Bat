@@ -5,6 +5,7 @@
 #include "ObjectColider.h"
 #include "BoundingBox.h"
 #include "ParticleMgr.h"
+#include "CollisionMgr.h"
 
 CMeleeMinion::CMeleeMinion()
 {
@@ -51,8 +52,12 @@ HRESULT CMeleeMinion::Initialize()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new MeleeMinionBT::MinionBTHandler(this);
-
 		GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
+
+		m_StatusInfo.fHP = 100.f;
+		m_StatusInfo.fBase_Attack = 10.f;
+		m_StatusInfo.fMoveSpeed = 0.1f;
+		m_StatusInfo.fAttackRange = 2.f;
 	}
 
 	UpdateWorldMatrix();
@@ -62,9 +67,23 @@ HRESULT CMeleeMinion::Initialize()
 
 void CMeleeMinion::Progress()
 {
+	++m_iCntSec;
+	if (m_iCntSec < m_iDelaySec)
+		return;
+	else {
+		m_iCntSec = 10000;
+		m_bStartRender = true;
+	}
+
 	if (D3DXVec3Length(&(m_Info.vPos - m_NextPoint)) <= 3.f)
 		ChangeNextPoint();
 
+	SearchNearBy();
+
+	{	//<< : Behavior Tree
+		m_pBehavior->UpdateBlackBoard();
+		m_pBehavior->Run();
+	}
 	CMinion::UpdateWorldMatrix();
 	if (m_pBehavior->m_BlackBoard->getBool("Alive") == true)
 		m_pAnimationCtrl->FrameMove(m_MeshName, g_fDeltaTime);
@@ -72,9 +91,11 @@ void CMeleeMinion::Progress()
 
 void CMeleeMinion::Render()
 {
+	if (!m_bStartRender)
+		return;
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), m_MeshName);
-	Render_PickingShere();
+	//Render_PickingShere();	// 문제가 있음
 }
 
 void CMeleeMinion::Release()
@@ -98,15 +119,35 @@ void CMeleeMinion::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 void CMeleeMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 {
 	SPHERE stSphere = *m_pCollider->GetSphere();
-	D3DXVECTOR3 distance = *stSphere.vpCenter - evt->m_vecAttackPos;
-	float distFrom = D3DXVec3Length(&distance);
+	float distFrom = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackFrom));
+	float distAt = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackTo));
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (distFrom <= stSphere.fRadius) {
+	if (distAt <= stSphere.fRadius) {
 		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
 		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
 		// status 반영
-		m_stStatusInfo.fHP -= evt->m_infoDemage.fBase_Attack;
-		m_stStatusInfo.PrintAll();
+		m_StatusInfo.fHP -= evt->m_infoDemage.fBase_Attack;
+		m_StatusInfo.PrintAll();
 		cout << "- minion 정보 -\n";
+	}
+}
+
+void CMeleeMinion::SearchNearBy()
+{
+	vector<SPHERE*> vEnemyNear;
+	// 어그로 당하는 범위 퉁쳐서 4.f
+	GET_SINGLE(CCollisionMgr)->IsCloseSphereInRadius(&vEnemyNear, this, &D3DXVECTOR3(m_Info.vPos), 4.f);
+	if (vEnemyNear.size() != 0)
+	{
+		float dist = 100000.f;
+		for (size_t i = 0; i < vEnemyNear.size(); i++)
+		{
+			float newdist = D3DXVec3Length(&(m_Info.vPos - *vEnemyNear[i]->vpCenter));
+			if (dist < newdist)
+			{
+				m_sphereTarget = vEnemyNear[i];
+				dist = newdist;
+			}
+		}
 	}
 }

@@ -2,6 +2,8 @@
 #include "BehaviorMeleeMinion.h"
 #include "MeleeMinion.h"
 #include "EventMgr.h"
+#include "SoundMgr.h"
+#include "CollisionMgr.h"
 
 MeleeMinionBT::MinionBTHandler::MinionBTHandler(CMeleeMinion* pInst)
 	: m_pInst(pInst)
@@ -15,7 +17,8 @@ MeleeMinionBT::MinionBTHandler::MinionBTHandler(CMeleeMinion* pInst)
 		InsertDecorate<WhenFloatLow>(InsertTask<MinionDeath>(), "fHP", 0.f);
 		InsertDecorate<WhenAlive>(InsertTask<MinionBeaten>());
 		InsertDecorate<WhenFloatChecked>(InsertTask<MinionAttack>(), "TargetAt", "fAttackRange", true);
-		InsertDecorate<WhenBoolOn>(InsertTask<MinionAggressive>(), "Aggressive");
+		InsertDecorate<WhenEnemyNear>(InsertTask<MinionAggressive>(), m_pInst, m_pInst->m_StatusInfo.fAttackRange);
+		InsertDecorate<WhenAlive>(InsertTask<MinionNextPos>());
 		InsertDecorate<WhenFloatAbove>(InsertTask<MinionRun>(), "Distance", D3DX_16F_EPSILON);
 		InsertDecorate<WhenBoolOn>(InsertTask<MinionTurn>(), "Turn");
 		InsertDecorate<WhenBoolOn>(InsertTask<MinionIdle>(), "QAction");
@@ -40,6 +43,7 @@ void MeleeMinionBT::MinionBTHandler::MakeTree()
 	// Move Module
 	{
 		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
+		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_RUN].get());
 		m_vSequnece[SEQUENCE_MOVE]->AddNode(m_vDecorator[TASK_TURN].get());
 	}
 	// Task를 BehaviorTree에 매단다
@@ -54,9 +58,14 @@ void MeleeMinionBT::MinionBTHandler::MakeTree()
 				{
 					m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vDecorator[TASK_ATTACK].get());
 					m_vSelector[SELECTOR_AGGRESSIVE]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
+					{
+						// Move Module
+					}
 				}
 				m_vSelector[SELECTOR_FOLLOW]->AddNode(m_vSequnece[SEQUENCE_MOVE].get());
-				
+				{
+					// Move Module
+				}
 			}
 		}
 	}
@@ -65,16 +74,16 @@ void MeleeMinionBT::MinionBTHandler::MakeTree()
 void MeleeMinionBT::MinionBTHandler::SetUpBlackBoard()
 {
 	{	// stStatusInfo
-		m_BlackBoard->setFloat("fBase_Attack", m_pInst->m_stStatusInfo.fBase_Attack);
-		m_BlackBoard->setFloat("fMagic_Attack", m_pInst->m_stStatusInfo.fMagic_Attack);
-		m_BlackBoard->setFloat("fBase_Defence", m_pInst->m_stStatusInfo.fBase_Defence);
-		m_BlackBoard->setFloat("fMagic_Defence", m_pInst->m_stStatusInfo.fMagic_Defence);
-		m_BlackBoard->setFloat("fCriticalRatio", m_pInst->m_stStatusInfo.fCriticalRatio);
-		m_BlackBoard->setFloat("fMoveSpeed", m_pInst->m_stStatusInfo.fMoveSpeed);
-		m_BlackBoard->setFloat("fMana", m_pInst->m_stStatusInfo.fMana);
-		m_BlackBoard->setFloat("fHP", m_pInst->m_stStatusInfo.fHP);
-		m_BlackBoard->setFloat("fSkillTimeRatio", m_pInst->m_stStatusInfo.fSkillTimeRatio);
-		m_BlackBoard->setFloat("fAttackRange", m_pInst->m_stStatusInfo.fAttackRange);
+		m_BlackBoard->setFloat("fBase_Attack", m_pInst->m_StatusInfo.fBase_Attack);
+		m_BlackBoard->setFloat("fMagic_Attack", m_pInst->m_StatusInfo.fMagic_Attack);
+		m_BlackBoard->setFloat("fBase_Defence", m_pInst->m_StatusInfo.fBase_Defence);
+		m_BlackBoard->setFloat("fMagic_Defence", m_pInst->m_StatusInfo.fMagic_Defence);
+		m_BlackBoard->setFloat("fCriticalRatio", m_pInst->m_StatusInfo.fCriticalRatio);
+		m_BlackBoard->setFloat("fMoveSpeed", m_pInst->m_StatusInfo.fMoveSpeed);
+		m_BlackBoard->setFloat("fMana", m_pInst->m_StatusInfo.fMana);
+		m_BlackBoard->setFloat("fHP", m_pInst->m_StatusInfo.fHP);
+		m_BlackBoard->setFloat("fSkillTimeRatio", m_pInst->m_StatusInfo.fSkillTimeRatio);
+		m_BlackBoard->setFloat("fAttackRange", m_pInst->m_StatusInfo.fAttackRange);
 	}
 	{	// Initialize (StatusInfo에 없는 내용)
 		m_BlackBoard->setBool("Alive", true);
@@ -82,14 +91,14 @@ void MeleeMinionBT::MinionBTHandler::SetUpBlackBoard()
 		m_BlackBoard->setFloat("AttackFrom", 1000.f);
 		m_BlackBoard->setFloat("TargetAt", 1000.f);
 		m_BlackBoard->setBool("Aggressive", false);
-		m_BlackBoard->setFloat("Distance", 0.f);
+		m_BlackBoard->setFloat("Distance", D3DXVec3Length(&(m_pInst->GetInfo()->vPos - m_pInst->m_NextPoint)));
 		m_BlackBoard->setBool("Turn", false);
 	}
 }
 
 void MeleeMinionBT::MinionBTHandler::UpdateBlackBoard()
 {
-	STATUSINFO& Info = m_pInst->m_stStatusInfo;
+	STATUSINFO& Info = m_pInst->m_StatusInfo;
 
 	{	// stStatusInfo
 		m_BlackBoard->setFloat("fBase_Attack", Info.fBase_Attack);
@@ -104,7 +113,6 @@ void MeleeMinionBT::MinionBTHandler::UpdateBlackBoard()
 		m_BlackBoard->setFloat("fAttackRange", Info.fAttackRange);
 	}
 }
-
 void MeleeMinionBT::MinionAccessor::ChangeAnySet(string key)
 {
 	auto it = find(m_pInst->m_AniSetNameList.begin(), m_pInst->m_AniSetNameList.end(), key);
@@ -113,6 +121,31 @@ void MeleeMinionBT::MinionAccessor::ChangeAnySet(string key)
 		return;
 	}
 	m_pInst->m_pAnimationCtrl->BlendAnimationSet(key);
+}
+
+bool MeleeMinionBT::WhenEnemyNear::Ask()
+{
+	vector<SPHERE*> vEnemyNear;
+	// 어그로 당하는 범위 퉁쳐서 4.f
+	D3DXVECTOR3 mypos = m_MyInst->GetInfo()->vPos;
+	GET_SINGLE(CCollisionMgr)->IsCloseSphereInRadius(&vEnemyNear, m_MyInst
+		, &mypos, m_fSearchRange);
+	if (vEnemyNear.size() != 0)
+	{
+		float dist = 100000.f;
+		for (size_t i = 0; i < vEnemyNear.size(); i++)
+		{
+			float newdist = D3DXVec3Length(&(mypos - *vEnemyNear[i]->vpCenter));
+			if (dist < newdist)
+			{
+				m_spTarget = vEnemyNear[i];
+				dist = newdist;
+			}
+		}
+		m_MyInst->m_sphereTarget = m_spTarget;
+		return true;
+	}
+	return false;
 }
 
 
@@ -126,6 +159,9 @@ void MeleeMinionBT::MinionDeath::Init()
 void MeleeMinionBT::MinionDeath::Do()
 {
 	++iCntAni;
+	if (iCntAni == iSoundSec) {
+		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionDie);
+	}
 	if (iCntAni >= 182) {
 		iCntAni = 0;
 		m_status = TERMINATED;
@@ -140,13 +176,37 @@ void MeleeMinionBT::MinionDeath::Terminate()
 void MeleeMinionBT::MinionBeaten::Do()
 {
 	if (m_BlackBoard->getBool("Beaten")) {
-		//GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::Minion_Beaten);
 		m_status = TERMINATED;
 	}
 }
 void MeleeMinionBT::MinionBeaten::Terminate()
 {
 	m_BlackBoard->setBool("Beaten", false);
+}
+//////////// Attack /////////////
+void MeleeMinionBT::MinionAttack::Init()
+{
+	ChangeAnySet("Attack1");
+}
+void MeleeMinionBT::MinionAttack::Do()
+{
+	++iCntAni;
+	if (iCntAni == 24) {
+		STATUSINFO infoDemage; infoDemage.fBase_Attack = m_pInst->m_StatusInfo.fBase_Attack;
+		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionAttack);
+		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_pInst->m_Info.vPos)
+			, &D3DXVECTOR3(*m_pInst->m_sphereTarget->vpCenter), &infoDemage));
+	}
+	// 애니메이션 끝나는 시점 60:20 = iCntAni:20
+	if (iCntAni >= 48) {
+		iCntAni = 0;
+		m_status = TERMINATED;
+	}
+}
+void MeleeMinionBT::MinionAttack::Terminate()
+{
+	m_BlackBoard->setBool("OnTarget", false);
+	m_status = INVALID;
 }
 //////////// Aggressive /////////////
 void MeleeMinionBT::MinionAggressive::Init()
@@ -173,36 +233,18 @@ void MeleeMinionBT::MinionAggressive::Terminate()
 	spEnemy = nullptr;
 	bNewTarget = false;
 }
-//////////// Attack /////////////
-void MeleeMinionBT::MinionAttack::Init()
+//////////// NextPos /////////////
+void MeleeMinionBT::MinionNextPos::Do()
 {
-	ChangeAnySet("Attack_Left");
-}
-void MeleeMinionBT::MinionAttack::Do()
-{
-	++iCntAni;
-	if (iCntAni == 24) {
-		STATUSINFO infoDemage;	infoDemage.fBase_Attack = 10.f;
-		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(), &infoDemage));
-	}
-	// 애니메이션 끝나는 시점 60:20 = iCntAni:20
-	if (iCntAni >= 48) {
-		iCntAni = 0;
+	float dist = D3DXVec3Length(&(m_pInst->m_Info.vPos - m_pInst->m_NextPoint));
+	if (dist <= 0.5f)
 		m_status = TERMINATED;
-	}
 }
-void MeleeMinionBT::MinionAttack::Terminate()
+void MeleeMinionBT::MinionNextPos::Terminate()
 {
-	m_BlackBoard->setBool("OnTarget", false);
-	m_status = INVALID;
-}
-//////////// Idle /////////////
-void MeleeMinionBT::MinionIdle::Init()
-{
-	ChangeAnySet("Idle");
-}
-void MeleeMinionBT::MinionIdle::Do()
-{
+	++m_Idx;
+	m_Idx %= m_pInst->m_vNextPoints.size() - 1;
+	m_pInst->m_NextPoint = m_pInst->m_vNextPoints[m_Idx];
 	m_status = INVALID;
 }
 //////////// Run /////////////
@@ -225,7 +267,7 @@ void MeleeMinionBT::MinionRun::Do()
 }
 void MeleeMinionBT::MinionRun::Terminate()
 {
-	//ChangeAnySet("Idle");
+	m_status = INVALID;
 }
 //////////// Turn /////////////
 void MeleeMinionBT::MinionTurn::Init()
@@ -246,6 +288,14 @@ void MeleeMinionBT::MinionTurn::Terminate()
 {
 	m_BlackBoard->setBool("Turn", false);
 }
-
+//////////// Idle /////////////
+void MeleeMinionBT::MinionIdle::Init()
+{
+	ChangeAnySet("Idle");
+}
+void MeleeMinionBT::MinionIdle::Do()
+{
+	m_status = INVALID;
+}
 #pragma endregion
 

@@ -22,6 +22,7 @@ void CMinion::ChangeNextPoint()
 {
 	static size_t idxNextPoint = 1;
 	++idxNextPoint;
+	idxNextPoint %= m_vNextPoints.size() - 1;
 	m_NextPoint = m_vNextPoints[idxNextPoint];
 }
 

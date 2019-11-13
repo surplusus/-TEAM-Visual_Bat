@@ -36,9 +36,9 @@ MeshType 1
 #FileName inhibitor.x
 #ConsoleText "Inhibitor File Loaded"
 #MeshType 1
--Nexus-
-ObjName Nexus
-FolderPath ./Resource/choen/Tower/Nexus/
-FileName Nexus.x
-ConsoleText "Nexus File Loaded"
-MeshType 1
+#-Nexus-
+#ObjName Nexus
+#FolderPath ./Resource/choen/Tower/Nexus/
+#FileName Nexus.x
+#ConsoleText "Nexus File Loaded"
+#MeshType 1

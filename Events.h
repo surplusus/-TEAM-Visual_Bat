@@ -62,8 +62,9 @@ typedef struct _tagInsertColliderEvent : EVENT
 
 typedef struct _tagPhysicalAttackEvent : EVENT
 {
-	_tagPhysicalAttackEvent(D3DXVECTOR3* vecAttackPos, STATUSINFO* infoDemage)
-	: m_vecAttackPos(*vecAttackPos), m_infoDemage(*infoDemage){}
-	D3DXVECTOR3 m_vecAttackPos;
+	_tagPhysicalAttackEvent(D3DXVECTOR3* vecAttackFrom, D3DXVECTOR3* vecAttackTo, STATUSINFO* infoDemage)
+	: m_vecAttackFrom(*vecAttackFrom), m_vecAttackTo(*vecAttackTo), m_infoDemage(*infoDemage){}
+	D3DXVECTOR3 m_vecAttackFrom;
+	D3DXVECTOR3 m_vecAttackTo;
 	STATUSINFO m_infoDemage;
 } PHYSICALATTACKEVENT;

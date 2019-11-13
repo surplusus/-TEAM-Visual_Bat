@@ -81,7 +81,7 @@ HRESULT CUdyr::Initialize()
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 	{	//<< : SetUp StatusInfo
 		m_StatusInfo.fHP = 100.f;
-		m_StatusInfo.fBase_Attack = 10.f;
+		m_StatusInfo.fBase_Attack = 100.f;
 		m_StatusInfo.fMoveSpeed = 4.f;
 		m_StatusInfo.fAttackRange = 2.f;
 	}
@@ -123,8 +123,9 @@ void CUdyr::Progress()
 		if (CheckPushKeyOneTime(VK_2)) {
 			STATUSINFO info; info.fBase_Attack = 25.f;
 			cout << "Beaten : " << info.fBase_Attack << endl;
-			GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &info));
+			GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &D3DXVECTOR3(m_Info.vPos), &info));
 			m_StatusInfo.fHP -= 25.f;
+			m_StatusInfo.PrintAll();
 		}
 		if (CheckPushKeyOneTime(VK_4))
 			m_StatusInfo.fMoveSpeed += 0.1f;
@@ -242,12 +243,16 @@ void CUdyr::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 {
 	SPHERE stSphere = *m_pCollider->GetSphere();
-	D3DXVECTOR3 distance = *stSphere.vpCenter - evt->m_vecAttackPos;
-	float distFrom = D3DXVec3Length(&distance);
+	float distFrom = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackFrom));
+	float distAt = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackTo));
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (distFrom <= stSphere.fRadius) {
+	if (distAt <= stSphere.fRadius) {
 		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
 		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
+		// status 반영
+		m_StatusInfo.fHP -= evt->m_infoDemage.fBase_Attack;
+		m_StatusInfo.PrintAll();
+		cout << "- Udyr 정보 -\n";
 	}
 }
 

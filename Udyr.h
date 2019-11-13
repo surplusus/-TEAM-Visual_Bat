@@ -16,14 +16,13 @@ class CUdyr : public CChampion
 	friend struct UdyrBT::UdyrTurn;
 	friend class UdyrBT::UdyrBTHandler;
 	friend class UdyrBT::UdyrAccessor;
-	//friend class BehaviorTree::Decorator;
+	friend class UdyrBT::WhenEnemyNear;
 #pragma endregion
 public:
 	CUdyr();
 	virtual ~CUdyr();
 private:
 	vector<string>		m_AniSetNameList;
-	STATUSINFO			m_stStatusInfo;
 	SPHERE*				m_sphereTarget;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
