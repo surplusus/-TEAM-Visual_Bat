@@ -118,6 +118,7 @@ namespace BehaviorTree
 					Terminate();
 				return false;
 			} 
+			return true;
 		}
 		void SetStatus(Status status) { m_status = status; }
 	private:

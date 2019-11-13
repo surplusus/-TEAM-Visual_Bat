@@ -29,7 +29,7 @@ public:
 			SAFE_DELETE(it.second);
 		m_mapMeshInfo.clear();
 	}
-	bool SetMeshInfoThruFile();
+	bool SetMeshInfoThruFile(string sFileName);
 	template<typename ClassType>
 	bool OperateAddObjectByKey(string key);
 	bool RegisterCloneObjectByKey(string key);

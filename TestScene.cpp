@@ -11,7 +11,6 @@
 #include "ThreadPool.h"
 #include <sstream>
 #include "SoundMgr.h"
-#include "Amumu.h"
 #include "SummonTerrain.h"
 #include "EventMgr.h"
 #include "MinionMgr.h"

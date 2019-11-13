@@ -47,6 +47,11 @@ HRESULT GuhyunScene::Initialize()
 
 void GuhyunScene::Progress()
 {
+	RECT r;
+	GetWindowRect(g_hWnd, &r);
+	//GetClientRect(g_hWnd, &r);
+	ClipCursor(&r);
+
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
 	m_pObjMgr->Progress();
@@ -55,17 +60,18 @@ void GuhyunScene::Progress()
 	GET_SINGLE(CFrustum)->InitFrustum();
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
-	SoundUpdate();
 }
 
 void GuhyunScene::Render()
 {
+	SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
+	SoundUpdate();
 }
 
 void GuhyunScene::Release()
@@ -97,8 +103,8 @@ void GuhyunScene::SetUp_Light()
 	stLight.Direction = vDir;
 	GET_DEVICE->SetLight(0, &stLight);
 	GET_DEVICE->LightEnable(0, true);
-	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	SetRenderState(D3DRS_LIGHTING, true);
+	GET_DEVICE->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+	SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void GuhyunScene::SoundUpdate()

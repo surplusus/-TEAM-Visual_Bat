@@ -1,22 +1,11 @@
 #pragma once
 #include "Dynamic.h"
-#include "BehaviorMinion.h"
 
 class CHeightMap;
 class CMinionMgr;
 class ColiderComponent;
 class CMinion : public CDynamic
 {
-#pragma region 무더기 친구들
-	friend class MinionBT::MinionBTHandler;
-	friend class MinionBT::MinionAccessor;
-	friend struct MinionBT::MinionDeath;
-	friend struct MinionBT::MinionBeaten;
-	friend struct MinionBT::MinionAggressive;
-	friend struct MinionBT::MinionAttack;
-	friend struct MinionBT::MinionRun;
-	friend struct MinionBT::MinionTurn;
-#pragma endregion
 public:
 	CMinion();
 	virtual ~CMinion();
@@ -27,6 +16,7 @@ public:
 	virtual void		Release() PURE;
 
 	vector<string>		m_AniSetNameList;
+	const TCHAR*		m_MeshName;
 protected:
 	CMinionMgr*			m_pMinionMgr;
 	CHeightMap*			m_pHeightMap;
@@ -37,28 +27,21 @@ protected:
 	vector<D3DXVECTOR3>	m_vNextPoints;
 	STATUSINFO			m_stStatusInfo;
 	SPHERE*				m_sphereTarget;	// Enemy
-	// << : Behavior
-	MinionBT::MinionBTHandler*	m_pBehavior;
-	// >> : Behavior
-	// << : Collision
-	ColiderComponent*  m_pCollider;
-	list<ColiderComponent*> m_ColliderList;
-	// >> : Collision
+
 protected:
 	void			ChangeNextPoint();
 	void			UpdateWorldMatrix();
 	bool			SetUpPickingShere(const float r = 1.f, D3DXVECTOR3* v = nullptr);
 	bool			Render_PickingShere();
 	void			SetDirectionToNextPoint();
-	void			SetUpAniSetNameList();
 	bool			TurnSlowly(const D3DXVECTOR3* destPos, float fLerpRate = 7.0f);
 public:
+	void			SetUpAniSetNameList();
 	CAnimationCtrl* GetAnimationCtrl() { return m_pAnimationCtrl; }
 	void			SetPosition(const D3DXVECTOR3* pos);
 	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }
 	void			SetHeightMap(CHeightMap** pHeightMap) { m_pHeightMap = *pHeightMap; }
-private:
-	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
-	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
+	void			SetMeshName(const TCHAR* str) { m_MeshName = str; }
+
 };
 

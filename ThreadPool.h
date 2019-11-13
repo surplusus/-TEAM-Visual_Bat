@@ -21,14 +21,6 @@ public:
 		if (m_worker_threads_[eState].joinable())
 			m_worker_threads_[eState].detach();
 	}
-	void ReleaseInst() {
-		for (auto& it : m_worker_threads_) {
-			auto thr = it.native_handle();
-			bool re = TerminateThread(thr, 0);
-			CloseHandle(thr);
-		}
-		m_worker_threads_.clear();
-	}
 private:
 	// 총 Worker 쓰레드의 개수.
 	std::size_t m_num_threads_;

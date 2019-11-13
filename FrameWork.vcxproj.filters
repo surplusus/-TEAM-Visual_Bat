@@ -298,9 +298,6 @@
     <Filter Include="소스 파일\Maneger\ColiderMgr\Colidercomponent\ParticleColider">
       <UniqueIdentifier>{a4103b60-bfc6-43f2-acf3-738080443578}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;\Cursor">
-      <UniqueIdentifier>{af22884a-966a-497f-9629-cb360a8de153}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\InGameUI">
       <UniqueIdentifier>{de4a51c1-d4a8-40ee-b80d-3b60b3fc2add}</UniqueIdentifier>
     </Filter>
@@ -492,17 +489,11 @@
     <ClInclude Include="SkyBox.h">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
-    <ClInclude Include="Amumu.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClInclude>
     <ClInclude Include="ThreadPool.h">
       <Filter>System\SystemManager\Thread</Filter>
     </ClInclude>
     <ClInclude Include="Ray.h">
       <Filter>소스 파일\Maneger\Mouse</Filter>
-    </ClInclude>
-    <ClInclude Include="Zealot.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="EventMgr.h">
       <Filter>System\SystemManager\EventMgr</Filter>
@@ -524,9 +515,6 @@
     </ClInclude>
     <ClInclude Include="Minion.h">
       <Filter>소스 파일\02. Object\Minion</Filter>
-    </ClInclude>
-    <ClInclude Include="HeightMap.h">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScene.h">
       <Filter>소스 파일\Scene\LoadScene</Filter>
@@ -678,9 +666,6 @@
     <ClInclude Include="ProgressBarFunctor.h">
       <Filter>소스 파일\Scene\LoadScene</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorMinion.h">
-      <Filter>System\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviorEzreal.h">
       <Filter>System\Behavior</Filter>
     </ClInclude>
@@ -710,6 +695,12 @@
     </ClInclude>
     <ClInclude Include="CollisionMgr.h">
       <Filter>소스 파일\Maneger\ColiderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorMeleeMinion.h">
+      <Filter>System\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -863,17 +854,11 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
-    <ClCompile Include="Amumu.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
-    </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
       <Filter>System\SystemManager\Thread</Filter>
     </ClCompile>
     <ClCompile Include="Ray.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
-    </ClCompile>
-    <ClCompile Include="Zealot.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="EventMgr.cpp">
       <Filter>System\SystemManager\EventMgr</Filter>
@@ -889,9 +874,6 @@
     </ClCompile>
     <ClCompile Include="Minion.cpp">
       <Filter>소스 파일\02. Object\Minion</Filter>
-    </ClCompile>
-    <ClCompile Include="HeightMap.cpp">
-      <Filter>소스 파일\02. Object\&lt;&lt;!!TESTBED!!&gt;&gt;</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScene.cpp">
       <Filter>소스 파일\Scene\LoadScene</Filter>
@@ -1043,9 +1025,6 @@
     <ClCompile Include="CollisionMgr.cpp">
       <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorMinion.cpp">
-      <Filter>System\Behavior</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviorEzreal.cpp">
       <Filter>System\Behavior</Filter>
     </ClCompile>
@@ -1072,6 +1051,12 @@
     </ClCompile>
     <ClCompile Include="TurretGauge.cpp">
       <Filter>소스 파일\Scene\cheon</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>소스 파일\02. Object\SommonTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorMeleeMinion.cpp">
+      <Filter>System\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
