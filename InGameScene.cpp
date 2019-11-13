@@ -4,24 +4,16 @@
 #include "CameraMgr.h"
 #include "ObjMgr.h"
 #include "SceneMgr.h"
-#include "ThreadPool.h"
 #include "Frustum.h"
 #include "SoundMgr.h"
 #include "EventMgr.h"
 #include "HeightMap.h"
 #include "GameHUD.h"
-#include "Udyr.h"
-#include "Ezreal.h"
 #include "MinionMgr.h"
-#include "MeleeMinion.h"
 #include "Cursor.h"
-#include"Factory.h"
-#include"Inhibitor.h"
-#include"Nexus.h"
-#include"Turret.h"
-#include"Cursor.h"
-#include"CollisionMgr.h"
-#include"ParticleMgr.h"
+#include "CollisionMgr.h"
+#include "ParticleMgr.h"
+#include "Champion.h"
 CInGameScene::CInGameScene()
 {
 	m_pObjMgr = GET_SINGLE(CObjMgr);
@@ -44,18 +36,22 @@ HRESULT CInGameScene::Initialize()
 		return E_FAIL;
 	// Make InGame UI
 	GET_SINGLE(cGameHUD)->Initialize();
-	{
-		// 높이맵이 필요한 Object에게 eHightMap 포인터 알려주기
-		LetObjectKnowHeightMap();
-	}
-	//InitAsset();
-	//InitAddObject();
+	// 높이맵이 필요한 Object에게 eHightMap 포인터 알려주기
+	LetObjectKnowHeightMap();
+	// 커서 다시 설정
+	m_pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
 	return S_OK;
 }
 
 void CInGameScene::Progress()
 {
 	GET_SINGLE(CCameraMgr)->Progress();
+	//GET_SINGLE(CFrustum)->InitFrustum();
+
+	RECT r;
+	//GetWindowRect(g_hWnd, &r);
+	GetClientRect(g_hWnd, &r);
+	ClipCursor(&r);
 
 	m_pObjMgr->Progress();
 	if (m_pMinionMgr)
@@ -64,6 +60,7 @@ void CInGameScene::Progress()
 	GET_SINGLE(CParticleMgr)->Progress();
 	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(cGameHUD)->Progress();
+
 	SoundUpdate();
 }
 
@@ -72,8 +69,11 @@ void CInGameScene::Render()
 	m_pObjMgr->Render();
 	if (m_pMinionMgr)
 		m_pMinionMgr->Progress();
-	GET_SINGLE(CParticleMgr)->Render();
-	GET_SINGLE(CCollisionMgr)->Render();
+	if (CheckPushKeyOneTime(VK_C))
+	{
+		GET_SINGLE(CParticleMgr)->Render();
+		GET_SINGLE(CCollisionMgr)->Render();
+	}
 	GET_SINGLE(cGameHUD)->Render();
 }
 
@@ -84,8 +84,9 @@ void CInGameScene::Release()
 	GET_SINGLE(CCameraMgr)->Release();
 	GET_SINGLE(CCollisionMgr)->DestroyInstance();
 	GET_SINGLE(CParticleMgr)->DestroyInstance();
-
 	GET_SINGLE(cGameHUD)->Release();
+	SAFE_DELETE(m_pMinionMgr);
+	SAFE_DELETE(m_pHeightMap);
 }
 
 HRESULT CInGameScene::Setup_Light()
@@ -136,88 +137,21 @@ void CInGameScene::LetObjectKnowHeightMap()
 {
 	m_pHeightMap = new CHeightMap();
 	m_pHeightMap->LoadData("./Resource/Map/HowlingAbyss/howling_HeightMap.x");
+	// for Minion
+	if (m_pMinionMgr != nullptr)
+		m_pMinionMgr->SetHeightMap(&m_pHeightMap);
 	CObj* pObj = nullptr;
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Udyr"));
 	if (pObj != nullptr) {
-		dynamic_cast<CUdyr*>(pObj)->SetHeightMap(m_pHeightMap);
+		dynamic_cast<CChampion*>(pObj)->SetHeightMap(m_pHeightMap);
 		return;
 	}
 	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal"));
 	if (pObj != nullptr) {
-		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
+		dynamic_cast<CChampion*>(pObj)->SetHeightMap(m_pHeightMap);
 		return;
 	}
 }
-
-bool CInGameScene::InitAsset()
-{
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret1", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret2", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret3", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
-		, L"order_Turret.x", L"Blue_Turret4", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/"
-		, L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"억제기 로드 실패"); return E_FAIL;
-	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/"
-		, L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"넥서스 로드 실패"); return E_FAIL;
-	}	
-	return true;
-}
-
-bool CInGameScene::InitAddObject()
-{
-	//터렛
-	vector<CTurret*>	vecTurret(4);
-	vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f))); vecTurret[0]->SetMeshName(L"Blue_Turret1");
-	vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));vecTurret[1]->SetMeshName(L"Blue_Turret2");
-	vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));	 vecTurret[2]->SetMeshName(L"Blue_Turret3");
-	vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));	 vecTurret[3]->SetMeshName(L"Blue_Turret4");
-	for (size_t i = 0; i < vecTurret.size(); i++)
-	{
-		vecTurret[i]->Initialize();
-	}
-
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret1", vecTurret[0]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret2", vecTurret[1]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret3", vecTurret[2]);
-	GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret4", vecTurret[3]);
-	//억제기
-	CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-	pInhibitor->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
-
-	CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
-	pNexus->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-
-	LetObjectKnowHeightMap();
-	m_pCursor = new CCursor;
-	m_pCursor->InitCursor();
-	m_pCursor->SetCursor(CCursor::CURSORTYPE::CURSORTYPE_INGAME);
-	GET_SINGLE(cGameHUD)->Initialize();
-	return true;
-}
-
 
 void CInGameScene::GetMinionMgr(void ** pMinionMgr)
 {

@@ -81,7 +81,7 @@ namespace MeleeMinionBT
 			: m_MyInst(me), m_fSearchRange(fSearchRange) {}
 		virtual bool Ask() override;
 	protected:
-		SPHERE* m_spTarget;
+		SPHERE* m_spTarget = nullptr;
 		CMeleeMinion* m_MyInst;
 		float m_fSearchRange;
 	};
@@ -160,8 +160,8 @@ namespace MeleeMinionBT
 #pragma region UdyrTask 자식 클래스들
 	struct MinionDeath : public MinionAccessor
 	{
-		int iCntAni = 0;
-		int iSoundSec = 3;
+		float fDelta = 0.f;
+		bool bAniReady = true;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
@@ -173,15 +173,16 @@ namespace MeleeMinionBT
 	};
 	struct MinionAttack : public MinionAccessor
 	{
-		int iCntAni = 0;
+		float fDelta = 0;
+		bool bAniReady = true;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;
 	};
 	struct MinionAggressive : public MinionAccessor
 	{
-		SPHERE*	spEnemy = nullptr;
-		bool bNewTarget = false;
+		D3DXVECTOR3* 	m_vecEnemy = nullptr;
+		bool			m_bNewTarget = false;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;

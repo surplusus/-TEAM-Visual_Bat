@@ -17,12 +17,12 @@ public:
 
 	vector<string>		m_AniSetNameList;
 	const TCHAR*		m_MeshName;
+	bool				m_bAlive;
 protected:
 	CMinionMgr*			m_pMinionMgr;
 	CHeightMap*			m_pHeightMap;
 	float				m_fSize;
 	SPHERE				m_SphereForPick;
-	//LPD3DXMESH			m_pMeshSphere;
 	D3DXVECTOR3			m_NextPoint;
 	vector<D3DXVECTOR3>	m_vNextPoints;
 	STATUSINFO			m_StatusInfo;
@@ -36,6 +36,7 @@ protected:
 	bool			TurnSlowly(const D3DXVECTOR3* destPos, float fLerpRate = 7.0f);
 public:
 	void			SetUpAniSetNameList();
+	const TCHAR*	GetMeshName() { return m_MeshName; }
 	CAnimationCtrl* GetAnimationCtrl() { return m_pAnimationCtrl; }
 	void			SetPosition(const D3DXVECTOR3* pos);
 	void			SetMinionMgr(CMinionMgr* pMinionMgr) { m_pMinionMgr = pMinionMgr; }

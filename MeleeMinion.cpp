@@ -6,6 +6,8 @@
 #include "BoundingBox.h"
 #include "ParticleMgr.h"
 #include "CollisionMgr.h"
+#include "PickingSphereMgr.h"
+#include "Champion.h"
 
 CMeleeMinion::CMeleeMinion()
 {
@@ -37,10 +39,15 @@ HRESULT CMeleeMinion::Initialize()
 	fill(&m_fAngle[0], &m_fAngle[ANGLE_END], 0.f);
 
 	{	// waypoint set up
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, -15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, -15.f));
+		default_random_engine engine;
+		uniform_int_distribution<int> dist(0, 10);
+		int n = dist(engine);
+		m_vNextPoints.emplace_back(D3DXVECTOR3(17.f + n, 0.f, 16.f + n));
+		n = dist(engine);
+		m_vNextPoints.emplace_back(D3DXVECTOR3(34.f + n, 0.f, 32.f + n));
+		n = dist(engine);
+		m_vNextPoints.emplace_back(D3DXVECTOR3(51.f + n, 0.f, 48.f + n));
+		m_vNextPoints.emplace_back(D3DXVECTOR3(68.5f   , 0.f, 66.5f   ));
 
 		m_NextPoint = m_vNextPoints[0];
 	}
@@ -53,13 +60,13 @@ HRESULT CMeleeMinion::Initialize()
 			reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&list)));
 	}
 	{	//<< : Behavior Tree
-		m_pBehavior = new MeleeMinionBT::MinionBTHandler(this);
-		GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
-
 		m_StatusInfo.fHP = 100.f;
 		m_StatusInfo.fBase_Attack = 10.f;
-		m_StatusInfo.fMoveSpeed = 0.1f;
-		m_StatusInfo.fAttackRange = 2.f;
+		m_StatusInfo.fMoveSpeed = 0.6f;
+		m_StatusInfo.fAttackRange = 1.f;
+
+		m_pBehavior = new MeleeMinionBT::MinionBTHandler(this);
+		GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
 	}
 
 	UpdateWorldMatrix();
@@ -80,9 +87,12 @@ void CMeleeMinion::Progress()
 
 	SearchNearBy();
 
+
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
-		m_pBehavior->Run();
+		if (m_pBehavior->m_BlackBoard->getBool("Alive") == true)
+			m_pBehavior->Run();
+		m_bAlive = m_pBehavior->m_BlackBoard->getBool("Alive");
 	}
 
 	m_pCollider->Update(m_Info.vPos);
@@ -127,6 +137,7 @@ void CMeleeMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
 	if (distAt <= 1.f) {
 		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
+		m_pBehavior->m_BlackBoard->setBool("Aggressive", true);
 		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
 		// status 반영
 		m_StatusInfo.fHP -= evt->m_infoDemage.fBase_Attack;
@@ -137,21 +148,36 @@ void CMeleeMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 
 void CMeleeMinion::SearchNearBy()
 {
-	vector<SPHERE*> vEnemyNear;
-	// 어그로 당하는 범위 퉁쳐서 4.f
-	GET_SINGLE(CCollisionMgr)->IsCloseSphereInRadius(&vEnemyNear, this, &D3DXVECTOR3(m_Info.vPos), 4.f);
+	vector<CObj*> vEnemyNear;
+	float fSerchRange = 7.f;
+	GET_SINGLE(CCollisionMgr)->IsCloseObjInRadius(&vEnemyNear, this
+		, &m_Info.vPos, fSerchRange);
 	if (vEnemyNear.size() != 0)
 	{
 		float dist = 100000.f;
-		for (size_t i = 0; i < vEnemyNear.size(); i++)
+		for (size_t i = 0; i < vEnemyNear.size(); ++i)
 		{
-			float newdist = D3DXVec3Length(&(m_Info.vPos - *vEnemyNear[i]->vpCenter));
-			if (dist < newdist)
+			if (vEnemyNear[i] == this)
+				continue;
+			if (dynamic_cast<CChampion*>(vEnemyNear[i]) == nullptr)
+				continue;
+			auto enemyinfo = *vEnemyNear[i]->GetInfo();
+			float newdist = D3DXVec3Length(&(m_Info.vPos - enemyinfo.vPos));
+			if (dist > newdist)
 			{
-				m_sphereTarget = vEnemyNear[i];
-				dist = newdist;
+				GET_SINGLE(CPickingSphereMgr)->GetSphereByKeyOfCObjptr(&vEnemyNear[i], &m_sphereTarget);
+				m_pBehavior->m_BlackBoard->setFloat("TargetAt", newdist);
+				m_pBehavior->m_BlackBoard->setBool("OnTarget", true);
+				m_pBehavior->m_BlackBoard->setBool("Aggressive", true);
+				return;
 			}
 		}
+	}
+	else
+	{
+		m_sphereTarget = nullptr;
+		m_pBehavior->m_BlackBoard->setBool("OnTarget", false);
+		m_pBehavior->m_BlackBoard->setBool("Aggressive", false);
 	}
 }
 
@@ -175,6 +201,8 @@ void CMeleeMinion::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
 	auto posEnemy = reinterpret_cast<D3DXVECTOR3*>(*evt->m_pPos);
 	auto dist = D3DXVec3Length(&(*m_sphereTarget->vpCenter - *posEnemy));
-	if (dist <= 1.f)
-		m_pBehavior->m_BlackBoard->setBool("Attack", false);
+	if (dist <= 1.f) {
+		m_pBehavior->m_BlackBoard->setBool("OnTarget", false);
+		m_pBehavior->m_BlackBoard->setBool("Aggressive", false);
+	}
 }

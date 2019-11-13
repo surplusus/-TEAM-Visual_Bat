@@ -7,12 +7,14 @@
 #include "ObjectColider.h"
 #include "BoundingBox.h"
 #include "ParticleMgr.h"
+#include "TurretGauge.h"
 using namespace UdyrBT;
 
 CUdyr::CUdyr()
 	: m_pBehavior(nullptr)
 	, m_sphereTarget(nullptr)
 	, m_sphereMe(nullptr)
+	, m_pGauge(nullptr)
 {
 	GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::StopAttackWhenEnemyDie);
 }
@@ -103,12 +105,20 @@ HRESULT CUdyr::Initialize()
 	}
 	{	//<< : PickingSphere
 		SetUpPickingShere(1.f);
-		//GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OperateOnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OperateOnPhysicalAttackEvent);
+	}
+	{	//<< : 체력바
+		m_pGauge = new CTurretGauge;
+		m_pGauge->Initialize();
+		m_pGauge->SetInfo(m_Info);
+		m_pGauge->SetParentWorld(m_Info.matWorld);
+		m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
+		m_pGauge->SufferDmg(m_StatusInfo.fHP);
+		m_bColl = false;
 	}
 	return S_OK;
 }
@@ -126,24 +136,17 @@ void CUdyr::Progress()
 			cout << "OnTarget : " << m_pBehavior->m_BlackBoard->getBool("OnTarget") << '\n';
 		}
 		if (CheckPushKeyOneTime(VK_2)) {
-			STATUSINFO info; info.fBase_Attack = 25.f;
-			cout << "Beaten : " << info.fBase_Attack << endl;
-			GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &D3DXVECTOR3(m_Info.vPos), &info));
-			m_StatusInfo.fHP -= 25.f;
-			m_StatusInfo.PrintAll();
+			//STATUSINFO info; info.fBase_Attack = 25.f;
+			//cout << "Beaten : " << info.fBase_Attack << endl;
+			//GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_Info.vPos), &D3DXVECTOR3(m_Info.vPos), &info));
+			//m_StatusInfo.fHP -= 25.f;
+			//m_StatusInfo.PrintAll();
+			printf("%f, %f, %f\n", m_Info.vPos.x, m_Info.vPos.y, m_Info.vPos.z);
 		}
 		if (CheckPushKeyOneTime(VK_4))
 			m_StatusInfo.fMoveSpeed += 0.1f;
 		if (CheckPushKeyOneTime(VK_5))
 			m_StatusInfo.fMoveSpeed -= 0.1f;
-		if (CheckPushKeyOneTime(VK_6))
-			m_StatusInfo.fHP = 0.f;
-
-
-		if (CheckPushKeyOneTime(VK_H)) {
-			forsync++;
-			cout << "시간 카운트 : " << forsync << endl;
-		}
 	}
 
 	{
@@ -152,9 +155,15 @@ void CUdyr::Progress()
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior->UpdateBlackBoard();
-		m_pBehavior->Run();
+		if (m_pBehavior->m_BlackBoard->getBool("Alive") == true)
+			m_pBehavior->Run();
 		//cout << "Onterget : " << (bool)m_pBehavior->m_BlackBoard->getBool("OnTarget")
 		//	<< " HasCoord :  " << (bool)m_pBehavior->m_BlackBoard->getBool("HasCoord") << endl;
+	}
+	{	//<< : 체력바
+		m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
+		m_pGauge->SufferDmg(m_StatusInfo.fHP);
+		m_pGauge->Progress();
 	}
 	//m_pCollider->Update(m_Info.vPos);
 	CChampion::UpdateWorldMatrix();
@@ -170,6 +179,8 @@ void CUdyr::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Udyr");
+	m_pGauge->Render();
+	SetTexture(0, NULL);
 	Render_PickingShere();
 }
 
@@ -262,6 +273,8 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 void CUdyr::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 {
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	if (obj == this)
+		return;
 	auto posEnemy = reinterpret_cast<D3DXVECTOR3*>(*evt->m_pPos);
 	auto dist = D3DXVec3Length(&(*m_sphereTarget->vpCenter - *posEnemy));
 	if (dist <= 1.f)

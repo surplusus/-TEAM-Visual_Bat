@@ -212,12 +212,14 @@ void UdyrBT::UdyrDeath::Init()
 }
 void UdyrBT::UdyrDeath::Do()
 {
-	++iCntAni;
-	if (iCntAni == iSoundSec) {
+	fDelta += g_fDeltaTime;
+	if (fDelta >= 0.8 && bAniReady) {
+		bAniReady = false;
 		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Death);
 	}
-	if (iCntAni >= 162) {
-		iCntAni = 0;
+	if (fDelta >= 2.7) {
+		fDelta = 0;
+		bAniReady = true;
 		m_status = TERMINATED;
 	}
 }
@@ -229,6 +231,8 @@ void UdyrBT::UdyrDeath::Terminate()
 //////////// Beaten /////////////
 void UdyrBT::UdyrBeaten::Do()
 {
+	if (m_BlackBoard->getBool("Dying") == true)
+		return;
 	if (m_BlackBoard->getBool("Beaten")) {
 		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Beaten);
 		m_status = TERMINATED;
@@ -292,7 +296,7 @@ void UdyrBT::UdyrHasCoord::Terminate()
 //////////// Aggressive /////////////
 void UdyrBT::UdyrAggressive::Do()
 {
-	cout << "어크로 끌림.\n";
+	cout << "어그로 끌림.\n";
 	//GetBehaviorTree()->m_vSequnece[SEQUENCE_MOVE]->Run();
 }
 //////////// Attack /////////////
@@ -309,25 +313,23 @@ void UdyrBT::UdyrAttack::Do()
 		return;
 	}
 
-	++iCntAni;
-	// 카격 시점 30 = 0.5초
-	if (iCntAni == iSoundSec) {
+	fDelta += g_fDeltaTime;
+	if (fDelta >= 0.8f && bAniReady) {
+		bAniReady = false;
 		GET_SINGLE(SoundMgr)->PlayUdyrSound(T_SOUND::Udyr_Attack_Left);
 	}
-	// 애니메이션 끝나는 시점 60:25 = iCntAni:25
-	if (iCntAni >= 60) {
+	if (fDelta >= 1.f) {
 		auto enemypos = m_pInst->m_sphereTarget->vpCenter;
 		STATUSINFO infoDemage;	infoDemage.fBase_Attack = m_pInst->m_StatusInfo.fBase_Attack;
 		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_pInst->m_Info.vPos)
 			, &D3DXVECTOR3(*enemypos), &infoDemage));
-		iCntAni = 0;
+		fDelta = 0.f;
 		m_status = TERMINATED;
 	}
 }
 void UdyrBT::UdyrAttack::Terminate()
 {
-	//m_BlackBoard->setBool("OnTarget", false);
-	//iCntAni = 0;
+	bAniReady = true;
 	m_status = INVALID;
 }
 //////////// Idle /////////////
