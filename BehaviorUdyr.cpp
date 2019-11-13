@@ -206,6 +206,9 @@ void UdyrBT::UdyrDeath::Init()
 {
 	m_BlackBoard->setBool("Dying", true);
 	ChangeAnySet("Death");
+	auto obj = m_pInst;		auto pos = &m_pInst->m_Info.vPos;
+	GET_SINGLE(EventMgr)->Publish(new OBJDIEEVENT(
+		reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&pos)));
 }
 void UdyrBT::UdyrDeath::Do()
 {
@@ -313,9 +316,10 @@ void UdyrBT::UdyrAttack::Do()
 	}
 	// 애니메이션 끝나는 시점 60:25 = iCntAni:25
 	if (iCntAni >= 60) {
+		auto enemypos = m_pInst->m_sphereTarget->vpCenter;
 		STATUSINFO infoDemage;	infoDemage.fBase_Attack = m_pInst->m_StatusInfo.fBase_Attack;
 		GET_SINGLE(EventMgr)->Publish(new PHYSICALATTACKEVENT(&D3DXVECTOR3(m_pInst->m_Info.vPos)
-			, &D3DXVECTOR3(m_pInst->m_MouseHitPoint), &infoDemage));
+			, &D3DXVECTOR3(*enemypos), &infoDemage));
 		iCntAni = 0;
 		m_status = TERMINATED;
 	}

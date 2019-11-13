@@ -8,12 +8,14 @@
 CCollisionMgr::CCollisionMgr()
 {
 	GET_SINGLE(EventMgr)->Subscribe(this, &CCollisionMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CCollisionMgr::EraseColliderInList);
 }
 
 
 CCollisionMgr::~CCollisionMgr()
 {
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CCollisionMgr::InsertColliderList);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CCollisionMgr::EraseColliderInList);
 }
 
 void CCollisionMgr::InsertColistion(CObj * pObj, list<ColiderComponent*>* pList)
@@ -125,6 +127,16 @@ void CCollisionMgr::InsertColliderList(INSERTCOLLIDEREVENT * evt)
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pNewObj);
 	auto list = reinterpret_cast<std::list<ColiderComponent*>*>(*evt->m_pNewList);
 	InsertColistion(obj, list);
+}
+
+void CCollisionMgr::EraseColliderInList(OBJDIEEVENT * evt)
+{
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	auto it = m_ColMap.find(obj);
+	if (it != m_ColMap.end())
+		m_ColMap.erase(obj);
+	else
+		cout << "콜라이더 지울게 없어용~\n";
 }
 
 bool CCollisionMgr::IsCloseObjInRadius(OUT vector<CObj*>* vCloseObj, IN CObj* pMe, IN const D3DXVECTOR3 * vecMyPos, IN float fRadius)

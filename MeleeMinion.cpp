@@ -9,12 +9,14 @@
 
 CMeleeMinion::CMeleeMinion()
 {
+	GET_SINGLE(EventMgr)->Subscribe(this, &CMeleeMinion::StopAttackWhenEnemyDie);
 }
 
 
 CMeleeMinion::~CMeleeMinion()
 {
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CMeleeMinion::OperateOnPhysicalAttackEvent);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CMeleeMinion::StopAttackWhenEnemyDie);
 	Release();
 }
 
@@ -62,18 +64,16 @@ HRESULT CMeleeMinion::Initialize()
 
 	UpdateWorldMatrix();
 	SetUpPickingShere(1.f);
+
+	m_bBeginProgressRender = true;
 	return S_OK;
 }
 
 void CMeleeMinion::Progress()
 {
-	++m_iCntSec;
-	if (m_iCntSec < m_iDelaySec)
+	if (!m_bBeginProgressRender)
 		return;
-	else {
-		m_iCntSec = 10000;
-		m_bStartRender = true;
-	}
+	//UpdateColliderList();
 
 	if (D3DXVec3Length(&(m_Info.vPos - m_NextPoint)) <= 3.f)
 		ChangeNextPoint();
@@ -84,6 +84,8 @@ void CMeleeMinion::Progress()
 		m_pBehavior->UpdateBlackBoard();
 		m_pBehavior->Run();
 	}
+
+	m_pCollider->Update(m_Info.vPos);
 	CMinion::UpdateWorldMatrix();
 	if (m_pBehavior->m_BlackBoard->getBool("Alive") == true)
 		m_pAnimationCtrl->FrameMove(m_MeshName, g_fDeltaTime);
@@ -91,11 +93,12 @@ void CMeleeMinion::Progress()
 
 void CMeleeMinion::Render()
 {
-	if (!m_bStartRender)
+	if (!m_bBeginProgressRender)
 		return;
+
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), m_MeshName);
-	//Render_PickingShere();	// 문제가 있음
+	Render_PickingShere();	// 문제가 있음
 }
 
 void CMeleeMinion::Release()
@@ -118,11 +121,11 @@ void CMeleeMinion::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 
 void CMeleeMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 {
-	SPHERE stSphere = *m_pCollider->GetSphere();
-	float distFrom = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackFrom));
-	float distAt = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackTo));
+	D3DXVECTOR3 mypos = *m_SphereForPick.vpCenter;
+	float distFrom = D3DXVec3Length(&(mypos - evt->m_vecAttackFrom));
+	float distAt = D3DXVec3Length(&(mypos - evt->m_vecAttackTo));
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (distAt <= stSphere.fRadius) {
+	if (distAt <= 1.f) {
 		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
 		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
 		// status 반영
@@ -150,4 +153,22 @@ void CMeleeMinion::SearchNearBy()
 			}
 		}
 	}
+}
+
+void CMeleeMinion::UpdateColliderList()
+{
+	list<ColiderComponent*>::iterator iter = m_ColliderList.begin();
+	for (iter; iter != m_ColliderList.end();)
+	{
+		if ((*iter)->GetStateCol())
+		{
+			iter = m_ColliderList.erase(iter);
+		}
+		else iter++;
+	}
+}
+
+void CMeleeMinion::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
+{
+
 }

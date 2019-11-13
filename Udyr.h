@@ -7,6 +7,7 @@ class CParticle;
 class CUdyr : public CChampion
 {
 #pragma region 무더기 친구들
+	friend struct UdyrBT::UdyrDeath;
 	friend struct UdyrBT::UdyrOnTarget;
 	friend struct UdyrBT::UdyrHasCoord;
 	friend struct UdyrBT::UdyrAttack;
@@ -24,6 +25,7 @@ public:
 private:
 	vector<string>		m_AniSetNameList;
 	SPHERE*				m_sphereTarget;
+	SPHERE*				m_sphereMe;
 	// << : Behavior
 	UdyrBT::UdyrBTHandler*	m_pBehavior;
 	const UdyrBT::UdyrBTHandler*	GetBehaviorTree();
@@ -56,5 +58,6 @@ private:
 	void			OperateOnFindPickingSphere(PICKSPHEREEVENT* evt);
 	void			OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
 	void			OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
+	void			StopAttackWhenEnemyDie(OBJDIEEVENT* evt);
 };
 

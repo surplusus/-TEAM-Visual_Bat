@@ -51,7 +51,6 @@ bool CMinion::SetUpPickingShere(const float r, D3DXVECTOR3* v)
 
 bool CMinion::Render_PickingShere()
 {
-	SetRenderState(D3DRS_LIGHTING, true);
 	if (m_SphereForPick.pMesh != nullptr) {
 		D3DMATERIAL9 mtrl;
 		ZeroMemory(&mtrl, sizeof(D3DMATERIAL9));
@@ -81,9 +80,10 @@ bool CMinion::Render_PickingShere()
 		//texture->Release();
 		//GET_DEVICE->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		//return true;
+		//GET_DEVICE->SetMaterial(NULL);
+		GET_DEVICE->SetTexture(0, NULL);
 		SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-	SetRenderState(D3DRS_LIGHTING, true);
 	return false;
 }
 

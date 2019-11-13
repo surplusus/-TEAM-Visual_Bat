@@ -31,14 +31,14 @@ private:
 	// << : Collision
 	ColiderComponent*  m_pCollider;
 	list<ColiderComponent*> m_ColliderList;
-	int m_iDelaySec = 590;
-	int m_iCntSec = 0;
-	bool m_bStartRender = false;
+	bool m_bBeginProgressRender= false;
 public:
 	void SetPosition(const D3DXVECTOR3* pos);
 private:
 	void OperateOnPaticleCollisionEvent(COLLISIONEVENT* evt);
 	void OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT* evt);
 	void SearchNearBy();
+	void UpdateColliderList();
+	void StopAttackWhenEnemyDie(OBJDIEEVENT* evt);
 };
 

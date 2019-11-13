@@ -157,6 +157,9 @@ void MeleeMinionBT::MinionDeath::Init()
 {
 	m_BlackBoard->setBool("Dying", true);
 	ChangeAnySet("Death");
+	auto obj = m_pInst;		auto pos = &m_pInst->m_Info.vPos;
+	GET_SINGLE(EventMgr)->Publish(new OBJDIEEVENT(
+		reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&pos)));
 }
 void MeleeMinionBT::MinionDeath::Do()
 {

@@ -69,8 +69,8 @@ void GuhyunScene::Render()
 	if (m_pMinionMgr)
 		m_pMinionMgr->Render();
 	m_pObjMgr->Render();
-	GET_SINGLE(CCollisionMgr)->Render();
-	GET_SINGLE(CParticleMgr)->Render();
+	//GET_SINGLE(CCollisionMgr)->Render();
+	//GET_SINGLE(CParticleMgr)->Render();
 	//m_pHeightMap->Render();
 }
 

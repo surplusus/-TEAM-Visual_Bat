@@ -104,7 +104,7 @@ HRESULT CEzreal::Initialize()
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
-	m_Info.vPos = D3DXVECTOR3(10.0, 0, 5.0);
+	m_Info.vPos = D3DXVECTOR3(0.0, 0, 0.0);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];

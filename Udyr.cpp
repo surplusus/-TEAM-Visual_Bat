@@ -11,7 +11,10 @@ using namespace UdyrBT;
 
 CUdyr::CUdyr()
 	: m_pBehavior(nullptr)
+	, m_sphereTarget(nullptr)
+	, m_sphereMe(nullptr)
 {
+	GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::StopAttackWhenEnemyDie);
 }
 
 CUdyr::~CUdyr()
@@ -23,6 +26,8 @@ void CUdyr::Release()
 {
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CUdyr::OperateOnFindPickingSphere);
 	GET_SINGLE(EventMgr)->Unsubscribe(this, &CUdyr::OperateOnPhysicalAttackEvent);
+	GET_SINGLE(EventMgr)->Unsubscribe(this, &CUdyr::StopAttackWhenEnemyDie);
+
 	SAFE_RELEASE(m_pAnimationCtrl);
 	SAFE_DELETE(m_pBehavior);
 	SAFE_DELETE(m_pCollider);
@@ -97,13 +102,12 @@ HRESULT CUdyr::Initialize()
 			reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&list)));
 	}
 	{	//<< : PickingSphere
-		//SetUpPickingShere(1.f);
-		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
+		SetUpPickingShere(1.f);
+		//GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OperateOnFindPickingSphere);
 	}
 	{	//<< : Behavior Tree
 		m_pBehavior = new UdyrBTHandler(this);
-
 		GET_SINGLE(EventMgr)->Subscribe(this, &CUdyr::OperateOnPhysicalAttackEvent);
 	}
 	return S_OK;
@@ -112,7 +116,7 @@ HRESULT CUdyr::Initialize()
 void CUdyr::Progress()
 {
 	// Collider list에서 지원진 아이를 Update
-	UpdateColliderList();
+	//UpdateColliderList();
 
 	{	// test
 		if (CheckPushKeyOneTime(VK_N))
@@ -166,7 +170,7 @@ void CUdyr::Render()
 {
 	SetTransform(D3DTS_WORLD, &m_Info.matWorld);
 	Mesh_Render(GetDevice(), L"Udyr");
-	//Render_PickingShere();
+	Render_PickingShere();
 }
 
 const UdyrBT::UdyrBTHandler * CUdyr::GetBehaviorTree()
@@ -241,11 +245,11 @@ void CUdyr::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
 
 void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 {
-	SPHERE stSphere = *m_pCollider->GetSphere();
-	float distFrom = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackFrom));
-	float distAt = D3DXVec3Length(&(*stSphere.vpCenter - evt->m_vecAttackTo));
+	D3DXVECTOR3 mypos = *m_SphereForPick.vpCenter;
+	float distFrom = D3DXVec3Length(&(mypos - evt->m_vecAttackFrom));
+	float distAt = D3DXVec3Length(&(mypos - evt->m_vecAttackTo));
 	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (distAt <= stSphere.fRadius) {
+	if (distAt <= 1.0f) {
 		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
 		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
 		// status 반영
@@ -253,6 +257,21 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 		m_StatusInfo.PrintAll();
 		cout << "- Udyr 정보 -\n";
 	}
+}
+
+void CUdyr::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
+{
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+
+	//auto posEnemy = 
+
+	//if ((part_it == m_MapParticle.end()) && (coll_it == m_pColiderMap.end()))
+	//	cout << "콜라이더 지울게 없어용~\n";
+	//
+	//if (part_it != m_MapParticle.end())
+	//	m_MapParticle.erase(obj);
+	//if (coll_it != m_pColiderMap.end())
+	//	m_pColiderMap.erase(obj);
 }
 
 void CUdyr::QWERControl()
@@ -282,7 +301,6 @@ void CUdyr::QWERControl()
 
 void CUdyr::UpdateColliderList()
 {
-	// 아직 안씀
 	list<ColiderComponent*>::iterator iter = m_ColliderList.begin();
 	for (iter; iter != m_ColliderList.end();)
 	{
