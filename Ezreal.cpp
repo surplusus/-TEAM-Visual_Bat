@@ -388,6 +388,7 @@ void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 					m_bDirty = true;
 				}
 				m_bColl = true;
+				
 				list<ColiderComponent*>::iterator iter =find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
 				if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 			}

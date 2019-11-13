@@ -11,7 +11,7 @@ CTurretMissle::CTurretMissle(INFO tInfo, float fRadius, D3DXVECTOR3 vAngle,CObj*
 	m_Info = tInfo;
 	m_fAngle[ANGLE_X] = vAngle.x; m_fAngle[ANGLE_Y] = vAngle.y; m_fAngle[ANGLE_Z] = vAngle.z;
 	m_VerTexInfo.p = m_Info.vPos;
-
+	m_StatusInfo.fBase_Attack = 30.0f;
 }
 
 
@@ -28,7 +28,7 @@ void CTurretMissle::Initalize()
 
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
-	m_pColider->SetUp(m_Info, 0.5f, new CBoundingBox);
+	m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
 	UpdateParticleDirection();
 	AddTail();
 }
@@ -38,9 +38,13 @@ bool CTurretMissle::Progress()
 
 	if(m_pTarget)
 		Move_Chase(&m_pTarget->GetInfo()->vPos, 2.0f);
+
 	UpdateMatrix();
 	UpdateParticleDirection();
 	Update_Particle();
+	
+	if (m_pColider->GetStateCol())		
+		return false;
 
 	return true;
 }
@@ -276,57 +280,11 @@ void CTurretMissle::InitRenderState()
 bool CTurretMissle::AddTail()
 {
 
-	if (!m_pTarget) return false;
-	D3DXVECTOR3 vDirection = m_Info.vPos - m_pTarget->GetInfo()->vPos;
-	D3DXVec3Normalize(&vDirection, &vDirection);
-	m_VerTexInfo.p = vDirection;
-	m_vecVertexParticle.push_back(m_VerTexInfo);
-	vDirection.y = 0;
-	for (int i = 0; i < 10; i++)
-	{
-		m_VerTexInfo.p = m_vecVertexParticle[i].p*(m_fSpeed);
-		m_vecVertexParticle.push_back(m_VerTexInfo);	
-	}
-	reverse(m_vecVertexParticle.begin(), m_vecVertexParticle.end());
-		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);	
-	
-	if (m_vecVertexParticle.empty())	return false;
 
-	return true;
 }
 
 bool CTurretMissle::UpdateParticleDirection()
 {
-	D3DXVECTOR3 vDirection = m_pTarget->GetInfo()->vPos- m_Info.vPos ;
-	D3DXVec3Normalize(&vDirection, &vDirection);
-
-	if (_isnan(m_Info.vDir.y))	m_Info.vDir.y = vDirection.y;
-	float fDot = D3DXVec3Dot(&m_Info.vDir, &vDirection);
-	float fRadian = acos(fDot);
-	float fDirLerped = fRadian / 1.0f;
-
-	if (fabs(fRadian) <= D3DX_16F_EPSILON) {
-		return false;
-	}
-	D3DXVECTOR3 vLeft;
-	D3DXVec3Cross(&vLeft, &m_Info.vDir, &vDirection);
-	if (D3DXVec3Dot(&vDirection, &vLeft) > 0)
-	{
-		m_fAngle[ANGLE_Y] -= fDirLerped;
-		if (m_fAngle[ANGLE_Y] < D3DX_PI)
-			m_fAngle[ANGLE_Y] += 2.f * D3DX_PI;
-
-	}
-	else
-	{
-		m_fAngle[ANGLE_Y] += fDirLerped;
-		if (m_fAngle[ANGLE_Y] > D3DX_PI)
-			m_fAngle[ANGLE_Y] -= 2.f * D3DX_PI;
-	}
-	//for (int i = 0; i < 30; i++)
-	//{
-	//	CMathMgr::Rotation_Y(&m_vecVertexParticle[i].p, &m_vecVertexParticle[i].p, m_fAngle[ANGLE_Y]);
-	//}
 	return true;
 
 }

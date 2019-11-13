@@ -20,6 +20,7 @@ private:
 	float m_fLength;
 	CUSTOMVERTEX m_VerTexInfo;
 	D3DXMATRIX m_matWorld;
+	float m_fDamge;
 private:
 	CObj* m_pTarget;
 	float m_BaseDamge;
@@ -33,5 +34,6 @@ private:
 private:
 	bool AddTail();
 	bool UpdateParticleDirection();
+	
 };
 

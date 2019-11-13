@@ -80,7 +80,9 @@ void CCollisionMgr::UpdateColistion()
 					if ((*pOrigin)->GetType() == COLISION_TYPE_PARTICLE && (*pTarget)->GetType() == COLISION_TYPE_PARTICLE)
 						continue;
 					if ((*pOrigin)->CheckColision(*pTarget))
-					{									//iter1 = origin , iter2 : Target
+					{
+						
+						//iter1 = origin , iter2 : Target
 						GET_SINGLE(EventMgr)->Publish(new COLLISIONEVENT( (iter1->first), (*pOrigin),(iter2->first),(*pTarget)));
 					}
 				}

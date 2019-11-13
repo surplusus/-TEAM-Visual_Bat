@@ -34,7 +34,6 @@ private:
 
 private:
 	virtual void					ChangeAniSetByState() {};
-	void							AddAttackLaizer();
 	void							PaticleCollisionEvent(COLLISIONEVENT* Evt);
 	void							OnFindPickingSphere(PICKSPHEREEVENT * evt);
 	void							InitAnimationState();

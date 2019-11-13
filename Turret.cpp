@@ -79,10 +79,6 @@ void CTurret::Progress()
 
 		if (GetAsyncKeyState(VK_LEFT))
 			Animation_Break();
-		if (GetAsyncKeyState(VK_SPACE))
-		{
-			AddAttackLaizer();
-		}
 		m_pGauge->SetMaxHP(m_StatusInfo.fMaxHP);
 		m_pGauge->SufferDmg(m_StatusInfo.fHP);
 		m_pGauge->Progress();
@@ -117,21 +113,7 @@ bool CTurret::Animation_Break()
 }
 
 
-void CTurret::AddAttackLaizer()
-{
-	D3DXMATRIX matWorld;
-	D3DXVECTOR3 vPos;
-	GetBoneMatrix(L"Blue_Turret", "Armature_bone_HA_OrderTurret_Damage10", &matWorld);
-	vPos.x = matWorld._41;	vPos.y = matWorld._42;	vPos.z = matWorld._43;
-	INFO tInfo = m_Info; 
-	tInfo.vPos = vPos;
-	CParticle * p = new CEzealQ_Particle(tInfo, 10.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]));
-	p->Initalize();
-	m_ColiderList.push_back(dynamic_cast<CEzealQ_Particle*>(p)->GetColider());
-	GET_SINGLE(CParticleMgr)->InsertColList(this, &m_ColiderList);
-	GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
-	GET_SINGLE(CParticleMgr)->AddParticle(this, p);
-}
+
 
 void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 {
@@ -162,10 +144,14 @@ void CTurret::PaticleCollisionEvent(COLLISIONEVENT * Evt)
 					m_Champ_State[CHAMPION_STATETYPE_IDLE2] = true;
 				}
 				m_bColl = true;
-				//list<ColiderComponent*>::iterator iter = find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
-				//if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 			}
 		}		
+	}
+
+	CTurret * p = dynamic_cast<CTurret*>(Evt->m_pTarget);
+	if(p==NULL)
+	{
+		AddLaizer(Evt->m_pTarget);
 	}
 	
 	m_bColl = false;
@@ -254,12 +240,13 @@ void CTurret::AddLaizer(CObj* pTarget)
 {
 	if (m_fStart_NewMissleTime > m_fEnd_NewMissleTime) 
 	{
+		m_fStart_NewMissleTime = 0;
 		CTurretMissle* pMissle = new CTurretMissle(m_Info, 1.0f, D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]), pTarget);
 		pMissle->Initalize();
-	//	m_ColiderList.push_back(pMissle->GetColider());
-		InsertObjSphereColider(this, &m_ColiderList);
+		m_ColiderList.push_back(pMissle->GetColider());
+		GET_SINGLE(CCollisionMgr)->InsertColistion(this, &m_ColiderList);
 		GET_SINGLE(CParticleMgr)->AddParticle(this, pMissle);
-		m_fStart_NewMissleTime = 0;
+		
 	}
 	else m_fStart_NewMissleTime +=g_fDeltaTime;
 }
