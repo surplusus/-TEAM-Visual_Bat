@@ -27,7 +27,6 @@ protected:
 	vector<D3DXVECTOR3>	m_vNextPoints;
 	STATUSINFO			m_StatusInfo;
 	SPHERE*				m_sphereTarget;	// Enemy
-
 protected:
 	void			ChangeNextPoint();
 	void			UpdateWorldMatrix();

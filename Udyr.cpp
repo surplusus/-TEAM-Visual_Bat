@@ -111,6 +111,7 @@ HRESULT CUdyr::Initialize()
 
 void CUdyr::Progress()
 {
+	// Collider list에서 지원진 아이를 Update
 	UpdateColliderList();
 
 	{	// test
@@ -140,12 +141,6 @@ void CUdyr::Progress()
 			cout << "시간 카운트 : " << forsync << endl;
 		}
 	}
-	// Collider Update
-	if (m_pCollider != nullptr)
-		m_pCollider->Update(m_Info.vPos);
-	else
-		m_StatusInfo.fHP = 0.f;
-
 
 	{
 		DoOnMouseLButton();
@@ -161,6 +156,10 @@ void CUdyr::Progress()
 	CChampion::UpdateWorldMatrix();
 	if (m_pBehavior->GetBlackBoard().getBool("Alive") == true)
 		m_pAnimationCtrl->FrameMove(L"Udyr", g_fDeltaTime);
+
+	// Collider component에 내 위치를 넣어준다.
+	if (m_pCollider != nullptr)
+		m_pCollider->Update(m_Info.vPos);
 }
 
 void CUdyr::Render()

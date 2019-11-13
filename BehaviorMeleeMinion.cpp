@@ -4,6 +4,7 @@
 #include "EventMgr.h"
 #include "SoundMgr.h"
 #include "CollisionMgr.h"
+#include "PickingSphereMgr.h"
 
 MeleeMinionBT::MinionBTHandler::MinionBTHandler(CMeleeMinion* pInst)
 	: m_pInst(pInst)
@@ -125,20 +126,21 @@ void MeleeMinionBT::MinionAccessor::ChangeAnySet(string key)
 
 bool MeleeMinionBT::WhenEnemyNear::Ask()
 {
-	vector<SPHERE*> vEnemyNear;
+	vector<CObj*> vEnemyNear;
 	// 어그로 당하는 범위 퉁쳐서 4.f
 	D3DXVECTOR3 mypos = m_MyInst->GetInfo()->vPos;
-	GET_SINGLE(CCollisionMgr)->IsCloseSphereInRadius(&vEnemyNear, m_MyInst
+	GET_SINGLE(CCollisionMgr)->IsCloseObjInRadius(&vEnemyNear, m_MyInst
 		, &mypos, m_fSearchRange);
 	if (vEnemyNear.size() != 0)
 	{
 		float dist = 100000.f;
-		for (size_t i = 0; i < vEnemyNear.size(); i++)
+		for (size_t i = 0; i < vEnemyNear.size(); ++i)
 		{
-			float newdist = D3DXVec3Length(&(mypos - *vEnemyNear[i]->vpCenter));
+			auto enemyinfo = *vEnemyNear[i]->GetInfo();
+			float newdist = D3DXVec3Length(&(mypos - enemyinfo.vPos));
 			if (dist < newdist)
 			{
-				m_spTarget = vEnemyNear[i];
+				GET_SINGLE(CPickingSphereMgr)->GetSphereByKeyOfCObjptr(&vEnemyNear[i], &m_spTarget);
 				dist = newdist;
 			}
 		}

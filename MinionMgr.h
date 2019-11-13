@@ -9,7 +9,8 @@ public:
 	~CMinionMgr();
 private:
 	vector<CMinion*> m_vMinion;
-	int m_iDelaySec = 590;
+	int m_iDelaySec = 10;
+	//int m_iDelaySec = 590;
 	int m_iCntSec = 0;
 	bool m_bStartRender = false;
 public:

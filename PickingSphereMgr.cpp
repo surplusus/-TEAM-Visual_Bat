@@ -1,6 +1,7 @@
 #include "BaseInclude.h"
 #include "PickingSphereMgr.h"
 #include "EventMgr.h"
+#include "Obj.h"
 
 CPickingSphereMgr::CPickingSphereMgr()
 {
@@ -41,4 +42,16 @@ void CPickingSphereMgr::SelectEraseSphere(CObj * me, SPHERE * pSphere)
 	{
 		iter =m_vPickingSpheres.erase(iter);
 	}
+}
+
+bool CPickingSphereMgr::GetSphereByKeyOfCObjptr(IN CObj ** key, OUT SPHERE ** sphere)
+{
+	auto sphereFound = m_vPickingSpheres.find(*key);
+	if (sphereFound == m_vPickingSpheres.end())
+		return false;
+	auto keyPos = (*key)->GetInfo();
+	// 혹시모르니깐 스피어 Center를 Obj info로 업데이트 한다
+	*sphereFound->second->vpCenter = keyPos->vPos;
+	*sphere = sphereFound->second;
+	return true;
 }
