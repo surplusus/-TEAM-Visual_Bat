@@ -5,12 +5,13 @@
 #include "Inhibitor.h"
 #include "Nexus.h"
 
-CMakingTowerFunctor::CMakingTowerFunctor()
+CMakingTowerFunctor::CMakingTowerFunctor(string sFilePath)
+	: m_sFilePath(sFilePath)
 {
 	m_mapMeshInfo.clear();
 
 	{	// lampda를 queue에 넣어주기
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(m_sFilePath); });
 		m_queFunc.push([this]() {return this->FuncLoadTurret(); });
 		m_queFunc.push([this]() {return this->FuncLoadInhibitor(); });
 		m_queFunc.push([this]() {return this->FuncLoadNexus(); });
@@ -42,8 +43,10 @@ bool CMakingTowerFunctor::operator()()
 bool CMakingTowerFunctor::FuncLoadTurret()
 {
 	string key = "Blue_Turret";
-	if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
+	if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end()){
+		printf("Blue Turret 파일에 없음\n");
 		return false;
+	}
 	auto info = m_mapMeshInfo[key];
 
 	{
@@ -102,7 +105,8 @@ bool CMakingTowerFunctor::FuncLoadTurret()
 bool CMakingTowerFunctor::FuncLoadInhibitor()
 {
 	if (!OperateAddMeshByKey("Inhibitor")) {
-		ERR_MSG(g_hWnd, L"억제기 로드 실패");
+		//ERR_MSG(g_hWnd, L"억제기 로드 실패");
+		printf("억제기 로드 실패\n");
 		return false;
 	}
 	{
@@ -117,7 +121,8 @@ bool CMakingTowerFunctor::FuncLoadInhibitor()
 bool CMakingTowerFunctor::FuncLoadNexus()
 {
 	if (!OperateAddMeshByKey("Nexus")) {
-		ERR_MSG(g_hWnd, L"넥서스 로드 실패");
+		//ERR_MSG(g_hWnd, L"넥서스 로드 실패");
+		printf("넥서스 로드 실패\n");
 		return false;
 	}
 	{

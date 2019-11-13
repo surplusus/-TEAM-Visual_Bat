@@ -46,8 +46,10 @@ HRESULT CLoadingScene::Initialize()
 	//GET_SINGLE(CSceneMgr)->GetSceneMediator()->MediateInfo(MEDIATETYPE::INIT, this);
 
 	{	// SetUp Functors
-		m_pLoadingFunctor = new CLoadingFunctor;
-		m_pMakingTowerFunctor = new CMakingTowerFunctor;
+		//string sFilePath = "Test/test.dat";
+		string sFilePath = "MeshPathList.dat";
+		m_pLoadingFunctor = new CLoadingFunctor(sFilePath);
+		m_pMakingTowerFunctor = new CMakingTowerFunctor(sFilePath);
 		m_pProgressBarFunctor = new CProgressBarFunctor(this);
 	}
 
@@ -62,8 +64,8 @@ void CLoadingScene::Progress()
 	Progress_LoadingFunctors();
 	
 	if (m_bLoadingComplete) {
-		GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
-		//GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
+		//GET_SINGLE(CSceneMgr)->SetState(new GuhyunScene);
+		GET_SINGLE(CSceneMgr)->SetState(new CInGameScene);
 	}
 }
 
@@ -92,37 +94,14 @@ void CLoadingScene::Release()
 	SAFE_DELETE(m_pProgressBarFunctor);
 }
 
-bool CLoadingScene::OperateLoadingFunctorThruThread()
-{
-	try{
-		//m_bLoadingComplete = (g_future.wait_for(chrono::milliseconds(0)) == future_status::ready);
-		//g_status = g_future.wait_for(chrono::milliseconds(0));
-		//if (g_status == std::future_status::deferred) {
-		//	std::cout << "deferred\n";
-		//}
-		//else if (g_status == std::future_status::timeout) {
-		//	std::cout << "timeout\n";
-		//}
-		//else if (g_status == std::future_status::ready) {
-		//	std::cout << "ready!\n";
-		//}
-		//if (m_bLoadingComplete)
-		//cout << " 결과는요 : " << g_future.get() << '\n';
-	}
-	catch (const std::exception& e)
-	{
-		cout << e.what() << '\n';
-	}
-
-	return m_bLoadingComplete;
-}
-
 bool CLoadingScene::Progress_LoadingFunctors()
 {
 	static float fCntOneSec = 0;
 	bool bFunc1Complate, bFunc2Complate;
 	//bFunc1Complate = bFunc2Complate = false;
 	fCntOneSec += g_fDeltaTime;
+
+
 	if (fCntOneSec >= 1.f) {
 		if (m_pLoadingFunctor != nullptr)
 			bFunc1Complate = !(*m_pLoadingFunctor)();
@@ -136,9 +115,12 @@ bool CLoadingScene::Progress_LoadingFunctors()
 		else
 			bFunc2Complate = true;
 		
-		if (bFunc1Complate && bFunc2Complate)
-			m_bLoadingComplete = true;
-		fCntOneSec = 0.f;
+		if (bFunc1Complate && bFunc2Complate) {
+			if (fCntOneSec >= 2.f)
+				m_bLoadingComplete = true;
+		}
+		else 
+			fCntOneSec = 0.f;
 	}
 	return true;
 }

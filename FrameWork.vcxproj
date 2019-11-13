@@ -27,7 +27,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BehaviorEzreal.h" />
-    <ClInclude Include="BehaviorMinion.h">
+    <ClInclude Include="BehaviorMeleeMinion.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BehaviorUdyr.h">
@@ -49,8 +49,9 @@
     <ClInclude Include="Ezreal.h" />
     <ClInclude Include="Ezreal_W_Particle.h" />
     <ClInclude Include="Frustum.h" />
-    <ClInclude Include="GameAlgorithm.h" />
-    <ClInclude Include="Amumu.h" />
+    <ClInclude Include="GameAlgorithm.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="AnimationCtrl.h" />
     <ClInclude Include="BaseInclude.h" />
     <ClInclude Include="Bound.h" />
@@ -61,7 +62,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMgr.h" />
     <ClInclude Include="Champion.h" />
-    <ClInclude Include="CombatAlgorithm.h" />
+    <ClInclude Include="CombatAlgorithm.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="EventFunctionHandler.h" />
     <ClInclude Include="EventMgr.h" />
     <ClInclude Include="Events.h" />
@@ -104,7 +107,9 @@
     <ClInclude Include="ProgressBarFunctor.h" />
     <ClInclude Include="RectColor.h" />
     <ClInclude Include="SelectedSpells.h" />
-    <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TestScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Text.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneMediator.h" />
@@ -185,15 +190,11 @@
     </ClInclude>
     <ClInclude Include="UI.h" />
     <ClInclude Include="VIBuffer.h" />
-    <ClInclude Include="Zealot.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbilityPage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Amumu.cpp" />
     <ClCompile Include="AnimationCtrl.cpp" />
     <ClCompile Include="BaseAttack.cpp" />
     <ClCompile Include="BaseInclude.cpp">
@@ -203,7 +204,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BehaviorEzreal.cpp" />
-    <ClCompile Include="BehaviorMinion.cpp">
+    <ClCompile Include="BehaviorMeleeMinion.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BehaviorUdyr.cpp">
@@ -223,7 +224,9 @@
     <ClCompile Include="Champion.cpp" />
     <ClCompile Include="ColiderComponent.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
-    <ClCompile Include="CombatAlgorithm.cpp" />
+    <ClCompile Include="CombatAlgorithm.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="CubePC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -274,7 +277,9 @@
     <ClCompile Include="ProgressBarFunctor.cpp" />
     <ClCompile Include="RectColor.cpp" />
     <ClCompile Include="SelectedSpells.cpp" />
-    <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TestScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneMediator.cpp" />
@@ -351,9 +356,6 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="VIBuffer.cpp" />
     <ClCompile Include="Obj.cpp" />
-    <ClCompile Include="Zealot.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6361E8D1-DB23-4357-B567-D00501F45692}</ProjectGuid>

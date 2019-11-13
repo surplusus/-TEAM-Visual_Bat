@@ -219,6 +219,4 @@ void SoundMgr::ParseSoundPathListFile(string sFilePath)
 	}
 
 	file.close();
-	for (auto & it : m_mapPathInfo)
-		cout << "파일 주소 : " << it.first << " " << it.second << '\n';
 }

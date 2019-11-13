@@ -4,7 +4,7 @@
 class CMakingTowerFunctor :	public CLoadingFunctorBase
 {
 public:
-	CMakingTowerFunctor();
+	CMakingTowerFunctor(string sFilePath);
 	virtual ~CMakingTowerFunctor();
 	bool operator() ();
 private:
@@ -14,6 +14,7 @@ private:
 	vector<class CTurret*>			m_vTurret;
 	class CInhibitor*				m_pInhibitor;
 	class CNexus*					m_pNexus;
+	string							m_sFilePath;
 public:
 	bool FuncLoadTurret();
 	bool FuncLoadInhibitor();

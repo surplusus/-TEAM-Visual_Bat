@@ -10,16 +10,17 @@
 #include "MinionMgr.h"
 #include "Cursor.h"
 
-CLoadingFunctor::CLoadingFunctor()
+CLoadingFunctor::CLoadingFunctor(string sFileName)
 	: m_iFuncSize(0)
 	, m_iFuncIdx(0)
+	, m_sFileName(sFileName)
 {
 	{
-		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(); });
+		m_queFunc.push([this]() {return this->SetMeshInfoThruFile(m_sFileName); });
 		m_queFunc.push([this]() {return this->FuncDefaultMgrSetUp(); });
 		m_queFunc.push([this]() {return this->FuncLoadMap(); });
 		m_queFunc.push([this]() {return this->FuncLoadChamp(); });
-		//m_queFunc.push([this]() {return this->FuncLoadMinion(); });
+		m_queFunc.push([this]() {return this->FuncLoadMinion(); });
 		m_mapMeshInfo.clear();
 	}
 	{	// SceneMediator가 functor에게 정보를 넣어준다.
@@ -52,7 +53,7 @@ bool CLoadingFunctor::FuncDefaultMgrSetUp()
 {
 	{	// Set up Sounds
 		GET_SINGLE(SoundMgr)->SetUp();
-		//printf("sound set up\n");
+		printf("sound set up\n");
 	}
 	{	// Create ColliderMgr & ParticleMgr
 		GET_SINGLE(CParticleMgr)->Initalize();
@@ -111,9 +112,40 @@ bool CLoadingFunctor::FuncLoadChamp()
 
 bool CLoadingFunctor::FuncLoadMinion()
 {
-	if (!OperateAddMeshByKey("MeleeMinion")) {
+	/*if (!OperateAddMeshByKey("MeleeMinion")) {
 		printf("미니언 매쉬 로딩 실패\n");
 		return false;
+	}*/
+
+	{	// 리펙토링 대상
+		string key = "MeleeMinion";
+		if (m_mapMeshInfo.find(key) == m_mapMeshInfo.end())
+			return false;
+		auto info = m_mapMeshInfo[key];
+
+		HRESULT re = true;
+		bool bSignFalse = false;
+		re = AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion1", info->m_MeshType);
+		if (SUCCEEDED(re))
+			printf("1 : %s\n", info->m_ConsoleText.c_str());
+		else
+			bSignFalse = true;
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion2", info->m_MeshType)))
+			if (SUCCEEDED(re))
+				printf("2 : %s\n", info->m_ConsoleText.c_str());
+			else
+				bSignFalse = true;
+		if (SUCCEEDED(AddMesh(GetDevice(), info->m_FolderPath.c_str(), info->m_FileName.c_str(), L"MeleeMinion3", info->m_MeshType)))
+			if (SUCCEEDED(re))
+				printf("3 : %s\n", info->m_ConsoleText.c_str());
+			else
+				bSignFalse = true;
+		if (bSignFalse) {
+			basic_string<TCHAR> sTCHAR(info->m_szObjName);
+			string name(sTCHAR.begin(), sTCHAR.end());
+			cout << name << " 매쉬 로딩 실패\n";
+			return false;
+		}
 	}
 
 	CMinionMgr* pMinionMgr = new CMinionMgr;

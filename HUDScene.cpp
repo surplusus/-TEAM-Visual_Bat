@@ -3,8 +3,7 @@
 #include "ObjMgr.h"
 #include "Factory.h"
 #include "SummonTerrain.h"
-
-#include"HeightMap.h"
+#include "HeightMap.h"
 
 #include "HUDScene.h"
 #include "GameHUD.h"

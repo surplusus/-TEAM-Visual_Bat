@@ -146,7 +146,7 @@ namespace UdyrBT
 			else
 				result = false;
 			if (bLesserThan = false)
-				result = ~result;
+				result = !result;
 			return result;
 		}
 	private:
@@ -208,6 +208,7 @@ namespace UdyrBT
 	struct UdyrAttack : public UdyrAccessor
 	{
 		int iCntAni = 0;
+		int iSoundSec = 21;
 		virtual void Init() override;
 		virtual void Do() override;
 		virtual void Terminate() override;

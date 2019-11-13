@@ -36,7 +36,7 @@ CInGameScene::~CInGameScene()
 HRESULT CInGameScene::Initialize()
 {
 	// 절두체 Setup
-	GET_SINGLE(CFrustum)->InitFrustum();
+	//GET_SINGLE(CFrustum)->InitFrustum();
 	// Make Light
 	//Setup_Light();
 	// make Dynamic Camera
@@ -48,8 +48,8 @@ HRESULT CInGameScene::Initialize()
 		// 높이맵이 필요한 Object에게 eHightMap 포인터 알려주기
 		LetObjectKnowHeightMap();
 	}
-	InitAsset();
-	InitAddObject();
+	//InitAsset();
+	//InitAddObject();
 	return S_OK;
 }
 
@@ -67,7 +67,7 @@ void CInGameScene::Progress()
 
 void CInGameScene::Render()
 {
-	SetRenderState(D3DRS_LIGHTING, false);
+	SetRenderState(D3DRS_LIGHTING, false);// 빛을 꺼봤다
 	m_pObjMgr->Render();
 	GET_SINGLE(CParticleMgr)->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
@@ -178,6 +178,7 @@ bool CInGameScene::InitAsset()
 	{
 		ERR_MSG(g_hWnd, L"넥서스 로드 실패"); return E_FAIL;
 	}	
+	return true;
 }
 
 bool CInGameScene::InitAddObject()

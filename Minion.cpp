@@ -2,12 +2,8 @@
 #include "Minion.h"
 #include "MinionMgr.h"
 #include "PickingSphereMgr.h"
-#include "EventMgr.h"
-#include "CollisionMgr.h"
-#include "ObjectColider.h"
-#include "BoundingBox.h"
-#include "ParticleMgr.h"
-#include "BehaviorMinion.h"
+
+
 
 CMinion::CMinion()
 	: m_pMinionMgr(nullptr)
@@ -15,38 +11,7 @@ CMinion::CMinion()
 	, m_fSize(1.f)
 	, m_SphereForPick(1.f, &m_Info.vPos)
 	, m_sphereTarget(nullptr)
-	, m_pBehavior(nullptr)
-	, m_pCollider(nullptr)
 {
-	{	// waypoint set up
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, 15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(-15.f, 0.f, -15.f));
-		m_vNextPoints.emplace_back(D3DXVECTOR3(15.f, 0.f, -15.f));
-
-		m_NextPoint = m_vNextPoints[0];
-	}
-	{	//<< : SetUp m_AniSetNameList;
-		SetUpAniSetNameList();
-	}
-	{	//<< : Collision
-		m_pCollider = new CObjectColider(this);
-		m_pCollider->SetUp(m_Info, 1.0f, new CBoundingBox);
-		m_ColliderList.push_back(m_pCollider);
-		auto obj = this;		auto list = &m_ColliderList;
-		GET_SINGLE(EventMgr)->Publish(new INSERTCOLLIDEREVENT(
-			reinterpret_cast<void**>(&obj), reinterpret_cast<void**>(&list)));
-	}
-	{	//<< : PickingSphere
-		//SetUpPickingShere(1.f);
-		GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pCollider->GetSphere());
-		//GET_SINGLE(EventMgr)->Subscribe(this, &CMinion::OperateOnFindPickingSphere);
-	}
-	{	//<< : Behavior Tree
-		m_pBehavior = new MinionBT::MinionBTHandler(this);
-
-		GET_SINGLE(EventMgr)->Subscribe(this, &CMinion::OperateOnPhysicalAttackEvent);
-	}
 }
 
 CMinion::~CMinion()
@@ -168,21 +133,4 @@ void CMinion::SetPosition(const D3DXVECTOR3 * pos)
 	m_Info.vPos.x = pos->x;
 	m_Info.vPos.y = pos->y;
 	m_Info.vPos.z = pos->z;
-}
-
-void CMinion::OperateOnPaticleCollisionEvent(COLLISIONEVENT * evt)
-{
-	m_pBehavior->m_BlackBoard->setBool("Beaten", true);
-}
-
-void CMinion::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
-{
-	SPHERE stSphere = *m_pCollider->GetSphere();
-	D3DXVECTOR3 distance = *stSphere.vpCenter - evt->m_vecAttackPos;
-	float distFrom = D3DXVec3Length(&distance);
-	// 근접 공격 피격 거리 stSphere.fRadius로 퉁쳤음
-	if (distFrom <= stSphere.fRadius) {
-		m_pBehavior->m_BlackBoard->setBool("Beaten", true);
-		m_pBehavior->m_BlackBoard->setFloat("AttackFrom", distFrom);
-	}
 }
