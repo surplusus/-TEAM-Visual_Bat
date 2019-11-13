@@ -46,5 +46,6 @@ public:
 	void UpdateCollisionList();
 	void StatusInit();
 	void SetMeshName(const TCHAR* str) { m_MeshName = str; }
+	void UpdateStatus_Event(PHYSICALATTACKEVENT* Evt);
 };
 
