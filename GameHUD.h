@@ -1,10 +1,29 @@
 #pragma once
 #include"Image_Loader.h"
+#include "Text.h"
 
 class CTextMgr;
 
+#define SkillCount 4
+#define KeyCount 4
+
 struct SkillList {
-	CImage_Loader m_Skill[5];
+	CImage_Loader m_Skill[SkillCount];
+};
+
+struct KeyTextList {
+	CText * m_pQKey;
+	CText * m_pWKey;
+	CText * m_pEKey;
+	CText * m_pRKey;
+};
+
+enum KeyType
+{
+	Q = 0,
+	W,
+	E,
+	R
 };
 
 class cGameHUD
@@ -22,14 +41,15 @@ public:
 
 private:
 	map<string, CImage_Loader *> m_mapImage;
-	//cFont * m_Text;
+	map<string, SkillList*> m_MapSkill;
 
 	bool m_isLButtonDown;
 
-	SkillList Ezreal;
-	SkillList Ezreal_copy;
+	KeyTextList st_key;
 
-	map<string, CTextMgr *> m_mapTextMgr;
+	bool m_isKeyDown[KeyCount];
+
+	map<string, CTextMgr *> m_mapStatsMgr;
 	STATUSINFO m_Stats;
 	
 public:
@@ -39,10 +59,18 @@ public:
 		m_Stats = n_Stats; 
 	}
 	void Initialize_Skill();
+	void Render_Skill();
+	void Release_Skill();
 
-	void Initialize_Stats();
+	void InitializeStats();
 	void Update_StateText();
 
-	void CheckMouse();
+	void InitializeKey();
+	void ProgressKey();
+	void RenderKey();
+	void ReleaseKey();
+
+	//void CheckMouse();
+	void CheckKeyDown();
 };
 
