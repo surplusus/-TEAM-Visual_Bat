@@ -301,10 +301,10 @@ void CTurret::StatusInit()
 
 void CTurret::UpdateStatus_Event(PHYSICALATTACKEVENT * Evt)
 {
-	D3DXVECTOR3 vDir = Evt->m_vecAttackPos - m_Info.vPos;
+	D3DXVECTOR3 vDir = Evt->m_vecAttackFrom - m_Info.vPos;
 	float fDistance = D3DXVec3Length(&vDir);
 
-	if (fDistance < 1.f)
+	if (fDistance < 2.5f)
 	{
 		m_StatusInfo.fHP -= Evt->m_infoDemage.fBase_Attack;
 	}
