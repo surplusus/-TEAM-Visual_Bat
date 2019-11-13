@@ -56,8 +56,11 @@ void CTurretGauge::Initialize()
 
 void CTurretGauge::Progress()
 {
+	m_fDmg = m_CurrentHP / m_MAXHP;
+
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
+
 		m_fDmg -= 0.01f;
 		if (m_fDmg < 0.0f)
 			m_fDmg = 0.0f;

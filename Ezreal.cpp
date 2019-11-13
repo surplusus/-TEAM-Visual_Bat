@@ -104,7 +104,7 @@ HRESULT CEzreal::Initialize()
 	m_SortID = SORTID_LAST;
 	m_Info.vLook = D3DXVECTOR3(0.f, 0.f, -1.0f);
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, -1.f);
-	m_Info.vPos = D3DXVECTOR3(0, 0, 0);
+	m_Info.vPos = D3DXVECTOR3(10.0, 0, 5.0);
 
 	m_pOriVtx = new VTXTEX[4];
 	m_pConVtx = new VTXTEX[4];
@@ -211,7 +211,7 @@ void CEzreal::Render()
 		m_bDirty = false;
 	}
 	
-	//Mesh_Render(GetDevice(), TestMeshName);
+	Mesh_Render(GetDevice(), TestMeshName);
 	SetTexture(0,NULL);	
 	
 }
@@ -369,33 +369,37 @@ void CEzreal::InitUpdate()
 
 void CEzreal::PaticleCollisionEvent(COLLISIONEVENT* Evt)
 {
-	if (dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStateType() != CHAMPION_STATETYPE_DEATH) 
-	{
-		//내가 맞은 콜라이더
-		CParticleColider * pColider =(dynamic_cast<CParticleColider*>(Evt->m_pTargetCol));
-		if (pColider) {
-			//해당 콜라이더의 파티클
-			CParticleObj * pParticle = pColider->GetParticle();
-			if (pParticle)
-			{
-				pParticle->SetStateCol(true);
-				dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP -= pParticle->GetStatus().fBase_Attack;
-				if (m_StatusInfo.fHP < 0)
+	CChampion* pMe = dynamic_cast<CChampion*>(Evt->m_pOriObj);
+	if (pMe) {
+		if (pMe->GetStateType() != CHAMPION_STATETYPE_DEATH)
+		{
+			//내가 맞은 콜라이더
+			CParticleColider * pColider = (dynamic_cast<CParticleColider*>(Evt->m_pTargetCol));
+
+			if (pColider) {
+				//해당 콜라이더의 파티클
+				CParticleObj * pParticle = pColider->GetParticle();
+				if (pParticle)
 				{
-					m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
-					if (m_fStartTime <= 0)		m_fStartTime = 0;
-					m_bProgress = false;
-					m_bDirty = true;
+					pParticle->SetStateCol(true);
+					Evt->m_pTarget->SetColl(true);
+					dynamic_cast<CChampion*>(Evt->m_pOriObj)->GetStatusInfo()->fHP -= pParticle->GetStatus().fBase_Attack;
+					if (m_StatusInfo.fHP < 0)
+					{
+						m_Champ_State[CHAMPION_STATETYPE_DEATH] = true;
+						if (m_fStartTime <= 0)		m_fStartTime = 0;
+						m_bProgress = false;
+						m_bDirty = true;
+					}
+					m_bColl = true;
 				}
-				m_bColl = true;
-				list<ColiderComponent*>::iterator iter =find(m_ColiderList.begin(), m_ColiderList.end(), Evt->m_pOriCol);
-				if (iter != m_ColiderList.end()) (*iter)->SetStateCol(true);
 			}
 		}
+
+		else m_bColl = false;
+		GET_SINGLE(CCollisionMgr)->UpdateCollisionList(this, &m_ColiderList);
+		std::cout << "HP" << m_StatusInfo.fHP << endl;
 	}
-	else m_bColl = false;
-	GET_SINGLE(CCollisionMgr)->UpdateCollisionList(this, &m_ColiderList);
-	std::cout <<"HP" <<m_StatusInfo.fHP<<endl;
 }
 
 void CEzreal::OnFindPickingSphere(PICKSPHEREEVENT * evt)
@@ -516,7 +520,7 @@ void CEzreal::StatusInitalize()
 	m_StatusInfo.fBase_Attack = 30;
 	m_StatusInfo.fMoveSpeed = 200;
 	m_StatusInfo.fAttackRange = 200;
-	m_StatusInfo.fHP = 150;
+	m_StatusInfo.fHP = 30000;
 	m_StatusInfo.fMana = 3000;
 	m_StatusInfo.fBase_Defence = 5;
 	m_StatusInfo.fMagic_Defence = 5;

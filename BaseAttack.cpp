@@ -301,8 +301,6 @@ bool CBaseAttack::AddTail()
 		if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 
 		m_vecVertexParticle.push_back(m_VerTexInfo);
-
-
 	}
 	if (m_vecVertexParticle.empty()) {
 		return false;

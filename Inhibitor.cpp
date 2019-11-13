@@ -2,6 +2,11 @@
 #include "Inhibitor.h"
 #include "InhibitorGauge.h"
 
+#include"ObjectColider.h"
+#include"BoundingBox.h"
+#include"PickingSphereMgr.h"
+#include "TurretGauge.h"
+#include"EventMgr.h"
 
 CInhibitor::CInhibitor(D3DXVECTOR3 pos)
 {
@@ -13,6 +18,9 @@ CInhibitor::CInhibitor(D3DXVECTOR3 pos)
 	m_Info.vDir = D3DXVECTOR3(0.f, 0.f, 0.f);
 	m_Info.vPos = pos;
 	m_fHeight = 0.0f;
+
+
+	
 }
 
 CInhibitor::~CInhibitor()
@@ -29,10 +37,19 @@ HRESULT CInhibitor::Initialize()
 	UpdateWorldMatrix();
 	m_pAnimationCtrl->SetAnimationSet("Default_Action");
 
+	m_pColider = new CObjectColider(this);
+	m_pColider->SetUp(m_Info, 2.0f, new CBoundingBox);
+	m_ColiderList.push_back(m_pColider);
+	InsertObjSphereColider(this, &m_ColiderList);
+	GET_SINGLE(CPickingSphereMgr)->AddSphere(this, m_pColider->GetSphere());
+	GET_SINGLE(EventMgr)->Subscribe(this, &CInhibitor::PaticleCollisionEvent);
+	GET_SINGLE(EventMgr)->Subscribe(this, &CInhibitor::OnFindPickingSphere);
+
+
 	m_pGauge = new CInhibitorGauge;
-	m_pGauge->SetInfo(m_Info);
-	m_pGauge->SetParentWorld(m_Info.matWorld);
 	m_pGauge->Initialize();
+
+
 	return S_OK;
 }
 
@@ -69,4 +86,12 @@ bool CInhibitor::Animation_Set()
 	m_pAnimationCtrl->BlendAnimationSet("C_BUFFBONE_GLB_OVERHEAD_LOC_Take_001_BaseLayer");
 
 	return true;
+}
+
+void CInhibitor::PaticleCollisionEvent(COLLISIONEVENT * Evt)
+{
+}
+
+void CInhibitor::OnFindPickingSphere(PICKSPHEREEVENT * evt)
+{
 }

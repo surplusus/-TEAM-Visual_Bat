@@ -16,9 +16,9 @@
 #include"Cursor.h"
 #include"GameHUD.h"
 #include"Udyr.h"
-#include"Turret.h"
-#include"Nexus.h"
 #include"Inhibitor.h"
+#include"Nexus.h"
+#include"Turret.h"
 CGameScene::CGameScene()
 {
 	m_pObjMgr = (GET_SINGLE(CObjMgr));
@@ -28,6 +28,7 @@ CGameScene::CGameScene()
 
 CGameScene::~CGameScene()
 {
+
 }
 
 HRESULT CGameScene::Initialize()
@@ -45,112 +46,76 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Ezreal.x", L"Ezreal2", MESHTYPE_DYNAMIC)))
+//	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+//	{
+//		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+//	}
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret1", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret2", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Champion/", L"Udyr.x", L"Udyr", MESHTYPE_DYNAMIC)))
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret3", MESHTYPE_DYNAMIC)))
 	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
 	}
-
-#pragma region 타워
-#pragma region 천->포탑, 억제기, 타워(order)
-	//////////////////////////////////////// < turret > /////////////////////////////////////////
-	
-	//blue
-	vector<TCHAR*> vecOrderName;
-	vecOrderName.push_back(L"order_outer_Turret");
-	vecOrderName.push_back(L"order_iner_Turret");
-	vecOrderName.push_back(L"order_twins_left_Turret");
-	vecOrderName.push_back(L"order_twins_right_Turret");
-
-	for (size_t i = 0; i < vecOrderName.size(); i++)
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
+		, L"order_Turret.x", L"Blue_Turret4", MESHTYPE_DYNAMIC)))
 	{
-		if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/", L"order_Turret.x", vecOrderName[i], MESHTYPE_DYNAMIC)))
-		{
-			ERR_MSG(g_hWnd, L"Order Turret Failed"); return E_FAIL;
-		}
+		ERR_MSG(g_hWnd, L"포탑로드 실패"); return E_FAIL;
 	}
-	
-	vector<CTurret*> vecTurret(4);
-	vecTurret[0] = new CTurret(D3DXVECTOR3(23.0f, 0.0f, 22.5f), vecOrderName[0], 50.0f);
-	vecTurret[1] = new CTurret(D3DXVECTOR3(14.5f, 0.0f, 14.3f), vecOrderName[1], 50.0f);
-	vecTurret[2] = new CTurret(D3DXVECTOR3(4.5f, 0.0f, 0.9f),   vecOrderName[2], 50.0f);
-	vecTurret[3] = new CTurret(D3DXVECTOR3(1.0f, 0.0f, 4.7f),   vecOrderName[3], 50.0f);
-	
-	for (size_t i = 0; i < vecTurret.size(); i++)
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/"
+		, L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
 	{
-		vecTurret[i]->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(vecTurret[i]->GetName(), vecTurret[i]);
+		ERR_MSG(g_hWnd, L"억제기 로드 실패"); return E_FAIL;
 	}
-//==========================================================================================================================================================\\
-	//red
-	/*vector<TCHAR*> vecChaosName;
-	vecChaosName.push_back(L"chaos_outer_Turret");
-	vecChaosName.push_back(L"chaos_iner_Turret");
-	vecChaosName.push_back(L"chaos_twins_left_Turret");
-	vecChaosName.push_back(L"chaos_twins_right_Turret");
-
-	for (size_t i = 0; i < vecChaosName.size(); i++)
+	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/"
+		, L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
 	{
-		if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Red_Turret/", L"Chaos_Turret.x", vecChaosName[i], MESHTYPE_DYNAMIC)))
-		{
-			ERR_MSG(g_hWnd, L"Chaos_Turret Failed"); break; return E_FAIL;
-		}
+		ERR_MSG(g_hWnd, L"넥서스 로드 실패"); return E_FAIL;
 	}
+#pragma region 객체 생성
 
-	vector<CTurret*> vecChaos(4);
-	vecChaos[0] = new CTurret(D3DXVECTOR3(46.5f, 0.0f, 44.7f),  vecChaosName[0], -130.0f);
-	vecChaos[1] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 14.3f),  vecChaosName[1], -130.0f);
-	vecChaos[2] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 0.9f),	vecChaosName[2], -130.0f);
-	vecChaos[3] = new CTurret(D3DXVECTOR3(20.0f, 0.0f, 4.7f),	vecChaosName[3], -130.0f);
-
-	for (size_t i = 0; i < vecChaos.size(); i++)
-	{
-		vecChaos[i]->Initialize();
-		GET_SINGLE(CObjMgr)->AddObject(vecChaos[i]->GetName(), vecChaos[i]);
-	}*/
-	//////////////////////////////////////// < turret end > /////////////////////////////////////////
-#pragma endregion
-
-
-	//////////////////////////////////////// < inhibitor > /////////////////////////////////////////
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/inhibitor/", L"inhibitor.x", L"Inhibitor", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"inhibitor Failed"); return E_FAIL;
-	}
-	CInhibitor * pinhibitor = NULL;
-	pinhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
-	pinhibitor->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pinhibitor);
-	//////////////////////////////////////// < inhibitor end > /////////////////////////////////////////
-
-	//////////////////////////////////////// < Nexus > /////////////////////////////////////////
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Nexus/", L"Nexus.x", L"Nexus", MESHTYPE_DYNAMIC)))
-	{
-		ERR_MSG(g_hWnd, L"Nexus Failed"); return E_FAIL;
-	}
-	CNexus * pNexus = NULL;
-	pNexus = new CNexus(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-	pNexus->Initialize();
-	GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
-	//////////////////////////////////////// < Nexus end > /////////////////////////////////////////
-#pragma endregion
-	
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
+	//>>객체 생성 
+	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//	return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
-		return E_FAIL;
-
+		return E_FAIL;	
 	
-//	if (FAILED(m_pObjMgr->AddObject(L"Udyr", CFactory<CObj, CUdyr >::CreateObject())))
-//		return E_FAIL;
+	//////////////// 파랑팀 포탑
 
+	{
+		//터렛
+		vector<CTurret*>	vecTurret(4);
+		vecTurret[0] = (new CTurret(D3DXVECTOR3(23.f, 0.f, 22.5f))); vecTurret[0]->SetMeshName(L"Blue_Turret1");
+		vecTurret[1] = (new CTurret(D3DXVECTOR3(14.5f, 0.f, 14.3f)));vecTurret[1]->SetMeshName(L"Blue_Turret2");
+		vecTurret[2] = (new CTurret(D3DXVECTOR3(4.5f, 0.f, 0.9f)));	 vecTurret[2]->SetMeshName(L"Blue_Turret3");
+		vecTurret[3] = (new CTurret(D3DXVECTOR3(1.f, 0.f, 4.7f)));	 vecTurret[3]->SetMeshName(L"Blue_Turret4");
+		for (size_t i = 0; i < vecTurret.size(); i++)
+		{
+			vecTurret[i]->Initialize();
+		}
+
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret1", vecTurret[0]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret2", vecTurret[1]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret3", vecTurret[2]);
+		GET_SINGLE(CObjMgr)->AddObject(L"Blue_Turret4", vecTurret[3]);
+		//억제기
+		CInhibitor*	pInhibitor = new CInhibitor(D3DXVECTOR3(9.5f, 0.f, 9.5f));
+		pInhibitor->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Inhibitor", pInhibitor);
+	
+		CNexus*	pNexus = new CNexus(D3DXVECTOR3(0, 0, 0));
+		pNexus->Initialize();
+		GET_SINGLE(CObjMgr)->AddObject(L"Nexus", pNexus);
+	}
+#pragma endregion
 	LetObjectKnowHeightMap();
 	m_Cursor = new CCursor;
 	m_Cursor->InitCursor();
@@ -163,8 +128,8 @@ void CGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 	m_pObjMgr->Progress();
 
-	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(CParticleMgr)->Progress();
+	GET_SINGLE(CCollisionMgr)->Progress();
 	GET_SINGLE(cGameHUD)->Progress();
 }
 
@@ -227,10 +192,6 @@ void CGameScene::LetObjectKnowHeightMap()
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}	
-	pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
-	if (pObj != nullptr) {
-		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	}
-
+	
 	return;
 }

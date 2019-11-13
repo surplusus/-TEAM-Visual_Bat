@@ -137,7 +137,6 @@ void CSelectScene::Progress()
 
 		if (isChecked_2 == true)
 			Selected_2();
-
 		if (m_ChampName != "")
 		{
 			if (GetAsyncKeyState(VK_LBUTTON))
