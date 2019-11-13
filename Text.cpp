@@ -3,6 +3,7 @@
 
 CText::~CText()
 {
+	//SAFE_RELEASE(m_pFont);
 	//if(m_pFont)	m_pFont->Release();
 }
 
