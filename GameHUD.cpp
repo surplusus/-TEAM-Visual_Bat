@@ -280,14 +280,22 @@ void cGameHUD::Initialize_Skill()
 		D3DXVECTOR3(420, 660, 0),
 		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 
+	m_MapSkill["UdyrCopy"]->m_Skill[E] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Bear_Stance.png",
+		D3DXVECTOR3(464, 660, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
+	m_MapSkill["UdyrCopy"]->m_Skill[R] = CImage_Loader(
+		"Resource/jiyun/skill/Udyr/Phoenix_Stance.png",
+		D3DXVECTOR3(508, 660, 0),
+		D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+
 	for (int i = 0; i < SkillCount; i++)
 	{
 		m_MapSkill["Ezreal"]->m_Skill[i].Initialize();
 		m_MapSkill["Udyr"]->m_Skill[i].Initialize();
+		m_MapSkill["UdyrCopy"]->m_Skill[i].Initialize();
 	}
-
-	m_MapSkill["UdyrCopy"]->m_Skill[Q].Initialize();
-	m_MapSkill["UdyrCopy"]->m_Skill[W].Initialize();
 }
 
 void cGameHUD::Render_Skill()
@@ -307,10 +315,8 @@ void cGameHUD::Release_Skill()
 	{
 		//m_MapSkill["Ezreal"]->m_Skill[i].Release();
 		m_MapSkill["Udyr"]->m_Skill[i].Release();
+		m_MapSkill["Udyr"]->m_Skill[i].Release();
 	}
-
-	m_MapSkill["UdyrCopy"]->m_Skill[Q].Release();
-	m_MapSkill["UdyrCopy"]->m_Skill[W].Release();
 }
 
 void cGameHUD::InitializeKey()
@@ -584,5 +590,15 @@ void cGameHUD::CheckKeyDown()
 	if (m_isKeyDown[W])
 	{
 		m_MapSkill["UdyrCopy"]->m_Skill[W].Render();
+	}
+
+	if (m_isKeyDown[E])
+	{
+		m_MapSkill["UdyrCopy"]->m_Skill[E].Render();
+	}
+
+	if (m_isKeyDown[R])
+	{
+		m_MapSkill["UdyrCopy"]->m_Skill[R].Render();
 	}
 }
