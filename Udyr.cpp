@@ -263,8 +263,9 @@ void CUdyr::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 {
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
 
-	//auto posEnemy = 
-
+	auto posEnemy = evt->m_pPos;
+	auto dist = D3DXVec3Length(&());
+	if (m_sphereTarget->vpCenter )
 	//if ((part_it == m_MapParticle.end()) && (coll_it == m_pColiderMap.end()))
 	//	cout << "콜라이더 지울게 없어용~\n";
 	//
