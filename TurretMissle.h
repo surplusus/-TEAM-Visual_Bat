@@ -32,8 +32,8 @@ private:
 	virtual void InitRenderState()		override;
 	
 private:
-	bool AddTail();
+	virtual bool Move_Chase(const D3DXVECTOR3* pDestPoint, const float& fSpeed);
 	bool UpdateParticleDirection();
-	
+	void InitTail();
 };
 

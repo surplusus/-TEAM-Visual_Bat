@@ -690,9 +690,6 @@
     <ClInclude Include="TurretGauge.h">
       <Filter>소스 파일\Scene\cheon</Filter>
     </ClInclude>
-    <ClInclude Include="TurretMissle.h">
-      <Filter>소스 파일\Scene\cheon</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionMgr.h">
       <Filter>소스 파일\Maneger\ColiderMgr</Filter>
     </ClInclude>
@@ -701,6 +698,9 @@
     </ClInclude>
     <ClInclude Include="BehaviorMeleeMinion.h">
       <Filter>System\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="TurretMissle.h">
+      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1040,9 +1040,6 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="TurretMissle.cpp">
-      <Filter>소스 파일\Scene\cheon</Filter>
-    </ClCompile>
     <ClCompile Include="InhibitorGauge.cpp">
       <Filter>소스 파일\Scene\cheon</Filter>
     </ClCompile>
@@ -1057,6 +1054,9 @@
     </ClCompile>
     <ClCompile Include="BehaviorMeleeMinion.cpp">
       <Filter>System\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="TurretMissle.cpp">
+      <Filter>소스 파일\Maneger\Skill\TurretMissile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

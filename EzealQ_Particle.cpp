@@ -67,8 +67,8 @@ bool CEzealQ_Particle::Progress()
 	Update_Particle();
 	if (m_bCol)
 		return false;
-	if (!AddTail()) return false;
-
+//	if (!AddTail()) return false;
+	AddTail();
 	return true;
 
 }

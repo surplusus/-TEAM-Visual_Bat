@@ -46,10 +46,10 @@ HRESULT CGameScene::Initialize()
 	{
 		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
 	}
-	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
-	{
-		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
-	}
+//	if (FAILED(AddMesh(GetDevice(), L"./Resource/Map/HowlingAbyss/", L"howling_Map.x", L"Map", MESHTYPE_STATIC)))
+//	{
+//		ERR_MSG(g_hWnd, L"Champion Load Failed");		return E_FAIL;
+//	}
 	if (FAILED(AddMesh(GetDevice(), L"./Resource/choen/Tower/Blue_Turret/"
 		, L"order_Turret.x", L"Blue_Turret1", MESHTYPE_DYNAMIC)))
 	{
@@ -83,8 +83,8 @@ HRESULT CGameScene::Initialize()
 #pragma region 梓端 持失
 
 	//>>梓端 持失 
-	if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
-		return E_FAIL;
+	//if (FAILED(m_pObjMgr->AddObject(L"Map", CFactory<CObj, CSummonTerrain >::CreateObject())))
+	//	return E_FAIL;
 	if (FAILED(m_pObjMgr->AddObject(L"Ezreal", CFactory<CObj, CEzreal >::CreateObject())))
 		return E_FAIL;	
 	
@@ -192,10 +192,6 @@ void CGameScene::LetObjectKnowHeightMap()
 	if (pObj != nullptr) {
 		dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
 	}	
-	//pObj = const_cast<CObj*>(m_pObjMgr->GetObj(L"Ezreal2"));
-	//if (pObj != nullptr) {
-	//	dynamic_cast<CEzreal*>(pObj)->SetHeightMap(m_pHeightMap);
-	//}
-
+	
 	return;
 }

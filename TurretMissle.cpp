@@ -23,26 +23,23 @@ void CTurretMissle::Initalize()
 {
 
 	Setup_MultiTexture();
+	SetUp_Particle();
 	InitRenderState();
-	D3DXMATRIX matWorld;
+	UpdateMatrix();
 
 	//콜라이더 설정
 	m_pColider = new CParticleColider(this);
 	m_pColider->SetUp(m_Info, 1.0f, new CBoundingBox);
-	UpdateParticleDirection();
-	AddTail();
+	InitTail();
+	
 }
 
 bool CTurretMissle::Progress()
 {
-
-	if(m_pTarget)
-		Move_Chase(&m_pTarget->GetInfo()->vPos, 2.0f);
-
-	UpdateMatrix();
-	UpdateParticleDirection();
 	Update_Particle();
-	
+	if (m_pTarget) {
+		Move_Chase(&m_pTarget->GetInfo()->vPos, 10.0f);
+	}
 	if (m_pColider->GetStateCol())		
 		return false;
 
@@ -65,7 +62,6 @@ void CTurretMissle::Release()
 
 void CTurretMissle::SetUp_Particle()
 {
-
 	D3DXMATRIXA16 matR, matWorld, matTrans, matScale;
 	m_VerTexInfo.c = D3DCOLOR_ARGB(255, 100, 70, 20);
 	m_vecVertexParticle.push_back(m_VerTexInfo);
@@ -277,14 +273,44 @@ void CTurretMissle::InitRenderState()
 
 }
 
-bool CTurretMissle::AddTail()
-{
 
+
+
+bool CTurretMissle::Move_Chase(const D3DXVECTOR3 * pDestPoint, const float & fSpeed)
+{
+	D3DXVECTOR3 vDirection = *pDestPoint - m_Info.vPos;
+
+	float fDistance = D3DXVec3Length(&vDirection);
+
+	D3DXVec3Normalize(&vDirection, &vDirection);
+
+	m_Info.vPos += vDirection * fSpeed * g_fDeltaTime;
+	for (int i = 0; i < m_vecVertex_Multi.size(); i++) {
+		m_vecVertexParticle[i].p += vDirection*fSpeed*g_fDeltaTime;
+	}
+	m_pColider->Update(m_vecVertexParticle[0].p);
+	if (fDistance < 0.1f)
+		return false;
+	return true;
 
 }
 
 bool CTurretMissle::UpdateParticleDirection()
 {
-	return true;
 
+
+	return true;
+}
+
+void CTurretMissle::InitTail()
+{
+	D3DXVECTOR3 vDirection = m_pTarget->GetInfo()->vPos - m_Info.vPos;
+	D3DXVec3Normalize(&vDirection, &vDirection);
+	int size = 20;
+	for (int i = 0; i < size; i++)
+	{
+		m_VerTexInfo.p = m_vecVertexParticle[i].p + (vDirection * g_fDeltaTime* (m_fSpeed));
+		m_vecVertexParticle.push_back(m_VerTexInfo);
+	}
+	if (m_pColider != NULL)	m_pColider->Update(m_VerTexInfo.p);
 }

@@ -54,4 +54,6 @@ public:
 	void SetColl(bool Coll) { m_bColl = Coll; }
 	bool GetColl() { return m_bColl; }
 	
+	D3DXVECTOR3 GetVecAngle() { return D3DXVECTOR3(m_fAngle[ANGLE_X], m_fAngle[ANGLE_Y], m_fAngle[ANGLE_Z]); }
+	
 };
