@@ -167,7 +167,7 @@ void MeleeMinionBT::MinionDeath::Do()
 	if (iCntAni == iSoundSec) {
 		GET_SINGLE(SoundMgr)->PlayMinionSound(T_SOUND::ANNOUNCER_MinionDie);
 	}
-	if (iCntAni >= 182) {
+	if (iCntAni >= 170) {
 		iCntAni = 0;
 		m_status = TERMINATED;
 	}

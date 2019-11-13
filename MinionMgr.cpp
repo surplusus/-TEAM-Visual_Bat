@@ -5,6 +5,7 @@
 #include "MeleeMinion.h"
 #include "ObjMgr.h"
 #include "HeightMap.h"
+#include "MeleeMinion.h"
 
 CMinionMgr::CMinionMgr()
 {
@@ -66,9 +67,11 @@ void CMinionMgr::Progress()
 	//for (auto & it : m_vMinion)
 	//	it->Progress();
 	static int cnt = 0;
-	if (cnt >= 200)
+	if (cnt < 200) {
+		++cnt;
 		return;
-	++cnt;
+	}
+
 	if (cnt == 200)
 	{
 		for (auto & it : m_vMinion)
@@ -78,7 +81,15 @@ void CMinionMgr::Progress()
 			m_vMinion[1]->SetPos(&D3DXVECTOR3(-5.f, 0.f, 5.f));
 			m_vMinion[2]->SetPos(&D3DXVECTOR3(5.f, 0.f, -5.f));
 		}
+		++cnt;
 	}
+
+	if (dynamic_cast<CMeleeMinion*>(m_vMinion[0])->m_pBehavior->m_BlackBoard->getBool("Alive") == false)
+		GET_SINGLE(CObjMgr)->EraseObject(L"MeleeMinion1");
+	if (dynamic_cast<CMeleeMinion*>(m_vMinion[1])->m_pBehavior->m_BlackBoard->getBool("Alive") == false)
+		GET_SINGLE(CObjMgr)->EraseObject(L"MeleeMinion2");
+	if (dynamic_cast<CMeleeMinion*>(m_vMinion[2])->m_pBehavior->m_BlackBoard->getBool("Alive") == false)
+		GET_SINGLE(CObjMgr)->EraseObject(L"MeleeMinion3");
 }
 
 void CMinionMgr::Render()

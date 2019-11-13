@@ -24,12 +24,12 @@ FolderPath ./Resource/Minion/
 FileName Minion_Melee_Blue.x
 ConsoleText "MeleeMinion File Loaded"
 MeshType 1
--Blue_Turret-
-ObjName Blue_Turret
-FolderPath ./Resource/choen/Tower/Blue_Turret/
-FileName order_Turret.x
-ConsoleText "Blue_Turret File Loaded"
-MeshType 1
+#-Blue_Turret-
+#ObjName Blue_Turret
+#FolderPath ./Resource/choen/Tower/Blue_Turret/
+#FileName order_Turret.x
+#ConsoleText "Blue_Turret File Loaded"
+#MeshType 1
 #-Inhibitor-
 #ObjName Inhibitor
 #FolderPath ./Resource/choen/Tower/inhibitor/

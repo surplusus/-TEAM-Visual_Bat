@@ -262,17 +262,10 @@ void CUdyr::OperateOnPhysicalAttackEvent(PHYSICALATTACKEVENT * evt)
 void CUdyr::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 {
 	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
-
-	auto posEnemy = evt->m_pPos;
-	auto dist = D3DXVec3Length(&());
-	if (m_sphereTarget->vpCenter )
-	//if ((part_it == m_MapParticle.end()) && (coll_it == m_pColiderMap.end()))
-	//	cout << "콜라이더 지울게 없어용~\n";
-	//
-	//if (part_it != m_MapParticle.end())
-	//	m_MapParticle.erase(obj);
-	//if (coll_it != m_pColiderMap.end())
-	//	m_pColiderMap.erase(obj);
+	auto posEnemy = reinterpret_cast<D3DXVECTOR3*>(*evt->m_pPos);
+	auto dist = D3DXVec3Length(&(*m_sphereTarget->vpCenter - *posEnemy));
+	if (dist <= 1.f)
+		WriteOnBlackBoard("Attack", false);
 }
 
 void CUdyr::QWERControl()

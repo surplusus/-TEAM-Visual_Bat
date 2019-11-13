@@ -58,6 +58,8 @@ void CInGameScene::Progress()
 	GET_SINGLE(CCameraMgr)->Progress();
 
 	m_pObjMgr->Progress();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
 
 	GET_SINGLE(CParticleMgr)->Progress();
 	GET_SINGLE(CCollisionMgr)->Progress();
@@ -67,8 +69,9 @@ void CInGameScene::Progress()
 
 void CInGameScene::Render()
 {
-	SetRenderState(D3DRS_LIGHTING, false);// ºûÀ» ²¨ºÃ´Ù
 	m_pObjMgr->Render();
+	if (m_pMinionMgr)
+		m_pMinionMgr->Progress();
 	GET_SINGLE(CParticleMgr)->Render();
 	GET_SINGLE(CCollisionMgr)->Render();
 	GET_SINGLE(cGameHUD)->Render();

@@ -170,5 +170,11 @@ void CMeleeMinion::UpdateColliderList()
 
 void CMeleeMinion::StopAttackWhenEnemyDie(OBJDIEEVENT * evt)
 {
-
+	if (m_sphereTarget == nullptr)
+		return;
+	auto obj = reinterpret_cast<CObj*>(*evt->m_pObj);
+	auto posEnemy = reinterpret_cast<D3DXVECTOR3*>(*evt->m_pPos);
+	auto dist = D3DXVec3Length(&(*m_sphereTarget->vpCenter - *posEnemy));
+	if (dist <= 1.f)
+		m_pBehavior->m_BlackBoard->setBool("Attack", false);
 }
