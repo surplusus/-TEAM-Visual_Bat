@@ -453,9 +453,6 @@
     <ClInclude Include="PipeLine.h">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
     </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
-    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>소스 파일\DesignPattern\FactoryMethod</Filter>
     </ClInclude>
@@ -820,9 +817,6 @@
     </ClCompile>
     <ClCompile Include="PipeLine.cpp">
       <Filter>소스 파일\Maneger\PipleLine</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>소스 파일\Maneger\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="Champion.cpp">
       <Filter>소스 파일\02. Object\Champion</Filter>

@@ -85,7 +85,7 @@ void CAbilityPage::ImageLoad_To_Resolution()
 void CAbilityPage::ImageRender_To_Detailed()
 {
 	m_mapDetailedRune["Main"]->Render(D3DXVECTOR3(200, 200, 0), D3DXVECTOR3(1.5f, 1.5f, 1.5f));
-	m_mapDetailedRune["Press_the_Attack_rune"]->Render(D3DXVECTOR3(150, 250, 0));
+	m_mapDetailedRune["Press_the_Attack_rune"]->Render(D3DXVECTOR3(150, 250, 0), D3DXVECTOR3(1.5f,1.5f, 1.5f));
 }
 
 void CAbilityPage::ImageRender_To_Control()
