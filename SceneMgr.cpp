@@ -69,11 +69,7 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 {
 	if (pState == NULL) 
 		return E_FAIL;
-<<<<<<< HEAD
-	// mediatorë¡œ ì´ì „ Sceneì—ì„œ ì •ë³´ ê±´ë‚´ë°›ê¸°
-=======
 	// mediator·Î ÀÌÀü Scene¿¡¼­ Á¤º¸ °Ç³»¹Þ±â
->>>>>>> origin/master
 	m_pSceneMediator->SetSceneMember(pState);
 	m_pSceneMediator->MediateInfo(MEDIATETYPE::SETTER, pState);
 
@@ -94,8 +90,4 @@ HRESULT CSceneMgr::SetState(CScene * pState)
 CSceneMediator * CSceneMgr::GetSceneMediator()
 {
 	return m_pSceneMediator;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master
