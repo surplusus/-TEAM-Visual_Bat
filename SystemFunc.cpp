@@ -184,6 +184,13 @@ extern  void System_Release(void)
 	(*(CDevice::GetInstance()))->DestroyInstance();
 	(*(CTimeMgr::GetInstance()))->DestroyInstance();
 	(*(CInput::GetInstance()))->DestroyInstance();
+
+	D3DXIntersectTri();
+}
+
+BOOL D3DXIntersectTri()
+{
+	return 0;
 }
 
 void InsertObjSphereColider(CObj * pObj, list<ColiderComponent*>* ColList)

@@ -44,6 +44,7 @@ extern bool			CheckPickingOnTriangle(IN const D3DXVECTOR3 * p0, IN const D3DXVEC
 
 //=============== System Relase ======================//
 extern void		System_Release(void);
+extern BOOL	D3DXIntersectTri();
 
 //SphereColiderBoxRegister
 extern void		InsertObjSphereColider(CObj*pObj, std::list<ColiderComponent*>* ColList);

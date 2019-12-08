@@ -54,7 +54,7 @@ CTextMgr::CTextMgr()
 	m_pTime = NULL;
 	m_StateBox = NULL;
 
-	m_vecNotice.push_back(string("123123123"));
+	m_vecNotice.push_back(string("·ÎµùÁß"));
 	m_sNotice = m_vecNotice[rand() % m_vecNotice.size()];	
 }
 
